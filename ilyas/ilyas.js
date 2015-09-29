@@ -193,11 +193,6 @@ function HOT(Handsontable, raw_config, data,  type) {
 			a.openEditor(null);
 		}
 		
-		c['afterChange'] = function(changes, source) {
-			console.log('Changeed!',changes,source);
-			//this.hot_instance.render();
-		}
-		
 		// To disable word wrap
 		c['wordWrap'] = false;
 		
