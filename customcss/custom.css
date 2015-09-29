@@ -107,3 +107,12 @@ select[disabled]{
 	background-color: #eeeeee;
 	cursor:not-allowed;
 }
+
+/* Handsontable */
+
+.handsontableInputHolder {
+	z-index: 101 !important;
+}
+.handsontable td.htNoWrap{
+	text-overflow: ellipsis;
+}

@@ -520,7 +520,7 @@ function toggleLink(b) {
 
 
 function populate_nonp_columns($e, jid, callback) {
-	$.getJSON('http://uoa.hummingsoft.com.my:9090/api/get_nonp_columns?jid='+jid, function(data){
+	$.getJSON('<?php echo base_url(); ?>api/get_nonp_columns?jid='+jid, function(data){
 		var opts = [];
 		for (var i = 0; i < data.length; i++) {
 			opts.push("<option value='"+data[i].config_no+"'>"+data[i].col_header+"</option>");

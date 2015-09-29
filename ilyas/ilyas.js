@@ -193,7 +193,24 @@ function HOT(Handsontable, raw_config, data,  type) {
 			a.openEditor(null);
 		}
 		
+		c['afterChange'] = function(changes, source) {
+			console.log('Changeed!',changes,source);
+			//this.hot_instance.render();
+		}
 		
+		// To disable word wrap
+		c['wordWrap'] = false;
+		
+		// After select cell, enable word wrap
+		c['afterSelectionEnd'] = function(row,col) {
+			_thisproxy.hot_instance.setCellMeta(row,col,'wordWrap',true);
+			_thisproxy.hot_instance.render();
+		}
+		
+		// After deselect cell, reset word wrap
+		c['afterDeselect'] = function() {
+			_thisproxy.hot_instance.updateSettings({})
+		}
 		switch (this.type) {
 			case "design":	
 				c['contextMenu'] = {
@@ -985,3 +1002,6 @@ function swapArrayElements(array_object, index_a, index_b) {
  }
 
 
+ // Temporarily to mitigate annoying datatables alert
+var oldalert = window.alert; 
+window.alert = function(a){if (a.indexOf('DataTables warning') != -1) console.log(a); else oldalert(a)}
