@@ -1,0 +1,81 @@
+    html,
+      body {
+        height: 100%;
+        /* The html and body elements cannot have any padding or margin. */
+      }
+
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by it's height */
+        margin: 0 auto -60px;
+      }
+
+      /* Lastly, apply responsive CSS fixes as necessary */
+      @media (max-width: 767px) {
+        #footer {
+          margin-left: -20px;
+          margin-right: -20px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+	  
+	/*custom well*/
+	.well
+	{ margin-bottom:70px;}
+	
+	.footerNav
+	{margin-bottom:0px;
+	margin-top:15px;}
+	
+	.addMargin
+	{margin-top:6px;}
+	
+	.buttonRight
+	{text-align:right;}
+	
+	.buttonLeft
+	{text-align:left;}
+	
+	.buttonCenter
+	{text-align:center;}
+	
+	hr
+	{border-top: 1px solid #FCFCFC;}
+	
+
+table
+{
+font-size:13px;}
+
+.alert .close {
+color: #000;
+text-decoration: none;}
+	
+.bs-callout {
+margin: 20px 0;
+padding: 20px;
+border-left: 3px solid #eee;}
+	
+.bs-callout-user 
+{
+background-color: #E4F3FB;
+border-color: #5bc0de;
+}
+
+.bs-callout-agent {
+background-color: #F9E9D2;
+border-color: #f0ad4e;}
+
+a:hover{
+    text-decoration: none;
+}
+
+.space
+{
+padding-top:10px
+}
+

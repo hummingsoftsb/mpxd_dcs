@@ -1,0 +1,109 @@
+
+div.divsearch {
+	display: inline-block;
+}
+
+input.searchtext {
+	width: 300px;
+}
+div.selectpage {
+	width: 50px;
+}
+
+.spacing
+{
+padding-top:30px;}
+
+.table_edit_th {
+	width: 20px;
+}
+
+#status_table div.progress { position:relative; background: #222; }
+#status_table div.progresstext { position: absolute; top:0; right:3px; }
+
+
+/*color*/
+red {
+	color: red;
+}
+blue {
+	color: blue;
+}
+
+/*menu*/
+div.menutop {
+	width: 100%;
+}
+div.menubottom {
+	display: block;
+}
+
+div.headermenu {
+	position: relative;
+}
+div.logo {
+	padding: 5px 0 0 0;
+}
+	div.logo img{
+		width:100px;
+	}
+div.header_top {
+	height: 40px;
+}
+div.header_bottom {
+}
+div.navbar-collapse.collapse{
+	display: inline-block;
+}
+
+/*for notification and logout*/
+ul.go_left{
+	float: left;
+}
+ul.go_right{
+	float: right;
+}
+
+/*style="position:relative;"*/
+
+/*navbar-right*/
+
+.bground {
+	height:100%;
+	background: url(./binding_dark.png);
+}
+li.header_alert a span.glyphicon{
+	color: #fc0;
+}
+li.header_reminder a span.glyphicon{
+	color: #0cf;
+}
+li.header_alert a span.badge{
+	background: #fc0;
+	color: #000;
+}
+li.header_reminder a span.badge{
+	background: #0cf;
+	color: #000;
+}
+
+
+.multiselect-container.dropdown-menu {
+	background-color: #FFFFFF !important; 
+}
+
+
+
+/*error highlight*/
+.this-is-error {
+	background: rgba(255,0,0,.5); !important;
+	color: #fff !important;
+}
+.NoErrorHere {
+	
+}
+
+select[disabled]{
+	background-color: #eeeeee;
+	cursor:not-allowed;
+}
