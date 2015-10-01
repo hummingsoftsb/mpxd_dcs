@@ -108,6 +108,21 @@ select[disabled]{
 	cursor:not-allowed;
 }
 
+.table-vertical-middle > tbody > tr > td {
+	vertical-align: middle;
+}
+
+.preview canvas, .preview img {
+	border: 2px solid #333;
+}
+
+.textarea-fill {
+	width: 100%;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
 /* Handsontable */
 
 .handsontableInputHolder {

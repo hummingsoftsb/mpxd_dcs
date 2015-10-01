@@ -43,12 +43,10 @@
 		
 		<script>
 		
-		/*oldalert = window.alert;
-		if (typeof console.log == "function") {
-			window.alert = function(a) {
-				console.log(a);
-			}
-		}*/
+		// Temporarily to mitigate annoying datatables alert
+		var oldalert = window.alert; 
+		window.alert = function(a){if (a.indexOf('DataTables warning') != -1) console.log(a); else oldalert(a)}
+
 		
 		function showloader(timer) {
 			$('body').loader('show');

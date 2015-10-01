@@ -150,70 +150,109 @@ class Journaldataentryadd extends CI_Controller
         }
 		//Configure
 		//set the path where the files uploaded will be copied. NOTE if using linux, set the folder to permission 777
-		$config['upload_path'] = 'journalimage/'.$id.'/'.$userid.'/';
+		/*$config['upload_path'] = 'journalimage/'.$id.'/'.$userid.'/';
 		
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['file_name']=date('dmYHis');
+		
+		*/
+		
 		//var_dump(APPPATH);
-		/*header('content-type: application/json');
+		header('content-type: application/json');
 		$this->load->library('uploadhandler', array(
-			'upload_dir' => 'journalimage/'.$id.'/'.$userid.'/'
+			'upload_dir' => 'journalimage/'.$id.'/'.$userid.'/',
+			'upload_url' => 'journalimage/'.$id.'/'.$userid.'/'
 		));
 		//$this->uploadhandler->set_upload_path('journalimage/'.$id.'/'.$userid.'/');
-		var_dump($this->uploadhandler);
-		//var_dump($this->input->post('imagefile'));
-		die();*/
 		
-		//load the upload library
-		$this->load->library('upload', $config);
-
-	    $this->upload->initialize($config);
-
+		/*var_dump($_FILES);
+		var_dump($_POST);
+		var_dump($_GET);
+		var_dump($this->uploadhandler);*/
+		
+		$file = $_FILES['files'];
+		$filename = $file['name'][0];
+		$filesize = $file['size'][0];
+		$filtered_name = str_replace(".","_",$filename);
+		$descname = 'imagedesc_'.$filtered_name.'_'.$filesize;
+		
+		$description = $this->input->post($descname);
+		
+		//var_dump($_POST, $_FILES, $descname, $description);
+		
+		
+		/*foreach ($this->uploadhandler->image_objects as $k=>$v):
+			$filepath = $k;
+		endforeach;*/
+		//var_dump($this->uploadhandler);
+		$file_path = $this->uploadhandler->get_upload_path();
+		$actual_file_pathname = $this->uploadhandler->get_path_and_name();
+		$exploded_path = explode('/',$actual_file_pathname);
+		$actual_filename = $exploded_path[sizeOf($exploded_path)-1];
+		$is_error = isset($this->uploadhandler->response['files'][0]->error);
+		
+		
+		//var_dump($this->uploadhandler, $actual_file_pathname);
+		//die();
+		//var_dump($actual_filename);
+		//die();
+		
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('imagedesc', 'Image Description', 'trim|required|xss_clean|max_length[500]');
-
-		if($this->form_validation->run() == FALSE)
+		$this->form_validation->set_rules($descname, 'Image Description', 'trim|required|xss_clean|max_length[500]');
+		
+		// File was probably not a recognized as image by gd, should err.
+		if ($actual_file_pathname == "") {
+			echo json_encode(array(
+				"files" => array(array("error"=>"Unrecognised file type"))));
+		}
+		
+		// File was erred by uploadhandler.
+		else if ($is_error) {
+			echo json_encode($this->uploadhandler->response);
+		}
+		
+		// Error caused by image description
+		else if($this->form_validation->run() == FALSE)
 		{
 			//echo json_encode(array('st'=>0, 'msg' => '','msg1'=>form_error('imagedesc')));
-			$sess_array = array('message' => "Upload failed.".form_error('imagedesc'),"type" => 0);
-			$this->session->set_userdata('message', $sess_array);
-			redirect('/journaldataentryadd?jid='.$id,'refresh');
+			$sess_array = array(/*'message' => "Upload failed.".form_error('imagedesc'),"type" => 0,*/
+				"files" => array(array("error" => "Image description error"))
+			);
+			//$this->session->set_userdata('message', $sess_array);
+			unlink($actual_file_pathname);
+			echo json_encode($sess_array);
+			//redirect('/journaldataentryadd?jid='.$id,'refresh');
 		}
+		
+		// Success
 		else
 		{
-			//if not successful, set the error message
-			if (!$this->upload->do_upload('imagefile'))
+			//$filedetails=$this->upload->data();
+			
+			//resize the image
+			$this->load->library("imageresize",array($actual_file_pathname));
+			$this->imageresize->crop(800, 600);
+			$this->imageresize->save($actual_file_pathname);
+			//
+			
+			$data = array('data_entry_no' => $id,'pict_file_name' => $actual_filename,'pict_file_path' => $file_path,'pict_definition' => $description,'pict_user_id' => $userid,'data_source' => '1');
+			$this->assessment->add_journal_data_entry_picture($data);
+			$this->assessment->add_seq_journal_data_entry_picture($id);
+			/*$result=$this->assessment->show_journal_data_entry_picture($id);
+			$value='';
+			foreach($result as $row)
 			{
-				//echo json_encode(array('st'=>0, 'msg' => $this->upload->display_errors(),'msg1'=>form_error('imagedesc')));
-				$sess_array = array('message' => "Upload failed. ".$this->upload->display_errors(),"type" => 0);
-				$this->session->set_userdata('message', $sess_array);
-				redirect('/journaldataentryadd?jid='.$id,'refresh');
+				$value .=$row->pict_seq_no.','.$row->pict_file_path.','.$row->pict_file_name.','.$row->pict_definition.','.$row->data_entry_no.',777,';
 			}
-			else
-			{
-				$filedetails=$this->upload->data();
-				
-				//resize the image
-				$this->load->library("imageresize",array($config['upload_path'].$filedetails['file_name']));
-				$this->imageresize->crop(800, 600);
-				$this->imageresize->save($config['upload_path'].$filedetails['file_name']);
-				//
-				
-				$data = array('data_entry_no' => $id,'pict_file_name' => $filedetails['file_name'],'pict_file_path' => '/journalimage/'.$id.'/'.$userid.'/','pict_definition' => $this->input->post('imagedesc'),'pict_user_id' => $userid,'data_source' => '1');
-				$this->assessment->add_journal_data_entry_picture($data);
-				$this->assessment->add_seq_journal_data_entry_picture($id);
-				/*$result=$this->assessment->show_journal_data_entry_picture($id);
-				$value='';
-				foreach($result as $row)
-				{
-					$value .=$row->pict_seq_no.','.$row->pict_file_path.','.$row->pict_file_name.','.$row->pict_definition.','.$row->data_entry_no.',777,';
-				}
-				echo json_encode(array('st'=>1, 'msg' => 'Success','imgval'=>$value));*/
-				$sess_array = array('message' => "Picture Attached to the Journal","type" => 1);
-				$this->session->set_userdata('message', $sess_array);
-				redirect('/journaldataentryadd?jid='.$id,'refresh');
-			}
+			echo json_encode(array('st'=>1, 'msg' => 'Success','imgval'=>$value));*/
+			//$sess_array = array('message' => "Picture Attached to the Journal","type" => 1);
+			//$this->session->set_userdata('message', $sess_array);
+			$response = $this->uploadhandler->response;
+			$response['files'][0]->description = $description;
+			echo json_encode($response);
+			//redirect('/journaldataentryadd?jid='.$id,'refresh');
 		}
+		
 	}
 
 	function updateimage()

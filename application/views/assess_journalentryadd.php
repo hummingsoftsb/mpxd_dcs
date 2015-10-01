@@ -1,5 +1,7 @@
 <script src="<?php echo base_url(); ?>ilyas/fancybox/jquery.fancybox.pack.js"></script>
+<script src="<?php echo base_url(); ?>ilyas/multiupload.js"></script>
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/css/multiupload.css" type="text/css" media="screen" />
 <script>
 	$(document).ready(function()
 	{
@@ -616,8 +618,43 @@
 			    	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
 			    	<h4 class="modal-title" id="myModalLabel"><?php echo $labelname[14]; ?></h4>
 			  	</div>
-				<form method="post" id="addimage" action="<?php echo base_url(); ?><?php echo $cpagename; ?>/addimage/" enctype="multipart/form-data" onSubmit="return checkImageUpload();">
+				
+				<form method="post" id="addimage" action="<?php echo base_url(); ?><?php echo $cpagename; ?>/addimage/" enctype="multipart/form-data" onSubmit="return checkAndSendAllImages();">
 					<div class="modal-body">
+					<input type="hidden" id="dataentryno1" name="dataentryno1" value="<?php echo $dataentryno; ?>"/>
+									
+									<div style="text-align:center">
+									<button class="btn btn-success fileinput-button">
+										<i class="glyphicon glyphicon-plus"></i>
+										<span>Add files...</span>
+										<input type="file" id="imagefile" name="files[]" multiple>
+									</button>
+									<button type="submit" class="btn btn-primary start">
+										<i class="glyphicon glyphicon-upload"></i>
+										<span>Start upload</span>
+									</button>
+									</div>
+									<!--
+									<button type="reset" class="btn btn-sm btn-warning cancel">
+										<i class="glyphicon glyphicon-ban-circle"></i>
+										<span>Cancel upload</span>
+									</button>
+									<button type="button" class="btn btn-sm btn-danger delete">
+										<i class="glyphicon glyphicon-trash"></i>
+										<span>Delete</span>
+									</button>-->
+									<table role="presentation" class="table table-striped table-vertical-middle">
+									<thead>
+									<tr>
+									<th>Picture</th>
+									<th>Description</th>
+									<th>Progress</th>
+									<th>Action</th>
+									</tr>
+									</thead>
+									<tbody class="files"></tbody>
+									</table>
+					<!--
 							<div class="form-group">
 								<div class="col-xs-4" style="text-align: right;"></div>
 								<div class="col-xs-5"><label id="errorimage" class="text-danger"></label></div>
@@ -626,28 +663,8 @@
 							<div class="form-group">
 								<div class="col-xs-4" style="text-align: right;"><label class="control-label"><?php echo $labelname[16]; ?> <red>*</red></label></div>
 								<div class="col-xs-5">
-									<img src="" class="img-responsive" id="imagePreview" alt="" style="width: 200px; height: 137px;"/>
-									<!--<input type="file" id="imagefile" name="files" onchange="PreviewImage();"/>-->
-									<input type="hidden" id="dataentryno1" name="dataentryno1" value="<?php echo $dataentryno; ?>"/>
-									
-									
-									<span class="btn btn-success fileinput-button">
-										<i class="glyphicon glyphicon-plus"></i>
-										<span>Add files...</span>
-										<input type="file" id="imagefile" name="files[]" multiple>
-									</span>
-									<button type="submit" class="btn btn-primary start">
-										<i class="glyphicon glyphicon-upload"></i>
-										<span>Start upload</span>
-									</button>
-									<button type="reset" class="btn btn-warning cancel">
-										<i class="glyphicon glyphicon-ban-circle"></i>
-										<span>Cancel upload</span>
-									</button>
-									<button type="button" class="btn btn-danger delete">
-										<i class="glyphicon glyphicon-trash"></i>
-										<span>Delete</span>
-									</button>
+									<!--<img src="" class="img-responsive" id="imagePreview" alt="" style="width: 200px; height: 137px;"/>-->
+									<!--<input type="file" id="imagefile" name="files" onchange="PreviewImage();"/>-
 									
 								</div>
 							</div>
@@ -659,12 +676,12 @@
 								<div class="col-xs-4" style="text-align: right;"><label class="control-label"><?php echo $labelname[17]; ?> <red>*</red></label></div>
 								<div class="col-xs-5"><textarea maxlength="500" class="form-control" rows="3" id="imagedesc" name="imagedesc"></textarea></div>
 							</div>
-							<br><br><br><br><br><br><br><br><br><br><br><br>
+							<br><br><br><br><br><br><br><br><br><br><br><br>-->
 						
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
-						<input type="submit" class="btn btn-primary btn-sm" value="Save" />
+						<button type="button" class="closebutton btn btn-default btn-sm" data-dismiss="modal">Close</button>
+						
 					</div>
 				</form>
 			</div>
@@ -765,33 +782,28 @@
 </div>
 
 <script id="template-upload" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
+{% for (var i=0; i < o.files.length; i++) { var file=o.files[i]; var fileId = file.name.replace('.','_')+'_'+file.size; %}
     <tr class="template-upload fade">
-        <td>
+        <td style="width:10%">
             <span class="preview"></span>
         </td>
-        <td>
-            <p class="name">{%=file.name%}</p>
-            <strong class="error text-danger"></strong>
+        <td style="width:40%">
+			<textarea id="" name="imagedesc_{%=fileId%}" maxlength="500" class="description-textarea textarea-fill" form="addimage" rows="5"></textarea>
         </td>
-        <td>
-            <p class="size">Processing...</p>
+        <td style="width:40%">
+            <p class="name"><b>{%=file.name%}</b> - <span class="size">Processing...</span></p>
+			<strong class="error text-danger"></strong>
             <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
         </td>
-        <td>
-            {% if (!i && !o.options.autoUpload) { %}
-                <button class="btn btn-primary start" disabled>
-                    <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start</span>
-                </button>
-            {% } %}
-            {% if (!i) { %}
-                <button class="btn btn-warning cancel">
+		
+		<td style="width:10%;">
+			{% if (!i) { %}
+                <button class="btn btn-sm btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
                     <span>Cancel</span>
                 </button>
             {% } %}
-        </td>
+		</td>
     </tr>
 {% } %}
 </script>
@@ -808,32 +820,39 @@
         </td>
         <td>
             <p class="name">
-                {% if (file.url) { % }
-                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
-                {% } else { %}
-                    <span>{%=file.name%}</span>
+                {% if (!file.error) { %}
+                    <span>{%=file.description%}</span>
                 {% } %}
             </p>
             {% if (file.error) { %}
                 <div><span class="label label-danger">Error</span> {%=file.error%}</div>
-            {% } %}
+            {% } else { %}
+				
+			{% } %}
         </td>
         <td>
-            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+		<p>
+			{% if (file.url) { %}<span class="label label-success">Successfull</span> {% } %}
+            
+		</p>
         </td>
         <td>
-            {% if (file.deleteUrl) { %}
+			<button class="btn btn-sm btn-warning remove">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Remove</span>
+			</button>
+            <!--{% if (file.deleteUrl) { %}
                 <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                     <i class="glyphicon glyphicon-trash"></i>
                     <span>Delete</span>
                 </button>
                 <input type="checkbox" name="delete" value="1" class="toggle">
             {% } else { %}
-                <button class="btn btn-warning cancel">
+                <button class="btn btn-sm btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
                     <span>Cancel</span>
                 </button>
-            {% } %}
+            {% } %} -->
         </td>
     </tr>
 {% } %}
@@ -954,6 +973,8 @@ function revalidateInputs() {
 		}
 	})
 }
+
+/*
 function PreviewImage(){
 	var oFReader = new FileReader();
 	oFReader.readAsDataURL(document.getElementById("imagefile").files[0]);
@@ -961,9 +982,27 @@ function PreviewImage(){
 	oFReader.onload = function(oFREvent) {
 	  document.getElementById("imagePreview").src = oFREvent.target.result;
 	}
+}*/
+
+function checkAndSendAllImages() {
+	if (checkImageUpload()) {
+		sendAll();
+	}
+	return false;
 }
+
 function checkImageUpload(){
-	imgLen = $('#imagefile').val().length;
+	var ok = true;
+	$.each($('.description-textarea'), function(a){
+		if ($(this).val() == "") ok = false;
+	});
+	
+	if (!ok) { 
+		alert("Image descriptions are compulsory.");
+	}
+	
+	return ok;
+	/*imgLen = $('#imagefile').val().length;
 	descLen = $('#imagedesc').val().length;
 	
 	if(imgLen === 0 || descLen === 0){
@@ -972,8 +1011,261 @@ function checkImageUpload(){
 	}else{
 		//showloader();
 		return true;		
+	}*/
+}
+
+/*jslint unparam: true, regexp: true */
+/*global window, $ */
+
+// ITS NOT THERE BECAUSE THE DESCRIPITION TEXTAREA IS NOT IN THE FORM... DUH
+
+function disableBeforeSend() {
+	$('.description-textarea').attr('disabled','disabled');
+	$('#addimage button').attr('disabled','disabled');
+	$('.closebutton').attr('disabled','disabled');
+	$('#MyModal .close').attr('disabled','disabled');
+	window.onbeforeunload = function(e){
+		e = e || window.event;
+		if  (e) {
+			e.returnValue = 'Upload in progress, are you sure?';
+		}
+		return 'Upload in progress';
 	}
 }
+
+function enableAfterSend() {
+	$('.description-textarea').removeAttr('disabled');
+	$('#addimage button').removeAttr('disabled');
+	$('.closebutton').removeAttr('disabled');
+	$('#MyModal .close').removeAttr('disabled');
+	window.onbeforeunload = null;
+}
+
+function generateHidden() {
+	$('.description-textarea').each(function(idx, i){
+		var $t = $(this);
+		var $hidden = $('<input type="hidden">');
+		$hidden.addClass('temporary-hidden-textarea')
+		.val($t.val())
+		.attr('name',$t.attr('name'));
+		$(this).parent().append($hidden);
+	});
+}
+
+function removeHidden() {
+	$('.temporary-hidden-textarea').remove();
+}
+
+function resolve(pending) {
+	if (typeof pending.files.error != 'undefined') {
+		//var d = $.Deferred();
+		//setTimeout(d.resolve,0);
+		return pending.abort().promise();
+	}
+	return pending.submit().promise();
+}
+
+// YOU NEED TO CHECK ERRORS, AND THEN AUTO-REFRESHER
+function sendAll() {
+	shouldRefresh = false;
+	var deferred = $.Deferred();
+	disableBeforeSend();
+	generateHidden();
+	pendingFiles.reduce(function(promise, pending){
+		return promise.then(function(){
+			return resolve(pending);
+		}, function(e){
+			return resolve(pending);
+		});
+	}, deferred.promise()).then(function(){
+		console.log('Finished successfully');
+		pendingFiles = [];
+		removeHidden();
+		enableAfterSend();
+	}, function(e){ 
+		console.log('Finished errornously');
+		pendingFiles = [];
+		removeHidden();
+		enableAfterSend();
+	});
+	setTimeout(deferred.resolve, 0);
+}
+
+var shouldRefresh = false;
+var pendingFiles = [];
+$(function () {
+    'use strict';
+    // Change this to the location of your server-side upload handler:
+    var url = '<?php echo base_url(); ?><?php echo $cpagename; ?>/addimage/',
+        uploadButton = $('<button/>')
+            .addClass('btn btn-primary')
+            .prop('disabled', true)
+            .text('Processing...')
+            .on('click', function () {
+                var $this = $(this),
+                    data = $this.data();
+                $this
+                    .off('click')
+                    .text('Abort')
+                    .on('click', function () {
+                        $this.remove();
+                        data.abort();
+                    });
+                data.submit().always(function () {
+                    $this.remove();
+                });
+            });
+    $('#addimage').fileupload({
+        url: url,
+        dataType: 'json',
+        autoUpload: false,
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        maxFileSize: 999000,
+        // Enable image resizing, except for Android and Opera,
+        // which actually support image resizing, but fail to
+        // send Blob objects via XHR requests:
+        disableImageResize: true,
+        previewMaxWidth: 100,
+        previewMaxHeight: 100,
+        previewCrop: false,
+		fail: function(e, data) {
+			if (e.isDefaultPrevented()) {
+                    return false;
+                }
+				$.each(pendingFiles, function(idx, i) {
+					if (i == data) pendingFiles.splice(idx,1);
+				});
+                var that = $(this).data('blueimp-fileupload') ||
+                        $(this).data('fileupload'),
+                    template,
+                    deferred;
+                if (data.context) {
+                    data.context.each(function (index) {
+                        if (data.errorThrown !== 'abort') {
+                            var file = data.files[index];
+                            file.error = file.error || data.errorThrown ||
+                                data.i18n('unknownError');
+                            deferred = that._addFinishedDeferreds();
+                            that._transition($(this)).done(
+                                function () {
+                                    var node = $(this);
+                                    template = that._renderDownload([file])
+                                        .replaceAll(node);
+                                    that._forceReflow(template);
+                                    that._transition(template).done(
+                                        function () {
+                                            data.context = $(this);
+                                            that._trigger('failed', e, data);
+                                            that._trigger('finished', e, data);
+                                            deferred.resolve();
+                                        }
+                                    );
+                                }
+                            );
+                        } else {
+                            deferred = that._addFinishedDeferreds();
+                            that._transition($(this)).done(
+                                function () {
+                                    $(this).remove();
+                                    that._trigger('failed', e, data);
+                                    that._trigger('finished', e, data);
+                                    deferred.resolve();
+                                }
+                            );
+                        }
+                    });
+                } else if (data.errorThrown !== 'abort') {
+                    data.context = that._renderUpload(data.files)[
+                        that.options.prependFiles ? 'prependTo' : 'appendTo'
+                    ](that.options.filesContainer)
+                        .data('data', data);
+                    that._forceReflow(data.context);
+                    deferred = that._addFinishedDeferreds();
+                    that._transition(data.context).done(
+                        function () {
+                            data.context = $(this);
+                            that._trigger('failed', e, data);
+                            that._trigger('finished', e, data);
+                            deferred.resolve();
+                        }
+                    );
+                } else {
+                    that._trigger('failed', e, data);
+                    that._trigger('finished', e, data);
+                    that._addFinishedDeferreds().resolve();
+                }
+		}
+    }).on('fileuploadadd', function (e, data) {
+		pendingFiles.push(data);
+        data.context = $('<div/>').appendTo('#files');
+        $.each(data.files, function (index, file) {
+            var node = $('<p/>')
+                    .append($('<span/>').text(file.name));
+            if (!index) {
+                node
+                    .append('<br>')
+                    .append(uploadButton.clone(true).data(data));
+            }
+            node.appendTo(data.context);
+        });
+    }).on('fileuploadprocessalways', function (e, data) {
+        var index = data.index,
+            file = data.files[index],
+            node = $(data.context.children()[index]);
+        if (file.preview) {
+            node
+                //.prepend('<br>')
+                .prepend(file.preview);
+        }
+        if (file.error) {
+            node
+                .append('<br>')
+                .append($('<span class="text-danger"/>').text(file.error));
+        }
+        
+    }).on('fileuploadprogressall', function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress .progress-bar').css(
+            'width',
+            progress + '%'
+        );
+    }).on('fileuploaddone', function (e, data) {
+        $.each(data.result.files, function (index, file) {
+            if (file.url) {
+				shouldRefresh = true;
+                var link = $('<a>')
+                    .attr('target', '_blank')
+                    .prop('href', file.url);
+                $(data.context.children()[index])
+                    .wrap(link);
+            } else if (file.error) {
+                var error = $('<span class="text-danger"/>').text(file.error);
+                $(data.context.children()[index])
+                    .append('<br>')
+                    .append(error);
+            }
+        });
+    }).on('fileuploadfinished',function(e,data) {
+		data.context.find('.remove').off().on('click', function(e){
+			e.preventDefault();
+			$(this).parents('tr').remove();
+		});
+	}).on('fileuploadfail', function (e, data) {
+        $.each(data.files, function (index) {
+            var error = $('<span class="text-danger"/>').text('File upload failed.');
+            $(data.context.children()[index])
+                .append('<br>')
+                .append(error);
+        });
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+		
+	$('.closebutton, #MyModal .close').on('click',function(){
+		if (shouldRefresh) location.reload();
+	})
+});
+
+
 // Validate inputs 
 $(function(){
 	

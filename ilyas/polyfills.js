@@ -57,3 +57,23 @@ JSON.stringify = JSON.stringify || function (obj) {
         return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
     }
 };
+
+
+if (!Array.prototype.reduce) {
+    Array.prototype.reduce = function(callbackfn, initVal) {
+        "use strict";
+        var arr = this,
+            arrLen = arr.length,
+            k = 0,
+            accumulator = initVal === undefined ? undefined : initVal;
+ 
+        for(;k < arrLen;k++) {
+            if (accumulator !== undefined && k in arr) {
+                accumulator = callbackfn.call(undefined, accumulator, arr[k], k, arr);
+            } else {
+                accumulator = arr[k];
+            }
+        }
+        return accumulator;
+    };
+}

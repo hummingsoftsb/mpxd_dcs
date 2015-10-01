@@ -8,6 +8,9 @@
  *
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
+ 
+ Quite modestly modified, please update with this in mind.
+ 
  */
 
 class UploadHandler
@@ -38,7 +41,7 @@ class UploadHandler
         'image_resize' => 'Failed to resize image'
     );
 
-    protected $image_objects = array();
+    public $image_objects = array();
 
     function __construct($options = null, $initialize = true, $error_messages = null) {
         $this->response = array();
@@ -56,12 +59,12 @@ class UploadHandler
             'access_control_allow_credentials' => false,
             'access_control_allow_methods' => array(
                 'OPTIONS',
-                'HEAD',
+                //'HEAD',
                 'GET',
-                'POST',
-                'PUT',
+                'POST'
+                /*'PUT',
                 'PATCH',
-                'DELETE'
+                'DELETE'*/
             ),
             'access_control_allow_headers' => array(
                 'Content-Type',
@@ -89,7 +92,7 @@ class UploadHandler
             // Defines which files can be displayed inline when downloaded:
             'inline_file_types' => '/\.(gif|jpe?g|png)$/i',
             // Defines which files (based on their names) are accepted for upload:
-            'accept_file_types' => '/.+$/i',
+            'accept_file_types' => '/\.(gif|jpe?g|png)$/i',
             // The php.ini settings upload_max_filesize and post_max_size
             // take precedence over the following max_file_size setting:
             'max_file_size' => null,
@@ -236,6 +239,16 @@ class UploadHandler
 	public function set_upload_path($path) {
 		if (($path != null) && ($path != '')) $this->options['upload_dir'] = $path;
 	}
+	
+	
+	public function get_path_and_name() {
+		foreach ($this->image_objects as $k=>$v):
+			return $k;
+		endforeach;
+		return "";
+	}
+	
+	// end added by ilyas
 
     protected function get_query_separator($url) {
         return strpos($url, '?') === false ? '?' : '&';
@@ -1314,14 +1327,16 @@ class UploadHandler
             return $this->delete($print_response);
         }
         $upload = $this->get_upload_data($this->options['param_name']);
+		
         // Parse the Content-Disposition header, if available:
         $content_disposition_header = $this->get_server_var('HTTP_CONTENT_DISPOSITION');
-        $file_name = $content_disposition_header ?
+        /*$file_name = $content_disposition_header ?
             rawurldecode(preg_replace(
                 '/(^[^"]+")|("$)/',
                 '',
                 $content_disposition_header
-            )) : null;
+            )) : null;*/
+		$file_name = substr( md5(rand()), 0, 7).'_'.date('dmYHis');
         // Parse the Content-Range header, which has the following form:
         // Content-Range: bytes 0-524287/2000000
         $content_range_header = $this->get_server_var('HTTP_CONTENT_RANGE');

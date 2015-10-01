@@ -994,9 +994,4 @@ function swapArrayElements(array_object, index_a, index_b) {
     var temp = array_object[index_a];
     array_object[index_a] = array_object[index_b];
     array_object[index_b] = temp;
- }
-
-
- // Temporarily to mitigate annoying datatables alert
-var oldalert = window.alert; 
-window.alert = function(a){if (a.indexOf('DataTables warning') != -1) console.log(a); else oldalert(a)}
+}

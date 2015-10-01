@@ -11,4 +11,9 @@
 /journalimage/*
 /journalimagenonp/*
 
-*/Thumbs.db
+!/journalimage/.htaccess
+!/journalimagenonp/.htaccess
+!.htaccess
+
+
+Thumbs.db
