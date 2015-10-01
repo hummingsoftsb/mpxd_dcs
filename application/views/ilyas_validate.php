@@ -191,7 +191,7 @@ function add_comment() {
 	//current_comment.text(truncText(text, 22, '...'));
 	//$.data(current_comment[0],'comment',text);
 	current_comment.text(text);
-	
+	$('input[value="Reject"]').attr('checked','checked');
 	var comments = get_comments();
 	synchronize_comments(comments, true);
 	$('#comment_modal').modal('hide');
