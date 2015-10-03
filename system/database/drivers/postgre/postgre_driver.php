@@ -694,6 +694,18 @@ class CI_DB_postgre_driver extends CI_DB {
 	{
 		@pg_close($conn_id);
 	}
+	
+	function is_write_type($sql)
+	{
+		if (( ! preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD DATA|COPY|ALTER|GRANT|REVOKE|LOCK|UNLOCK)\s+/i', $sql)) 
+			OR
+			(preg_match('/^\s*INSERT.*RETURNING\s+[\w\*,]+$/i', $sql))
+			)
+		{
+			return FALSE;
+		}
+		return TRUE;
+	}
 
 
 }

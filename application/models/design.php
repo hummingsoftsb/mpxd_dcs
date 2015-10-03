@@ -229,7 +229,81 @@ Class Design extends CI_Model
 		// Inserting in Table Journal Validator
 		$this->db->insert('journal_validator', $data);
 	}
-
+	
+	//Function to update running data entries's gatekeeper. If the validator does not change, it will not delete anything. If there are changes, it will effect only the changed.
+	function update_journal_data_entry_validator($jid, $validators) {
+		$jid = str_replace("'","",$jid);
+		$validator_ids = implode("','",array_keys($validators));
+		$validator_ids = "'".$validator_ids."'";
+		
+		// Delete all journal_data_validate_detail where the validators are not specified anymore. Only for data entries that is in progress (thus the status 1)
+		$delete_query = "DELETE FROM journal_data_validate_detail WHERE id IN (SELECT c.id FROM journal_data_entry_master a, journal_data_validate_master b, journal_data_validate_detail c WHERE a.journal_no = '$jid' AND data_entry_status_id = 1 AND b.data_entry_no = a.data_entry_no AND b.validate_user_id NOT IN ($validator_ids) AND c.data_validate_no = b.data_validate_no)"	;
+		$this->db->query($delete_query);
+		
+		// Delete all journal_data_validate_master with ditto condition from above
+		$delete_query2 = "DELETE FROM journal_data_validate_master WHERE data_validate_no IN (SELECT data_validate_no FROM journal_data_entry_master a, journal_data_validate_master b WHERE a.journal_no = '$jid' AND data_entry_status_id = 1 AND b.data_entry_no = a.data_entry_no AND b.validate_user_id NOT IN ($validator_ids))";
+		$this->db->query($delete_query2);
+		
+		$data_entry_no_q = "SELECT a.data_entry_no FROM journal_data_entry_master a WHERE a.journal_no = '$jid' AND data_entry_status_id = 1";
+		$data_entry_no = $this->db->query($data_entry_no_q)->result()[0]->data_entry_no;
+		
+		// Update level if there is a similar validator ids
+		$existing_validator_query = "SELECT b.data_entry_no FROM journal_data_entry_master a, journal_data_validate_master b WHERE a.journal_no = '$jid' AND data_entry_status_id = 1 AND b.data_entry_no = a.data_entry_no AND b.validate_user_id IN ($validator_ids)";
+		$query = $this->db->query($existing_validator_query);
+		$result = $query->result();
+		
+		if (sizeOf($result) > 0) {
+			// It seems that the same validator is found. Update their levels.
+			$values = array();
+			foreach($validators as $k=>$v):
+				array_push($values,"($k,$v)");
+			endforeach;
+			$values = implode(",",$values);
+			$query = "update journal_data_validate_master as t set validate_level_no = c.validate_level_no from (values $values) as c(validate_user_id, validate_level_no) WHERE c.validate_user_id = t.validate_user_id AND t.data_entry_no = '$data_entry_no'";
+			$this->db->query($query);
+		}
+		
+		// Insert new validators at journal_data_validate_master where applicable
+		$values = "(".implode(array_keys($validators),"),(").")";
+		
+		$before_insert_query = "SELECT * FROM (values$values) as a(validate_user_id) WHERE validate_user_id NOT IN (SELECT b.validate_user_id FROM journal_data_entry_master a, journal_data_validate_master b WHERE a.journal_no = '$jid' AND data_entry_status_id = 1 AND b.data_entry_no = a.data_entry_no)";
+		$result = $this->db->query($before_insert_query)->result();
+		$values = array();
+		foreach($result as $v):
+			$validate_user_id = $v->validate_user_id;
+			$validate_level_no = $validators[$validate_user_id];
+			array_push($values, "('$data_entry_no', '$validate_user_id', '$validate_level_no', 0)");
+		endforeach;
+		if (sizeOf($values) > 0) {	
+			$values = implode($values, ",");
+			$insert_query = "INSERT INTO journal_data_validate_master (data_entry_no,validate_user_id,validate_level_no,validate_status) VALUES $values RETURNING data_validate_no";
+			$query = $this->db->query($insert_query);
+			$data_validate_nos = $query->result();
+			
+			// Insert new validators in journal_data_validate_detail
+			$before_insert_query2 = "SELECT data_attb_id FROM journal_data_entry_detail WHERE data_entry_no='$data_entry_no'";
+			
+			// Get all the data attributes to insert
+			$data_attb_ids = array();
+			foreach($this->db->query($before_insert_query2)->result() as $v):
+				array_push($data_attb_ids,$v->data_attb_id);
+			endforeach;
+			
+			$values = array();
+			foreach ($data_validate_nos as $v):
+				$data_validate_no = $v->data_validate_no;
+				foreach($data_attb_ids as $data_attb_id):
+					array_push($values, "('$data_validate_no','$data_entry_no','$data_attb_id','')");
+				endforeach;
+			endforeach;
+			if (sizeOf($values) > 0) {
+				$values = implode($values, ",");
+				$insert_query = "INSERT INTO journal_data_validate_detail (data_validate_no,data_entry_no,data_attb_id,validate_comment) VALUES $values";
+				$this->db->query($insert_query);
+			}
+		}
+	}
+	
 	//Function to add new record
 	function add_journal_data_entry($data)
 	{

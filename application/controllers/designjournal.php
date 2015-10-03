@@ -453,15 +453,21 @@ class Designjournal extends CI_Controller
 
 				$this->design->delete_journal_validator($journalid);
 				//Validator
+				$validator_data = array();
 				$validatorid=$this->input->post('validatorid1');
 				$validatorids=explode(',',$validatorid);
 				for($j=0;$j<count($validatorids);$j++)
 				{
 					$validatoruser='1validateuser'.$validatorids[$j];
 					$validatorlevel='1level'.$validatorids[$j];
+					$validator_data[$this->input->post($validatoruser)] = $this->input->post($validatorlevel);
 					$validatordata=array('journal_no'=>$journalid,'validate_user_id'=>$this->input->post($validatoruser),'validate_level_no'=>$this->input->post($validatorlevel));
 					$this->design->add_journal_validator($validatordata);
 				}
+				$this->design->update_journal_data_entry_validator($journalid, $validator_data);
+				
+				//var_dump(array_keys($validator_data));die();
+				// Update existing data entries to have new validators
 
 				$this->design->delete_journal_data_entry($journalid);
 				//Data Entry
