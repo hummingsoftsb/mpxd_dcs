@@ -254,8 +254,7 @@ class Designjournalnonp_ilyas extends CI_Controller
 					//var_dump($email);
 					//die();
 					$this->load->library('swiftmailer');
-					$this->swiftmailer->data_entry_assigned_nonprogressive($email, $dename, $name, $jid);
-					
+					$this->swiftmailer->data_entry_assigned($email, $dename, $name, $jid);
 				}
 				
 				$this->ilyasmodel->update_journal_dataentry($jid, $data_user_id, $is_default_owner);

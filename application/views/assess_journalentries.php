@@ -125,7 +125,7 @@
 </div>
 <script>
 $(document).ready(function() {
-    $('#journal_list').DataTable({
+    var oTable = $('#journal_list').dataTable({
 		"order": [[ 0, "asc" ]],
 		"columnDefs": [ {
 		  "targets"  : 'no-sort',
@@ -134,7 +134,12 @@ $(document).ready(function() {
 	});
 	
 	$('div.dataTables_filter input').attr('placeholder', 'Enter the text here');
-} );
+	<?php if ($search != "") { ?> 
+		var search = <?php echo json_encode($search); ?>;
+		oTable.fnFilter(search); 
+		$('td:contains('+search+')').parents('tr').addClass('highlight');
+	<?php } ?>
+});
 
 </script>
 

@@ -57,6 +57,7 @@ class Journaldataentry extends CI_Controller
  				$message='';
  				$type = '';
  			}
+			
  			if($this->session->userdata('searchrecord'))
  			{
  				$searchrecord=$this->session->userdata('searchrecord');
@@ -145,8 +146,11 @@ class Journaldataentry extends CI_Controller
 			$data1['alabelobject']=$this->securitys->get_label_object(22);
 			$data1['rlabels']=$this->securitys->get_label(23);
 			$data1['rlabelobject']=$this->securitys->get_label_object(23);
-
-
+			
+			$data['search'] = "";
+			if ($this->input->get('search')) {
+				$data['search'] = $this->input->get('search');
+			}
 			//Non-p function
 			$nonp_journals = $this->journal_nonp();
 			

@@ -2,10 +2,10 @@
 
 class Swiftmailer {
 
-	var	$smtp_host		= "aspmx.l.google.com";		// SMTP Server.  Example: mail.earthlink.net
-	var	$smtp_user		= "dcs@mymrt.com.my";		// SMTP Username
-	var	$smtp_pass		= "";		// SMTP Password
-	var	$smtp_port		= "25";		// SMTP Port
+	var	$smtp_host		= "dryosaurus.mschosting.com";		// SMTP Server.  Example: mail.earthlink.net
+	var	$smtp_user		= "test1@hummingsoft.com.my";		// SMTP Username
+	var	$smtp_pass		= "humming123";		// SMTP Password
+	var	$smtp_port		= "587";		// SMTP Port
 	var $mpxd_logo 		= "img/logo_1.png";
 	var $sender_name 	= "MPXD DCS";
 	
@@ -19,8 +19,8 @@ class Swiftmailer {
 	function send($message){ 
 		//Create the Transport 
 		$transport = Swift_SmtpTransport::newInstance ($this->smtp_host, $this->smtp_port) 
-		->setUsername($this->smtp_user);
-		//->setPassword($this->smtp_pass); 
+		->setUsername($this->smtp_user)
+		->setPassword($this->smtp_pass); 
 
 		$mailer = Swift_Mailer::newInstance($transport); 
 
@@ -100,14 +100,14 @@ class Swiftmailer {
 		return $this->send($message);
 	}
 	
-	function data_entry_assigned_nonprogressive($email, $dename, $journalname, $jid) {
+	function data_entry_assigned($email, $dename, $journalname, $jid) {
 		$message = Swift_Message::newInstance("Notification - Data entry assigned")
 		->setFrom(array($this->smtp_user => $this->sender_name))
 		->setTo(array($email => $dename))
 		->setContentType('text/html');
 		
 		$logo = $message->embed(Swift_Image::fromPath($this->mpxd_logo));
-		$message->setBody(notification_data_entry_assigned_nonprogressive($logo, $dename, $journalname, $jid));
+		$message->setBody(notification_data_entry_assigned($logo, $dename, $journalname, $jid));
 		
 		return $this->send($message);
 	}

@@ -468,18 +468,35 @@ class Designjournal extends CI_Controller
 				
 				//var_dump(array_keys($validator_data));die();
 				// Update existing data entries to have new validators
-
+				$previous_owner_id = $this->design->get_journal_data_entry_owner($journalid);
+				//var_dump($previous_owner_id);
+				//die();
 				$this->design->delete_journal_data_entry($journalid);
 				//Data Entry
 				$dataentryid=$this->input->post('dataentryid1');
 				$dataentryids=explode(',',$dataentryid);
+				//$this->design->get_journal_data_entry_owner($journalid);
 				for($j=0;$j<count($dataentryids);$j++)
 				{
 					$dataentryuser='1dataentryuser'.$dataentryids[$j];
 					$dataentryowner=$this->input->post('dataentryowner1');
+					//var_dump($dataentryowner);
 					if($dataentryowner==$dataentryids[$j])
 					{
 						$dataentrydata=array('journal_no'=>$journalid,'data_user_id'=>$this->input->post($dataentryuser),'default_owner_opt'=>'1');
+						// Email to the new data entry user
+						if (($previous_owner_id) && ($this->input->post($dataentryuser) != $previous_owner_id)) {
+							$this->load->model('ilyasmodel');
+							$this->load->library('swiftmailer');
+							$user = $this->ilyasmodel->get_user_email($this->input->post($dataentryuser))[0];
+							
+							$email = $user->email_id;
+							$dename = $user->user_full_name;
+							//var_dump($email);
+							//var_dump($email);
+							//die();
+							$this->swiftmailer->data_entry_assigned($email, $dename, $name, $journalid);
+						}
 					}
 					else
 					{
@@ -487,6 +504,8 @@ class Designjournal extends CI_Controller
 					}
 					$this->design->add_journal_data_entry($dataentrydata);
 				}
+				
+				// CREATE A MODEL QUERY FOR CURRENT DE, THEN COMPARE, THEN EMAIL IF NECESSARY
 
 				$this->design->delete_journal_detail($journalid);
 				//Data Attribute

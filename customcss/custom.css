@@ -123,6 +123,14 @@ select[disabled]{
 	box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
+/* DataTables */
+.dataTables_wrapper tr.highlight > td {
+    background-color: rgb(249, 255, 140) !important
+}
+.dataTables_wrapper tr.highlight:hover > td {  
+	background-color: rgb(247, 255, 121) !important;
+}
+
 /* Handsontable */
 
 .handsontableInputHolder {

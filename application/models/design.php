@@ -661,6 +661,16 @@ Class Design extends CI_Model
 		
 	}
 	
+	function get_journal_data_entry_owner($jid) {
+		$jid = str_replace("'","",$jid);
+		$query = "SELECT data_user_id FROM journal_data_user WHERE journal_no='$jid' AND default_owner_opt=1";
+		$result = $this->db->query($query)->result();
+		if (sizeOf($result) > 0) {
+			return $result[0]->data_user_id;
+		}
+		return false;
+	}
+	
 
 }
 ?>

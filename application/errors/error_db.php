@@ -46,7 +46,7 @@ p {
 <body>
 	<div style="align:center;">
 
-	<h1>Sorry! No access. Go <a onclick="window.history.go(-1); return false;" href =<?php echo base_url()//."/index.php/home";?>>Back</a><h1>
+	<h1>Sorry! No access. Go <a onclick="window.history.go(-1); return false;" href="#">Back</a><h1>
 		<h1><?php //echo $heading; ?></h1>
 		<?php //echo $message; ?>
 
