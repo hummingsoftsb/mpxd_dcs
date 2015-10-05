@@ -596,8 +596,17 @@ Class IlyasModel extends CI_Model
 		return $this->db->update('journal_validator_nonprogressive', $data, array('journal_no' => $jid));
 	}
 	
-	function update_journal_dataentry($jid,$data) {
+	// Detect changed user. If user id is not the same with the current, it will return 0, thus the user id will be changed.			
+	function is_journal_user_change($jid,$data_user_id) {
 		if (!is_numeric($jid)) return false;
+		$is_changed_user = ($this->db->query("SELECT count(*) FROM journal_data_user_nonprogressive WHERE journal_no='$jid' AND data_user_id='$data_user_id'")->row()->count == 0);
+		return $is_changed_user;
+	}
+	
+	function update_journal_dataentry($jid,$data_user_id,$is_default_owner) {
+		if (!is_numeric($jid)) return false;
+		$data = array('data_user_id'=>$data_user_id,'default_owner_opt'=> $is_default_owner);
+		
 		$this->db->update('journal_data_user_nonprogressive', $data, array('journal_no' => $jid));
 	}
 	
@@ -765,10 +774,17 @@ Class IlyasModel extends CI_Model
 		$query = "select validate_pending from ilyas_config where journal_no = $jid limit 1";
 		$result = $this->db->query($query);
 		$pending = $result->row();
-		if((int)$pending->validate_pending != 1)
+		//var_dump($pending);
+		
+		// If there is no result, the journal does not have a config in ilyas_config.
+		if (sizeOf($pending) > 0) {
+			if((int)$pending->validate_pending != 1)
+				return true;
+			else
+				return false;
+		} else {
 			return true;
-		else
-			return false;
+		}
 	}
 	
 	
@@ -925,6 +941,13 @@ Class IlyasModel extends CI_Model
 		$jid = str_replace("'","",$jid);
 		$rev = str_replace("'","",$rev);
 		$query = "SELECT distinct b.user_id, c.user_full_name FROM ilyas_config a, ilyas b, sec_user c WHERE a.journal_no='$jid' AND b.config_no = a.config_no AND b.user_id = c.user_id AND b.revision = '$rev' LIMIT 1";
+		$q = $this->db->query($query);
+		return $q->result();
+	}
+	
+	function get_user_email($user_id) {
+		$user_id = str_replace("'","",$user_id);
+		$query = "SELECT user_full_name,email_id FROM sec_user WHERE user_id='$user_id'";
 		$q = $this->db->query($query);
 		return $q->result();
 	}

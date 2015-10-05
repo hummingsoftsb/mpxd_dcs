@@ -9,9 +9,14 @@ class Swiftmailer {
 	var $mpxd_logo 		= "img/logo_1.png";
 	var $sender_name 	= "MPXD DCS";
 	
+	function __construct() {
+		require_once 'application/third_party/Swift-4.1.1/lib/swift_required.php';
+		require_once 'application/libraries/mailbodies.php';
+		$CI =& get_instance();
+		$CI->load->helper('url');
+	}
+	
 	function send($message){ 
-		require_once 'application/third_party/Swift-4.1.1/lib/swift_required.php'; 
-		//require_once 'application/libraries/mailbodies.php';
 		//Create the Transport 
 		$transport = Swift_SmtpTransport::newInstance ($this->smtp_host, $this->smtp_port) 
 		->setUsername($this->smtp_user);
@@ -24,9 +29,6 @@ class Swiftmailer {
 	}
 	
 	function data_entry_published_progressive($email, $gkname, $dename, $journalname, $jid) {
-		require_once 'application/third_party/Swift-4.1.1/lib/swift_required.php'; 
-		require_once 'application/libraries/mailbodies.php';
-		
 		$message = Swift_Message::newInstance("Notification - Data entry published")
 		->setFrom(array($this->smtp_user => $this->sender_name))
 		->setTo(array($email => $gkname))
@@ -39,9 +41,6 @@ class Swiftmailer {
 	}
 	
 	function data_entry_accepted_progressive($email, $name, $journalname) {
-		require_once 'application/third_party/Swift-4.1.1/lib/swift_required.php'; 
-		require_once 'application/libraries/mailbodies.php';
-		
 		$message = Swift_Message::newInstance("Notification - Data entry accepted")
 		->setFrom(array($this->smtp_user => $this->sender_name))
 		->setTo(array($email => $name))
@@ -54,9 +53,6 @@ class Swiftmailer {
 	}
 	
 	function data_entry_rejected_progressive($email, $dename, $journalname, $jid) {
-		require_once 'application/third_party/Swift-4.1.1/lib/swift_required.php'; 
-		require_once 'application/libraries/mailbodies.php';
-		
 		$message = Swift_Message::newInstance("Notification - Data entry rejected")
 		->setFrom(array($this->smtp_user => $this->sender_name))
 		->setTo(array($email => $dename))
@@ -69,9 +65,6 @@ class Swiftmailer {
 	}
 	
 	function data_entry_published_nonprogressive($email, $gkname, $dename, $journalname, $jid) {
-		require_once 'application/third_party/Swift-4.1.1/lib/swift_required.php'; 
-		require_once 'application/libraries/mailbodies.php';
-		
 		$message = Swift_Message::newInstance("Notification - Data entry published")
 		->setFrom(array($this->smtp_user => $this->sender_name))
 		->setTo(array($email => $gkname))
@@ -84,9 +77,6 @@ class Swiftmailer {
 	}
 	
 	function data_entry_accepted_nonprogressive($email, $name, $journalname) {
-		require_once 'application/third_party/Swift-4.1.1/lib/swift_required.php'; 
-		require_once 'application/libraries/mailbodies.php';
-		
 		$message = Swift_Message::newInstance("Notification - Data entry accepted")
 		->setFrom(array($this->smtp_user => $this->sender_name))
 		->setTo(array($email => $name))
@@ -99,9 +89,6 @@ class Swiftmailer {
 	}
 	
 	function data_entry_rejected_nonprogressive($email, $dename, $journalname, $jid) {
-		require_once 'application/third_party/Swift-4.1.1/lib/swift_required.php'; 
-		require_once 'application/libraries/mailbodies.php';
-		
 		$message = Swift_Message::newInstance("Notification - Data entry rejected")
 		->setFrom(array($this->smtp_user => $this->sender_name))
 		->setTo(array($email => $dename))
@@ -113,10 +100,19 @@ class Swiftmailer {
 		return $this->send($message);
 	}
 	
-	function add_new_user($user, $username, $email, $password) {
-		require_once 'application/third_party/Swift-4.1.1/lib/swift_required.php'; 
-		require_once 'application/libraries/mailbodies.php';
+	function data_entry_assigned_nonprogressive($email, $dename, $journalname, $jid) {
+		$message = Swift_Message::newInstance("Notification - Data entry assigned")
+		->setFrom(array($this->smtp_user => $this->sender_name))
+		->setTo(array($email => $dename))
+		->setContentType('text/html');
 		
+		$logo = $message->embed(Swift_Image::fromPath($this->mpxd_logo));
+		$message->setBody(notification_data_entry_assigned_nonprogressive($logo, $dename, $journalname, $jid));
+		
+		return $this->send($message);
+	}
+	
+	function add_new_user($user, $username, $email, $password) {
 		$message = Swift_Message::newInstance("MPXD Data Capture System Login Detail")
 		->setFrom(array($this->smtp_user => $this->sender_name))
 		->setTo(array($email => $user))
@@ -129,9 +125,6 @@ class Swiftmailer {
 	}
 	
 	function reset_password($user, $username, $email, $password) {
-		require_once 'application/third_party/Swift-4.1.1/lib/swift_required.php'; 
-		require_once 'application/libraries/mailbodies.php';
-		
 		$message = Swift_Message::newInstance("MPXD Data Capture System Password Reset")
 		->setFrom(array($this->smtp_user => $this->sender_name))
 		->setTo(array($email => $user))
@@ -144,9 +137,6 @@ class Swiftmailer {
 	}
 	
 	function reset_password_front($user, $username, $email, $code) {
-		require_once 'application/third_party/Swift-4.1.1/lib/swift_required.php'; 
-		require_once 'application/libraries/mailbodies.php';
-		
 		$message = Swift_Message::newInstance("MPXD Data Capture System Password Reset")
 		->setFrom(array($this->smtp_user => $this->sender_name))
 		->setTo(array($email => $user))

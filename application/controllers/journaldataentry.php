@@ -88,7 +88,7 @@ class Journaldataentry extends CI_Controller
  			$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
 
- 			//Load all record data
+ 			//Load all progressive record data
  			$data['records'] = $this->assessment->show_pjde($search,$offset,$config['per_page'],$userid,$roleid);
  			$data['totalrows'] = $config['total_rows'];
  			$data['mpage'] = $config['per_page'];
@@ -262,7 +262,7 @@ class Journaldataentry extends CI_Controller
 
  			//Load all record data
  			$data['records'] = $this->ilyasmodel->get_journals_nonp($search,$offset,$config['per_page'],$userid,false,$roleid);
- 			$data['totalrows'] = $config['total_rows'];
+			$data['totalrows'] = $config['total_rows'];
  			$data['mpage'] = $config['per_page'];
  			$data['page']= $page+1;
  			$data['selectrecord']=$config['per_page'];

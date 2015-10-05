@@ -240,9 +240,25 @@ class Designjournalnonp_ilyas extends CI_Controller
 				
 				$dataentryowner = $this->input->post('dataentryowner');
 				$data_user_id = $this->input->post('dataentryuser1');
-				$dataentrydata=array('data_user_id'=>$data_user_id,'default_owner_opt'=> ($dataentryowner == $data_user_id) ? "1":"0");
+				//$dataentrydata=array('data_user_id'=>$data_user_id,'default_owner_opt'=> ($dataentryowner == $data_user_id) ? "1":"0");
+				$is_default_owner = (($dataentryowner == $data_user_id) ? "1":"0");
 				
-				$this->ilyasmodel->update_journal_dataentry($jid, $dataentrydata);
+				// Data entry user change, email to the new user.
+				if ($this->ilyasmodel->is_journal_user_change($jid,$data_user_id)) {
+					/*$data = array('alert_date' => date("Y-m-d"),'alert_user_id' => $data_id,'data_entry_no' => null,'alert_message' => $journalname.' Data Entry Rejected','alert_hide' => '0','email_send_option' => '1', 'nonp_journal_id' => $jid);
+					$this->assessment->add_user_alert($data);
+					$this->assessment->update_alert_on_save_nonp($jid,$userid);*/
+					$user = $this->ilyasmodel->get_user_email($data_user_id)[0];
+					$email = $user->email_id;
+					$dename = $user->user_full_name;
+					//var_dump($email);
+					//die();
+					$this->load->library('swiftmailer');
+					$this->swiftmailer->data_entry_assigned_nonprogressive($email, $dename, $name, $jid);
+					
+				}
+				
+				$this->ilyasmodel->update_journal_dataentry($jid, $data_user_id, $is_default_owner);
 				
 				$sess_array = array('message' => $this->securitys->get_label_object(20)." Updated Successfully","type" => 1);
 				$this->session->set_userdata('message', $sess_array);

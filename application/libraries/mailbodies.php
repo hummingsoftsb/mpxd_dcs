@@ -130,3 +130,9 @@ function notification_reset_password($logo, $user, $username, $email, $code) {
 	$text = '<p>Please click the following link in order to reset your password <a href='.base_url().'resetpassword?qcode='.$code.'>Click Here</a></p>';
 	return notification_base($logo, $user, $text);
 }
+
+function notification_data_entry_assigned_nonprogressive($logo, $user, $journalname, $jid) {
+	$url = base_url()."index.php/journaldataentry";
+	$text = '<p>A journal has been assigned to you. Please click on the following link to continue. <a href='.$url.'>Click Here</a></p>';
+	return notification_base($logo, $user, $text);
+}
