@@ -292,7 +292,9 @@
 						
 						<?php
 							$sno=1;
+							$closeButton = true;
 							foreach($dataentryattbs as $dataentryattb):
+								if (((float)$dataentryattb->actual_value) != ((float)$dataentryattb->end_value)) $closeButton = false;
 								echo "<tr>";
 								echo '<td>'.$sno.'</td>';
 								echo '<td>'.$dataentryattb->data_attb_label.'</td>';
@@ -365,13 +367,7 @@
 							</label>
 						</div>
 					  </div>
-					 <div class="col-xs-2" style="margin-bottom: 8px; display: none;">
-						  <div class="radio">
-								<label>
-									<input type="radio" id="optradio" name="optradio" value="Close" onclick="enablesubmit();">Stop Tracking 
-								</label>
-							</div>
-					  </div>
+					 
 					  <div class="col-xs-2" style="margin-bottom: 8px;">
 						<div class="radio">
 							<label>
@@ -379,7 +375,15 @@
 							</label>
 						</div>
 					  </div>
-					  <?php if($is_image == 1) : ?>
+					  <?php if ($closeButton) { ?>
+					  <div class="col-xs-3" style="margin-bottom: 8px;">
+						  <div class="radio">
+								<label>
+									<input type="radio" id="optradio" name="optradio" value="Close" onclick="enablesubmit();">Approve & Stop Monitoring 
+								</label>
+							</div>
+					  </div>
+					  <?php } if($is_image == 1) : ?>
 					  <div class="col-xs-2" style="margin-bottom: 8px;">Reject notes</div>
 					  <div id="reject-note" class="col-xs-5" style="color: blue; margin-bottom: 40px;">
 						<textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
@@ -414,6 +418,9 @@
 					}
 					if ($('input[value="Reject"]:checked').length > 0){
 						var msg = "Confirm Reject?";
+					}
+					if ($('input[value="Close"]:checked').length > 0){
+						var msg = "Confirm Approve & Stop Monitoring?";
 					}
 					
 					var a = confirm(msg);
@@ -549,7 +556,9 @@
 					}
 				});
 			</script>
-			
+			<div class="row" style="width:70%; margin:auto">
+						
+					</div>
 		<div class="form-group" style="">
 			<input id="save" disabled type="button" class="btn btn-primary btn-sm" value="Save" onclick="<?php echo $is_image == 1 ? '' : 'checkTextField();' ?>verifySave();"/>
 			<a href="<?php echo base_url(); ?>/journalvalidation" class="btn btn-danger btn-sm">Cancel</a>
@@ -620,10 +629,10 @@
 							</div>
 							<br><br><br><br><br><br><br><br><br><br><br><br>-->
 						
+					
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="closebutton btn btn-default btn-sm" data-dismiss="modal">Close</button>
-						
 					</div>
 				</form>
 			</div>
