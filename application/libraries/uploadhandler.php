@@ -696,7 +696,33 @@ class UploadHandler
         }
         list($file_path, $new_file_path) =
             $this->get_scaled_image_file_paths($file_name, $version);
-        $type = strtolower(substr(strrchr($file_name, '.'), 1));
+       
+		
+		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+		$ftype = finfo_file($finfo, $file_path);
+		finfo_close($finfo);
+		
+		switch($ftype) {
+			case 'image/jpeg':
+			case 'image/pjpeg':
+			case 'image/jpg':
+				$type = 'jpeg';
+			break;
+			
+			case 'image/png':
+				$type = 'png';
+			break;
+			
+			case 'image/gif':
+				$type = 'gif';
+			break;
+			
+			default:
+				$type = $ftype;
+			break;
+		}
+		//$type = strtolower(substr(strrchr($file_name, '.'), 1));
+		
         switch ($type) {
             case 'jpg':
             case 'jpeg':
