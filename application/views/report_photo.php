@@ -105,7 +105,7 @@ $labelname = explode(",", $labelnames);
 						<?php foreach($projects as $project): ?>
 							<div class="checkbox">
 							  <label>
-								<input type="checkbox" name="project[]" checked="true" value="<?php echo $project->project_no; ?>">
+								<input type="checkbox" name="project[]" value="<?php echo $project->project_no; ?>">
 								<?php echo $project->project_name; ?>
 							  </label>
 							</div>

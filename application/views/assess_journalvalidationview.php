@@ -67,7 +67,7 @@
 				},'json').always(function(data){console.log(data);});
 			}
 			else{
-				alert('Description is compulsory.');
+				alert('Image Description is compulsory.');
 			}
 		});
 		

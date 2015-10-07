@@ -221,7 +221,7 @@
 				},'json').always(function(data){console.log(data);});
 			}
 			else{
-				alert('Description is compulsory.');
+				alert('Image Description is compulsory.');
 			}
 		});
 		
@@ -998,7 +998,7 @@ function checkImageUpload(){
 	});
 	
 	if (!ok) { 
-		alert("Image descriptions are compulsory.");
+		alert("Image Description is compulsory.");
 	}
 	
 	return ok;
