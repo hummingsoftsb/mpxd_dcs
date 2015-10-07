@@ -37,6 +37,13 @@ class mobileapi extends CI_Controller
 		return $status;
 	}
 	
+	public function checksession() {
+		$session_id = $this->input->post('session_id');
+		if (!$session_id) return $this->not_logged_in();
+		$user = $this->mobileapp->get_user_by_sessionid($session_id);
+		if ((sizeOf($user) < 1) || ($user[0]->session_valid != 1)) return $this->not_logged_in();
+	}
+	
 	
 	public function data() {
 		
