@@ -1,5 +1,7 @@
 <script src="<?php echo base_url(); ?>ilyas/fancybox/jquery.fancybox.pack.js"></script>
 <script src="<?php echo base_url(); ?>ilyas/multiupload.js"></script>
+<script>var uploadUrl = '<?php echo base_url(); ?><?php echo $cpagename; ?>/addimage/'</script>
+<script src="<?php echo base_url(); ?>ilyas/multiupload/custom.js"></script>
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/css/multiupload.css" type="text/css" media="screen" />
 <script>
@@ -619,7 +621,7 @@
 			    	<h4 class="modal-title" id="myModalLabel"><?php echo $labelname[14]; ?></h4>
 			  	</div>
 				
-				<form method="post" id="addimage" action="<?php echo base_url(); ?><?php echo $cpagename; ?>/addimage/" enctype="multipart/form-data" onSubmit="return checkAndSendAllImages();">
+				<form method="post" id="addimage" enctype="multipart/form-data" onSubmit="return checkAndSendAllImages();">
 					<div class="modal-body">
 					<input type="hidden" id="dataentryno1" name="dataentryno1" value="<?php echo $dataentryno; ?>"/>
 									
@@ -634,15 +636,6 @@
 										<span>Start upload</span>
 									</button>
 									</div>
-									<!--
-									<button type="reset" class="btn btn-sm btn-warning cancel">
-										<i class="glyphicon glyphicon-ban-circle"></i>
-										<span>Cancel upload</span>
-									</button>
-									<button type="button" class="btn btn-sm btn-danger delete">
-										<i class="glyphicon glyphicon-trash"></i>
-										<span>Delete</span>
-									</button>-->
 									<table role="presentation" class="table table-striped table-vertical-middle">
 									<thead>
 									<tr>
@@ -654,6 +647,10 @@
 									</thead>
 									<tbody class="files"></tbody>
 									</table>
+									<p style="font-size:12px"><span style="text-decoration:underline">Notes:</span><br/>
+									Allowed image types: png, jpg, gif<br/>
+									Maximum image size: 10MB
+									</p>
 					<!--
 							<div class="form-group">
 								<div class="col-xs-4" style="text-align: right;"></div>
@@ -983,7 +980,6 @@ function PreviewImage(){
 	  document.getElementById("imagePreview").src = oFREvent.target.result;
 	}
 }*/
-
 function checkAndSendAllImages() {
 	if (checkImageUpload()) {
 		sendAll();

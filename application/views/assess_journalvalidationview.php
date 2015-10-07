@@ -1,5 +1,9 @@
 <script src="<?php echo base_url(); ?>ilyas/fancybox/jquery.fancybox.pack.js"></script>
+<script src="<?php echo base_url(); ?>ilyas/multiupload.js"></script>
+<script>var uploadUrl = '<?php echo base_url(); ?>journaldataentryadd/addimage/'</script>
+<script src="<?php echo base_url(); ?>ilyas/multiupload/custom.js"></script>
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/css/multiupload.css" type="text/css" media="screen" />
 <script>
 	$(document).ready(function()
 	{
@@ -105,7 +109,87 @@
 	function getcomments() {
 		return $('input[type="text"][name^="comment"]').toArray().reduce(function(p, c, i, a){return p.value+c.value});
 	}
+	
 </script>
+
+
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0; i < o.files.length; i++) { var file=o.files[i]; var fileId = file.name.replace('.','_')+'_'+file.size; %}
+    <tr class="template-upload fade">
+        <td style="width:10%">
+            <span class="preview"></span>
+        </td>
+        <td style="width:40%">
+			<textarea id="" name="imagedesc_{%=fileId%}" maxlength="500" class="description-textarea textarea-fill" form="addimage" rows="5"></textarea>
+        </td>
+        <td style="width:40%">
+            <p class="name"><b>{%=file.name%}</b> - <span class="size">Processing...</span></p>
+			<strong class="error text-danger"></strong>
+            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+        </td>
+		
+		<td style="width:10%;">
+			{% if (!i) { %}
+                <button class="btn btn-sm btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %}
+		</td>
+    </tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+        <td>
+            <span class="preview">
+                {% if (file.thumbnailUrl) { %}
+                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+                {% } %}
+            </span>
+        </td>
+        <td>
+            <p class="name">
+                {% if (!file.error) { %}
+                    <span>{%=file.description%}</span>
+                {% } %}
+            </p>
+            {% if (file.error) { %}
+                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+            {% } else { %}
+				
+			{% } %}
+        </td>
+        <td>
+		<p>
+			{% if (file.url) { %}<span class="label label-success">Successfull</span> {% } %}
+            
+		</p>
+        </td>
+        <td>
+			<button class="btn btn-sm btn-warning remove">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Remove</span>
+			</button>
+            <!--{% if (file.deleteUrl) { %}
+                <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete</span>
+                </button>
+                <input type="checkbox" name="delete" value="1" class="toggle">
+            {% } else { %}
+                <button class="btn btn-sm btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %} -->
+        </td>
+    </tr>
+{% } %}
+</script>
+
 
 <?php 
 
@@ -208,7 +292,9 @@
 						
 						<?php
 							$sno=1;
+							$closeButton = true;
 							foreach($dataentryattbs as $dataentryattb):
+								if (((float)$dataentryattb->actual_value) != ((float)$dataentryattb->end_value)) $closeButton = false;
 								echo "<tr>";
 								echo '<td>'.$sno.'</td>';
 								echo '<td>'.$dataentryattb->data_attb_label.'</td>';
@@ -281,13 +367,7 @@
 							</label>
 						</div>
 					  </div>
-					 <div class="col-xs-2" style="margin-bottom: 8px; display: none;">
-						  <div class="radio">
-								<label>
-									<input type="radio" id="optradio" name="optradio" value="Close" onclick="enablesubmit();">Stop Tracking 
-								</label>
-							</div>
-					  </div>
+					 
 					  <div class="col-xs-2" style="margin-bottom: 8px;">
 						<div class="radio">
 							<label>
@@ -295,7 +375,15 @@
 							</label>
 						</div>
 					  </div>
-					  <?php if($is_image == 1) : ?>
+					  <?php if ($closeButton) { ?>
+					  <div class="col-xs-3" style="margin-bottom: 8px;">
+						  <div class="radio">
+								<label>
+									<input type="radio" id="optradio" name="optradio" value="Close" onclick="enablesubmit();">Approve & Stop Monitoring 
+								</label>
+							</div>
+					  </div>
+					  <?php } if($is_image == 1) : ?>
 					  <div class="col-xs-2" style="margin-bottom: 8px;">Reject notes</div>
 					  <div id="reject-note" class="col-xs-5" style="color: blue; margin-bottom: 40px;">
 						<textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
@@ -331,6 +419,9 @@
 					if ($('input[value="Reject"]:checked').length > 0){
 						var msg = "Confirm Reject?";
 					}
+					if ($('input[value="Close"]:checked').length > 0){
+						var msg = "Confirm Approve & Stop Monitoring?";
+					}
 					
 					var a = confirm(msg);
 					var thisform = $("form#addRecord");
@@ -342,9 +433,10 @@
 						return false;
 					}
 					
-				}
+				}/*
 				function checkImageUpload(){
-					imgLen = $('#imagefile').val().length;
+
+					alert('asdasd');imgLen = $('#imagefile').val().length;
 					descLen = $('#imagedesc').val().length;
 					
 					if(imgLen === 0 || descLen === 0){
@@ -354,7 +446,7 @@
 						showloader();
 						return true;						
 					}
-				}
+				}*/
 				function PreviewImage(){
 					var oFReader = new FileReader();
 					oFReader.readAsDataURL(document.getElementById("imagefile").files[0]);
@@ -464,7 +556,9 @@
 					}
 				});
 			</script>
-			
+			<div class="row" style="width:70%; margin:auto">
+						
+					</div>
 		<div class="form-group" style="">
 			<input id="save" disabled type="button" class="btn btn-primary btn-sm" value="Save" onclick="<?php echo $is_image == 1 ? '' : 'checkTextField();' ?>verifySave();"/>
 			<a href="<?php echo base_url(); ?>/journalvalidation" class="btn btn-danger btn-sm">Cancel</a>
@@ -481,36 +575,64 @@
 				<h4 class="modal-title" id="myModalLabel">Picture Attachment</h4>
 			</div>
 			<div class="modal-body">
-				<form method=post id="addimage" action="<?php echo base_url(); ?><?php echo $cpagename; ?>/addimage/" enctype="multipart/form-data" onSubmit="return checkImageUpload();">
-					<div class="form-group">
-						<div class="col-xs-4" style="text-align: right;"></div>
-						<div class="col-xs-5"><label id="errorimage" class="text-danger"></label></div>
-					</div>
-					<br>
-					<div class="form-group">
-						<div class="col-xs-4" style="text-align: right;"><label class="control-label">Image <red>*</red></label></div>
-						<div class="col-xs-5">
-							<img src="" class="img-responsive" id="imagePreview" alt="Image Preview" style="width: 200px; height: 137px;"/>
-							<input type="file" id="imagefile" name="imagefile" onchange="PreviewImage();"/>
-							<input type="hidden" id="dataentryno1" name="dataentryno1" value="<?php echo $dataentryno; ?>" />
-							<input type="hidden" id="validatorid" name="validatorid" value="<?php echo $validatorid; ?>" />
+				<form method="post" id="addimage" enctype="multipart/form-data" onSubmit="return checkAndSendAllImages();">
+					<div class="modal-body">
+					<input type="hidden" id="dataentryno1" name="dataentryno1" value="<?php echo $dataentryno; ?>"/>
+									
+									<div style="text-align:center">
+									<button class="btn btn-success fileinput-button">
+										<i class="glyphicon glyphicon-plus"></i>
+										<span>Add files...</span>
+										<input type="file" id="imagefile" name="files[]" multiple>
+									</button>
+									<button type="submit" class="btn btn-primary start">
+										<i class="glyphicon glyphicon-upload"></i>
+										<span>Start upload</span>
+									</button>
+									</div>
+									<table role="presentation" class="table table-striped table-vertical-middle">
+									<thead>
+									<tr>
+									<th>Picture</th>
+									<th>Description</th>
+									<th>Progress</th>
+									<th>Action</th>
+									</tr>
+									</thead>
+									<tbody class="files"></tbody>
+									</table>
+									<p style="font-size:12px"><span style="text-decoration:underline">Notes:</span><br/>
+									Allowed image types: png, jpg, gif<br/>
+									Maximum image size: 10MB
+									</p>
+					<!--
+							<div class="form-group">
+								<div class="col-xs-4" style="text-align: right;"></div>
+								<div class="col-xs-5"><label id="errorimage" class="text-danger"></label></div>
 							</div>
-					</div>
-					<br>
-					<div class="form-group">
-						<div class="col-xs-4" style="text-align: right;"></div>
-						<div class="col-xs-5"><label id="errordesc" class="text-danger"></label></div>
-					</div>
-					<br>
-					<div class="form-group">
-						<div class="col-xs-4" style="text-align: right;"><label class="control-label">Description <red>*</red></label></div>
-						<div class="col-xs-5"><textarea maxlength="500" class="form-control" rows="3" id="imagedesc" name="imagedesc"></textarea></div>
-					</div>
-					<br><br><br><br><br><br><br><br><br>
+							<br>
+							<div class="form-group">
+								<div class="col-xs-4" style="text-align: right;"><label class="control-label"><?php echo $labelname[16]; ?> <red>*</red></label></div>
+								<div class="col-xs-5">
+									<!--<img src="" class="img-responsive" id="imagePreview" alt="" style="width: 200px; height: 137px;"/>-->
+									<!--<input type="file" id="imagefile" name="files" onchange="PreviewImage();"/>-
+									
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-xs-4" style="text-align: right;"></div>
+								<div class="col-xs-5"><label id="errordesc" class="text-danger"></label></div>
+							</div>
+							<div class="form-group">
+								<div class="col-xs-4" style="text-align: right;"><label class="control-label"><?php echo $labelname[17]; ?> <red>*</red></label></div>
+								<div class="col-xs-5"><textarea maxlength="500" class="form-control" rows="3" id="imagedesc" name="imagedesc"></textarea></div>
+							</div>
+							<br><br><br><br><br><br><br><br><br><br><br><br>-->
+						
 					
+					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
-						<input type="submit" class="btn btn-primary btn-sm" value="Save" />
+						<button type="button" class="closebutton btn btn-default btn-sm" data-dismiss="modal">Close</button>
 					</div>
 				</form>
 			</div>
