@@ -12,7 +12,7 @@ class Ilyas extends CI_Controller
 		$this->load->model('securitys','',TRUE);
 	   $this->load->model('assessment','',TRUE);
 	   $this->load->model('ilyasmodel','',TRUE);
-   	   $this->load->library('swiftmailer');
+   	   //$this->load->library('swiftmailer');
 	}
 	
 	function index()
@@ -147,7 +147,11 @@ class Ilyas extends CI_Controller
 						$message="Dear ".$validator_name.", <br>".$journalname." data entry published by ".$data_name.". Now the journal is ready for validation";
 						$header( "Location: http://www.google.com" );
 						$this->email->subject($journalname.' data entry completed');*/
-						$this->swiftmailer->data_entry_published_nonprogressive($validator_email, $validator_name, $data_name, $journalname, $id);
+						
+						$this->load->model('mailermodel');
+						$this->mailermodel->insert_queue_published($validator_id, 'nonprogressive', $id);
+						
+						//$this->swiftmailer->data_entry_published_nonprogressive($validator_email, $validator_name, $data_name, $journalname, $id);
 						//$actual_link = "http://192.168.1.52/index.php/ilyasvalidate?jid=187";
 						
 						//$this->email->message($message);

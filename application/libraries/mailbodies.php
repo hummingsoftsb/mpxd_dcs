@@ -50,6 +50,11 @@ return '<html xmlns="http://www.w3.org/1999/xhtml"><head>
 		p {
 			font-size:1.3em;
 		}
+		
+		ul li {
+			font-size:1.4em;
+			padding-bottom:0.5em;
+		}
       </style>
 
       
@@ -134,5 +139,31 @@ function notification_reset_password($logo, $user, $username, $email, $code) {
 function notification_data_entry_assigned($logo, $user, $journalname, $jid) {
 	$url = base_url()."index.php/journaldataentry?search=".urlencode($journalname);
 	$text = '<p>Journal <strong>'.$journalname.'</strong> has been assigned to you. Please click on the following link to continue. <a href='.$url.'>Click Here</a></p>';
+	return notification_base($logo, $user, $text);
+}
+
+function notification_collective_published($logo, $user, $journals) {
+	$base_url_progressive = base_url()."index.php/journalvalidationview?id=";
+	$base_url_nonprogressive = base_url()."index.php/ilyasvalidate?jid=";
+	$text = "<p>The following data entries had been published:</p><ul>";
+	foreach($journals as $journal):
+		$url = ($journal['type'] == 'progressive') ? $base_url_progressive.$journal['jid'] : $base_url_nonprogressive.$journal['jid'];
+		$journalname = $journal['journalname'];
+		$text .= "<li><a href='$url'>$journalname</a></li>";
+	endforeach;
+	$text .= "</ul>";
+	return notification_base($logo, $user, $text);
+}
+
+function notification_collective_rejected($logo, $user, $journals) {
+	$base_url_progressive = base_url()."journaldataentryadd?jid=";
+	$base_url_nonprogressive = base_url()."index.php/ilyas?jid=";
+	$text = "<p>The following data entries had been rejected:</p><ul>";
+	foreach($journals as $journal):
+		$url = ($journal['type'] == 'progressive') ? $base_url_progressive.$journal['jid'] : $base_url_nonprogressive.$journal['jid'];
+		$journalname = $journal['journalname'];
+		$text .= "<li><a href='$url'>$journalname</a></li>";
+	endforeach;
+	$text .= "</ul>";
 	return notification_base($logo, $user, $text);
 }

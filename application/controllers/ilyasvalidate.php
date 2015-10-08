@@ -230,7 +230,12 @@ class Ilyasvalidate extends CI_Controller
 					$data = array('alert_date' => date("Y-m-d"),'alert_user_id' => $data_id,'data_entry_no' => null,'alert_message' => $journalname.' Data Entry Rejected','alert_hide' => '0','email_send_option' => '1', 'nonp_journal_id' => $jid);
 					$this->assessment->add_user_alert($data);
 					$this->assessment->update_alert_on_save_nonp($jid,$userid);
-					$this->swiftmailer->data_entry_rejected_nonprogressive($data_email, $data_name, $journalname, $jid);
+					
+					$this->load->model('mailermodel');
+					$this->mailermodel->insert_queue_rejected_nonprogressive($validator_id, $jid);
+			
+					
+					//$this->swiftmailer->data_entry_rejected_nonprogressive($data_email, $data_name, $journalname, $jid);
 					/*
 					$this->email->from('test@hummingsoft.com.my', 'MPXD');
 					$this->email->to($data_email);

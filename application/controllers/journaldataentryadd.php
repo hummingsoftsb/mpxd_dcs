@@ -522,9 +522,11 @@ class Journaldataentryadd extends CI_Controller
 			$this->email->send();*/
 			
 			$data = array('alert_date' => date("Y-m-d"),'alert_user_id' => $validatorid,'data_entry_no' => $id,'alert_message' => 'Data Entry Published','alert_hide' => '0','email_send_option' => '1');
+			
 			$this->assessment->add_user_alert($data);
-
-			$this->swiftmailer->data_entry_published_progressive($validatoremail, $validatorname, $dataentryname, $journalname, $datavalidateno);
+			$this->load->model('mailermodel');
+			$this->mailermodel->insert_queue_published($validatorid, 'progressive', $id);
+			//$this->swiftmailer->data_entry_published_progressive($validatoremail, $validatorname, $dataentryname, $journalname, $datavalidateno);
 			
 			$sess_array = array('message' => "Project Journal Data Entry Updated Successfully","type" => 1);
 			$this->session->set_userdata('message', $sess_array);
@@ -578,8 +580,11 @@ class Journaldataentryadd extends CI_Controller
 			$this->email->send();*/
 			$data = array('alert_date' => date("Y-m-d"),'alert_user_id' => $validatorid,'data_entry_no' => $id,'alert_message' => 'Data Entry Published','alert_hide' => '0','email_send_option' => '1');
 			$this->assessment->add_user_alert($data);
-
-			$this->swiftmailer->data_entry_published_progressive($validatoremail, $validatorname, $dataentryname, $journalname, $datavalidateno);
+			
+			$this->load->model('mailermodel');
+			$this->mailermodel->insert_queue_published($validatorid, 'progressive', $id);
+			
+			//$this->swiftmailer->data_entry_published_progressive($validatoremail, $validatorname, $dataentryname, $journalname, $datavalidateno);
 
 			$sess_array = array('message' => "Journal Published Successfully","type" => 1);
 			$this->session->set_userdata('message', $sess_array);

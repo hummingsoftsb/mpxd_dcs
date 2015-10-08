@@ -205,7 +205,12 @@ class Journalvalidationview extends CI_Controller
 				$data = array('alert_date' => date("Y-m-d"),'alert_user_id' => $dataentryid,'data_entry_no' => $dataentryno,'alert_message' => 'Data Entry Rejected','alert_hide' => '0','email_send_option' => '1');
 				$this->assessment->add_user_alert($data);
 				$this->assessment->update_alert_on_save($dataentryno,$userid);
-				$this->swiftmailer->data_entry_rejected_progressive($dataentryemail, $dataentryname, $journalname, $dataentryno);
+				
+				
+				$this->load->model('mailermodel');
+				$this->mailermodel->insert_queue_rejected_progressive($dataentryid, $dataentryno);
+				
+				//$this->swiftmailer->data_entry_rejected_progressive($dataentryemail, $dataentryname, $journalname, $dataentryno);
 				$this->parseplugin->sendMessageByUserId($userid,'There is a new notification for you', array("sync" => true, "silentforeground" => true));
 
 			}

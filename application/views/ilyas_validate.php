@@ -195,6 +195,7 @@ function add_comment() {
 	var comments = get_comments();
 	synchronize_comments(comments, true);
 	$('#comment_modal').modal('hide');
+	enablesubmit();
 }
 
 
