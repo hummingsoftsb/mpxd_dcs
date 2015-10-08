@@ -140,6 +140,56 @@ class Phpppt {
                 ->setColor(new Color('000000'));
     }
 	
+	function generatelogo() {
+        $shape = new Drawing();
+        $shape->setName('')
+                ->setDescription('')
+                ->setPath('./files/logo.png')
+                ->setHeight(32)
+				//->setWidth(400)
+                ->setOffsetX(0)
+                ->setOffsetY(0)->getBorder();
+        //->setLineStyle(Border::LINE_SINGLE)
+        //->setLineWidth(1)
+        //->getColor()->setARGB('000000');
+        $this->currentSlide->addShape($shape);
+    }
+	
+	function generateFooter($date,$pageno) {
+        $shape = $this->currentSlide->createRichTextShape()
+                ->setHeight(15)
+                ->setWidth(200)
+                ->setOffsetX('-5')
+                ->setOffsetY(937);
+        $shape->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+        $textRun = $shape->createTextRun($date);
+        $textRun->getFont()->setBold(false)
+                ->setSize(11)
+                ->setColor(new Color('848484'));
+				
+		$shape = $this->currentSlide->createRichTextShape()
+                ->setHeight(15)
+                ->setWidth(200)
+                ->setOffsetX(300)
+                ->setOffsetY(937);
+        $shape->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+        $textRun = $shape->createTextRun("Project Director's Office");
+        $textRun->getFont()->setBold(false)
+                ->setSize(11)
+                ->setColor(new Color('848484'));
+				
+		$shape = $this->currentSlide->createRichTextShape()
+                ->setHeight(15)
+                ->setWidth(50)
+                ->setOffsetX(675)
+                ->setOffsetY(937);
+        $shape->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $textRun = $shape->createTextRun($pageno);
+        $textRun->getFont()->setBold(false)
+                ->setSize(11)
+                ->setColor(new Color('848484'));
+    }
+	
 	function createTemplatedSlide(PhpOffice\PhpPresentation\PhpPresentation $objPHPPresentation)
 	{
 		// Create slide

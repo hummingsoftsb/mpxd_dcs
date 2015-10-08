@@ -50,6 +50,14 @@ Class Design extends CI_Model
 		$query_result = $query->result();
 		return $query_result;
 	}
+	
+	// Function To Fetch All Project Assigned to user
+	function show_projtmps_byid($id)
+	{
+		$sql = "SELECT * FROM project_template pt, journal_master jm, journal_validator jv WHERE pt.project_no = jm.project_no and jm.journal_no = jv.journal_no and validate_user_id = {$id}";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
 
 	// Function To Fetch All Project Template Record
 	function show_projtmp($data,$offset,$perPage)

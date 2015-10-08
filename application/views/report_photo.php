@@ -59,6 +59,14 @@
 
     });
 </script>
+<style>
+	.project-indent-1{
+		margin-left: 30px;
+	}
+	.project-indent-2{
+		margin-left: 60px;
+	}
+</style>
 <?php
 $labelnames = '';
 foreach ($labels as $label):
@@ -90,7 +98,7 @@ $labelname = explode(",", $labelnames);
             <div class="form-group">
                 <label class="col-sm-2 control-label">Report Date:</label>
                 <div class="col-sm-3">
-					<input placeholder="Select Report Date" id="proj_date" class="form-control" type="text" name="date"/>
+					<input placeholder="Select Report Date" id="proj_date" class="form-control" type="text" name="date" required/>
                     <select style="display: none;" class="form-control"  name="freq">
                         <?php foreach ($freqs as $freq) : ?>
                             <option value="<?php echo $freq->frequency_detail_no; ?>"><?php echo date("d-M-Y", strtotime($freq->start_date)); ?> to <?php echo date("d-M-Y", strtotime($freq->end_date)); ?></option>
@@ -99,20 +107,26 @@ $labelname = explode(",", $labelnames);
                 </div>
             </div>
 			<div class="form-group">
-                <label class="col-sm-2 control-label">Projects:</label>
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-3">
+					<a id="check-all-project" href="#">Select all</a> | 
+					<a id="clear-all-project" href="#">Clear all</a>
+                </div>
+            </div>
+			<div class="form-group">
+                <label class="col-sm-2 control-label">Packages:</label>
                 <div class="col-sm-6">
 					<div id="project-list" style="max-height: 400px; border: 1px solid #dddddd; overflow: auto; padding: 5px 10px;">
 						<?php foreach($projects as $project): ?>
 							<div class="checkbox">
 							  <label>
 								<input type="checkbox" name="project[]" value="<?php echo $project->project_no; ?>">
-								<?php echo $project->project_name; ?>
+								<span class="project-indent-<?php echo $project->indent;?>"><?php echo $project->project_name; ?></span>
 							  </label>
 							</div>
 						<?php endforeach; ?>
 					</div>
-					<a id="check-all-project" href="#">Select all</a> | 
-					<a id="clear-all-project" href="#">Clear all</a>
+					
                 </div>
             </div>
             <div class="form-group">
