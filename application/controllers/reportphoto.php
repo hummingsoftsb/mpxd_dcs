@@ -34,6 +34,8 @@ class Reportphoto extends CI_Controller {
         $freq_id = $this->input->get('freq');
 		$projects = $this->input->get('project');
 		$pdate = $this->input->get('date');
+		
+		//Requests for ppt
         if ($freq_id && $projects) {
 			
 			$pjcts_no = implode(",",$projects);
@@ -47,23 +49,29 @@ class Reportphoto extends CI_Controller {
             }
 
             //var_dump($projects);	
+			$pageno = 1;
             foreach ($projects as $k => $project) {
+				
                 $this->phpppt->newslide();
+				$this->phpppt->generatelogo();
                 $this->phpppt->generateTitle($project['project_name'], date("dS M Y", strtotime($project['as_at'])));
+                $this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])),$pageno);
                 foreach ($imgs as $img) {
                     //var_dump($img);
                     if ($img->project_no == $project['project_no']) {
-                        $this->phpppt->generatepicture('.' . $img->pict_file_path . $img->pict_file_name, $img->pict_definition, $settings[$curr][0], $settings[$curr][1], $settings[$curr][2], $settings[$curr][3]);
+                        $this->phpppt->generatepicture('./' . $img->pict_file_path . $img->pict_file_name, $img->pict_definition, $settings[$curr][0], $settings[$curr][1], $settings[$curr][2], $settings[$curr][3]);
 						$curr++;
 						if($curr == 6){
 							$curr = 0;
-							$this->phpppt->newslide();
+							$this->phpppt->newslide();$this->phpppt->generatelogo();
 							$this->phpppt->generateTitle($project['project_name'], date("dS M Y", strtotime($project['as_at'])));
+							$this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])),++$pageno);
 						}
                     }
 					
                 }
 				$curr = 0;
+				$pageno++;
             }
             $this->phpppt->gowrite(base_url());
         }
@@ -73,8 +81,100 @@ class Reportphoto extends CI_Controller {
 
         $roleid = $session_data['roleid'];
 
+		//Get project template
+		$project_arr = array(
+			array( 'name' => 'V1 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'Sungai Buloh Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Kampung Selamat Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Kwasa Damansara Construction Progress' , 'indent' => 1),
+			
+			array( 'name' =>'V2 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'Kwasa Sentral Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Kota Damansara Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Surian Construction Progress' , 'indent' => 1),
+			
+			array( 'name' =>'V3 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'Bandar Utama Construction Progress' , 'indent' => 1),
+			array( 'name' =>'TTDI Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Mutiara Damansara Construction Progress' , 'indent' => 1),	
+			
+			array( 'name' =>'V4 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'Phileo Damansara Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Pusat Bandar Damansara Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Semantan Construction Progress' , 'indent' => 1),	
+			
+			array( 'name' =>'Depot 1 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'V5 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'Taman Mutiara Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Taman Connaught Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Taman Pertama Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Taman Midah Construction Progress' , 'indent' => 1),
+			
+			array( 'name' =>'V6 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'Banda Tun Hussein Onn Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Sri Raya Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Taman Suntex Construction Progress' , 'indent' => 1),	
+			
+			array( 'name' =>'V7 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'Taman Koperasi Cuepacs Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Bukit Dukung Construction Progress' , 'indent' => 1),	
+			
+			array( 'name' =>'V8 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'Sungai Kantan Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Bandar Kajang Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Kajang Construction Progress' , 'indent' => 1),
+			
+			array( 'name' =>'Depot 2 Construction Progress' , 'indent' => 0),
+			
+			array( 'name' =>'Underground Construction Progress' , 'indent' => 0),
+			array( 'name' =>'Underground Tunnel Construction Progress' , 'indent' => 1),
+			array( 'name' =>'Muzium Negara Construction Progress' , 'indent' => 2),
+			array( 'name' =>'Pasar Seni Construction Progress' , 'indent' => 2),
+			array( 'name' =>'Merdeka Construction Progress' , 'indent' => 2),
+			array( 'name' =>'Bukit Bintang Construction Progress' , 'indent' => 2),
+			array( 'name' =>'Tun Razak Exchange Construction Progress' , 'indent' => 2),
+			array( 'name' =>'Cochrane Construction Progress' , 'indent' => 2),
+			array( 'name' =>'Maluri Construction Progress' , 'indent' => 2),
+			
+			array( 'name' =>'MSPR 1 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'MSPR 4 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'MSPR 6 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'MSPR 8 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'MSPR 9 Construction Progress' , 'indent' => 0),
+			array( 'name' =>'MSPR 11 Construction Progress' , 'indent' => 0),
+						
+		);
+		
+		$projects = array();
+		$projects_data = $this->design->show_projtmps();
+		$projects_assigned = $this->design->show_projtmps_byid($session_data['id']);
+		foreach($projects_assigned as $pa){
+			$project_assigned[] = strtolower($pa->project_name);
+		}
+		//var_dump($project_assigned); die();
+		foreach($project_arr as $pa){
+			foreach($projects_data as $pdata){
+				if(strtolower($pa['name']) == strtolower($pdata->project_name) && $session_data['roleid'] == 1){
+					$pdata->indent = $pa['indent'];
+					$projects[] = $pdata;
+				}
+				else if(strtolower($pa['name']) == strtolower($pdata->project_name) && array_search(strtolower($pa['name']), $project_assigned)){
+					$pdata->indent = $pa['indent'];
+					$projects[] = $pdata;
+				}
+			}
+		}
+		/*
+		foreach($projects_data as $k => $pdata){
+			if(!array_search($pdata->project_name,$project_arr)){
+				unset($projects_data[$k]);
+			}
+		}*/
+		
+		//echo json_encode($projects); die();
+		
         //Load all record data
-		$data['projects'] = $this->design->show_projtmps();
+		$data['projects'] = $projects;
         $data['cpagename'] = 'reportphoto';
         $data['labels'] = $this->securitys->get_label(7);
         $data['labelgroup'] = $this->securitys->get_label_group(7);
