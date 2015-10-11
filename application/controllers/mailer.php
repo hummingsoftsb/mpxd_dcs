@@ -9,7 +9,8 @@ class Mailer extends CI_Controller
 		$this->load->model('mailermodel');
 	}
 
-	public function index()
+	public function index(){}
+	public function run()
 	{
 		header("content-type: application/json");
 		$ids = $this->mailermodel->get_all_userid_queues();

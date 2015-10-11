@@ -245,7 +245,11 @@ class mobileapi extends CI_Controller
 		$user = $this->mobileapp->get_user_by_sessionid($session_id);
 		if ((sizeOf($user) < 1) || ($user[0]->session_valid != 1)) return $this->not_logged_in();
 		$user_id = $user[0]->user_id;
-		//$data_entry_no = $this->input->post('data_entry_no');
+		
+		
+		$data_entry_no = $this->input->post('data_entry_no');
+		echo $this->input->post('');
+		
 		//$data_attributes = $this->input->post('attributes');
 		
 		
