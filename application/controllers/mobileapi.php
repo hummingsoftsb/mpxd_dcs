@@ -42,6 +42,7 @@ class mobileapi extends CI_Controller
 		if (!$session_id) return $this->not_logged_in();
 		$user = $this->mobileapp->get_user_by_sessionid($session_id);
 		if ((sizeOf($user) < 1) || ($user[0]->session_valid != 1)) return $this->not_logged_in();
+		return $user;
 	}
 	
 	
@@ -142,6 +143,70 @@ class mobileapi extends CI_Controller
 		return $result;
 	}
 	
+	// Initialize journal
+	public function init_data_entry() {
+		$session = $this->checksession();
+		if (!isset($session[0]->user_id)) return $session;
+		$user_id = $session[0]->user_id;
+		
+		$data_entry_no=$this->input->post('id');
+		if ($data_entry_no == '') { echo json_encode(array('st'=>0)); return; }
+		//$session_data = $this->session->userdata('logged_in');
+		//$loginid = $session_data['id'];
+		if ((int)$this->assessment->check_initialized($data_entry_no)) {
+			echo json_encode(array('st'=>0, 'msg'=> 'Already initialized'));
+			return;
+		}
+		
+		$this->assessment->add_journal_data_entry_detail($data_entry_no,$user_id);
+		echo json_encode(array('st'=>1, 'msg' => 'Success'));
+	}
+	
+	
+	public function upload() {
+		$session = $this->checksession();
+		if (!isset($session[0]->user_id)) return $session;
+		$user_id = $session[0]->user_id;
+		
+		$data_entry_no = $this->input->post('id');
+		$attributes = $this->input->post('attbs');
+		
+		if (($data_entry_no == '') || ($attributes == '')) { echo json_encode(array('st'=>0)); return; }
+		
+		if ($this->assessment->check_published($data_entry_no)) {
+			echo json_encode(array('st'=>0, 'message'=>'Already published'));
+			return;
+		}
+		
+		$attbs = json_decode($attributes);
+		//var_dump($attributes);
+		foreach ($attbs as $k):
+			$attb_id = $k->attb;
+			$attb_value = $k->value;
+			echo "$attb_id => $attb_value" . $this->assessment->update_journal_data_entry_detail($data_entry_no,$attb_id,$attb_value,$user_id);
+		endforeach;
+		//var_dump($attributes);
+		//$this->assessment->update_journal_data_entry_detail($data_entry_no,$attid,$value,$user_id);
+	}
+	
+	public function update_image_description() {
+		$session = $this->checksession();
+		if (!isset($session[0]->user_id)) return $session;
+		$user_id = $session[0]->user_id;
+		
+		$data_entry_pict_no = $this->input->post('id');
+		$description = $this->input->post('description');
+		
+		if (($data_entry_pict_no == '')) { echo json_encode(array('st'=>0)); return; }
+		
+		$data = array(
+			'pict_definition' => $description
+		);
+		
+		$this->assessment->update_journal_data_entry_picture($data, $data_entry_pict_no);
+		echo json_encode(array('st'=>1, 'msg' => 'Success')); 
+	}
+	
 	public function assess($userid) {
 		$search = '';
 		$offset = 0;
@@ -176,7 +241,6 @@ class mobileapi extends CI_Controller
 			// REMEMBER THAT JOURNALS HAVE DATA ATTRIBUTES TOO. AFTER INITIALIZED ONLY THE DATA ATTRIBUTES WILL GO TO DATA ENTRIES.
 			// CREATE A MODEL TO GET JOURNAL DATA ATTRIBUTE FROM  journal_detail
 			
-			
 			$result[$project->project_no]['journals'][$project->journal_no] = array(
 				'journal_no' => $project->journal_no,
 				'journal_name' => $project->journal_name,
@@ -206,6 +270,8 @@ class mobileapi extends CI_Controller
 					
 					// If the count is more than 0, journal is initialized with its data attributes.
 					if ($count != 0) $data_attributes = $this->assessment->show_journal_data_entry_detail($entry->data_entry_no);
+					
+					$reject_notes = $this->assessment->show_journal_reject_note($entry->data_entry_no);
 					//var_dump($data_attributes);
 					$result[$project->project_no]['journals'][$project->journal_no]['data_entries'][$entry->data_entry_no] = array(
 						'data_entry_no' => $data_entry_no,
@@ -215,6 +281,7 @@ class mobileapi extends CI_Controller
 						'count' => $count,
 						'is_image' => $is_image,
 						'dependency' => $dependency,
+						'reject_notes' => $reject_notes,
 						'data_attributes' => $data_attributes
 					);
 				}

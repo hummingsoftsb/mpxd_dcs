@@ -48,7 +48,7 @@ p {
 
 	<h1>Sorry! No access. Go <a onclick="window.history.go(-1); return false;" href="#">Back</a><h1>
 		<h1><?php //echo $heading; ?></h1>
-		<?php //echo $message; ?>
+		<?php echo $message; ?>
 
 	</div>
 </body>

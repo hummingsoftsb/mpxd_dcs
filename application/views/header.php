@@ -218,6 +218,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		$.fn.dataTableExt.sErrMode = 'throw';
 	    $('#table_notification1').DataTable({"bFilter" : false,"bLengthChange": false,"bSort": false, "language": { "loadingRecords": "No notification." }});
 		    var oTable = $('#table_notification').dataTable( {
 	        "ajax": '<?php echo base_url(); ?>api/getlatestnotification',"bFilter" : false,"bLengthChange": false,"bSort": false, "language": { "loadingRecords": "No notification." }

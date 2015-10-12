@@ -186,7 +186,7 @@ Class Assessment extends CI_Model
 
 	function show_journal_data_entry($id)
 	{
-		$query="select frequency_period,journal_name,dependency,project_name,user_full_name,frequency_detail_name,fd.start_date,is_image from journal_data_entry_master jdem,journal_master jm,project_template pt,sec_user su,frequency_detail fd where jdem.data_entry_no=$id and jdem.journal_no=jm.journal_no and jm.project_no=pt.project_no and jm.user_id=su.user_id and fd.frequency_detail_no=jdem.frequency_detail_no";
+		$query="select frequency_period,journal_name,dependency,project_name,user_full_name,frequency_detail_name,fd.start_date,fd.cut_off_date,is_image from journal_data_entry_master jdem,journal_master jm,project_template pt,sec_user su,frequency_detail fd where jdem.data_entry_no=$id and jdem.journal_no=jm.journal_no and jm.project_no=pt.project_no and jm.user_id=su.user_id and fd.frequency_detail_no=jdem.frequency_detail_no";
 		$q=$this->db->query($query);
 		return $q->result();
 	}
@@ -937,6 +937,21 @@ Class Assessment extends CI_Model
 		$q = $this->db->query($query);
 		return $q->result();
 		
+	}
+	
+	function check_initialized($data_entry_no) {
+		$data_entry_no = str_replace("'","",$data_entry_no);
+		$query = "SELECT count(data_entry_no) FROM journal_data_entry_detail WHERE data_entry_no = '$data_entry_no'";
+		$q = $this->db->query($query);
+		return ($q->result()[0]->count > 0);
+	}
+	
+	function check_published($data_entry_no) {
+		$data_entry_no = str_replace("'","",$data_entry_no);
+		$query = "SELECT data_entry_status_id FROM journal_data_entry_master WHERE data_entry_no = '$data_entry_no'";
+		$q = $this->db->query($query);
+		
+		return ($q->result()[0]->data_entry_status_id != '1');
 	}
 }
 ?>

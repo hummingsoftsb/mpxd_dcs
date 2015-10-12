@@ -318,6 +318,7 @@
 			$jname=$row->journal_name;
 			$owner=$row->user_full_name;
 			$jdate=$row->start_date;
+			$jend=$row->cut_off_date;
 			$is_image = $row->is_image;
 			$reject_note = $reject_note;
 		endforeach;
@@ -328,7 +329,7 @@
 		<div class="col-xs-3" style="text-align: right; margin-bottom: 8px;"><b><?php echo $labelname[3]; ?></b></div>
   		<div class="col-xs-9" style="color: blue; margin-bottom: 8px;">Week <?php echo $week; ?></div>
 		<div class="col-xs-3" style="text-align: right; margin-bottom: 8px;"><b><?php echo $labelname[27]; ?></b></div>
-  		<div class="col-xs-9" style="color: blue; margin-bottom: 8px;"><?php echo date("d-M-Y", strtotime($jdate)); ?></div>
+  		<div class="col-xs-9" style="color: blue; margin-bottom: 8px;"><?php echo date("d-M-Y", strtotime($jdate)); ?> to <?php echo date("d-M-Y", strtotime($jend)); ?></div>
   		<div class="col-xs-3" style="text-align: right; margin-bottom: 8px;"><b><?php echo $labelname[0]; ?></b></div>
   		<div class="col-xs-9" style="color: blue; margin-bottom: 8px;"><?php echo $pname; ?></div>
   		</br>

@@ -108,7 +108,7 @@ class Phpppt {
                 ->setOffsetX(10)
                 ->setOffsetY(0);
         $shape->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $textRun = $shape->createTextRun(strtoupper($project) . ' AS AT ' . strtoupper($date));
+        $textRun = $shape->createTextRun(strtoupper($project) . ' PHOTO’S AS AT ' . strtoupper($date));
         $textRun->getFont()->setBold(true)
                 ->setSize(16)
                 ->setColor(new Color('000000'));

@@ -148,19 +148,26 @@ class Reportphoto extends CI_Controller {
 		$projects = array();
 		$projects_data = $this->design->show_projtmps();
 		$projects_assigned = $this->design->show_projtmps_byid($session_data['id']);
+		//echo json_encode($projects_data); die();
+		
+		$project_assigned = array();
 		foreach($projects_assigned as $pa){
 			$project_assigned[] = strtolower($pa->project_name);
 		}
-		//var_dump($project_assigned); die();
-		foreach($project_arr as $pa){
+		//echo array_search(strtolower('V1s Construction Progress'), $project_assigned); die();
+		//echo json_encode($project_assigned); die();
+		foreach($project_arr as $pa){			
 			foreach($projects_data as $pdata){
 				if(strtolower($pa['name']) == strtolower($pdata->project_name) && $session_data['roleid'] == 1){
 					$pdata->indent = $pa['indent'];
 					$projects[] = $pdata;
 				}
-				else if(strtolower($pa['name']) == strtolower($pdata->project_name) && array_search(strtolower($pa['name']), $project_assigned)){
-					$pdata->indent = $pa['indent'];
-					$projects[] = $pdata;
+				else if(strtolower($pa['name']) == strtolower($pdata->project_name)){
+					//var_dump(gettype(array_search(strtolower($pa['name']), $project_assigned)) == 'integer');
+					if(gettype(array_search(strtolower($pa['name']), $project_assigned)) == 'integer'){
+						$pdata->indent = $pa['indent'];
+						$projects[] = $pdata;
+					}
 				}
 			}
 		}
