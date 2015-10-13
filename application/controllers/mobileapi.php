@@ -190,7 +190,7 @@ class mobileapi extends CI_Controller
 		//var_dump($attributes);
 		//$this->assessment->update_journal_data_entry_detail($data_entry_no,$attid,$value,$user_id);
 	}
-	
+	// DO YOUR PUBLISHHHHHHHHHHHHHHHH
 	public function upload_image() {
 		$session = $this->checksession();
 		if (!isset($session[0]->user_id)) return $session;
@@ -215,6 +215,10 @@ class mobileapi extends CI_Controller
 		
 		$this->assessment->update_journal_data_entry_picture($data, $data_entry_pict_no);
 		echo json_encode(array('st'=>1, 'msg' => 'Success')); 
+	}
+	
+	public function publish() {
+		$this->load->helper('journal_publish');
 	}
 	
 	public function assess($userid) {

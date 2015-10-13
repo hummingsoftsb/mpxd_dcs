@@ -186,7 +186,7 @@ Class Assessment extends CI_Model
 
 	function show_journal_data_entry($id)
 	{
-		$query="select frequency_period,journal_name,dependency,project_name,user_full_name,frequency_detail_name,fd.start_date,is_image from journal_data_entry_master jdem,journal_master jm,project_template pt,sec_user su,frequency_detail fd where jdem.data_entry_no=$id and jdem.journal_no=jm.journal_no and jm.project_no=pt.project_no and jm.user_id=su.user_id and fd.frequency_detail_no=jdem.frequency_detail_no";
+		$query="select frequency_period,journal_name,cut_off_date,dependency,project_name,user_full_name,frequency_detail_name,fd.start_date,is_image from journal_data_entry_master jdem,journal_master jm,project_template pt,sec_user su,frequency_detail fd where jdem.data_entry_no=$id and jdem.journal_no=jm.journal_no and jm.project_no=pt.project_no and jm.user_id=su.user_id and fd.frequency_detail_no=jdem.frequency_detail_no";
 		$q=$this->db->query($query);
 		return $q->result();
 	}
