@@ -630,7 +630,7 @@
 									<button class="btn btn-success fileinput-button">
 										<i class="glyphicon glyphicon-plus"></i>
 										<span>Add files...</span>
-										<input type="file" id="imagefile" name="files[]" multiple>
+										<input type="file" id="imagefile" name="file[]" multiple>
 									</button>
 									<button type="submit" class="btn btn-primary start">
 										<i class="glyphicon glyphicon-upload"></i>

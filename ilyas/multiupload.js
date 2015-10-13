@@ -2976,10 +2976,10 @@ var widget = $.widget;
                     .not('.processing').length;
             },
 
-            // Callback to retrieve the list of files from the server response:
+            // Callback to retrieve the list of files from the server response: (THIS SHOULD REFLECT THE paramname, BUT IT DOES NOT. PLEASE FIX IF YOU WANT TO CHANGE paramname)
             getFilesFromResponse: function (data) {
-                if (data.result && $.isArray(data.result.files)) {
-                    return data.result.files;
+                if (data.result && $.isArray(data.result.file)) {
+                    return data.result.file;
                 }
                 return [];
             },

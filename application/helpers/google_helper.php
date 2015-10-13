@@ -2,7 +2,7 @@
 
 
 
-if ( ! function_exists('test_method'))
+if ( ! function_exists('upload_album'))
 {
 	// Function to upload album, will return the id of the album
     function upload_album($access_token, $title, $timestamp="1152255600000")

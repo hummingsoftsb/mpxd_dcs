@@ -1,4 +1,4 @@
-
+//hehehehehehehehehehehehehe
 function checkAndSendAllImages() {
 	if (checkImageUpload()) {
 		sendAll();
@@ -129,6 +129,7 @@ $(function () {
         previewMaxWidth: 100,
         previewMaxHeight: 100,
         previewCrop: false,
+		paramName: 'file',
 		fail: function(e, data) {
 			if (e.isDefaultPrevented()) {
                     return false;
@@ -231,7 +232,7 @@ $(function () {
             progress + '%'
         );
     }).on('fileuploaddone', function (e, data) {
-        $.each(data.result.files, function (index, file) {
+        $.each(data.result.file, function (index, file) {
             if (file.url) {
 				shouldRefresh = true;
                 var link = $('<a>')

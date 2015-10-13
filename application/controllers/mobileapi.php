@@ -183,10 +183,20 @@ class mobileapi extends CI_Controller
 		foreach ($attbs as $k):
 			$attb_id = $k->attb;
 			$attb_value = $k->value;
-			echo "$attb_id => $attb_value" . $this->assessment->update_journal_data_entry_detail($data_entry_no,$attb_id,$attb_value,$user_id);
+			$this->assessment->update_journal_data_entry_detail($data_entry_no,$attb_id,$attb_value,$user_id);
 		endforeach;
+		
+		echo json_encode(array('st'=>1, 'message'=>'Success'));
 		//var_dump($attributes);
 		//$this->assessment->update_journal_data_entry_detail($data_entry_no,$attid,$value,$user_id);
+	}
+	
+	public function upload_image() {
+		$session = $this->checksession();
+		if (!isset($session[0]->user_id)) return $session;
+		$user_id = $session[0]->user_id;
+		$this->session->set_userdata('logged_in',array('id'=>$user_id));
+		$this->load->helper('image_upload');
 	}
 	
 	public function update_image_description() {
