@@ -2,21 +2,33 @@
 
 	$ci = & get_instance();
 	$id=$ci->input->post('id');
+	$is_mobile = $ci->input->post('is_mobile') == 1;
 	//$id="4780";
 	$result=$ci->assessment->get_journal_data_entry_details($id);
-	$varientvalue='';
+	$varientvalue=array();
 	$varientcount=0;
 
 	foreach($result as $rows):
 		$varient=ceil($rows->varient);
 		if($varient>0)
 		{
-			$varientvalue .=$rows->data_entry_no.",".$rows->data_attb_id.",".$rows->data_attb_label.",".$rows->prev_actual_value.",".$rows->actual_value.",".$rows->uom_name.",".$rows->start_value.",".$rows->end_value.",".$rows->frequency_max_value.",".ceil($rows->varient).",777,";
+			array_push($varientvalue, array(
+				$rows->data_entry_no,
+				$rows->data_attb_id,
+				$rows->data_attb_label,
+				$rows->prev_actual_value,
+				$rows->actual_value,
+				$rows->uom_name,
+				$rows->start_value,
+				$rows->end_value,
+				$rows->frequency_max_value,
+				ceil($rows->varient)
+				));
 			$varientcount++;
 		}
 	endforeach;
 
-	if($varientvalue=='')
+	if($is_mobile || sizeOf($varientvalue) == 0)
 	{
 		$session_data = $ci->session->userdata('logged_in');
 		$userid= $session_data['id'];

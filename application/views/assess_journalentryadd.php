@@ -114,14 +114,14 @@
 				$.post( "<?php echo base_url(); ?><?php echo $cpagename; ?>/deleteimage",{id:imgid,dataid:dataid}, function( data ) 
 				{
 					var imagevalue=data.imgval;
-					var imagevalue1 = imagevalue.split(',777,');
+					var imagevalue1 = imagevalue//.split(',777,');
 					$("#tableimage").find("tr:gt(0)").remove();
 					for (var i = 0; i < imagevalue1.length; i++)
 					{
 						if(imagevalue1[i]!="")
 						{
 							var content='';
-							var imagevalue2 = imagevalue1[i].split(',');
+							var imagevalue2 = imagevalue1[i]//.split(',');
 							content += '<tr>';
 							content += '<td>'+imagevalue2[0]+'</td>';
 							content += '<td> <img src="'+imagevalue2[1]+imagevalue2[2]+'" class="img-responsive" alt="" style="width: 200px; height: 137px;"> </td>';
@@ -160,14 +160,14 @@
 						hideloader();
 						$("#varient > tbody > tr").remove();
 						$("#varientcount").val( count );
-						var varientvalue=data.msg1;
-						var varientvalue1 = varientvalue.split(',777,');
+						var varientvalue=data.msg1//$.parseJSON(data.msg1);
+						var varientvalue1 = varientvalue;
 						for (var i = 1; i <= varientvalue1.length; i++)
 						{
 							if(varientvalue1[i-1]!="")
 							{
 								var content='';
-								var varientvalue2 = varientvalue1[i-1].split(',');
+								var varientvalue2 = varientvalue1[i-1]
 								content += '<tr>';
 								content += '<td>'+i+'</td>';
 								content += '<td>'+varientvalue2[2]+'</td>';

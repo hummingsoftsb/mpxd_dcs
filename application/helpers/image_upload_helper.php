@@ -79,7 +79,7 @@
 			$data = array(
 				'pict_definition' => $description
 			);
-			$this->assessment->update_journal_data_entry_picture($data, $result[0]->data_entry_pict_no);
+			$ci->assessment->update_journal_data_entry_picture($data, $result[0]->data_entry_pict_no);
 			echo json_encode(array(
 				"files" => array(array("error"=>"Duplicate image"))));
 			return;

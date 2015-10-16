@@ -183,10 +183,18 @@ class Journaldataentryadd extends CI_Controller
 		$this->assessment->add_seq_journal_data_entry_picture($dataid);
 
 		$result=$this->assessment->show_journal_data_entry_picture($dataid);
-		$value='';
+		$value=array();
 		foreach($result as $row)
 		{
-			$value .=$row->pict_seq_no.','.$row->pict_file_path.','.$row->pict_file_name.','.$row->pict_definition.','.$row->data_entry_pict_no.','.$row->data_entry_no.',777,';
+			array_push($value, array(
+				$row->pict_seq_no,
+				$row->pict_file_path,
+				$row->pict_file_name,
+				$row->pict_definition,
+				$row->data_entry_pict_no,
+				$row->data_entry_no,
+			));
+			//$value .=','..','..','..','..','..',777,';
 		}
 		echo json_encode(array('st'=>1, 'msg' => 'Success','imgval'=>$value));
 	}

@@ -154,7 +154,7 @@ class mobileapi extends CI_Controller
 		//$session_data = $this->session->userdata('logged_in');
 		//$loginid = $session_data['id'];
 		if ((int)$this->assessment->check_initialized($data_entry_no)) {
-			echo json_encode(array('st'=>0, 'msg'=> 'Already initialized'));
+			echo json_encode(array('st'=>2, 'msg'=> 'Already initialized'));
 			return;
 		}
 		
@@ -174,7 +174,7 @@ class mobileapi extends CI_Controller
 		if (($data_entry_no == '') || ($attributes == '')) { echo json_encode(array('st'=>0)); return; }
 		
 		if ($this->assessment->check_published($data_entry_no)) {
-			echo json_encode(array('st'=>0, 'message'=>'Already published'));
+			echo json_encode(array('st'=>2, 'message'=>'Already published'));
 			return;
 		}
 		
@@ -199,6 +199,7 @@ class mobileapi extends CI_Controller
 		$this->load->helper('image_upload');
 	}
 	
+	// Desciption and sort!
 	public function update_image_description() {
 		$session = $this->checksession();
 		if (!isset($session[0]->user_id)) return $session;
@@ -206,11 +207,13 @@ class mobileapi extends CI_Controller
 		
 		$data_entry_pict_no = $this->input->post('id');
 		$description = $this->input->post('description');
+		$pict_seq_no = $this->input->post('pict_seq_no');
 		
 		if (($data_entry_pict_no == '')) { echo json_encode(array('st'=>0)); return; }
 		
 		$data = array(
-			'pict_definition' => $description
+			'pict_definition' => $description,
+			'pict_seq_no' => $pict_seq_no
 		);
 		
 		$this->assessment->update_journal_data_entry_picture($data, $data_entry_pict_no);
@@ -218,6 +221,11 @@ class mobileapi extends CI_Controller
 	}
 	
 	public function publish() {
+		$session = $this->checksession();
+		if (!isset($session[0]->user_id)) return $session;
+		$user_id = $session[0]->user_id;
+		$this->session->set_userdata('logged_in',array('id'=>$user_id));
+		
 		$this->load->helper('journal_publish');
 	}
 	

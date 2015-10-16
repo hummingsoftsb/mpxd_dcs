@@ -220,7 +220,8 @@ class Phpppt {
 	}
 	
 	function gowrite($baseurl){
-		$fileloc = $this->write($this->objPHPPresentation, 'mpxdimage'.date('dmYHis'), $this->writers);
+		//$fileloc = $this->write($this->objPHPPresentation, 'mpxdimage'.date('dmYHis'), $this->writers);
+		$fileloc = $this->write($this->objPHPPresentation, 'mpxdimage_'.date('dmY'), $this->writers);
 		//echo $baseurl.$fileloc;
 		header("Location: ".$baseurl.$fileloc);
 	}
