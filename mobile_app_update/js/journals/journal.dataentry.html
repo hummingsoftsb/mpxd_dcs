@@ -1,0 +1,226 @@
+<!-- There is a wierd bug for button element running in crosswalk in android. Use div until it is patched -->
+<ion-view>
+<ion-nav-title>{{pageTitle}}</ion-nav-title>
+  <ion-content style="background-color: #f5f5f5">
+	<div>
+	
+	<div class="item item-text-wrap" ng-hide="(vm.rejectNotes.length < 1)"><b>Validator comment:</b> <span>{{vm.rejectNotes}}</span></div>
+	<div ng-hide="isImage == 1">
+		
+		<div class="item item-divider"><h2>Data Entry</h2></div>
+		<form name="entry_form">
+		<ion-item ng-repeat="attb in vm.dataAttbs track by $index" class="item-text-wrap">
+			<h2>{{attb.data_attb_label}} <span ng-if="attb.uom_name.length > 0">({{attb.uom_name}})</span></h2>
+			
+			<!--<h3 class="balanced-bg balanced-border" style="padding:2px 5px; display:inline-block; color:white"></h3>-->
+			
+			<br/>
+			<div ng-if="attb.data_attb_type_id==3">
+				<div class="item item-input item-text-wrap data-attribute-container" ng-class="{ 'has-error' : entry_form.{{attb.generated_name}}.$invalid}" style="padding:0;">
+					
+				  <div class="button icon ion-minus" style="border-left: 0;" ng-disabled="vm.checkMyDependency('{{attb.generated_name}}') || ((vm[attb.generated_name]-1) < attb.exactMin) || entry_form.{{attb.generated_name}}.$error.min" ng-click="vm[attb.generated_name] = vm[attb.generated_name]-1; setDirty(); vm.checkDisabled()"></div>
+			
+				  <input type="number" style="text-align:center;padding-right:0;" min="{{attb.exactMin}}" max="{{attb.exactMax}}" dynamic-name="{{attb.generated_name}}" ng-model="vm[attb.generated_name]" ng-model-options="{allowInvalid: true}" ng-change="vm.checkDisabled(); setDirty();" ng-disabled="vm.checkMyDependency('{{attb.generated_name}}')" required/>
+				  <div class="button icon ion-plus" style="border-right: 0;  border-bottom-right-radius: 0;  border-top-right-radius: 0;" ng-disabled="vm.checkMyDependency('{{attb.generated_name}}') || ((vm[attb.generated_name]+1) > attb.exactMax) || entry_form.{{attb.generated_name}}.$error.max" ng-click="vm[attb.generated_name] = vm[attb.generated_name]+1; vm.checkDisabled(); setDirty();"></div>
+				  <div class="button icon ion-android-sync" style="border-right: 0;" ng-disabled="vm.checkMyDependency('{{attb.generated_name}}')" ng-click="vm[attb.generated_name] = attb.exactActual; vm.checkDisabled(); setDirty();"></div>
+				  
+				  </div>
+				  
+				  <div style="padding-top:5px">
+				  <span ng-show="entry_form.{{attb.generated_name}}.$error.min">Should not be less than {{attb.exactMin}}</span>
+				  <span ng-show="entry_form.{{attb.generated_name}}.$error.max">Should not be more than {{attb.exactMax}}</span>
+				  <span ng-show="entry_form.{{attb.generated_name}}.$error.required">Data required</span>
+				  <span ng-show="entry_form.{{attb.generated_name}}.$error.number">Not a valid number</span>
+				  </div>
+				  
+			</div>
+			<div ng-if="attb.data_attb_type_id==4">
+			<div class="row no-padding-side">
+			<div class="col no-padding-side">
+					<ion-radio dynamic-name="{{attb.generated_name}}" ng-model="vm[attb.generated_name]" ng-value="'Yes'" ng-disabled="vm.checkMyDependency('{{attb.generated_name}}') || attb.isLocked" ng-change="setDirty();">Yes</ion-radio>
+				  </div>
+				  <div class="col no-padding-side">
+					
+					<ion-radio dynamic-name="{{attb.generated_name}}" ng-model="vm[attb.generated_name]" ng-value="0" ng-disabled="vm.checkMyDependency('{{attb.generated_name}}') || attb.isLocked" ng-change="setDirty();">No</ion-radio>
+				  </div>
+				  </div>
+				  
+			</div>
+			<div ng-if="attb.data_attb_type_id==1">
+				  <div class="item item-input item-text-wrap data-attribute-container" ng-class="{ 'has-error' : entry_form.{{attb.generated_name}}.$invalid}">
+					<input type="number" min="{{attb.exactMin}}" max="{{attb.exactMax}}" dynamic-name="{{attb.generated_name}}" ng-model="vm[attb.generated_name]" ng-model-options="{allowInvalid: true}" ng-change="vm.checkDisabled();setDirty();" ng-disabled="vm.checkMyDependency('{{attb.generated_name}}')" required>
+				  </div>
+				  
+				  <div style="padding-top:5px">
+				  <span ng-show="entry_form.{{attb.generated_name}}.$error.min">Should not be less than {{attb.exactMin}}</span>
+				  <span ng-show="entry_form.{{attb.generated_name}}.$error.max">Should not be more than {{attb.exactMax}}</span>
+				  <span ng-show="entry_form.{{attb.generated_name}}.$error.required">Data required</span>
+				  <span ng-show="entry_form.{{attb.generated_name}}.$error.number">Not a valid number</span>
+				  </div>
+				  
+			</div>
+			
+			
+			<div ng-if="attb.data_attb_type_id==2">
+				  <label class="item item-input item-select">
+					<div class="input-label">
+					  {{attb.uom_name}}
+					</div>
+					<select ng-disabled="vm.checkMyDependency('{{attb.generated_name}}')" ng-model="vm[attb.generated_name]" ng-change="setDirty();">
+					  <option ng-repeat="l in attb.lookups" ng-value="l.lk_value" ng-selected="vm[attb.generated_name] == l.lk_value">{{l.lk_data}}</option>
+					</select>
+				  </label>
+
+			</div>
+			
+				  <div style="padding-top:5px" ng-hide="attb.comments == null || attb.comments == ''">
+					<h4 class="" style="padding:2px 5px; display:inline; color:black; font-weight:bold;">Comments: {{attb.comments}}</h4>
+				  </div>
+		<div class="row" ng-if="attb.varient">
+		<div style="background:#eee" class="col padding">
+			<h2 style="">Exceeded weekly max data</h2>
+			<div class="list">
+			<div class="item">
+				Previous
+				<span class="item-note">
+					{{attb.prev_actual_value}}
+				</span>
+			</div>
+			<div class="item">
+				Start
+				<span class="item-note">
+					{{attb.start_value}}
+				</span>
+			</div>
+			<div class="item">
+				End
+				<span class="item-note">
+					{{attb.end_value}}
+				</span>
+			</div>
+			<div class="item">
+				Weekly Max
+				<span class="item-note">
+					{{attb.frequency_max_value}}
+				</span>
+			</div>
+			<div class="item">
+				Variance
+				<span class="item-note">
+					{{attb.variance}}
+				</span>
+			</div>
+			
+			
+			</div>
+			
+			<div class="list">
+			<div class="item item-checkbox" style="text-align:left">
+				 <label class="checkbox">
+				   <input type="checkbox" class="weekly-max-checkbox" ng-model="attb.approved">
+				 </label>
+				 Approve
+			  </div>
+			</div>
+			<!--<table class="weekly-max-table"><thead></thead>
+			<tbody>
+			<tr><td class="table-item">Previous:</td><td class="table-value">23</td></tr>
+			<tr><td class="table-item">Start:</td><td class="table-value">43</td></tr>
+			<tr><td class="table-item">End:</td><td class="table-value">231</td></tr>
+			<tr><td class="table-item">Weekly Max:</td><td class="table-value">232</td></tr>
+			<tr><td class="table-item">Variance:</td><td class="table-value">21</td></tr>
+			</tbody>
+			</table>-->
+			
+		</div>
+		</div>
+		</ion-item>
+		</form>
+		<!--Validity: {{entry_form}}-->
+	</div>
+	
+	<div class="item item-divider" style="border-bottom:0;" ng-show="isImage == 1">
+	
+		<h2>Images</h2>
+		<div style="text-align:center">
+		<div ng-if="!isImageToDisplayAvailable()"> 
+		<br/>
+		<h1 style="background-color: #bbb;  -webkit-background-clip: text;  -moz-background-clip: text;  background-clip: text;  color: transparent;  text-shadow: rgba(255,255,255,0.5) 0px 1px 1px;  font-weight: 900;">Upload image</h1>
+		<br/>
+		</div>
+		
+		<div ng-if="isImageToDisplayAvailable()" id="upload_image_container">
+		<!--<ion-list show-reorder="showReorder">
+            <ion-item ng-repeat="contact in contacts" class="item-light item-avatar card">
+                <img ng-src="img/{{contact.img}}" />
+                <div class="item-divider">{{contact.name}}</div>
+                <div class="item-text-wrap">
+                    <ul>
+                        <li>Phone: {{contact.phone}}</li>
+                        <li>Mobile: {{contact.mobile}}</li>
+                        <li>Email: {{contact.email}}</li>
+                    </ul>
+
+                </div>
+                <ion-reorder-button class="ion-navicon"
+                                    on-reorder="onReorder($fromIndex, $toIndex)">
+                </ion-reorder-button>
+            </ion-item>
+        </ion-list>	-->
+		
+		<ion-list show-reorder="showReorder" ng-class="showReorder ? 'reordering' : ''" class="images-list">
+		<ion-item class="card" ng-attr-id="{{'image-'+$index}}" ng-repeat="img in images track by $index" ng-init="parentIndex = $index" style="max-width:480px; margin-left: auto; margin-right: auto; padding:0;"  ng-hide="img.deleted">
+		<div class="item item-body" style="padding: 10px;">
+			<div class="padding background-positive">{{img.pict_seq_no}}</div>
+			<img class="full-image" ng-src="{{img.deleted ? '' : img.src+'#cachebreaker'}}"/>
+			<p ng-hide="img.description.length < 1" style="padding: 0 16px 16px 16px" class="reorder-hidden"> {{img.description}} </p>
+			<p ng-hide="img.comment.length < 1" style="padding: 0 16px 16px 16px" class="reorder-hidden"><span style="padding:2px 5px; display:inline; color:black; "><b>Validator comment:</b> {{img.comment}} </span></p>
+
+
+			<!--<label class="item item-input item-select">
+			<div class="input-label">
+			  Lightsaber
+			</div>
+			<select ng-model="images[parentIndex].changeTo" ng-change="changeImageSort(images[parentIndex])">
+			  <option ng-repeat="i in images" ng-selected="{{parentIndex+1==i.pict_seq_no}}" ng-value="i.pict_seq_no">{{i.pict_seq_no}}</option>
+			</select>
+		  </label>-->
+
+
+		  </div>
+		
+		<div class="row no-padding reorder-hidden image-action-buttons">
+		<div class="col no-padding">
+			<button class="button button-stable button-full icon ion-edit" style="margin:0; border:0; border-right: 1px solid #ccc;" ng-click="edit($index)"> Edit description</button>
+		</div>
+		<div class="col no-padding">
+			<button class="button button-stable button-full icon ion-trash-b" style="margin:0; border:0;" ng-click="deleteImg($index)"> Delete</button>
+		</div>
+		</div>
+		  
+		  <ion-reorder-button class="ion-navicon" style="font-size:36px"
+                                    on-reorder="onReorder($fromIndex, $toIndex)">
+                </ion-reorder-button>
+		</ion-item>
+		</ion-list>
+		
+		</div>
+		
+		</div>
+		<div style="text-align:center">
+		<button class="button button-light icon-left icon ion-camera" style="border-radius: 45px;" ng-click="capture()"> From camera</button>
+		<button class="button button-light icon-left icon ion-images" style="border-radius: 45px;" ng-click="getImagesFromGallery()"> From gallery</button>
+		<br/><br/><button class="button button-light icon-left icon ion-arrow-return-right" style="border-radius: 45px;" ng-click="toggleReorder();" ng-class="showReorder ? 'active' : ''"> Sort images</button>
+		</div>
+	</div>
+	</div>
+	<div class="item">
+		<div class="button-bar">
+		<button class="button button-balanced" ng-click="publish()" ng-init="initForm(entry_form)">Publish</button>
+		<button class="button button-positive" ng-click="saveData()">Save</button>
+		<button class="button button-assertive" ng-click="back()">Cancel</button>
+		</div>
+	</div>
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,349 @@
+{
+  "files": {
+    "alerts.ctrl__0": {
+      "version": "4fddb675697b18c2c226951cd9e32ab7acff7998",
+      "filename": "js/alerts/alerts.ctrl.js"
+    },
+    "alerts__1": {
+      "version": "97057e203e64c2889f849e00f07560cc88cce142",
+      "filename": "js/alerts/alerts.html"
+    },
+    "alerts.routes__2": {
+      "version": "9916a6aa27f30bb30f1ae43c402b0c6d5120f9e3",
+      "filename": "js/alerts/alerts.routes.js"
+    },
+    "alerts.srv__3": {
+      "version": "9579e3164cff0fdf14c03df7b1fd88a1badada96",
+      "filename": "js/alerts/alerts.srv.js"
+    },
+    "reminds__4": {
+      "version": "1694a30317737d65a74e01d4a939d6d49f6e389b",
+      "filename": "js/alerts/reminds.html"
+    },
+    "app__5": {
+      "version": "9f97b03b26ef29fd3f1c6eb68fc8fd431d2b58d9",
+      "filename": "js/app.js"
+    },
+    "authentication.routes__6": {
+      "version": "df59e3fdf72a51c93bea2f0ea795416fd201132d",
+      "filename": "js/authentication/authentication.routes.js"
+    },
+    "authentication.srv__7": {
+      "version": "30a84c150db300c1c9bbb730122381b206d1b567",
+      "filename": "js/authentication/authentication.srv.js"
+    },
+    "login.ctrl__8": {
+      "version": "1cd4a77b3fab3c47c27b5e62de8e44649ea9fe79",
+      "filename": "js/authentication/login.ctrl.js"
+    },
+    "login__9": {
+      "version": "4887d0750c843910ce3903e40a1b006525acf80b",
+      "filename": "js/authentication/login.html"
+    },
+    "circular-progress__14": {
+      "version": "9be3aac47418758a856f894ca84ef40b2f181095",
+      "filename": "js/circular-progress.js"
+    },
+    "collection-utils__15": {
+      "version": "23e2ea133d996d00b6530b336ba66f060f73feb7",
+      "filename": "js/common/collection-utils.js"
+    },
+    "crud-rest-utils__16": {
+      "version": "3c6a3e6135afe2258473164e71987e1422675593",
+      "filename": "js/common/crud-rest-utils.js"
+    },
+    "data-utils__17": {
+      "version": "1d93e9df185b29801e14ff7d2d52c24a9af244d4",
+      "filename": "js/common/data-utils.js"
+    },
+    "dirPagination__18": {
+      "version": "9f7cab22dd8887f5f1bf9007f4b4f5ebd8d86fea",
+      "filename": "js/common/dirPagination.js"
+    },
+    "dirPagination.tpl__19": {
+      "version": "2b2555d2903d4b2d48aadddd498cd7983ca9e31b",
+      "filename": "js/common/dirPagination.tpl.html"
+    },
+    "dirPagination.tpl2__20": {
+      "version": "2b2555d2903d4b2d48aadddd498cd7983ca9e31b",
+      "filename": "js/common/dirPagination.tpl2.html"
+    },
+    "ionic-utils__21": {
+      "version": "edd909140758ff34a00a28e19305171ae5434e62",
+      "filename": "js/common/ionic-utils.js"
+    },
+    "logger__22": {
+      "version": "49d5bc48a62af8757833a8d54a891be62ce76582",
+      "filename": "js/common/logger.js"
+    },
+    "parse-utils__23": {
+      "version": "924bac9108eb0532453c1e82b5163fe92a87c0ee",
+      "filename": "js/common/parse-utils.js"
+    },
+    "background-geolocation__24": {
+      "version": "aa30bdce225d713074116814d089c44200ecc1c2",
+      "filename": "js/common/plugins/background-geolocation.js"
+    },
+    "camera__25": {
+      "version": "549befaf5eb7a15384eff43cb4e02df6b8435ab1",
+      "filename": "js/common/plugins/camera.js"
+    },
+    "device-accounts__26": {
+      "version": "25c39e283548b62614e930d7a257d14216bbf9b4",
+      "filename": "js/common/plugins/device-accounts.js"
+    },
+    "device__27": {
+      "version": "df64d7bb9793a0fb6e8eb46763ee9c46da082b4a",
+      "filename": "js/common/plugins/device.js"
+    },
+    "dialogs__28": {
+      "version": "b54450b5b7b04706301a44e6ea1fa914a931ce8a",
+      "filename": "js/common/plugins/dialogs.js"
+    },
+    "geolocation__29": {
+      "version": "9d3860eff1c78f1f62ce183f21552f4f88c8bda0",
+      "filename": "js/common/plugins/geolocation.js"
+    },
+    "keyboard__30": {
+      "version": "2e581a15ecf0cec2d0e3c1bbca3b4750818efd0b",
+      "filename": "js/common/plugins/keyboard.js"
+    },
+    "local-notification__31": {
+      "version": "8c896f64f35f5f5fc5c680cafaaf05cb481379b6",
+      "filename": "js/common/plugins/local-notification.js"
+    },
+    "media__32": {
+      "version": "bf86dbd373f46461f1f2fb8ada750d859ac027fa",
+      "filename": "js/common/plugins/media.js"
+    },
+    "parse__33": {
+      "version": "87b0bf3409fb0e3dea4e7971efdc9d49ef7734ed",
+      "filename": "js/common/plugins/parse.js"
+    },
+    "push__34": {
+      "version": "6b1b32ff77050bb42f8bf41c157e9089afe91a7e",
+      "filename": "js/common/plugins/push.js"
+    },
+    "social-sharing__36": {
+      "version": "3d4838cd5e6a7d3559ee75980663246175345103",
+      "filename": "js/common/plugins/social-sharing.js"
+    },
+    "toast__37": {
+      "version": "1fd8ab1c655f4c07a3834b2904996588beff5c80",
+      "filename": "js/common/plugins/toast.js"
+    },
+    "utils__38": {
+      "version": "9fd0017c20272f2560288b5189ba2e55a2397b74",
+      "filename": "js/common/plugins/utils.js"
+    },
+    "storage-utils__40": {
+      "version": "e6d9477e3228a1ed3a783b37e7bbecae19530303",
+      "filename": "js/common/storage-utils.js"
+    },
+    "utils__41": {
+      "version": "a66477e4881ca9c8dd1ab9424146dfaf9d9e5a6f",
+      "filename": "js/common/utils.js"
+    },
+    "communication.srv__42": {
+      "version": "2b6451f1aac4003f2fba77f10a642ec10d7c689b",
+      "filename": "js/communication/communication.srv.js"
+    },
+    "_config__45": {
+      "version": "a5090c8ced9b88f37806c7c4cdedab4a7ef434bb",
+      "filename": "js/config/_config.js"
+    },
+    "_log__46": {
+      "version": "168e7a853724b4a99f632fdb1e3b53cdd229c338",
+      "filename": "js/config/_log.js"
+    },
+    "constant__47": {
+      "version": "e888cce48f9cd1ed93b825dd669ebfe9f3cfb2c2",
+      "filename": "js/constant.js"
+    },
+    "data.ctrl__48": {
+      "version": "23ed984abdb033e49e2e08b13c8bdec2d1344e30",
+      "filename": "js/data/data.ctrl.js"
+    },
+    "data.routes__49": {
+      "version": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+      "filename": "js/data/data.routes.js"
+    },
+    "data.srv__50": {
+      "version": "d7047634e23f88dcac9b22ea76af2d272cda62b0",
+      "filename": "js/data/data.srv.js"
+    },
+    "journals.routes__51": {
+      "version": "fdcd5ed50e738cca98f5e47cc96a6013d2347d39",
+      "filename": "js/data/journals.routes.js"
+    },
+    "directives__52": {
+      "version": "33b5d3c900c19671988dc36192fb5658fbbb3762",
+      "filename": "js/directives.js"
+    },
+    "filters__53": {
+      "version": "1557d8950142f246ee9b3ed0a4c5cf1e49e9087f",
+      "filename": "js/filters.js"
+    },
+    "journal.dataentry.ctrl__54": {
+      "version": "826cd177ec6d58e23df76c74044c1b33afbda4c6",
+      "filename": "js/journals/journal.dataentry.ctrl.js"
+    },
+    "journal.dataentry__55": {
+      "version": "309e8523be642d3cc210ee5fa3c31b6212e2f17c",
+      "filename": "js/journals/journal.dataentry.html"
+    },
+    "journal.detail.ctrl__56": {
+      "version": "3c7638866f407f439e6cd904ddb1300e6662a1c3",
+      "filename": "js/journals/journal.detail.ctrl.js"
+    },
+    "journal.detail__57": {
+      "version": "e6023d678ae59549a279ae563cbeb3e0e55b40e5",
+      "filename": "js/journals/journal.detail.html"
+    },
+    "journals.ctrl__58": {
+      "version": "f126aeffdeeda6cf48438f8000898c51151187d6",
+      "filename": "js/journals/journals.ctrl.js"
+    },
+    "journals__59": {
+      "version": "9790a3fa5f1eb36f395614124de6263eba78487f",
+      "filename": "js/journals/journals.html"
+    },
+    "journals.routes__60": {
+      "version": "0b2b88e8adae045d8d9630652da7f0294351bdc5",
+      "filename": "js/journals/journals.routes.js"
+    },
+    "journals.srv__61": {
+      "version": "dacfc3e146be60e291990c8e8c784104299be28d",
+      "filename": "js/journals/journals.srv.js"
+    },
+    "layout__62": {
+      "version": "72c135436b0d0e7efe279b0e9280e8af7e45d8b8",
+      "filename": "js/layout/layout.html"
+    },
+    "layout.routes__63": {
+      "version": "0ab9684faeffbcb52463360617909e704cdf3fa5",
+      "filename": "js/layout/layout.routes.js"
+    },
+    "loading.ctrl__64": {
+      "version": "530b46559f47836b4e3628f10faf9d6798174c74",
+      "filename": "js/layout/loading.ctrl.js"
+    },
+    "loading__65": {
+      "version": "f90a447bbec1b1be1c9c058865284712dc2b6fd2",
+      "filename": "js/layout/loading.html"
+    },
+    "menu.ctrl__66": {
+      "version": "695ec3edc915c34a75b24d8e409730024d7cdd32",
+      "filename": "js/layout/menu.ctrl.js"
+    },
+    "tabs.ctrl__68": {
+      "version": "a857f67d9a0dae5fd5d88745fb54db507f9e1012",
+      "filename": "js/layout/tabs.ctrl.js"
+    },
+    "tabs__69": {
+      "version": "99a737cae9aecbf51285906a086066d5294244fe",
+      "filename": "js/layout/tabs.html"
+    },
+    "notifications.ctrl__70": {
+      "version": "4bf42cd364680138217bc23c9d24d626812f5add",
+      "filename": "js/notifications/notifications.ctrl.js"
+    },
+    "notifications__71": {
+      "version": "5e9bcfccf3f87245be1c68021a4c70088df3abd4",
+      "filename": "js/notifications/notifications.html"
+    },
+    "notifications.routes__72": {
+      "version": "a831fc43a72a197fd18ae990a3bc176769ea3113",
+      "filename": "js/notifications/notifications.routes.js"
+    },
+    "push.srv__73": {
+      "version": "01d060305a0a5939272a007fa5e0f82d9986b0f7",
+      "filename": "js/push/push.srv.js"
+    },
+    "about__74": {
+      "version": "c277e8eb844d43b68d77028ecaf39360869bd03f",
+      "filename": "js/settings/about.html"
+    },
+    "settings.ctrl__75": {
+      "version": "e9d708837a1341b7b7d51bd1769673c97fa80bea",
+      "filename": "js/settings/settings.ctrl.js"
+    },
+    "settings__76": {
+      "version": "a86b037bfa87a71294c41a813eec99d5b5f9cb32",
+      "filename": "js/settings/settings.html"
+    },
+    "settings.routes__77": {
+      "version": "28ac33d40de64b3d3fd10e6271f73528c515ccb3",
+      "filename": "js/settings/settings.routes.js"
+    },
+    "update.srv__78": {
+      "version": "f33739d8a85941c4e5fc7d68583537a41a21bbbe",
+      "filename": "js/update/update.srv.js"
+    },
+    "dcs__89": {
+      "version": "e0dff54d25b73f5d4aedd5019f059b9774f90cbe",
+      "filename": "css/dcs.css"
+    },
+    "finished": {
+      "version": "e275bfe181977aec1e664d4f2856a07ad9eaaaf8",
+      "filename": "js/finished.js"
+    },
+    "templates": {
+      "version": "edfbd07e28e8de609379950ea6f276fad9db2eab",
+      "filename": "templates.js"
+    },
+    "blur.jpg": {
+      "version": "850fe3adb37e63bdb24d39245cbcc9a9e5701d08",
+      "filename": "img/blur.jpg"
+    }
+  },
+  "load": [
+    "js/config/_config.js",
+    "js/config/_log.js",
+    "js/app.js",
+    "js/constant.js",
+    "js/common/logger.js",
+    "js/common/utils.js",
+    "js/common/collection-utils.js",
+    "js/common/storage-utils.js",
+    "js/common/crud-rest-utils.js",
+    "js/common/parse-utils.js",
+    "js/common/plugins/utils.js",
+    "js/common/plugins/device.js",
+    "js/common/plugins/toast.js",
+    "js/common/plugins/dialogs.js",
+    "js/common/plugins/push.js",
+    "js/common/dirPagination.js",
+    "js/layout/layout.routes.js",
+    "js/layout/loading.ctrl.js",
+    "js/layout/menu.ctrl.js",
+    "js/layout/tabs.ctrl.js",
+    "js/authentication/authentication.routes.js",
+    "js/authentication/authentication.srv.js",
+    "js/authentication/login.ctrl.js",
+    "js/communication/communication.srv.js",
+    "js/data/data.routes.js",
+    "js/data/data.srv.js",
+    "js/data/data.ctrl.js",
+    "js/settings/settings.routes.js",
+    "js/settings/settings.ctrl.js",
+    "js/alerts/alerts.routes.js",
+    "js/alerts/alerts.srv.js",
+    "js/alerts/alerts.ctrl.js",
+    "js/journals/journals.ctrl.js",
+    "js/journals/journal.detail.ctrl.js",
+    "js/journals/journal.dataentry.ctrl.js",
+    "js/journals/journals.routes.js",
+    "js/journals/journals.srv.js",
+    "js/push/push.srv.js",
+    "js/update/update.srv.js",
+    "js/circular-progress.js",
+    "js/directives.js",
+    "js/filters.js",
+    "templates.js",
+    "js/finished.js",
+    "css/dcs.css"
+  ],
+  "version": "e209ff8d931b39d453fe354e969e397b6ce154b1",
+  "versionNumber": "1.0.372"
+}

@@ -1,0 +1,25 @@
+<!--<ul class="pagination" ng-if="1 < pages.length">
+    <li ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }">
+        <a href="" ng-click="setCurrent(1)">&laquo;</button>
+    </li>
+    <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }" class="ng-scope">
+        <a href="" ng-click="setCurrent(pagination.current - 1)" class="ng-binding">‹</button>
+    </li>
+    <li ng-repeat="pageNumber in pages track by $index" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }">
+        <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</button>
+    </li>
+
+    <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }" class="ng-scope">
+        <a href="" ng-click="setCurrent(pagination.current + 1)" class="ng-binding">›</button>
+    </li>
+    <li ng-if="boundaryLinks"  ng-class="{ disabled : pagination.current == pagination.last }">
+        <a href="" ng-click="setCurrent(pagination.last)">&raquo;</button>
+    </li>
+</ul>-->
+<div class="button-bar" ng-if="1 < pages.length">
+	<button class="button button-light" ng-click="setCurrent(1)" ng-disabled="pagination.current == 1"><i class="icon ion-chevron-left"></i></button>
+	<button class="button button-light" ng-click="setCurrent(pagination.current - 1)" ng-disabled="pagination.current == 1"><i class="icon ion-ios-arrow-left"></i></button>
+	<button class="button button-light" ng-disabled="true">{{pagination.current}}</button>
+	<button class="button button-light" ng-click="setCurrent(pagination.current + 1)" ng-disabled="pagination.current == pagination.last"><i class="icon ion-ios-arrow-right"></i></button>
+	<button class="button button-light" ng-click="setCurrent(pagination.last)" ng-disabled="pagination.current == pagination.last"><i class="icon ion-chevron-right"></i></button>
+</div>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<!-- Enable all requests, inline styles, and eval() -->
+	<meta http-equiv="Content-Security-Policy" content="default-src *; connect-src *; style-src 'self' 'unsafe-inline' cdvfile://* ; script-src 'self' 'unsafe-inline' 'unsafe-eval' cdvfile://* ; img-src *"><!---->
+    <title>MPXD DCS</title>
+<!--http://*:35729 http://*:35730-->
+    <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="lib/jr-crop/dist/jr-crop.css" rel="stylesheet">
+	<link href="css/ionic.app.css" rel="stylesheet">
+	
+    <!-- compiled css output --
+    
+    <link href="css/dcs.css" rel="stylesheet">
+-->
+    <!-- ionic/angularjs js -->
+    <script src="lib/crypto.js"></script>
+    <script src="lib/ionic/js/ionic.bundle.js"></script><script>(function() {
+    var orig = angular.module;
+    angular.modules = [];
+    angular.module = function() {
+        var args = Array.prototype.slice.call(arguments);
+        if (arguments.length > 1) {
+            angular.modules.push(arguments[0]);
+        }
+        return orig.apply(null, args);
+    }
+})();</script>
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="lib/localforage/dist/localforage.js"></script>
+    <script src="lib/angular-localforage/dist/angular-localForage.js"></script>
+    <script src="lib/moment/moment.js"></script>
+    <script src="lib/moment/locale/fr.js"></script>
+    <script src="lib/moment-duration-format/lib/moment-duration-format.js"></script>
+    <script src="lib/lodash/lodash.min.js"></script>
+    <script src="lib/parsePushPlugin/parse-1.4.2.min.js"></script>
+    <script src="lib/imagepicker.js"></script>
+    <script src="lib/jr-crop/dist/jr-crop.js"></script>
+    <!--<script timeout="5000" manifest="manifest.json" src="lib/bootstrap.js"></script>-->
+	
+    <!-- cordova script (you can setup plugin mocks here) -->
+    <script src="cordova.js"></script>
+	<!--
+	<script>
+	window.updateServerURL = "http://192.168.0.103:8100/";
+	document.write('<script type="text/javascript" timeout="5100" server="'+window.updateServerURL+'" manifest="manifest.json" src="lib/app-loader/bootstrap.js"><\/script>');
+	</script><script src="lib/app-loader/autoupdate.js"></script>-->
+	
+	
+	<script type="text/javascript" 
+            timeout="5100"
+            manifest="manifest.json"
+            src="lib/app-loader/bootstrap.js"></script>
+
+	<script src="lib/app-loader/cordova-app-loader-complete.js"></script>
+	
+    
+    <!-- your app's js --><!--
+    <script src="js/config/_config.js"></script>
+    <script src="js/config/_log.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/constant.js"></script>
+    <script src="js/common/logger.js"></script>
+    <script src="js/common/utils.js"></script>
+    <script src="js/common/collection-utils.js"></script>
+    <script src="js/common/storage-utils.js"></script>
+    <script src="js/common/crud-rest-utils.js"></script>
+    <script src="js/common/parse-utils.js"></script>
+    <script src="js/common/plugins/utils.js"></script>
+    <script src="js/common/plugins/device.js"></script>
+    <script src="js/common/plugins/toast.js"></script>
+    <script src="js/common/plugins/dialogs.js"></script>
+    <script src="js/common/plugins/push.js"></script>
+    <script src="js/common/dirPagination.js"></script>
+    <script src="js/layout/layout.routes.js"></script>
+    <script src="js/layout/loading.ctrl.js"></script>
+    <script src="js/layout/menu.ctrl.js"></script>
+    <script src="js/layout/tabs.ctrl.js"></script>
+    <script src="js/authentication/authentication.routes.js"></script>
+    <script src="js/authentication/user.srv.js"></script>
+    <script src="js/authentication/authentication.srv.js"></script>
+    <script src="js/authentication/login.ctrl.js"></script>
+    <script src="js/communication/communication.srv.js"></script>
+    <script src="js/data/data.routes.js"></script>
+    <script src="js/data/data.srv.js"></script>
+    <script src="js/data/data.ctrl.js"></script>
+    <script src="js/settings/settings.routes.js"></script>
+    <script src="js/settings/settings.ctrl.js"></script>
+    <script src="js/alerts/alerts.routes.js"></script>
+    <script src="js/alerts/alerts.srv.js"></script>
+    <script src="js/alerts/alerts.ctrl.js"></script>
+    <script src="js/journals/journals.ctrl.js"></script>
+    <script src="js/journals/journal.detail.ctrl.js"></script>
+    <script src="js/journals/journal.dataentry.ctrl.js"></script>
+    <script src="js/journals/journals.routes.js"></script>
+    <script src="js/journals/journals.srv.js"></script>
+    <script src="js/chats/chats.routes.js"></script>
+    <script src="js/chats/chats.ctrl.js"></script>
+    <script src="js/push/push.srv.js"></script>
+    
+	
+    <script src="js/circular-progress.js"></script>
+    <script src="js/directives.js"></script>
+    <script src="js/filters.js"></script>
+	-->
+	<script>
+
+    
+	</script>
+  </head>
+  <body>
+    <ion-nav-view></ion-nav-view>
+  </body>
+  
+</html>

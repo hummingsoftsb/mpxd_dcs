@@ -1,0 +1,59 @@
+<ion-view>
+  <!--max-width:320px; margin:auto; background: -moz-radial-gradient(center, ellipse cover, #2989d8 3%, #2989d8 3%, #1e5799 100%, #207cca 100%, #7db9e8 100%); /* FF3.6+ */
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(3%,#2989d8), color-stop(3%,#2989d8), color-stop(100%,#1e5799), color-stop(100%,#207cca), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
+background: -webkit-radial-gradient(center, ellipse cover, #2989d8 3%,#2989d8 3%,#1e5799 100%,#207cca 100%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */-->
+  <ion-content class="login-container">
+<!---->
+<div style="max-width:320px; margin:auto;">
+      <div>
+        <div style="width:100%; text-align:center;">
+		
+  <div style="text-align:center;padding-top:15px">
+  <div style="-webkit-border-radius: 150px; border-radius: 150px; background:#ffffff; width:150px; height:150px; margin:auto; "><img src="img/logo_s.png" style="padding-top:45px"/></div>
+</div></div></div></div>
+<h4 style="width:100%; text-align:center; padding:10px; background: rgba(50,50,50,.5); color:#ffffff">MRT Data Capture System</h4>
+<div style="max-width:320px; margin:auto;">
+  
+  
+    
+  
+<form ng-submit="vm.login(vm.credentials)">
+	<div class="list list-inset" style="-webkit-border-radius: 50px; border-radius: 50px; background:rgba(255,255,255,0.1)">
+	<label class="item item-input">
+	  <i class="icon ion-ios-email-outline placeholder-icon"></i>
+	  <input type="text" placeholder="Email" ng-model="vm.credentials.login">
+	</label>
+	</div>
+	<div class="list list-inset" style="-webkit-border-radius: 50px; border-radius: 50px;">
+	<label class="item item-input ">
+	  <i class="icon ion-ios-locked-outline placeholder-icon"></i>
+	  <input type="password" placeholder="Password" ng-model="vm.credentials.password">
+	</label>
+	
+	
+	
+  </div>
+  
+  <div class="list list-inset" style="-webkit-border-radius: 50px; border-radius: 50px;">
+	
+	<label class="item item-input item-select">
+    <div class="input-label">
+      Server
+    </div>
+    <select ng-model="vm.serverAddress" ng-change="vm.changeServer()">
+      <option>http://uoa.hummingsoft.com.my:9090</option>
+      <option>http://192.168.1.52</option>
+    </select>
+  </label>
+  
+	 </div>
+  <div class="padding" style="padding-top:5px">
+	<p><button type="submit" class="button button-block button-calm" ng-disabled="!vm.credentials.login || !vm.credentials.password || vm.loading === true" style="-webkit-border-radius: 50px; border-radius: 50px;">Login</button></p>
+	<p><button type="button" class="button button-block button-clear" ng-click="vm.exitApp()">Exit</button></p>
+	<!--<div class="card padding" ng-if="vm.error !== null">Error: {{vm.error}}</div>-->
+      
+    </form></div></div>
+</div>
+    
+  </ion-content>
+</ion-view>
