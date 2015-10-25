@@ -46,11 +46,12 @@ class mobileapi extends CI_Controller
 	}
 	
 	public function ping() {
-		$session = $this->checksession();
+		/*$session = $this->checksession();
 		if (!isset($session[0]->user_id)) return $session;
 		$user_id = $session[0]->user_id;
 		
-		echo json_encode(array('st'=>1));
+		echo json_encode(array('st'=>1));*/
+		echo json_encode(array('st' => 1, 'ping'=>'pong'));
 	}
 	
 	
@@ -415,11 +416,23 @@ class mobileapi extends CI_Controller
 	
 	public function setup_test_environment() {
 		$this->load->model('IntegrationModel','',TRUE);
-		$this->unsetup_test_environment();
+		$this->unsetup_test_environment(true);
 		$user = $this->IntegrationModel->setup_user()[0];
 		$project = $this->IntegrationModel->setup_project($user->user_id)[0];
 		$journal_data = $this->IntegrationModel->setup_journal_data($user->user_id, $project->project_no);
-		var_dump($journal_data);
+		$journal_image = $this->IntegrationModel->setup_journal_image($user->user_id, $project->project_no);
+		echo json_encode(array(
+			'status' => true,
+			'data' => array(
+				'user' => $user,
+				'project' => $project,
+				'journal_data' => $journal_data,
+				'journal_image' => $journal_image
+			)
+		));
+		
+		//
+		//var_dump($journal_data);
 		//$this->
 		
 		//var_dump($journal_data);
@@ -432,6 +445,12 @@ class mobileapi extends CI_Controller
 	}
 	
 	public function unsetup_test_environment() {
+		/*
+		if (isset($e) && !$e) { 
+			echo json_encode(array(
+				'status' => true
+			));
+		}*/
 		$this->load->model('IntegrationModel','',TRUE);
 		$user = $this->IntegrationModel->get_user();
 		$user = sizeOf($user) < 1 ? false : $user[0];
@@ -442,19 +461,16 @@ class mobileapi extends CI_Controller
 		
 		if (!$project) return false;
 		
-		// Remove journal
+		// Remove journal data && image
 		if ($user && $project) {
 			$this->IntegrationModel->unsetup_journal_data($user->user_id, $project->project_no);
+			$this->IntegrationModel->unsetup_journal_image($user->user_id, $project->project_no);
 		}
 		
 		// Remove project
-		$journal_data = $this->IntegrationModel->get_journal_data($user->user_id, $project->project_no);
-		$journal_data = sizeOf($journal_data) < 1 ? false : $journal_data[0];
 		if ($user) {
 			$this->IntegrationModel->unsetup_project($user->user_id);
 		}
-		
-		
 		
 		
 	}
