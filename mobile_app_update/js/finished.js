@@ -1,0 +1,1 @@
+setTimeout(function(){angular.bootstrap(document,['app']);}, 300);

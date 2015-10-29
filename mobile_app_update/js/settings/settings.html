@@ -1,0 +1,108 @@
+<ion-view title="Settings">
+  <ion-content>
+  <ion-list>
+	<div class="item item-divider">User Info</div>
+	
+	<div class="item">
+    Logged in as
+    <span class="item-note">
+      {{vm.user}}
+    </span>
+  </div>
+  
+  <div class="item">
+    Last Sync
+    <span class="item-note">
+		{{vm.lastSync}}
+	</span>
+  </div>
+  
+	<div class="item">
+    Internet Status
+    <span class="item-note" ng-class="vm.connection == true ? 'online' : 'offline'">
+		{{vm.connection ? 'Online' : 'Offline'}}
+    </span>
+  </div>
+  
+  <div class="item item-divider">DCS Server Info</div>
+	<div class="item">
+    URL
+    <span class="item-note">
+		{{vm.serverURL}}
+    </span>
+  </div>
+  
+  
+  
+	<a class="item" ng-click="vm.refreshData()">
+    Server Health
+    <span class="item-note" ng-class="vm.serverStatus == true ? 'online' : 'offline'">
+		{{vm.serverStatusText}}
+    </span>
+  </a>
+  <!--
+  <div class="item item-divider">Update Server Info</div>
+  
+	<div class="item">
+    URL
+    <span class="item-note">
+		{{vm.updateServerURL}}
+    </span>
+  </div>
+  -->
+	<div class="item item-divider">About App</div>
+  <div class="item">
+    App Version
+	<span class="item-note" ng-class="vm.updating ? 'settings-updating' : ''">
+		{{vm.versionNumber}}
+	</span>
+  </div>
+  <a class="item" ng-click="vm.showBuildInfo()">
+    Build
+	<span class="item-note" ng-class="vm.updating ? 'settings-updating' : ''">
+		{{vm.version}}
+	</span>
+  </a>
+  <a class="item" ng-click="vm.update()">
+    Update App
+  </a>
+  
+  <a class="item" ui-sref="app.tabs.about">
+    About App
+  </a>
+  
+  </ion-list>
+  
+  
+  <!---
+  <div class="card">
+  <div class="item item-text-wrap">
+    <ul class="list">
+
+	
+	<li class="item">
+	 <p>Hi, {{vm.user}}</p>
+	 <p><span ng-if="vm.connection">Online</span><span ng-if="!vm.connection">Offline</span></p>
+	 
+  </li>
+  <li class="item item-toggle" style="border:0">
+     Connection status
+     <label class="toggle toggle-balanced">
+       <input type="checkbox" ng-model="vm.connection" disabled>
+       <div class="track">
+         <div class="handle"></div>
+       </div>
+     </label>
+  </li>
+  
+  <li class="item" style="border:0"><button class="button button-block button-positive" ng-click="vm.pull()">Sync now</button></li>
+  <li class="item" style="border:0">Last Sync: {{vm.lastSync}}</li>
+  </ul>
+  
+
+
+  </div>
+	</div>-->
+  </ion-content>
+
+</ion-view>

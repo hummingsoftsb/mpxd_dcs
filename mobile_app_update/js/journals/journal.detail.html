@@ -1,0 +1,12 @@
+<ion-view title="Choose week">
+  <ion-content>
+	<div>
+		<ion-list>
+		<a ui-sref="app.tabs.dataentry({projectId: entry.projectId, journalId: entry.journalId, entryId: entry.data_entry_no})" class="item item-text-wrap journal-item-container" ng-repeat="entry in vm.dataEntries">
+			{{entry.frequency_detail_name}}
+		</ion-list></a>
+		</div>
+	</div>
+    </ion-content>
+
+</ion-view>
