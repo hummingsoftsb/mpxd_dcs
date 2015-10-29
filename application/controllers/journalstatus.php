@@ -140,5 +140,33 @@ class Journalstatus extends CI_Controller
 	{
 		$this->index();
 	}
+
+    function generateexcel(){
+        if($this->session->userdata('logged_in')) {
+            $session_data = $this->session->userdata('logged_in');
+            $data['username'] = $session_data['username'];
+
+            $roleid = $session_data['roleid'];
+            //Load all record data
+            $data['records'] = $this->timeline->show_jourstat1();
+            $data['cpagename'] = 'journalstatus';
+            $data['labels'] = $this->securitys->get_label(2);
+            $data['labelgroup'] = $this->securitys->get_label_group(2);
+            $data['labelobject'] = $this->securitys->get_label_object(2);
+            $data1['username'] = $session_data['username'];
+            $data1['alerts'] = $this->alertreminder->show_alert($session_data['id']);
+            $data1['alertcount'] = $this->alertreminder->count_alert($session_data['id']);
+            $data1['reminders'] = $this->alertreminder->show_reminder($session_data['id']);
+            $data1['remindercount'] = $this->alertreminder->count_reminder($session_data['id']);
+            $data1['alabels'] = $this->securitys->get_label(22);
+            $data1['alabelobject'] = $this->securitys->get_label_object(22);
+            $data1['rlabels'] = $this->securitys->get_label(23);
+            $data1['rlabelobject'] = $this->securitys->get_label_object(23);
+
+//            $this->load->view('header', $data1);
+            $this->load->view('journal_status_excel', $data);
+//            $this->load->view('footer');
+        }
+    }
 }
 ?>

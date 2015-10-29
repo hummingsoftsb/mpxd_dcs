@@ -2,12 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0338a46d-3237-46e8-9653-75bfdbac7958" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/mpxd_dcs.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/libraries/Pagination.php" afterPath="$PROJECT_DIR$/system/libraries/Pagination.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/alertreminder.php" afterPath="$PROJECT_DIR$/application/models/alertreminder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/api.php" afterPath="$PROJECT_DIR$/application/controllers/api.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/assess_journalauditlog.php" afterPath="$PROJECT_DIR$/application/views/assess_journalauditlog.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/assessment.php" afterPath="$PROJECT_DIR$/application/models/assessment.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/design.php" afterPath="$PROJECT_DIR$/application/models/design.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/design_journalnonp_ilyas.php" afterPath="$PROJECT_DIR$/application/views/design_journalnonp_ilyas.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/designjournalnonp_ilyas.php" afterPath="$PROJECT_DIR$/application/controllers/designjournalnonp_ilyas.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/header.php" afterPath="$PROJECT_DIR$/application/views/header.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/ilyasmodel.php" afterPath="$PROJECT_DIR$/application/models/ilyasmodel.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/journalauditlog.php" afterPath="$PROJECT_DIR$/application/controllers/journalauditlog.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/journalstatus.php" afterPath="$PROJECT_DIR$/application/controllers/journalstatus.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/journalvalidationnonp.php" afterPath="$PROJECT_DIR$/application/controllers/journalvalidationnonp.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/journalvalidationview.php" afterPath="$PROJECT_DIR$/application/controllers/journalvalidationview.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/reminder.php" afterPath="$PROJECT_DIR$/application/models/reminder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/reminders.php" afterPath="$PROJECT_DIR$/application/controllers/reminders.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/timeline.php" afterPath="$PROJECT_DIR$/application/models/timeline.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/timeline_journalstatus.php" afterPath="$PROJECT_DIR$/application/views/timeline_journalstatus.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mpxd_dcs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,11 +45,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="login.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/controllers/login.php">
+      <file leaf-file-name="journalvalidationview.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/controllers/journalvalidationview.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.509036" vertical-offset="0" max-vertical-offset="5406">
-              <caret line="98" column="51" selection-start-line="98" selection-start-column="51" selection-end-line="98" selection-end-column="51" />
+            <state vertical-scroll-proportion="0.35843372" vertical-offset="2040" max-vertical-offset="5746">
+              <caret line="134" column="31" selection-start-line="134" selection-start-column="31" selection-end-line="134" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -56,6 +69,31 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/application/config/config.php" />
+        <option value="$PROJECT_DIR$/application/controllers/login.php" />
+        <option value="$PROJECT_DIR$/application/models/agailemodel.php" />
+        <option value="$PROJECT_DIR$/system/libraries/Pagination.php" />
+        <option value="$PROJECT_DIR$/application/views/assess_journalvalidationnonp.php" />
+        <option value="$PROJECT_DIR$/application/controllers/journalvalidationnonp.php" />
+        <option value="$PROJECT_DIR$/application/models/ilyasmodel.php" />
+        <option value="$PROJECT_DIR$/application/views/assess_journalauditlog.php" />
+        <option value="$PROJECT_DIR$/application/libraries/Excel.php" />
+        <option value="$PROJECT_DIR$/application/views/journel_status_excel.php" />
+        <option value="$PROJECT_DIR$/application/controllers/journalstatus.php" />
+        <option value="$PROJECT_DIR$/application/views/journal_status_excel.php" />
+        <option value="$PROJECT_DIR$/application/controllers/journalauditlog.php" />
+        <option value="$PROJECT_DIR$/application/controllers/api.php" />
+        <option value="$PROJECT_DIR$/application/controllers/reminders.php" />
+        <option value="$PROJECT_DIR$/application/models/reminder.php" />
+        <option value="$PROJECT_DIR$/application/views/header.php" />
+        <option value="$PROJECT_DIR$/application/config/database.php" />
+        <option value="$PROJECT_DIR$/application/models/assessment.php" />
+        <option value="$PROJECT_DIR$/application/models/timeline.php" />
+        <option value="$PROJECT_DIR$/application/views/timeline_journalstatus.php" />
+        <option value="$PROJECT_DIR$/application/models/alertreminder.php" />
+        <option value="$PROJECT_DIR$/application/views/design_journalnonp_ilyas.php" />
+        <option value="$PROJECT_DIR$/application/controllers/designjournalnonp_ilyas.php" />
+        <option value="$PROJECT_DIR$/application/models/design.php" />
+        <option value="$PROJECT_DIR$/application/controllers/journalvalidationview.php" />
       </list>
     </option>
   </component>
@@ -92,6 +130,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -138,7 +177,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -156,21 +195,40 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mpxd_dcs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mpxd_dcs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="LayoutCode.rearrangeEntriesPHP" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp\www\mpxd_dcs\application\third_party" />
       <recent name="C:\wamp\www\mpxd_dcs\application\config" />
     </key>
   </component>
@@ -189,10 +247,15 @@
       <BehatRunner />
       <method />
     </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <pass-parent-env-vars>false</pass-parent-env-vars>
+      <envs />
       <method />
     </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <list size="0" />
@@ -208,25 +271,25 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1552" height="840" extended-state="6" />
+    <frame x="-8" y="-8" width="1552" height="840" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32968536" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -249,23 +312,393 @@
     </option>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="5" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/config/autoload.php">
+    <entry file="file://$PROJECT_DIR$/application/models/ilyasmodel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2057">
+        <state vertical-scroll-proportion="0.0" vertical-offset="14952" max-vertical-offset="16830">
+          <caret line="887" column="142" selection-start-line="887" selection-start-column="17" selection-end-line="887" selection-end-column="142" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/assess_journalauditlog.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4692">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/assessment.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="13915" max-vertical-offset="16473">
+          <caret line="835" column="576" selection-start-line="835" selection-start-column="17" selection-end-line="835" selection-end-column="576" />
+          <folding>
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select c.dat..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select is_im..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_validator..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select frequ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select cur_u..journal_data_entry_audit_log..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_validator..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jm.jo..journal_master_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..lookup_data_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..unit_measure..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select frequ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT su.us..journal_validator_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jded...journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select uom_n..unit_measure..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT valid..journal_data_validate_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select cur_v..journal_data_entry_audit_log..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select :_dat..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select c.dat..journal_data_entry_master_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_detail_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select frequ..journal_data_entry_master_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jded...journal_data_entry_detail_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT valid..journal_data_validate_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_picture_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_picture_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select frequ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jdvm...journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select lk_da..lookup_data_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select lk_da..lookup_data_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select uom_n..unit_measure..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select end_d..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select (sele..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_reject..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select (sele..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select count..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jdvr...journal_data_validate_reject..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select count..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT disti..ilyas_log..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.dat..data_attribute..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..frequency_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jdep...journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jdep...journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT a.sta..journal_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT depen..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT a.dat..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT data_..journal_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT count..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT data_..journal_data_entry_picture..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/agailemodel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="101" max-vertical-offset="782">
+          <caret line="36" column="17" selection-start-line="36" selection-start-column="17" selection-end-line="36" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/assess_journalvalidationnonp.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2312" max-vertical-offset="3315">
+          <caret line="136" column="25" selection-start-line="136" selection-start-column="25" selection-end-line="136" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/libraries/Pagination.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1682" max-vertical-offset="5865">
+          <caret line="139" column="9" selection-start-line="139" selection-start-column="9" selection-end-line="139" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/config/database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/journalvalidationnonp.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="714" max-vertical-offset="2652">
+          <caret line="35" column="44" selection-start-line="35" selection-start-column="44" selection-end-line="35" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/assessment.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="16490">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#76#970#0#PHP" expanded="false" />
-            <element signature="e#972#1233#0#PHP" expanded="false" />
-            <element signature="e#1270#1628#0#PHP" expanded="false" />
-            <element signature="e#1686#1918#0#PHP" expanded="false" />
-            <element signature="e#1953#2310#0#PHP" expanded="false" />
-            <element signature="e#2345#2725#0#PHP" expanded="false" />
-            <element signature="e#2762#2994#0#PHP" expanded="false" />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select c.dat..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select is_im..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_validator..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select frequ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select cur_u..journal_data_entry_audit_log..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_validator..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jm.jo..journal_master_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..lookup_data_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..unit_measure..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select frequ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT su.us..journal_validator_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jded...journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select uom_n..unit_measure..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT valid..journal_data_validate_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select cur_v..journal_data_entry_audit_log..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select :_dat..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select c.dat..journal_data_entry_master_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_detail_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select frequ..journal_data_entry_master_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jded...journal_data_entry_detail_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT valid..journal_data_validate_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_picture_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_picture_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select frequ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jdvm...journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select lk_da..lookup_data_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select lk_da..lookup_data_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select uom_n..unit_measure..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select end_d..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select (sele..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_reject..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select (sele..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select count..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jdvr...journal_data_validate_reject..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select count..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT disti..ilyas_log..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.dat..data_attribute..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..frequency_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jdep...journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jdep...journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT a.sta..journal_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT depen..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT a.dat..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT data_..journal_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT count..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT data_..journal_data_entry_picture..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5406">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -273,17 +706,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6443">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="373" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/config/database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4268833" vertical-offset="0" max-vertical-offset="677">
-          <caret line="61" column="47" selection-start-line="61" selection-start-column="47" selection-end-line="61" selection-end-column="47" />
-          <folding>
-            <element signature="e#76#2536#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -294,7 +716,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1258">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -302,42 +723,496 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="867">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#76#1392#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/config/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2555392" vertical-offset="0" max-vertical-offset="3043">
-          <caret line="207" column="0" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
-          <folding>
-            <element signature="e#77#478#0#PHP" expanded="false" />
-            <element signature="e#567#922#0#PHP" expanded="false" />
-            <element signature="e#952#1538#0#PHP" expanded="false" />
-            <element signature="e#1574#1931#0#PHP" expanded="false" />
-            <element signature="e#1962#2303#0#PHP" expanded="false" />
-            <element signature="e#2338#2646#0#PHP" expanded="false" />
-            <element signature="e#2678#3014#0#PHP" expanded="false" />
-            <element signature="e#3050#3512#0#PHP" expanded="false" />
-            <element signature="e#3551#4235#0#PHP" expanded="false" />
-            <element signature="e#4289#5199#0#PHP" expanded="false" />
-            <element signature="e#5424#6154#0#PHP" expanded="false" />
-            <element signature="e#6186#6531#0#PHP" expanded="false" />
-            <element signature="e#6559#6855#0#PHP" expanded="false" />
-            <element signature="e#6901#7235#0#PHP" expanded="false" />
-            <element signature="e#7265#7562#0#PHP" expanded="false" />
-            <element signature="e#7614#8591#0#PHP" expanded="false" />
-            <element signature="e#8951#9408#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/login.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.509036" vertical-offset="0" max-vertical-offset="5406">
-          <caret line="98" column="51" selection-start-line="98" selection-start-column="51" selection-end-line="98" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.564759" vertical-offset="764" max-vertical-offset="5406">
+          <caret line="67" column="4" selection-start-line="67" selection-start-column="4" selection-end-line="67" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/third_party/ZendFramework-2.4.2/library/Zend/View/Helper/PaginationControl.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.27621862" vertical-offset="510" max-vertical-offset="2312">
+          <caret line="27" column="24" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.239291" vertical-offset="2366" max-vertical-offset="3043">
+          <caret line="207" column="0" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/config/autoload.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="680">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/agailemodel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="782">
+          <caret line="18" column="53" selection-start-line="18" selection-start-column="53" selection-end-line="18" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/libraries/Pagination.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="96.73077" vertical-offset="4691" max-vertical-offset="5865">
+          <caret line="128" column="22" selection-start-line="128" selection-start-column="22" selection-end-line="128" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/assess_journalvalidationnonp.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.07530121" vertical-offset="2549" max-vertical-offset="3315">
+          <caret line="147" column="5" selection-start-line="147" selection-start-column="5" selection-end-line="147" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/journalvalidationnonp.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.052710842" vertical-offset="2005" max-vertical-offset="3196">
+          <caret line="120" column="0" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/assess_journalauditlog.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39110428" vertical-offset="1836" max-vertical-offset="4692">
+          <caret line="123" column="12" selection-start-line="123" selection-start-column="12" selection-end-line="123" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/third_party/Classes/PHPExcel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.23007518" vertical-offset="153" max-vertical-offset="19057">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/libraries/Excel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22599705" vertical-offset="0" max-vertical-offset="677">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/assess_journalentries.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.2289157" vertical-offset="816" max-vertical-offset="2788">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/journal_status_excel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.4096385" vertical-offset="152" max-vertical-offset="1683">
+          <caret line="64" column="33" selection-start-line="64" selection-start-column="33" selection-end-line="64" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/designjournal.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-275.96155" vertical-offset="2396" max-vertical-offset="10098">
+          <caret line="563" column="65" selection-start-line="563" selection-start-column="65" selection-end-line="563" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/design_journal.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.769231" vertical-offset="18054" max-vertical-offset="31994">
+          <caret line="1080" column="199" selection-start-line="1080" selection-start-column="12" selection-end-line="1080" selection-end-column="199" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ilyas/datatables/jquery.dataTables.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="449">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/ilyasmodel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.60090363" vertical-offset="14799" max-vertical-offset="16830">
+          <caret line="894" column="9" selection-start-line="894" selection-start-column="9" selection-end-line="894" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/home.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.3559823" vertical-offset="918" max-vertical-offset="1683">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/journaldataentryadd.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.451807" vertical-offset="4284" max-vertical-offset="7565">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/journaldataentry.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2418" max-vertical-offset="6562">
+          <caret line="246" column="42" selection-start-line="246" selection-start-column="42" selection-end-line="246" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/reminders.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="666" max-vertical-offset="1343">
+          <caret line="69" column="45" selection-start-line="69" selection-start-column="45" selection-end-line="69" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/reminder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.561747" vertical-offset="0" max-vertical-offset="1275">
+          <caret line="61" column="1398" selection-start-line="61" selection-start-column="20" selection-end-line="61" selection-end-column="1398" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/assess_journalvalidationview.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="7.923193" vertical-offset="4344" max-vertical-offset="10999">
+          <caret line="565" column="4" selection-start-line="565" selection-start-column="4" selection-end-line="565" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/assess_journalvalidation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="82.38461" vertical-offset="2142" max-vertical-offset="3672">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/config/database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.31019202" vertical-offset="555" max-vertical-offset="1258">
+          <caret line="45" column="2" selection-start-line="45" selection-start-column="2" selection-end-line="45" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/journalauditlog.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.563253" vertical-offset="2499" max-vertical-offset="4216">
+          <caret line="169" column="37" selection-start-line="169" selection-start-column="37" selection-end-line="169" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/journalvalidation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6277696" vertical-offset="1020" max-vertical-offset="2584">
+          <caret line="85" column="60" selection-start-line="85" selection-start-column="50" selection-end-line="85" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/assessment.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17.307692" vertical-offset="9053" max-vertical-offset="16490">
+          <caret line="559" column="10" selection-start-line="559" selection-start-column="10" selection-end-line="559" selection-end-column="10" />
+          <folding>
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select c.dat..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select is_im..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_validator..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select frequ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select cur_u..journal_data_entry_audit_log..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_validator..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jm.jo..journal_master_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..lookup_data_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..unit_measure..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select frequ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT su.us..journal_validator_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jded...journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select uom_n..unit_measure..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT valid..journal_data_validate_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select cur_v..journal_data_entry_audit_log..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select :_dat..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select c.dat..journal_data_entry_master_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_detail_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select frequ..journal_data_entry_master_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jded...journal_data_entry_detail_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT valid..journal_data_validate_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_picture_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_picture_nonprogressive..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select frequ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jdvm...journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select lk_da..lookup_data_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select lk_da..lookup_data_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select uom_n..unit_measure..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select end_d..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select (sele..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_reject..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select (sele..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select email..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select count..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jdvr...journal_data_validate_reject..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select count..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.pro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select valid..journal_data_validate_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select * fro..project_template..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT disti..ilyas_log..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select a.dat..data_attribute..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select user_..sec_user..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..frequency_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jdep...journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="select jdep...journal_data_entry_picture..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT a.sta..journal_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT depen..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT a.dat..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT data_..journal_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT journ..journal_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT count..journal_data_entry_detail..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT data_..journal_data_entry_master..." />
+            <marker date="1446086886169" expanded="true" signature="-1:-1" placeholder="SELECT data_..journal_data_entry_picture..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/timeline.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10391566" vertical-offset="2447" max-vertical-offset="3128">
+          <caret line="148" column="33" selection-start-line="148" selection-start-column="33" selection-end-line="148" selection-end-column="33" />
+          <folding>
+            <marker date="1446087034351" expanded="true" signature="-1:-1" placeholder="select count..data_entry_status..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/journalstatus.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24667652" vertical-offset="1312" max-vertical-offset="3009">
+          <caret line="87" column="42" selection-start-line="87" selection-start-column="42" selection-end-line="87" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/timeline_journalstatus.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.84789157" vertical-offset="2650" max-vertical-offset="4726">
+          <caret line="189" column="0" selection-start-line="189" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
+          <folding>
+            <marker date="1446092426753" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/alertreminder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15361446" vertical-offset="2244" max-vertical-offset="3740">
+          <caret line="138" column="25" selection-start-line="138" selection-start-column="25" selection-end-line="138" selection-end-column="25" />
+          <folding>
+            <marker date="1446093744920" expanded="true" signature="-1:-1" placeholder="select sec_r..sec_user..." />
+            <marker date="1446093744920" expanded="true" signature="-1:-1" placeholder="select jdvm...user_alert..." />
+            <marker date="1446093744920" expanded="true" signature="-1:-1" placeholder="select jdvm...user_alert..." />
+            <marker date="1446093744920" expanded="true" signature="-1:-1" placeholder="select ua.da..user_alert..." />
+            <marker date="1446093744920" expanded="true" signature="-1:-1" placeholder="select ua.da..user_alert..." />
+            <marker date="1446093744920" expanded="true" signature="-1:-1" placeholder="select alert..user_alert..." />
+            <marker date="1446093744920" expanded="true" signature="-1:-1" placeholder="update user_..." />
+            <marker date="1446093744920" expanded="true" signature="-1:-1" placeholder="select ur.re..user_reminder..." />
+            <marker date="1446093744920" expanded="true" signature="-1:-1" placeholder="select remin..user_reminder..." />
+            <marker date="1446093744920" expanded="true" signature="-1:-1" placeholder="update user_..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.3253012" vertical-offset="718" max-vertical-offset="2465">
+          <caret line="94" column="38" selection-start-line="94" selection-start-column="38" selection-end-line="94" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/header.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.070783" vertical-offset="4641" max-vertical-offset="7157">
+          <caret line="114" column="28" selection-start-line="114" selection-start-column="28" selection-end-line="114" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/design.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5376506" vertical-offset="8806" max-vertical-offset="11764">
+          <caret line="539" column="0" selection-start-line="539" selection-start-column="0" selection-end-line="539" selection-end-column="0" />
+          <folding>
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select frequ..frequency_detail..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT pt.*,..project_template..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..project_template..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT pt.*,..project_template..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select proje..project_template..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select proje..project_template..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select proje..journal_master..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT jm.*,..journal_master..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT jm.*,..journal_master..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="DELETE FROM ..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT c.id ..journal_data_entry_master..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="DELETE FROM ..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT data_..journal_data_entry_master..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT a.dat..journal_data_entry_master..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT b.dat..journal_data_entry_master..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..values..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT b.val..journal_data_entry_master..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT data_..journal_data_entry_detail..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select journ..journal_master..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_detail..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select * fro..project_template..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT jm.*,..journal_master_nonprogressive..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT jm.*,..journal_master_nonprogressive..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select journ..journal_master_nonprogressive..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select journ..journal_master_nonprogressive..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select journ..journal_master_nonprogressive..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select confi..ilyas..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select confi..ilyas_config..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="update journ..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select data_..journal_data_entry_master_nonprogressive..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select c.jou..journal_data_user..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="select c.jou..journal_data_user_nonprogressive..." />
+            <marker date="1446094090606" expanded="true" signature="-1:-1" placeholder="SELECT data_..journal_data_user..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/designjournalnonp_ilyas.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.46536145" vertical-offset="4604" max-vertical-offset="5525">
+          <caret line="289" column="0" selection-start-line="289" selection-start-column="0" selection-end-line="289" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/design_journalnonp_ilyas.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.58885545" vertical-offset="578" max-vertical-offset="7208">
+          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+          <folding>
+            <marker date="1446093967832" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/journalvalidationview.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35843372" vertical-offset="2040" max-vertical-offset="5746">
+          <caret line="134" column="31" selection-start-line="134" selection-start-column="31" selection-end-line="134" selection-end-column="31" />
           <folding />
         </state>
       </provider>

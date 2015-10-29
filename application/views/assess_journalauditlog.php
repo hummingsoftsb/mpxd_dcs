@@ -124,6 +124,7 @@
     </thead>
     <tbody>
     			<?php
+                print_r($records);
 							$sno=1;
 							foreach ($records as $aulog):
 

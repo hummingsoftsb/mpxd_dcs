@@ -557,6 +557,7 @@ Class Assessment extends CI_Model
 		$query.=" Order By project_name asc,journal_name asc";
 		}
 		$query .=" OFFSET ".$offset."LIMIT ".$perPage;
+        //echo($query);
 		$q = $this->db->query($query);
         return $q->result();
 	}

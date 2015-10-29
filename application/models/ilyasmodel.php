@@ -583,8 +583,6 @@ Class IlyasModel extends CI_Model
 		}
 		$query .=" OFFSET ".$offset." LIMIT ".$perPage;
 		$q = $this->db->query($query);
-		
-		
 		//var_dump($q);
 		//var_dump($this->db->last_query());
 		return $q->result();
@@ -877,7 +875,7 @@ Class IlyasModel extends CI_Model
 			$query .=" or lower(d.user_full_name) like '%".$search."%') ";
 		}
 		$query .=" Order By b.journal_no, project_name asc,journal_name asc OFFSET ".$offset."LIMIT ".$perpage.") as temp order by project_name asc,journal_name asc";
-		$q = $this->db->query($query);
+        $q = $this->db->query($query);
 		$aaaa = $q->result();
 		// echo "<script type='text/javascript'>alert('".var_dump($aaaa)."')</script>";
 		return $q->result();

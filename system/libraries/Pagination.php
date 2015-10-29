@@ -171,7 +171,7 @@ class CI_Pagination {
 
 		$this->num_links = (int)$this->num_links;
 
-		if ($this->num_links < 1)
+		if ($this->num_links < 0)
 		{
 			show_error('Your number of links must be a positive number.');
 		}

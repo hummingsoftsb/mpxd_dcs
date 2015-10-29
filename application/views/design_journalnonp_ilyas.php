@@ -45,6 +45,16 @@ function openModalEdit(journal_no) {
 	$('#journal_no').val(j.journal_no);
 }
 
+$(document).on("click", ".modaldelete", function ()
+{
+    if(confirm("Do you want to delete?"))
+    {
+        var id = $(this).data("id");
+        $.post( "<?php echo base_url(); ?><?php echo $cpagename; ?>/delete",{id:id}, function( data ) {
+            location.reload();
+        });
+    }
+});
 
 function notify(text) {
 	$('#notification').empty().append($('<div class="alert alert-danger alert-dismissible fade in" role="alert" style="text-align:left;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong id="notification_text">'+text+'</strong></div></div>')).show();

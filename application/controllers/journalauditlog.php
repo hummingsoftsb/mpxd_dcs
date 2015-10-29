@@ -181,7 +181,8 @@ class Journalauditlog extends CI_Controller
 				//die();
 				//var_dump($this->ilyasmodel->total_audit($search));
 				//die();
-				$data['totalrows'] = $data['totalrows'] + $this->ilyasmodel->total_audit($search);
+				$data['totalrows'] = $data['totalrows'];
+				//$data['totalrows'] = $data['totalrows'] + $this->ilyasmodel->total_audit($search);
 				$data['records'] = array_merge($data['records'], $nonp_records);
 			}
 			

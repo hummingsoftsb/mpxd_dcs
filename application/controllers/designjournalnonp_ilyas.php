@@ -270,23 +270,24 @@ class Designjournalnonp_ilyas extends CI_Controller
 		}
 	}
 
-	function delete()
-	{
-		$id=$this->input->post('id');
-		if($this->design->delete_check_journalnonp($id)==0)
-		{
-			//query the database
-			$result = $this->design->delete_journalnonp($id);
-			$sess_array = array('message' => $this->securitys->get_label_object(20)." Deleted Successfully","type" => 1);
-			$this->session->set_userdata('message', $sess_array);
-			echo json_encode(array('st'=>1, 'msg' => 'Success'));
-		}
-		else
-		{
-			$sess_array = array('message' => "Cannot delete ".$this->securitys->get_label_object(20).", Assigned to ".$this->securitys->get_label_object(21).$id,"type" => 0);
-			$this->session->set_userdata('message', $sess_array);
-		}
-	}
+    function delete()
+    {
+        $id=$this->input->post('id');
+        if($this->design->delete_check_journalnonp($id)==0)
+        {
+            //query the database
+            $result = $this->design->delete_journalnonp($id);
+            $sess_array = array('message' => $this->securitys->get_label_object(20)." Deleted Successfully","type" => 1);
+            $this->session->set_userdata('message', $sess_array);
+            echo json_encode(array('st'=>1, 'msg' => 'Success'));
+        }
+        else
+        {
+            $sess_array = array('message' => "Cannot delete ".$this->securitys->get_label_object(20).", Assigned to ".$this->securitys->get_label_object(21).$id,"type" => 0);
+            $this->session->set_userdata('message', $sess_array);
+        }
+    }
+
 
 	function selectrecord()
 	{

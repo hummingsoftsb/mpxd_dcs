@@ -65,5 +65,10 @@ class Reminders extends CI_Controller
 		$this->reminder->update_reminder();
 		echo "Done.";
 	}
+    /*Added by jane on 27/10/2015 for updating the reminder for nonprogressive entry*/
+    function update_nonp(){
+		$this->reminder->update_reminder_nonp();
+		echo "Done.";
+	}
 }
 ?>

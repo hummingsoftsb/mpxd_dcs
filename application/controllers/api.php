@@ -73,6 +73,7 @@ class Api extends CI_Controller
 					$href = base_url()."journaldataentryadd?jid=".$alert->data_entry_no;
 				}
 				if(substr($alert->alert_message,-8,8) === 'Accepted') :
+                    $alert_d0 ="<input type='checkbox' name='chk_chk[]' id='chk_chk[]' checked='checked' value='$alert->alert_no'>" ;
 					$alert_d1 = $alert->journal_name." ".$alert->alert_message;
 					$alert_d2 = date("d-M-y", strtotime($alert->alert_date));
 					$alert_d3 = $alert->frequency_period != "" ? $alert->frequency_period : '-' ;
@@ -80,6 +81,7 @@ class Api extends CI_Controller
 					$href = $alert_d1;
 					// echo json_encode($data);
 				else:
+                    $alert_d0 ="<input type='checkbox' id='dis_chk' name='dis_chk'  disabled='disabled'>" ;
 					$alert_d1 = $alert->journal_name." ".$alert->alert_message;
 					$alert_d2 = date("d-M-y", strtotime($alert->alert_date));
 					$alert_d3 = $alert->frequency_period != "" ? $alert->frequency_period : '-' ;
@@ -87,7 +89,7 @@ class Api extends CI_Controller
 					$href = "<a href='$href'>$alert_d1</a>";
 					// echo json_encode($data);
 				endif;
-				$output['data'][] = array($k+1,$href,$alert_d2,$alert_d3,$alert_d4);
+				$output['data'][] = array($alert_d0,$k+1,$href,$alert_d2,$alert_d3,$alert_d4);
 			}
 			header("Content-type: application/json");
 			echo json_encode($output);

@@ -530,13 +530,16 @@ Class Design extends CI_Model
 	}
 
 	// Delete Check Query For Selected Project Template
-	function delete_check_journalnonp($id)
-	{
-		$query=$this->db->query("select data_entry_no from journal_data_entry_detail_nonprogressive where data_entry_no in (select data_entry_no from journal_data_entry_master_nonprogressive where journal_no=$id)");
-		return $query->num_rows();
-	}
+    // Modified by Jane. Delete Check Query For Selected Project Template
+    function delete_check_journalnonp($id)
+    {
+//    $query=$this->db->query("select data_entry_no from journal_data_entry_detail_nonprogressive where data_entry_no in (select data_entry_no from journal_data_entry_master_nonprogressive where journal_no=$id)");
+        $query=$this->db->query("select config_no from ilyas where config_no in (select config_no from ilyas_config where journal_no=$id)");
+        return $query->num_rows();
+    }
 
-	// Delete the selected record
+
+    // Delete the selected record
 	function delete_journalnonp($id)
 	{
 		$this->db->where('journal_no', $id);

@@ -125,7 +125,7 @@ class Journalvalidationview extends CI_Controller
 				if($this->assessment->update_validate_accept_email_check($dataentryno)==0)
 				{ // What is this for? We could remove this
 					//Email for Validator
-					/*$emailres=$this->assessment->publish_journal_data_entry_email($dataentryno,$userid);
+					$emailres=$this->assessment->publish_journal_data_entry_email($dataentryno,$userid);
 					foreach($emailres as $rows):
 						$journalname=$rows->journalname;
 						$dataentryname=$rows->dataentryname;
@@ -133,14 +133,16 @@ class Journalvalidationview extends CI_Controller
 						$validatoremail=$rows->validatoremail;
 						$validatorid=$rows->validatorid;
 					endforeach;
-					$this->email->from('test@hummingsoft.com.my', 'MPXD');
+					/*$this->email->from('test@hummingsoft.com.my', 'MPXD');
 					$this->email->to($validatoremail);
 				    $message="Dear ".$validatorname.", <br>".$journalname." data entry published by ".$dataentryname.".Now the journal is ready for validation";
 					$this->email->subject($journalname.' data entry completed');
 					$this->email->message($message);
-					$this->email->send();
+					$this->email->send();*/
+
+                    //Modified by Jane. This is for adding alert to next level validator
 					$data = array('alert_date' => date("Y-m-d"),'alert_user_id' => $validatorid,'data_entry_no' => $dataentryno,'alert_message' => 'Data Entry Published','alert_hide' => '0','email_send_option' => '1');
-					$this->assessment->add_user_alert($data);*/
+					$this->assessment->add_user_alert($data);
 				}
 				else
 				{

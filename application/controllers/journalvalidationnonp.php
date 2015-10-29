@@ -11,9 +11,13 @@ class Journalvalidationnonp extends CI_Controller
    	   $this->load->model('securitys','',TRUE);
 	   $this->load->model('alertreminder','',TRUE);
 	   $this->load->model('ilyasmodel','',TRUE);
+        $this->load->model('agailemodel','',TRUE);
 	}
 
-	function index($offset=0)
+    /**
+     * @param int $offset
+     */
+    function index($offset=0)
 	{
 		// Load Form
 		$this->load->helper(array('form','url'));
@@ -63,22 +67,45 @@ class Journalvalidationnonp extends CI_Controller
 				$search='';
 			}
 
+            /* Added Comments by Agaile on 24/10/2015 */
+            /* Pagination class by CodeIgniter is used here */
+
 			// Config setup for Pagination
+
+            // Set base_url for every links
 			$config['base_url'] = base_url().'index.php/journalvalidationnonp/index';
+            // Set total rows in the result set you are creating pagination for.
 			$config['total_rows'] = $this->assessment->totalvalde($search,$userid,$roleid);
 			if($this->session->userdata('selectrecord'))
 			{
+                // Number of items you intend to show per page.
 				$selectrecord=$this->session->userdata('selectrecord');
 				$config['per_page'] = $selectrecord['selectrecord'];
 			}
 			else
 			{
+                // Number of items you intend to show per page.
 				$config['per_page'] = 10;
 			}
+            //The pagination function automatically determines which segment of your URI contains the page number. If you need something different you can specify it.
 			$config['uri_segment'] = 3;
-			$config["num_links"] = 1;
+            //Set that how many number of pages you want to view.
 
-			// Initialize
+             /* Start Agaile */
+            // Re-configured the condition check Agaile 24/10/2015
+            $total_row = $this->agailemodel->get_count($search,$offset,$config['per_page'],$userid,$roleid);
+            if($total_row > 10) {
+                $config["num_links"] = 1;
+            }
+            else{
+                $config["num_links"] = 0;
+                $config['display_pages'] = FALSE;
+                $config['last_link'] = FALSE;
+                $config['next_link'] = FALSE;
+            }
+
+            /* End Agaile */
+            // To initialize "$config" array and set to pagination library.
 			$this->pagination->initialize($config);
 			$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
@@ -86,7 +113,12 @@ class Journalvalidationnonp extends CI_Controller
 			//Load all record data
 			$data['records'] = $this->ilyasmodel->get_journals_validate($search,$offset,$config['per_page'],$userid,$roleid);
 			//$data['records'] = $this->assessment->show_valde($search,$offset,$config['per_page'],$userid);
-			$data['totalrows'] = $config['total_rows'];
+
+            // commented on 24/10/2015 by Agaile bcoz its showing the wrong no of rows
+			//$data['totalrows'] = $config['total_rows'];
+
+            $data['totalrows'] =$total_row;
+
 			$data['mpage'] = $config['per_page'];
 			$data['page']= $page+1;
 			$data['selectrecord']=$config['per_page'];
