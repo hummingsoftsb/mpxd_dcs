@@ -56,8 +56,7 @@
 
         // DataTable
         var table = $('#status_table').DataTable({
-            bPaginate: false,
-            bInfo: false
+
         });
         // Setup - add a text input to each footer cell
         $('#status_table tfoot th').each(function () {
@@ -167,6 +166,7 @@ $labelname = explode(",", $labelnames);
             <th><?php echo $labelname[0]; ?></th>
             <th><?php echo $labelname[1]; ?></th>
             <th><?php echo 'Data Entry' ?></th>
+            <th><?php echo 'Gate Keeper' ?></th>
             <th><?php echo $labelname[2]; ?></th>
             <th><?php echo $labelname[3]; ?></th>
             <th><?php echo $labelname[4]; ?></th>
@@ -179,6 +179,7 @@ $labelname = explode(",", $labelnames);
             <th><?php echo $labelname[0]; ?></th>
             <th><?php echo $labelname[1]; ?></th>
             <th><?php echo 'Data Entry' ?></th>
+            <th><?php echo 'Gate Keeper' ?></th>
             <th><?php echo $labelname[2]; ?></th>
             <th><?php echo $labelname[3]; ?></th>
             <th><?php echo $labelname[4]; ?></th>
@@ -186,45 +187,53 @@ $labelname = explode(",", $labelnames);
         </tr>
         </tfoot>
         <tbody>
-        <?php
 
-        //print_r($records);
-        $sno = 1;
+<?php
+/*echo "<pre>";
+	print_r($records);
+	echo "</pre>";*/
+?>
+<?php $i=0; foreach($records as $pstat) { $i++;
+    $startdate = date("d-m-Y", strtotime($pstat['start_date']));
+    if ($pstat['end_date'] != "") {
+        $enddate = date("d-m-Y", strtotime($pstat['end_date']));
+    } else {
+        $enddate = "";
+    }
+    ?>
 
-        foreach ($records as $pstat):
-            $startdate = date("d-m-Y", strtotime($pstat->start_date));
-            if ($pstat->end_date != "") {
-                $enddate = date("d-m-Y", strtotime($pstat->end_date));
-            } else {
-                $enddate = "";
-            }
 
-
-            ?>
-            <tr id="<?php echo $pstat->complete_percent; ?>" name="<?php echo $pstat->complete_percent; ?>">
-                <td><?php echo $sno; ?></td>
-                <td><?php echo $pstat->project_name; ?></td>
-                <td><?php echo $pstat->journal_name; ?></td>
-                <td><?php echo $pstat->user_full_name; ?></td>
+            <tr id="<?php echo $pstat['complete_percent']; ?>" name="<?php echo $pstat['complete_percent']; ?>">
+                <td><?php echo $i; ?></td>
+                <td><?php echo $pstat['project_name']; ?></td>
+                <td><?php echo $pstat['journal_name']; ?></td>
+                <td><?php echo $pstat['user_full_name']; ?></td>
+                <td><?php
+                    $ar = $pstat['gate_name'] ;
+                    if($ar){
+                        echo  implode(',',$ar);
+                    }
+                    ?></td>
                 <td><?php echo $startdate; ?></td>
                 <td><?php echo $enddate; ?></td>
-                <td><?php echo $pstat->frequency_detail_name; ?></td>
+                <td><?php echo $pstat['frequency_detail_name']; ?></td>
                 <td><!--div class="progress progress-striped active">
-									<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $pstat->complete_percent ?>%;">
-									<div class="progresstext"><?php echo $pstat->complete_percent; ?>%</div></div></div-->
-                    <?php echo $pstat->data_entry_status_desc; ?>
+									<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $pstat['complete_percent'] ?>%;">
+									<div class="progresstext"><?php echo $pstat['complete_percent']; ?>%</div></div></div-->
+                    <?php echo $pstat['data_entry_status_desc']; ?>
                 </td>
             </tr>
-            <?php
-            $sno = $sno + 1;
-        endforeach;
-        if ($totalrows == 0)
-        {
-            echo '<tr><td class="row text-center text-danger" colspan="8"> No Record Found</td></tr></tbody></table>';
-        }
-        else
-        {
-        ?>
+<?php }?>
+<!--            --><?php
+//            $sno = $sno + 1;
+//        endforeach;
+//        if ($totalrows == 0)
+//        {
+//            echo '<tr><td class="row text-center text-danger" colspan="8"> No Record Found</td></tr></tbody></table>';
+//        }
+//        else
+//        {
+//        ?>
         </tbody>
     </table>
 
@@ -236,30 +245,30 @@ $labelname = explode(",", $labelnames);
                     <?php echo $this->pagination->create_links(); ?>
                 </ul>
             </div>
-            <div class="col-md-4 col-md-offset-1">
-                <div class="form-group">
-                    <label for="search" class="col-sm-2 control-label" style="padding-top: 22px;">Show</label>
-
-                    <div class="col-sm-3" style="padding-top: 14px;">
-                        <select class="form-control" id="recordselect" name="recordselect">
-                            <option <?php if ($selectrecord == "10") echo "selected=selected"; ?>>10</option>
-                            <option <?php if ($selectrecord == "20") echo "selected=selected"; ?>>20</option>
-                            <option <?php if ($selectrecord == "40") echo "selected=selected"; ?>>40</option>
-                        </select>
-                    </div>
-
-                </div>
+<!--            <div class="col-md-4 col-md-offset-1">-->
+<!--                <div class="form-group">-->
+<!--                    <label for="search" class="col-sm-2 control-label" style="padding-top: 22px;">Show</label>-->
+<!---->
+<!--                    <div class="col-sm-3" style="padding-top: 14px;">-->
+<!--                        <select class="form-control" id="recordselect" name="recordselect">-->
+<!--                            <option --><?php //if ($selectrecord == "10") echo "selected=selected"; ?><!--></option>
+<!--                            <option --><?php //if ($selectrecord == "20") echo "selected=selected"; ?><!--></option>
+<!--                            <option --><?php //if ($selectrecord == "40") echo "selected=selected"; ?><!--></option>
+<!--                        </select>-->
+<!--                    </div>-->
+<!---->
+<!--                </div>-->
             </div>
-            <?php
-            // Display the number of records in a page
-            $end = $mpage + $page - 1;
-            if ($totalrows < $end) $end = $totalrows;
-            ?>
-            <div class="col-md-3" style="padding-top: 22px;"> Showing <?php echo $page; ?> to <?php echo $end; ?>
-                of <?php echo $totalrows; ?> rows
-            </div>
-        </div>
-        <?php } ?>
+<!--            --><?php
+//            // Display the number of records in a page
+//            $end = $mpage + $page - 1;
+//            if ($totalrows < $end) $end = $totalrows;
+//            ?>
+<!--            <div class="col-md-3" style="padding-top: 22px;"> Showing --><?php //echo $page; ?><!-- to --><?php //echo $end; ?>
+<!--                of --><?php //echo $totalrows; ?><!-- rows-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        --><?php //} ?>
     </div>
 
 

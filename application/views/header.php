@@ -123,6 +123,21 @@
         }
     </script>
     <!--        Multi delete: End-->
+
+    <!--        Start:Highlight new alerts-->
+
+    <script>
+        $(document).ready(function () {
+            $(document).on("click","#table_notification tbody tr",function() {
+               // alert("ohh boy body kick!");
+                $(this).addClass('selected');
+                $(this).css('background-color', "orange");
+
+            });
+        });
+    </script>
+
+    <!--       End: Highlight new alerts-->
 </head>
 <body>
 <?php
@@ -270,7 +285,6 @@ $rlabelname = explode(",", $rlabelnames);
 
 
                 <?php $href = "#"; ?>
-
                 <script type="text/javascript">
                     $(document).ready(function () {
                         $.fn.dataTableExt.sErrMode = 'throw';

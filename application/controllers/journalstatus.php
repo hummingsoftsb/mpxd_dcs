@@ -77,10 +77,30 @@ class Journalstatus extends CI_Controller
 			// Initialize
 			$this->pagination->initialize($config);
 			$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-
-
+            // Modified by Agaile to concatenate the gatekeeper name on 04/11/2015
+            //Modification :Start
+            // create a temp: array
+            $temp_array =array();
 			//Load all record data
-			$data['records'] = $this->timeline->show_jourstat($search,$offset,$config['per_page']);
+            $result = $this->timeline->show_jourstat($search,$offset,$config['per_page']);
+            $data['first']  = $result ;
+            // to concatenate the gate keeper name
+            foreach($result as $result_row)
+            {
+                // data_entry_no the common factor
+                $temp_array[$result_row->data_entry_no]['complete_percent']     = $result_row->complete_percent;
+                $temp_array[$result_row->data_entry_no]['project_name']     = $result_row->project_name;
+                $temp_array[$result_row->data_entry_no]['journal_name']     = $result_row->journal_name;
+                $temp_array[$result_row->data_entry_no]['user_full_name']     = $result_row->user_full_name;
+                $temp_array[$result_row->data_entry_no]['gate_name'][]    = $result_row->gate_name;
+                $temp_array[$result_row->data_entry_no]['start_date']     = $result_row->start_date;
+                $temp_array[$result_row->data_entry_no]['end_date']     = $result_row->end_date;
+                $temp_array[$result_row->data_entry_no]['frequency_detail_name']     = $result_row->frequency_detail_name;
+                $temp_array[$result_row->data_entry_no]['data_entry_status_desc']     = $result_row->data_entry_status_desc;
+            }
+            $data['records'] = $temp_array;
+            // Modification : End
+			//$data['records'] = $this->timeline->show_jourstat($search,$offset,$config['per_page']);
 			$data['totalrows'] = $config['total_rows'];
 			$data['mpage'] = $config['per_page'];
 			$data['page']= $page+1;
@@ -148,7 +168,30 @@ class Journalstatus extends CI_Controller
 
             $roleid = $session_data['roleid'];
             //Load all record data
-            $data['records'] = $this->timeline->show_jourstat1();
+            // Modified by Agaile to concatenate the gatekeeper name on 04/11/2015
+            //Modification :Start
+            // create a temp: array
+            $temp_array =array();
+            //Load all record data
+            $result = $this->timeline->show_jourstat1();
+            $data['first']  = $result ;
+            // to concatenate the gate keeper name
+            foreach($result as $result_row)
+            {
+                // data_entry_no the common factor
+                $temp_array[$result_row->data_entry_no]['complete_percent']     = $result_row->complete_percent;
+                $temp_array[$result_row->data_entry_no]['project_name']     = $result_row->project_name;
+                $temp_array[$result_row->data_entry_no]['journal_name']     = $result_row->journal_name;
+                $temp_array[$result_row->data_entry_no]['user_full_name']     = $result_row->user_full_name;
+                $temp_array[$result_row->data_entry_no]['gate_name'][]    = $result_row->gate_name;
+                $temp_array[$result_row->data_entry_no]['start_date']     = $result_row->start_date;
+                $temp_array[$result_row->data_entry_no]['end_date']     = $result_row->end_date;
+                $temp_array[$result_row->data_entry_no]['frequency_detail_name']     = $result_row->frequency_detail_name;
+                $temp_array[$result_row->data_entry_no]['data_entry_status_desc']     = $result_row->data_entry_status_desc;
+            }
+            $data['records'] = $temp_array;
+            // Modification : End
+            //$data['records'] = $this->timeline->show_jourstat1();
             $data['cpagename'] = 'journalstatus';
             $data['labels'] = $this->securitys->get_label(2);
             $data['labelgroup'] = $this->securitys->get_label_group(2);
