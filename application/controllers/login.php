@@ -90,11 +90,12 @@ class Login extends CI_Controller
 			$id = $this->session->userdata['logged_in']['id'];
 			$sessionid = md5(microtime().rand());
 			$installation_id = $this->input->post('installation_id');
-			$olduser = $this->mobileapp->get_user_by_userid($id)[0];
-			if (!isset($olduser)) { 
+			$olduser = $this->mobileapp->get_user_by_userid($id);
+			if (sizeOf($olduser) < 1) { 
 				//echo "User deoes not exist before!";
 				// New user is logging in
-			} else if ($olduser->session_valid != 0) {
+			} else if ($olduser[0]->session_valid != 0) {
+				$olduser = $olduser[0];
 				// Old user login and old session is still valid, check to notify old device and logout if applicable
 				//echo "Session was valid before!";
 				$user_agent = $olduser->user_agent;
