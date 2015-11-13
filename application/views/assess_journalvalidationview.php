@@ -289,12 +289,18 @@
 						</tr>
 					</thead>
 					<tbody>
-						
 						<?php
 							$sno=1;
 							$closeButton = true;
-							foreach($dataentryattbs as $dataentryattb):
-								if (((float)$dataentryattb->actual_value) != ((float)$dataentryattb->end_value)) $closeButton = false;
+                        if($dataentryattb->actual_value == 'Yes'){
+                            $actual_value = '1.00';
+                        } elseif ($dataentryattb->actual_value == 'No') {
+                            $actual_value = '0.00';
+                        } else {
+                            $actual_value = $dataentryattb->actual_value;
+                        }
+                        foreach($dataentryattbs as $dataentryattb):
+                            if (((float)$actual_value) != ((float)$dataentryattb->end_value)) $closeButton = false;
 								echo "<tr>";
 								echo '<td>'.$sno.'</td>';
 								echo '<td>'.$dataentryattb->data_attb_label.'</td>';

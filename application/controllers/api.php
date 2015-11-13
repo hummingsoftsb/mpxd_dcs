@@ -73,7 +73,8 @@ class Api extends CI_Controller
 					$href = base_url()."journaldataentryadd?jid=".$alert->data_entry_no;
 				}
 				if(substr($alert->alert_message,-8,8) === 'Accepted') :
-                    $alert_d0 ="<input type='checkbox' name='chk_chk[]' id='chk_chk[]' checked='checked' value='$alert->alert_no'>" ;
+                    //$alert_d0 ="<input type='checkbox' name='chk_chk' id='chk_chk[]'  value='$alert->alert_no' onclick='test()'>" ;
+                    $alert_d0 ="<input type='checkbox' class='cboxes' name='chk_chk' id='chk_chk[]' checked='checked' value='$alert->alert_no'>" ;
 					$alert_d1 = $alert->journal_name." ".$alert->alert_message;
 					$alert_d2 = date("d-M-y", strtotime($alert->alert_date));
 					$alert_d3 = $alert->frequency_period != "" ? $alert->frequency_period : '-' ;

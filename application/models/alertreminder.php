@@ -184,14 +184,37 @@ Class Alertreminder extends CI_Model
 		$this->db->where('alert_no', $id);
 		$this->db->delete('user_alert');
 	}
-	function show_reminder($id)
-	{
-		$query ="select ur.reminder_status_id, ur.data_entry_no,ur.reminder_no,ur.reminder_date,jm.journal_name,ur.reminder_message,fd.frequency_period from user_reminder ur,journal_data_entry_master jdem,frequency_detail fd,journal_master jm where ur.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no and jdem.journal_no=jm.journal_no and ur.reminder_user_id=$id and reminder_hide=0 order by reminder_no desc";
-		// $query = "select * from user_reminder";
-		$query = $this->db->query($query);
-		$query_result = $query->result();
-		return $query_result;
-	}
+//	function show_reminder($id)
+//	{
+//		$query ="select ur.reminder_status_id, ur.data_entry_no,ur.reminder_no,ur.reminder_date,jm.journal_name,ur.reminder_message,fd.frequency_period from user_reminder ur,journal_data_entry_master jdem,frequency_detail fd,journal_master jm where ur.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no and jdem.journal_no=jm.journal_no and ur.reminder_user_id=$id and reminder_hide=0 order by reminder_no desc";
+//		// $query = "select * from user_reminder";
+//		$query = $this->db->query($query);
+//		$query_result = $query->result();
+//		return $query_result;
+//	}
+
+// modified by jane
+
+// Start
+
+    function show_reminder($id)
+    {
+        //For progressive reminder
+        $query ="select ur.reminder_status_id, ur.data_entry_no,ur.reminder_no,ur.reminder_date,jm.journal_name,ur.reminder_message,fd.frequency_period from user_reminder ur,journal_data_entry_master jdem,frequency_detail fd,journal_master jm where ur.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no and jdem.journal_no=jm.journal_no and ur.reminder_user_id=$id and reminder_hide=0 order by reminder_no desc";
+        $query = $this->db->query($query);
+        $query_result = $query->result();
+        //For non progressive reminder
+        $query2 = "select ur.reminder_status_id, ur.nonp_journal_id,ur.reminder_no,ur.reminder_date,jmnp.journal_name,ur.reminder_message,jmnp.reminder_frequency from user_reminder ur,journal_master_nonprogressive jmnp,frequency_detail fd where ur.nonp_journal_id=jmnp.journal_no and ur.reminder_user_id=$id and reminder_hide=0 group by ur.reminder_no,jmnp.journal_name,jmnp.reminder_frequency order by reminder_no desc";
+        $query2 = $this->db->query($query2);
+        $query_result2 = $query2->result();
+        $merge = array_merge($query_result, $query_result2);
+        return $merge;
+    }
+
+
+
+
+//end
 
 	function count_reminder($id)
 	{

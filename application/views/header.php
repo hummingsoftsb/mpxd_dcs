@@ -128,13 +128,32 @@
 
     <script>
         $(document).ready(function () {
-            $(document).on("click","#table_notification tbody tr",function() {
-               // alert("ohh boy body kick!");
+            myFunction();
+        });
+    </script>
+
+    <script>
+        function myFunction() {
+
+
+            $("#table_notification tbody tr").on("click", function(){
                 $(this).addClass('selected');
                 $(this).css('background-color', "orange");
-
             });
-        });
+
+
+            $('chk_chk').prop('checked')
+          {
+              //$('#table_notification tbody tr').css("background-color", "#000000");
+             // alert('gotcha!');
+              //$(this).addClass('selected');
+              //$(this).css('background-color', "orange");
+
+                }
+
+
+
+        }
     </script>
 
     <!--       End: Highlight new alerts-->
@@ -300,12 +319,14 @@ $rlabelname = explode(",", $rlabelnames);
                             "bLengthChange": false,
                             "bSort": false,
                             "language": {"loadingRecords": "No notification."}
+
                         });
                         setInterval(function () {
                             oTable.api().ajax.reload(null, false); // user paging is not reset on reload
                             aCount = oTable.fnGetData().length;
                             $('#aCount').text(aCount);
                             //console.log(aCount);
+                            myFunction();
                         }, 10000);
                     });
                 </script>
@@ -397,21 +418,25 @@ $rlabelname = explode(",", $rlabelnames);
                     foreach ($reminders as $record):
                         ?>
                         <tr>
-
                             <td><?php echo $sno; ?></td>
-                            <?php if ($record->reminder_status_id == 1): ?>
-                                <td>
-                                    <a href="<?php echo base_url(); ?>journaldataentry"><?php echo $record->reminder_message; ?></a>
-                                </td>
-                            <?php elseif ($record->reminder_status_id == 2): ?>
-                                <td>
-                                    <a href="<?php echo base_url(); ?>journalvalidation"><?php echo $record->reminder_message; ?></a>
-                                </td>
-                            <?php endif; ?>
+                            <?php if($record->reminder_status_id == 1 && (!empty($record->data_entry_no))){ ?>
+                                <td><a href="<?php echo base_url(); ?>journaldataentry"><?php echo $record->reminder_message; ?></a></td>
+                            <?php } elseif($record->reminder_status_id == 2 && (!empty($record->data_entry_no))) {?>
+                                <td><a href="<?php echo base_url(); ?>journalvalidation"><?php echo $record->reminder_message; ?></a></td>
+                            <?php } elseif($record->reminder_status_id == 1 && (!empty($record->nonp_journal_id))) {?>
+                                <td><a href="<?php echo base_url(); ?>journaldataentry"><?php echo $record->reminder_message; ?></a></td>
+                            <?php } else { ?>
+                                <td><a href="<?php echo base_url(); ?>journalvalidationnonp"><?php echo $record->reminder_message; ?></a></td>
+                            <?php } ?>
                             <td><?php echo $record->reminder_date; ?></td>
-                            <td><?php echo $record->frequency_period; ?></td>
+                            <?php if(!empty($record->nonp_journal_id)) {?>
+                                <td><?php echo $record->reminder_frequency; ?></td>
+                            <?php }else { ?>
+                                <td><?php echo $record->frequency_period; ?></td>
+                            <?php } ?>
                             <!--td><a href="#" data-toggle="modal" class="reminderhide" data-id="<?php echo $record->reminder_no; ?>"><span class="glyphicon glyphicon-trash">&nbsp;</span></a></td-->
                         </tr>
+
                         <?php
                         $sno = $sno + 1;
                     endforeach;
