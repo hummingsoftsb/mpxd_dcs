@@ -21,7 +21,7 @@ background: -webkit-radial-gradient(center, ellipse cover, #2989d8 3%,#2989d8 3%
 	<div class="list list-inset" style="-webkit-border-radius: 50px; border-radius: 50px; background:rgba(255,255,255,0.1)">
 	<label class="item item-input">
 	  <i class="icon ion-ios-email-outline placeholder-icon"></i>
-	  <input type="text" placeholder="Email" ng-model="vm.credentials.login">
+	  <input type="text" placeholder="Username or Email" ng-model="vm.credentials.login">
 	</label>
 	</div>
 	<div class="list list-inset" style="-webkit-border-radius: 50px; border-radius: 50px;">
@@ -49,7 +49,7 @@ background: -webkit-radial-gradient(center, ellipse cover, #2989d8 3%,#2989d8 3%
 	 </div>
   <div class="padding" style="padding-top:5px">
 	<p><button type="submit" class="button button-block button-calm" ng-disabled="!vm.credentials.login || !vm.credentials.password || vm.loading === true" style="-webkit-border-radius: 50px; border-radius: 50px;">Login</button></p>
-	<p><button type="button" class="button button-block button-clear" ng-click="vm.exitApp()">Exit</button></p>
+	<p><button ng-show="vm.isExitAvailable" type="button" class="button button-block button-clear" ng-click="vm.exitApp()">Exit</button></p>
 	<!--<div class="card padding" ng-if="vm.error !== null">Error: {{vm.error}}</div>-->
       
     </form></div></div>

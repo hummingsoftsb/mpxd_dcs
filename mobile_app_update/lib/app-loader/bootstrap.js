@@ -4,6 +4,23 @@
 //
 // a   url (naming it a, beacause it will be reused to store callbacks)
 // xhr placeholder to avoid using var, not to be used
+ 
+ function tryParseJSON (jsonString){
+	try {
+	var o = JSON.parse(jsonString);
+
+	// Handle non-exception-throwing cases:
+	// Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+	// but... JSON.parse(null) returns 'null', and typeof null === "object",
+	// so we must check for that, too.
+	if (o && typeof o === "object" && o !== null) {
+	return o;
+	}
+	}
+	catch (e) { }
+
+	return false;
+ };
 window.pegasus = function pegasus(a, xhr) {
   xhr = new XMLHttpRequest();
 
@@ -35,12 +52,13 @@ window.pegasus = function pegasus(a, xhr) {
       if (cb) {
 		if (xhr.status === 200) {
 			//console.log('PARSE',xhr.status);
-			cb(JSON.parse(xhr.responseText));
+			cb(tryParseJSON(xhr.responseText));
 		} else if (xhr.status === 0) {
 			//console.log('LOLOLOLOL',xhr,cb);
 			//onError();
 			//cb('Testststststststsestestset	estset');
 			//cb(JSON.parse(xhr.responseText));
+			cb(tryParseJSON(xhr.responseText));
 		} else {
 			cb(xhr);
 		}
@@ -134,6 +152,7 @@ window.Manifest = {};
 var manifest = JSON.parse(localStorage.getItem('manifest'));
 // grab manifest.json location from <script manifest="..."></script>
 var s = document.querySelector('script[manifest]');
+
 // Not in localStorage? Fetch it!
 if(!manifest){
   var url = (s? s.getAttribute('manifest'): null) || 'manifest.json';
@@ -143,6 +162,7 @@ if(!manifest){
   });
 // Manifest was in localStorage. Load it immediatly.
 } else {
+
 	//console.log(s);
 	var timeout = s == null ? 10000 : s.getAttribute('timeout');
   loadManifest(manifest,true,timeout);

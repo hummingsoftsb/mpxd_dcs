@@ -1,7 +1,7 @@
 {
   "files": {
     "alerts.ctrl__0": {
-      "version": "4fddb675697b18c2c226951cd9e32ab7acff7998",
+      "version": "c2934d6805755c48ca016556438fa7a3966f8eef",
       "filename": "js/alerts/alerts.ctrl.js"
     },
     "alerts__1": {
@@ -21,7 +21,7 @@
       "filename": "js/alerts/reminds.html"
     },
     "app__5": {
-      "version": "9f97b03b26ef29fd3f1c6eb68fc8fd431d2b58d9",
+      "version": "5eaa1c5fddb25e9c04463afed9015cd7d8cee22b",
       "filename": "js/app.js"
     },
     "authentication.routes__6": {
@@ -29,15 +29,15 @@
       "filename": "js/authentication/authentication.routes.js"
     },
     "authentication.srv__7": {
-      "version": "30a84c150db300c1c9bbb730122381b206d1b567",
+      "version": "f12d9835a131d37fe5b36404b8580fad3956ffee",
       "filename": "js/authentication/authentication.srv.js"
     },
     "login.ctrl__8": {
-      "version": "1cd4a77b3fab3c47c27b5e62de8e44649ea9fe79",
+      "version": "66e5ea24ab75b305e7a75db9e015c31914fb0b35",
       "filename": "js/authentication/login.ctrl.js"
     },
     "login__9": {
-      "version": "4887d0750c843910ce3903e40a1b006525acf80b",
+      "version": "ca6b686b22bd5e1433c0b2ed0212e4fe2cf0b87b",
       "filename": "js/authentication/login.html"
     },
     "circular-progress__14": {
@@ -141,7 +141,7 @@
       "filename": "js/common/storage-utils.js"
     },
     "utils__41": {
-      "version": "a66477e4881ca9c8dd1ab9424146dfaf9d9e5a6f",
+      "version": "24a1d1a938907d863f2c5c65ca09f5b870525323",
       "filename": "js/common/utils.js"
     },
     "communication.srv__42": {
@@ -169,7 +169,7 @@
       "filename": "js/data/data.routes.js"
     },
     "data.srv__50": {
-      "version": "d7047634e23f88dcac9b22ea76af2d272cda62b0",
+      "version": "35e1dff889af8e803ea53ba6c6dee302ef42a2f4",
       "filename": "js/data/data.srv.js"
     },
     "journals.routes__51": {
@@ -185,7 +185,7 @@
       "filename": "js/filters.js"
     },
     "journal.dataentry.ctrl__54": {
-      "version": "826cd177ec6d58e23df76c74044c1b33afbda4c6",
+      "version": "f59241c3804699cf5e663d3e11bf74da1da407ba",
       "filename": "js/journals/journal.dataentry.ctrl.js"
     },
     "journal.dataentry__55": {
@@ -217,7 +217,7 @@
       "filename": "js/journals/journals.srv.js"
     },
     "layout__62": {
-      "version": "72c135436b0d0e7efe279b0e9280e8af7e45d8b8",
+      "version": "8ac78c2954350553f6296a9aa473498d877146c3",
       "filename": "js/layout/layout.html"
     },
     "layout.routes__63": {
@@ -225,7 +225,7 @@
       "filename": "js/layout/layout.routes.js"
     },
     "loading.ctrl__64": {
-      "version": "530b46559f47836b4e3628f10faf9d6798174c74",
+      "version": "740d22542b5f2599ca441c6d06839dbaeb30c109",
       "filename": "js/layout/loading.ctrl.js"
     },
     "loading__65": {
@@ -233,7 +233,7 @@
       "filename": "js/layout/loading.html"
     },
     "menu.ctrl__66": {
-      "version": "695ec3edc915c34a75b24d8e409730024d7cdd32",
+      "version": "251008391a92192ce2a8b4dd03be50a66d0a9986",
       "filename": "js/layout/menu.ctrl.js"
     },
     "tabs.ctrl__68": {
@@ -257,7 +257,7 @@
       "filename": "js/notifications/notifications.routes.js"
     },
     "push.srv__73": {
-      "version": "01d060305a0a5939272a007fa5e0f82d9986b0f7",
+      "version": "5ddbab8c14bfd407ac600db110da480e91852bd5",
       "filename": "js/push/push.srv.js"
     },
     "about__74": {
@@ -265,23 +265,23 @@
       "filename": "js/settings/about.html"
     },
     "settings.ctrl__75": {
-      "version": "e9d708837a1341b7b7d51bd1769673c97fa80bea",
+      "version": "32b9552c7474a4cb093fa64456dc2f1261ea5b7a",
       "filename": "js/settings/settings.ctrl.js"
     },
     "settings__76": {
-      "version": "a86b037bfa87a71294c41a813eec99d5b5f9cb32",
+      "version": "1653396652f9386b715d9bf4690cf0bbe1677d83",
       "filename": "js/settings/settings.html"
     },
     "settings.routes__77": {
-      "version": "28ac33d40de64b3d3fd10e6271f73528c515ccb3",
+      "version": "83efcef1d0d27c87d62d8ec21bdc815f5b60768d",
       "filename": "js/settings/settings.routes.js"
     },
     "update.srv__78": {
-      "version": "f33739d8a85941c4e5fc7d68583537a41a21bbbe",
+      "version": "29b08129d17c0d2db69201324ca0fc4b0f8f6af2",
       "filename": "js/update/update.srv.js"
     },
     "dcs__89": {
-      "version": "e0dff54d25b73f5d4aedd5019f059b9774f90cbe",
+      "version": "77c12f2d30dd83efd49e78d14ac211b6555b4f2a",
       "filename": "css/dcs.css"
     },
     "finished": {
@@ -289,12 +289,20 @@
       "filename": "js/finished.js"
     },
     "templates": {
-      "version": "edfbd07e28e8de609379950ea6f276fad9db2eab",
+      "version": "1b5a6004bbb573d4c247b2ff45b46371f6e04d52",
       "filename": "templates.js"
     },
     "blur.jpg": {
       "version": "850fe3adb37e63bdb24d39245cbcc9a9e5701d08",
       "filename": "img/blur.jpg"
+    },
+    "kludjs": {
+      "version": "b9e8e0f30fc18365d218e1e6dd57935760ddd19d",
+      "filename": "lib/klud.js"
+    },
+    "testctrl.js": {
+      "version": "f6aa656a1b9c3e5d36605b6c36fb877efa0ca0b7",
+      "filename": "js/settings/test.ctrl.js"
     }
   },
   "load": [
@@ -327,6 +335,7 @@
     "js/data/data.ctrl.js",
     "js/settings/settings.routes.js",
     "js/settings/settings.ctrl.js",
+    "js/settings/test.ctrl.js",
     "js/alerts/alerts.routes.js",
     "js/alerts/alerts.srv.js",
     "js/alerts/alerts.ctrl.js",
@@ -342,8 +351,9 @@
     "js/filters.js",
     "templates.js",
     "js/finished.js",
+    "lib/klud.js",
     "css/dcs.css"
   ],
-  "version": "e209ff8d931b39d453fe354e969e397b6ce154b1",
-  "versionNumber": "1.0.372"
+  "version": "ef889c7096ff7321d3ac5b1d850602c965ee0bb3",
+  "versionNumber": "1.0.1032"
 }

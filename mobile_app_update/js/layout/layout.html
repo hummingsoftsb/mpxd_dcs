@@ -38,14 +38,14 @@
         <a class="item item-icon-left" ng-click="vm.logout()" menu-close>
           <i class="icon ion-ios-locked-outline"></i> Logout
         </a>
-        <a class="item item-icon-left" ng-click="vm.exit()">
+        <a ng-show="vm.isExitAvailable" class="item item-icon-left" ng-click="vm.exit()">
           <i class="icon ion-ios-close-empty"></i> Exit without Logout
         </a>
       </div>
     </ion-content>
 	 <ion-footer-bar style="padding:0;">
-    <div style="  background: #dddddd;  height: 45px;  width: 100%;  padding: 8px;"  ng-click="vm.sync()">
-		<a href="#"><div style="float:left;height:28px;margin-right: 10px;width: 49px;display: inline-block;text-align: center;border-right: 1px solid #aaaaaa;"><i class="icon ion-ios-loop" ng-class="{ syncing: syncing}" style="font-size:28px; width:28px; height:27px; color:#333333; display:inline-block"></i></div></a><div style="line-height:30px;font-size:12px;"><span>Last Sync: {{vm.lastSync}}</span></div>
+    <div style="background: #dddddd;  height: 45px;  width: 100%;  padding: 8px;" class="synctoolbar"  ng-click="vm.sync()">
+		<div style="float:left;height:28px;margin-right: 10px;width: 49px;display: inline-block;text-align: center;border-right: 1px solid #aaaaaa;"><i class="icon ion-ios-loop" ng-class="{ syncing: syncing}" style="font-size:28px; width:28px; height:27px; color:#333333; display:inline-block"></i></div><div style="line-height:30px;font-size:12px;"><span>Last Sync: {{vm.lastSync}}</span></div>
 	</div>
   </ion-footer-bar>
   </ion-side-menu>

@@ -16,15 +16,20 @@
 	  setInstallationId: setInstallationId,
 	  setLogoutSession: setLogoutSession,
 	  sendAuthenticatedRequest: sendAuthenticatedRequest,
+	  sendSafeAuthenticatedRequest: sendSafeAuthenticatedRequest,
 	  sendAuthenticatedUploadImage: sendAuthenticatedUploadImage,
-	  hookOn: hookOn
+	  hookOn: hookOn,
+	  isOnlineLogged: isOnlineLogged,
+	  ping: ping
+	  
     };
 	var hooks = {};
     return service;
 
-	function login(credentials) {
+	function login(credentials, silent) {
+		silent = typeof silent == 'boolean' && silent;
 		var loginfn = $rootScope.isOnline ? onlineLogin : offlineLogin;
-		console.log($rootScope.isOnline);
+		//console.log($rootScope.isOnline);
 		
 		////
 		var deviceType = (navigator.userAgent.match(/iPad/i))  == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i))  == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
@@ -35,14 +40,14 @@
 			
 			//if (user && user.logged) {
 			if (user && user.logged) {
-				saveSession(user).then(function(a){
+				return saveSession(user).then(function(a){
 					// Fire hooks on logins
-					if (typeof hooks['login'] != 'undefined') {
+					if (!silent && typeof hooks['login'] != 'undefined') {
 						var hks = hooks['login'];
 						for (var i = 0; i < hks.length; i++) hks[i]();
 					}
 					//setTimeout(function(){$rootScope.$broadcast('login');},100);
-					return a;
+					return user;
 				});
 			}
 			return user;
@@ -94,12 +99,13 @@
 				user.lastLoggedOnline = new Date().getTime();
 				user.lastLoggedOffine = null;
 				var salt = (new Date()).valueOf().toString();
-				StorageUtils.set('profile-'+credentials.login,{'credentials':{
+				return StorageUtils.set('profile-'+credentials.login,{'credentials':{
 					login: credentials.login,
 					password: CryptoJS.SHA3(salt+credentials.password).toString(),
 					salt: salt
-				},'user':user});
-				return user;
+				},'user':user}).then(function(){
+					return user;
+				});
 			} else {
 				// Use throw if we do not want to trigger exception
 				throw 'Invalid username or password';
@@ -114,9 +120,10 @@
 			return UserSrv.set(user).then(function(){
 			  return user;
 			});*/
-		  },(function(e,f,g){
+		  },(function(e){
 		  alert('Error connecting to server');
-			console.log("ERROR",e,f,g);}
+			console.log("ERROR",e);
+		}
 			
 			
 		));
@@ -206,6 +213,31 @@
 		} else throw 'Not logged in';
 	}
 	
+	function sendSafeAuthenticatedRequest(url, data) {
+		if (isLogged()) {
+			if (typeof data == "undefined") data = {};
+			data.session_id = getSession().sessionId;
+			return CommSrv.sendRequest(url,data).then(function(response){ return response }, function(error){
+				
+				// Unauthorized. Re login.
+				if (error.status == 401) {
+				//setLogoutSession();
+				alert('Invalid session. Please re-login');
+					return internalLogout().then(function(){
+						return false;////
+					});
+					//return setLogoutSession()
+				}
+			});
+		} else return $q.when(false);
+	}
+	
+	
+	
+	function ping() {
+		return sendAuthenticatedRequest('/mobileapi/ping');
+	}
+	
 	function offlineLogin(credentials){
 		return StorageUtils.get('profile-'+credentials.login).then(function(stg){
 			if (!stg) {
@@ -217,7 +249,7 @@
 					/*return UserSrv.set(user).then(function(){
 						return user;
 					});*/
-				} else alert("Storage does not exist for"+credentials.login);
+				} else alert("Offline login not available for "+credentials.login);
 				
 				return {};
 			} else {
@@ -244,24 +276,26 @@
 	}
 	
 	
-	function internalLogout() {
+	function internalLogout(dontGoToLogin) {
+		dontGoToLogin = typeof dontGoToLogin == 'boolean' && dontGoToLogin
 		var p = setLogoutSession();
 		$rootScope.$broadcast('logout');
 		runHook('logout');
-		$state.go('login', {logout: true});
+		if (!dontGoToLogin) $state.go('login', {logout: true});
 		return p;
 	}
 	
 
-    function logout(){
+    function logout(dontGoToLogin){
+	dontGoToLogin = typeof dontGoToLogin == 'boolean' && dontGoToLogin
 	var user = getSession();
 	if ($rootScope.isOnline) {
 		if (user.logged) {
 			return CommSrv.sendRequest('/mobileapi/logout', {'session_id':user.sessionId}).then(function(){
-				internalLogout();
+				internalLogout(dontGoToLogin);
 			});
 		} else {
-			internalLogout();
+			internalLogout(dontGoToLogin);
 		}
 	} else {
 		// Offline. Just set logged to false.
@@ -272,7 +306,7 @@
 				$rootScope.$broadcast('logout');
 				runHook('logout');
 				$state.go('login', {logout: true});*/
-				internalLogout();
+				internalLogout(dontGoToLogin);
 			}
 		});
 	}
@@ -301,6 +335,18 @@
 		var session = getSession();
 		return session ? session.logged : session
     }
+	
+	function isOnlineLogged(){
+		if ($rootScope.isOnline) {
+			return sendSafeAuthenticatedRequest('/mobileapi/ping').then(function(logged){
+				return logged;
+			}, function(e){
+				return false;
+			});
+		} else {
+			return isLogged();
+		}
+	}
 	
 	// Better way compared to event broadcasting and listening
 	function hookOn(hookID, cb){
