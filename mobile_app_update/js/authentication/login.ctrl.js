@@ -12,8 +12,10 @@
     vm.credentials = {login: 'zul@hummingsoft.com.my', password: 'demo'};
     vm.login = login;
 	vm.serverAddress = Config.backendUrl;
+	vm.isExitAvailable = ((typeof navigator.app != 'undefined') && (typeof navigator.app.exitApp == 'function'));
+	
 	vm.exitApp = function(){
-		if (navigator.app) navigator.app.exitApp();
+		if (vm.isExitAvailable) navigator.app.exitApp();
 	}
 	
 	vm.changeServer = function() {

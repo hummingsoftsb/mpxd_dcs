@@ -361,7 +361,7 @@
 		</div>
 	</div>
 	<div class="row text-center <?php echo $message_type == 1? "text-success" : "text-danger"; ?>"><?php echo $message; ?></div>
-	<!-- <?php var_dump($message_type); ?> -->
+<!--	 --><?php //var_dump($message_type); ?><!-- -->
 	<form id="addRecord" method="POST" action="<?php echo base_url(); ?><?php echo $cpagename; ?>/add/">
 	<?php echo $is_image == 1 ? '<input type="hidden" name="isimage" value="1"/>' : '' ?>
 		<fieldset style="<?php echo $is_image == 1 ? 'display: none;' : '' ?>">

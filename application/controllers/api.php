@@ -94,6 +94,8 @@ class Api extends CI_Controller
 					$href = "<a href='$href'>$alert_d1</a>";
 					// echo json_encode($data);
 				endif;
+				$outputdata = new stdClass();
+				$outputdata->test = 'ddd';
 				$output['data'][] = array($alert_d0,$k+1,$href,$alert_d2,$alert_d3,$alert_d4);
 			}
 			header("Content-type: application/json");

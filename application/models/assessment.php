@@ -186,6 +186,7 @@ Class Assessment extends CI_Model
 
 	function show_journal_data_entry($id)
 	{
+
 		$query="select frequency_period,journal_name,cut_off_date,dependency,project_name,user_full_name,frequency_detail_name,fd.start_date,is_image from journal_data_entry_master jdem,journal_master jm,project_template pt,sec_user su,frequency_detail fd where jdem.data_entry_no=$id and jdem.journal_no=jm.journal_no and jm.project_no=pt.project_no and jm.user_id=su.user_id and fd.frequency_detail_no=jdem.frequency_detail_no";
 		$q=$this->db->query($query);
 		return $q->result();
@@ -258,8 +259,8 @@ Class Assessment extends CI_Model
 	function publish_journal_data_entry($id,$userid)
 	{
 		$this->db->query("update journal_data_entry_master set data_entry_status_id=2,publish_user_id=$userid,publish_date='".date("Y-m-d")."' where data_entry_no=$id");
-
-		$query="select data_validate_no from journal_data_validate_master where data_entry_no=$id and validate_status in (0,3) order by validate_level_no asc limit 1";
+// query modified by agaile  validate_status in (0,2) to  validate_status in (0,3)
+		$query="select data_validate_no from journal_data_validate_master where data_entry_no=$id and validate_status in (0,2) order by validate_level_no asc limit 1";
 		$q=$this->db->query($query);
 		$rows=$q->result();
 		$datavalid='';
@@ -627,7 +628,8 @@ Class Assessment extends CI_Model
 
 	function update_validate_accept($valid,$dataid)
 	{
-		$query="select data_validate_no from journal_data_validate_master where data_entry_no=$dataid and validate_status=0 order by validate_level_no asc limit 1 ";
+        // query modified by agaile validate_status = 0 to validate_status in (0,3) on 16/11/2015
+		$query="select data_validate_no from journal_data_validate_master where data_entry_no=$dataid and validate_status in (0,3) order by validate_level_no asc limit 1 ";
 		$q=$this->db->query($query);
 		if($q->num_rows()==0)
 		{

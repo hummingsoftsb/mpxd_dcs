@@ -138,8 +138,15 @@
 	function saveIt(link) {
 		
 		var newName = 'DCS-img'+new Date().getTime()+'-'+(Math.random()*10000).toFixed('0')+'.jpg';
-		//console.log('Saving new file as',newName);
-		return Utils.moveFile(link, cordova.file.externalApplicationStorageDirectory+'images/',newName).then(function(s){
+		console.log('Saving new file as',newName);
+		console.log('Src',link);
+		
+		var destFolder = cordova.file.externalApplicationStorageDirectory;
+		// Most likely iOS
+		if (destFolder == null) destFolder = cordova.file.dataDirectory;
+		destFolder = destFolder+'images/';
+		console.log('Dest',destFolder);
+		return Utils.moveFile(link, destFolder,newName).then(function(s){
 			return s;
 		}, function(e){console.log('ERRRRRR',e);})
 	}

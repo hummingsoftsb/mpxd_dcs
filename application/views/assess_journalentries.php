@@ -129,8 +129,8 @@ $(document).ready(function() {
 		"order": [[ 0, "asc" ]],
 		"columnDefs": [ {
 		  "targets"  : 'no-sort',
-		  "orderable": false,
-		}],
+		  "orderable": false
+		}]
 	});
 	
 	$('div.dataTables_filter input').attr('placeholder', 'Enter the text here');

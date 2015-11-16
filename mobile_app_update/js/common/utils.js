@@ -277,6 +277,7 @@
 		console.log('srcObj',srcObj);
 		console.log('destObj',destObj);
 		console.log('checking',destObj.path, destObj.dirname);
+	
 		return $cordovaFile.checkDir(destObj.path+'/', destObj.dirname).then(function(s){
 			// Dir exists
 			//console.log(s);
@@ -365,6 +366,8 @@
 		return deferred.promise.then(function(path){
 			//Replace back the original image.
 			//console.log('I did it!',path,fpath);
+			console.log('Compressed file. Now moving from',path,fpath);
+
 			return moveFile(path, fpath);
 		});
 	}

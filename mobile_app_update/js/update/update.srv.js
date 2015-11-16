@@ -5,41 +5,56 @@
     .factory('UpdateSrv', UpdateSrv)
    // .factory('AuthInterceptor', AuthInterceptor);
 
-  UpdateSrv.$inject = ['$http', 'Config', '$q', '$rootScope','ToastPlugin', '$state', 'Utils', '$ionicLoading'];
-  function UpdateSrv($http, Config, $q, $rootScope,ToastPlugin, $state, Utils, $ionicLoading){
+  UpdateSrv.$inject = ['$http', 'Config', '$q', '$rootScope','ToastPlugin', '$state', 'Utils', '$ionicLoading', 'StorageUtils'];
+  function UpdateSrv($http, Config, $q, $rootScope,ToastPlugin, $state, Utils, $ionicLoading, StorageUtils){
     var service = {
 		check: check,
 		download: download,
 		update: update,
 		promptForUpdate: promptForUpdate,
 		updateAppNow: updateAppNow,
-		getUpdateUrl: getUpdateUrl
+		getUpdateUrl: getUpdateUrl,
+		setUpdateUrl: setUpdateUrl,
+		initializeLoader: initializeLoader
     };
 	
-	var updateUrl = Config.backendUrl+'/mobile_app_update/';
-	var isCordova = typeof cordova != 'undefined';
+	//var updateUrl = Config.backendUrl+'/mobile_app_update/';
+	var updateUrl = StorageUtils.getSync('saved-update-url');
+	if (typeof updateUrl == 'undefined')  updateUrl = Config.backendUrl+'/mobile_app_update/';
 	
+	var isCordova = typeof cordova != 'undefined';
+	var loader;
 	
 	var fs = new CordovaPromiseFS({
 		persistent: isCordova, // Chrome should use temporary storage.
 		Promise: Promise
 	});
 
-	var loader = new CordovaAppLoader({
-		fs: fs,
-		localRoot: 'app',
-		serverRoot: updateUrl,//Config.updateUrl,
-		mode: 'mirror',
-		cacheBuster: true
-	});
-	
-	window.loader = loader;
-	
+	initializeLoader();
 	
 	return service;
 	
+	function initializeLoader() {
+		console.log('Initing loader with',updateUrl);
+		loader = new CordovaAppLoader({
+			fs: fs,
+			localRoot: 'app',
+			serverRoot: updateUrl,
+			mode: 'mirror',
+			cacheBuster: true
+		});
+		
+		window.loader = loader;
+	}
+	
 	function getUpdateUrl(){
 		return updateUrl;
+	}
+	
+	function setUpdateUrl(url){
+		updateUrl = url;
+		initializeLoader();
+		//if (typeof window.loader != 'undefined') window.loader.newManifestUrl = updateUrl + '/manifest.json';
 	}
 	
 	function check() {
@@ -113,5 +128,7 @@
 			}, 1);
 		return deferred.promise;
 	};
+	
+	
   }
 })();

@@ -1,0 +1,49 @@
+<ion-view title="Integration Test">
+  <ion-content>
+	<ion-list>
+		<ion-item class="item-divider">
+			Test legend
+		</ion-item>
+		<ion-item class="item-test-checkbox">
+			<div class="row">
+			<div class="col">
+			<label class="checkbox checkbox-middle">
+				<input type="checkbox" disabled>
+			</label><span> Waiting</span>
+			</div><div class="col">
+			<label class="checkbox running checkbox-middle">
+				<input type="checkbox" disabled>
+			 </label><span> Running</span>
+			</div>
+			</div>
+			<div class="row">
+			<div class="col">
+			<label class="checkbox passed checkbox-middle">
+				<input type="checkbox" disabled checked="checked">
+			</label><span> Passed</span>
+			</div><div class="col">
+			<label class="checkbox failed checkbox-middle">
+				<input type="checkbox" disabled>
+			 </label><span> Failed</span>
+			</div>
+			</div>
+			 
+		</ion-item>
+		<ion-item>
+			<button ng-disabled="vm.isRunning" class="button button-block button-positive" ng-click="vm.runAll()">
+			  Run tests
+			</button>
+		</ion-item>
+	</ion-list>
+	<ion-list ng-repeat="testGroup in vm.testGroups">
+		<div class="item item-divider">{{testGroup.groupName}}<span class="item-note">{{testGroup.passed}} of {{testGroup.tests.length}} passed</span></div>
+		<ion-item ng-repeat="test in testGroup.tests track by $index" class="item item-checkbox item-test-checkbox">
+			 {{test.name}}
+				<label class="checkbox" ng-class="testGroup.results[test.name].status">
+				<input type="checkbox" disabled ng-checked="testGroup.results[test.name].status === 'passed'">
+			 </label>
+		</ion-item>
+	</ion-list>
+  </ion-content>
+
+</ion-view>

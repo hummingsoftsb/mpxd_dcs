@@ -4,7 +4,7 @@
     .controller('AlertsCtrl', AlertsCtrl)
     .controller('RemindsCtrl', RemindsCtrl);
 
-  function AlertsCtrl($scope, $window, $ionicModal, $ionicPopover, $ionicActionSheet, $log, AlertSrv, AuthSrv, $ionicScrollDelegate, JournalSrv, $q, $state){
+  function AlertsCtrl($scope, $window, $ionicModal, $ionicPopover, $ionicActionSheet, $log, AlertSrv, AuthSrv, $ionicScrollDelegate, JournalSrv, $q, $state, DataSrv){
     var vm = {};
     $scope.vm = vm;
 	vm.alerts = [];
@@ -45,9 +45,15 @@
 			$scope.isLoaded = true;
 		});
 	}
-	
+	/*
 	$scope.$on('sync', function(evt, data){
 		console.log("SYNC DETECTED FOR ALERT",data.lastSync.st)
+		if (data.lastSync.st == "complete-success") {
+			vm.refreshData();
+		}
+	});*/
+	
+	DataSrv.hookOn('sync', function(data){
 		if (data.lastSync.st == "complete-success") {
 			vm.refreshData();
 		}
@@ -60,7 +66,7 @@
   }
   
   
-  function RemindsCtrl($scope, $window, $ionicModal, $ionicPopover, $ionicActionSheet, $log, AlertSrv, AuthSrv, $ionicScrollDelegate, JournalSrv, $q, $state){
+  function RemindsCtrl($scope, $window, $ionicModal, $ionicPopover, $ionicActionSheet, $log, AlertSrv, AuthSrv, $ionicScrollDelegate, JournalSrv, $q, $state, DataSrv){
     var vm = {};
     $scope.vm = vm;
 	
@@ -111,13 +117,17 @@
 		});
 	}*/
 	
-	$scope.$on('sync', function(evt, data){
+	/*$scope.$on('sync', function(evt, data){
 		console.log("SYNC DETECTED FOR REMINDER",data.lastSync.st)
+		
+	});
+	*/
+	
+	DataSrv.hookOn('sync', function(data){
 		if (data.lastSync.st == "complete-success") {
 			vm.refreshData();
 		}
 	});
-	
 	AuthSrv.hookOn('login', function(){console.log('woot! got callback from my hooks');vm.refreshData();});
 	
 	/*console.log('Reminder login setup!');
