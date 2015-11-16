@@ -12,6 +12,8 @@
 	vm.lastSync = "";
 	vm.alertCount = 0;
 	vm.remindCount = 0;
+	vm.isExitAvailable = ((typeof navigator.app != 'undefined') && (typeof navigator.app.exitApp == 'function'));
+	
 	vm.sync = function() {
 		DataSrv.synchronize().catch(function(e){
 			console.log('Catched sync from menu.ctrl!',e);
@@ -21,7 +23,6 @@
 	
 	vm.refreshData = function(){
 		DataSrv.getData().then(function(data){ 
-			console.log('from defsdgsdgs',data);
 			vm.lastSync = data.lastSync.displayTime;
 			vm.alertCount = data.data.alerts.length;
 			vm.remindCount = data.data.reminders.length;
@@ -54,7 +55,7 @@
 	navigator.notification.confirm(
 		'Confirm exit?', function(b){if (b==2){navigator.app.exitApp()}},'Exit','Cancel,OK'
     )*/
-		navigator.app.exitApp();
+		if (vm.isExitAvailable) navigator.app.exitApp();
 	}
 
     function logout(){

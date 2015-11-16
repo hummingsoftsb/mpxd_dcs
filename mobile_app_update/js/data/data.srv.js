@@ -8,7 +8,8 @@
 	var service = {
 		getData: getData,
 		synchronize: synchronize,
-		_pull: _pull,
+		pull: _pull,
+		push: _push,
 		getLastSync: getLastSync,
 		hookOn: hookOn
     };
@@ -20,7 +21,7 @@
 	var getData_busy_promise = null;
 	var synchronize_busy_promise = null;
 	
-	
+	//
     return service;
 	
 	
@@ -198,6 +199,7 @@
 			});
 		})
 	}
+	
 	
 	// HAVE NOT COUNTED FOR EDGE CASES
 	function _push() {

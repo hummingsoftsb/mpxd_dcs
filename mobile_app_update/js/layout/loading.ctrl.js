@@ -13,14 +13,24 @@
 
     function redirect(){
       $timeout(function(){
-		if(AuthSrv.isLogged()){
-			AuthSrv.checkSession().then(function(){
-				PushSrv.initialize();
-				$state.go('app.tabs.journals');
+	  // First, check if logged
+		if(AuthSrv.isLogged()) {
+			// If logged & online, check online logged
+			AuthSrv.isOnlineLogged().then(function(y){
+				if(y){
+					AuthSrv.checkSession().then(function(){
+						PushSrv.initialize();
+						$state.go('app.tabs.journals');
+					});
+				} else {
+					$state.go('login');
+				}
 			});
-			} else {
-			    $state.go('login');
-			}
+		} else {
+			$state.go('login');
+		}
+		
+		
 		
       }, 300);
     }

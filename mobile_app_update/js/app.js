@@ -1,6 +1,48 @@
+angular.module('ngIOS9UIWebViewPatch', ['ng']).config(['$provide', function($provide) {
+  'use strict';
+
+  $provide.decorator('$browser', ['$delegate', '$window', function($delegate, $window) {
+
+    if (isIOS9UIWebView($window.navigator.userAgent)) {
+      return applyIOS9Shim($delegate);
+    }
+
+    return $delegate;
+
+    function isIOS9UIWebView(userAgent) {
+      return /(iPhone|iPad|iPod).* OS 9_\d/.test(userAgent) && !/Version\/9\./.test(userAgent);
+    }
+
+    function applyIOS9Shim(browser) {
+      var pendingLocationUrl = null;
+      var originalUrlFn= browser.url;
+
+      browser.url = function() {
+        if (arguments.length) {
+          pendingLocationUrl = arguments[0];
+          return originalUrlFn.apply(browser, arguments);
+        }
+
+        return pendingLocationUrl || originalUrlFn.apply(browser, arguments);
+      };
+
+      window.addEventListener('popstate', clearPendingLocationUrl, false);
+      window.addEventListener('hashchange', clearPendingLocationUrl, false);
+
+      function clearPendingLocationUrl() {
+        pendingLocationUrl = null;
+      }
+
+      return browser;
+    }
+  }]);
+}]);
+
+
+
 (function(){
   'use strict';
-  angular.module('app', ['ionic', 'ngCordova', 'LocalForageModule', 'angularUtils.directives.dirPagination', 'jrCrop', 'templatescache'])
+  angular.module('app', ['ngIOS9UIWebViewPatch', 'ionic', 'ngCordova', 'LocalForageModule', 'angularUtils.directives.dirPagination', 'jrCrop', 'templatescache'])
     .config(configure)
     .run(runBlock);
 
@@ -19,8 +61,9 @@
     //$httpProvider.interceptors.push('AuthInterceptor');
   }
 
-  function runBlock($rootScope, $state, $log, AuthSrv, PushPlugin, ToastPlugin, Config, $cordovaNetwork, $cordovaPush, $window, PushSrv){
-    checkRouteRights();
+  function runBlock($rootScope, $state, $log, AuthSrv, PushPlugin, ToastPlugin, Config, $cordovaNetwork, $cordovaPush, $window, PushSrv, UpdateSrv){
+    window.now = UpdateSrv.updateAppNow;
+	checkRouteRights();
 	//console.log('Setting up push notification');
     setupPushNotifications();
 	//console.log('finished');
@@ -49,14 +92,14 @@
 
 	});
 	
-	var exitNext = false;
+	$rootScope.exitNext = false;
 	
 	$rootScope.$on('$stateChangeStart', 
       function(event, toState, toParams, fromState, fromParams){
 		var from = fromState.name;
 		var to = toState.name;
 		var loggedIn = AuthSrv.getSession().logged;
-		console.log('FROM:'+from,'TO:'+to,exitNext);
+		console.log('FROM:'+from,'TO:'+to,$rootScope.exitNext);
 		//console.log('toparams: ',toParams);//
 		//console.log('fromparams: ',fromParams);
 		if ((from == '') && (to == 'loading')) {
@@ -68,19 +111,19 @@
 			// Anywhere to loading must be 'back to exit'
 			event.preventDefault();
 			askExit();
-		} else if ((to == 'login') && (typeof fromParams.logout != 'undefined') && (!fromParams.logout) && !exitNext) {
+		} else if ((to == 'login') && (typeof fromParams.logout != 'undefined') && (!fromParams.logout) && !$rootScope.exitNext) {
 			// Anywhere except loading to login is also exit except for logout!
 			event.preventDefault();
 			askExit();
 		} else if ((from == 'app.tabs.dataentry') && (to == 'login') && $rootScope.isJournalDirty) {
 			if (!loggedIn) {
 				if (confirm('You have been logged out, please re-login. Discard changes?')) {
-					exitNext = false;
+					$rootScope.exitNext = false;
 					//event.preventDefault();
 					//$state.go('login');
 				} else {
 					// So that after saving this journal, will go back to login screen.
-					exitNext = true;
+					$rootScope.exitNext = true;
 					event.preventDefault();
 				}
 			} else {
@@ -88,9 +131,9 @@
 				if (!askJournalExit()) event.preventDefault();
 			}
 		}
-		else if ((from == 'app.tabs.dataentry') && $rootScope.isJournalDirty && !exitNext) {
+		else if ((from == 'app.tabs.dataentry') && $rootScope.isJournalDirty && !$rootScope.exitNext) {
 			if (!askJournalExit()) event.preventDefault();
-		} /*else if ((from == 'app.tabs.dataentry') && exitNext) {
+		} /*else if ((from == 'app.tabs.dataentry') && $rootScope.exitNext) {
 			event.preventDefault();
 			$state.go('login');
 		}*/
@@ -140,6 +183,7 @@
 			$rootScope.isOnline = true;
 			ToastPlugin.showLongTop('Connection established');
 			console.log('Online!');
+			PushSrv.initialize();
 		})
 
 		// listen for Offline event

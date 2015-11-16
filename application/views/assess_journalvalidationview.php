@@ -292,14 +292,14 @@
 						<?php
 							$sno=1;
 							$closeButton = true;
-                        if($dataentryattb->actual_value == 'Yes'){
-                            $actual_value = '1.00';
-                        } elseif ($dataentryattb->actual_value == 'No') {
-                            $actual_value = '0.00';
-                        } else {
-                            $actual_value = $dataentryattb->actual_value;
-                        }
                         foreach($dataentryattbs as $dataentryattb):
+                            if($dataentryattb->actual_value == 'Yes'){
+                                $actual_value = '1.00';
+                            } elseif ($dataentryattb->actual_value == 'No') {
+                                $actual_value = '0.00';
+                            } else {
+                                $actual_value = $dataentryattb->actual_value;
+                            }
                             if (((float)$actual_value) != ((float)$dataentryattb->end_value)) $closeButton = false;
 								echo "<tr>";
 								echo '<td>'.$sno.'</td>';

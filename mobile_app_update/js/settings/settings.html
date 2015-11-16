@@ -71,6 +71,26 @@
     About App
   </a>
   
+  <div class="item item-toggle">
+    Enable developer mode
+     <label class="toggle toggle-balanced">
+       <input type="checkbox" ng-checked="vm.developerEnabled" ng-click="vm.changeDeveloperMode($event)">
+       <div class="track">
+         <div class="handle"></div>
+       </div>
+     </label>
+  </div>
+  <div ng-show="vm.developerEnabled">
+  <div class="item item-divider">Developer</div>
+  <a class="item" ng-click="vm.setUpdateUrl()">
+    Update Server URL 
+  </a>
+  <a class="item" ui-sref="app.tabs.test">
+    Integration test
+  </a>
+  </div>
+  
+  
   </ion-list>
   
   

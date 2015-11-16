@@ -56,6 +56,10 @@ Class MobileApp extends CI_Model
 			$this->db->set('installation_id', $installation_id);
 			$this->db->where('session_id',$session_id);
 			$q = $this->db->update('mobile_app_user');
+			
+			$this->db->set('installation_id', $installation_id);
+			$this->db->where('session_id',$session_id);
+			$q2 = $this->db->update('mobile_app_user_log');
 			return $q;
 		}
 		return false;
