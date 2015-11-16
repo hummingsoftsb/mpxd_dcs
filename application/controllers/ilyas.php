@@ -51,7 +51,18 @@ class Ilyas extends CI_Controller
 			}
 			
 			$id=$this->input->get('jid');
-			
+            //function for updating user alert seen status
+            if($this->input->get('alert_id')!="") {
+                $alert_id = $this->input->get('alert_id');
+            }
+            if($this->input->get('alert_user_id')!="") {
+                $alert_user_id = $this->input->get('alert_user_id');
+            }
+            if(!empty($alert_id) && (!empty($alert_user_id))){
+                $this->alertreminder->update_reminder_status($alert_id, $alert_user_id);
+            }
+            //end
+
 			$data1['username'] = $session_data['username'];
 			$data1['alerts']=$this->alertreminder->show_alert($session_data['id']);
 			$data1['alertcount']=$this->alertreminder->count_alert($session_data['id']);

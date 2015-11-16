@@ -59,6 +59,17 @@ class Journaldataentryadd extends CI_Controller
 			} else {
 			$id="";
 			}
+            //function for updating user alert seen status
+            if($this->input->get('alert_id')!="") {
+                $alert_id = $this->input->get('alert_id');
+            }
+            if($this->input->get('alert_user_id')!="") {
+                $alert_user_id = $this->input->get('alert_user_id');
+            }
+            if(!empty($alert_id) && (!empty($alert_user_id))){
+                $this->alertreminder->update_reminder_status($alert_id, $alert_user_id);
+            }
+            //end
 			
 			if(!$this->assessment->check_access($session_data['id'],$id) && $roleid != 1){
 			/*if(!$this->assessment->check_access($session_data['id'],$id)){*/

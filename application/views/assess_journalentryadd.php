@@ -298,7 +298,6 @@
 </script>
 <?php
 	$dependency = $details[0]->dependency;
-	var_dump($details);
 	$labelnames='';
 	foreach ($labels as $label): 
 		$labelnames .= ','.$label->sec_label_desc;
