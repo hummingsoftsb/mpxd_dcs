@@ -57,7 +57,11 @@
 		});
 	});
 </script>
-
+<?php
+            echo '<pre>';
+            print_r($records);
+            echo '</pre>';
+            ?>
 <?php
 	$labelnames='';
 	foreach ($labels as $label):
@@ -129,8 +133,8 @@ $(document).ready(function() {
 		"order": [[ 0, "asc" ]],
 		"columnDefs": [ {
 		  "targets"  : 'no-sort',
-		  "orderable": false,
-		}],
+		  "orderable": false
+		}]
 	});
 	
 	$('div.dataTables_filter input').attr('placeholder', 'Enter the text here');
