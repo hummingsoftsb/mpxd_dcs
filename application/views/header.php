@@ -45,7 +45,6 @@
             if (a.indexOf('DataTables warning') != -1) console.log(a); else oldalert(a)
         }
 
-
         function showloader(timer) {
             $('body').loader('show');
             if (timer > 1) {
@@ -86,7 +85,6 @@
     <!--    Function to multi delete the 'accepted' Journals-->
     <script>
         function sdelete() {
-            //alert('Ohh boy !'); //in
             // get the count of checked checkbox just to show alert
             var count = document.querySelectorAll('input[type="checkbox"]:checked').length;
             if (count > 0) {
@@ -96,8 +94,6 @@
                         // insert the values to array
                         val[i] = $(this).val();
                     });
-                    //alert('inside');
-                    //alert(val);
                     // loop to get the value and pass to the function to update the status
                     var i;
                     for (i = 0; i < val.length; i++) {
@@ -123,40 +119,6 @@
         }
     </script>
     <!--        Multi delete: End-->
-
-    <!--        Start:Highlight new alerts-->
-
-    <script>
-        $(document).ready(function () {
-            myFunction();
-        });
-    </script>
-
-    <script>
-        function myFunction() {
-
-
-            $("#table_notification tbody tr").on("click", function(){
-                $(this).addClass('selected');
-                $(this).css('background-color', "orange");
-            });
-
-
-            $('chk_chk').prop('checked')
-          {
-              //$('#table_notification tbody tr').css("background-color", "#000000");
-             // alert('gotcha!');
-              //$(this).addClass('selected');
-              //$(this).css('background-color', "orange");
-
-                }
-
-
-
-        }
-    </script>
-
-    <!--       End: Highlight new alerts-->
 </head>
 <body>
 <?php
@@ -247,7 +209,7 @@ $rlabelname = explode(",", $rlabelnames);
                                 <ul class="nav navbar-nav navbar-right">
                                     <!-- alert -->
                                     <li class="header_alert">
-                                        <a href="#" data-toggle="modal" data-target=".bs-example-modal-md_alert">
+                                        <a href="javascript:;" data-toggle="modal" data-target=".bs-example-modal-md_alert" id="notification_alert">
                                             <span class="glyphicon glyphicon-warning-sign">&nbsp;</span><i
                                                 class="fa fa-cloud"></i><span id="aCount"
                                                                               class="badge pull-right"><?php echo count($alerts); ?></span>
@@ -319,18 +281,29 @@ $rlabelname = explode(",", $rlabelnames);
                             "bLengthChange": false,
                             "bSort": false,
                             "language": {"loadingRecords": "No notification."}
-
                         });
-                        setInterval(function () {
+
+                       setInterval(function () {
                             oTable.api().ajax.reload(null, false); // user paging is not reset on reload
                             aCount = oTable.fnGetData().length;
                             $('#aCount').text(aCount);
-                            //console.log(aCount);
-                            myFunction();
+                           $('#checkboxes input:checkbox').each(function(){
+                               var time = 250;
+                               setTimeout(function() {
+                                   $('.not_seen').closest('tr').css('background-color', '#FC6C6C');
+                               }, time);
+                           });
                         }, 10000);
+                        $('#notification_alert').click(function(){
+                            $('#checkboxes input:checkbox').each(function(){
+                                var time = 250;
+                                setTimeout(function() {
+                                    $('.not_seen').closest('tr').css('background-color', '#FC6C6C');
+                                }, time);
+                         });
+                        });
                     });
                 </script>
-
 
                 <style type="text/css">
                     /*.override_style_1 {width: 10px !important;}*/
@@ -358,7 +331,7 @@ $rlabelname = explode(",", $rlabelnames);
                     <thead>
                     <tr>
                         <th><a href="javascript:sdelete()" id="adelete"><span title='Delete'
-                                                                              class='glyphicon glyphicon-trash'></span></a></button>
+                                                                              class='glyphicon glyphicon-trash'></span></a>
                         </th>
                         <th class="override_style_1">No</th>
                         <th class="override_style_2"><?php echo $alabelname[0]; ?></th>
@@ -367,7 +340,6 @@ $rlabelname = explode(",", $rlabelnames);
                         <th class="override_style_5"><?php echo $alabelname[3]; ?></th>
                     </tr>
                     </thead>
-
                     <tfoot>
                     <tr>
                         <th></th>
@@ -378,7 +350,7 @@ $rlabelname = explode(",", $rlabelnames);
                         <th><?php echo $alabelname[3]; ?></th>
                     </tr>
                     </tfoot>
-                    <tbody>
+                    <tbody id="checkboxes">
                     </tbody>
                 </table>
 

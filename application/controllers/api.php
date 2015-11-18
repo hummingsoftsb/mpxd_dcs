@@ -52,7 +52,6 @@ class Api extends CI_Controller
      		$session_data = $this->session->userdata('logged_in');
 			// $data_username = $session_data['username'];
 			$alerts = $this->alertreminder->show_alert($session_data['id']);
-			// var_dump($alerts);
 			// $data1_alertcount = $this->alertreminder->count_alert($session_data['id']);
 			// $data1_reminders = $this->alertreminder->show_reminder($session_data['id']);
 			// $data1_remindercount = $this->alertreminder->count_reminder($session_data['id']);
@@ -60,21 +59,26 @@ class Api extends CI_Controller
 			$output = array();
 			foreach ($alerts as $k => $alert){
 				$href = "";
+                if(($alert->alert_seen_status == 0) && ($alert->alert_user_id == $session_data['id'])){
+                    $class = 'not_seen';
+                } else {
+                    $class = 'seen';
+                }
 				if(is_null($alert->data_entry_no) && substr($alert->alert_message,-9,9) === 'Published' ){ //non-progressive journal
-					$href = base_url()."/index/ilyasvalidate?jid=".$alert->nonp_journal_id;
+					$href = base_url()."/index/ilyasvalidate?jid=".$alert->nonp_journal_id."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;
 				}
 				else if(is_null($alert->data_entry_no) && substr($alert->alert_message,-8,8) === 'Rejected'){ //non-progressive journal
-					$href = base_url()."index.php/ilyas?jid=".$alert->nonp_journal_id;
+					$href = base_url()."index.php/ilyas?jid=".$alert->nonp_journal_id."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;;
 				}
 				else if(!is_null($alert->data_entry_no) && substr($alert->alert_message,-9,9) === 'Published'){ //progressive journal
-					$href = base_url()."journalvalidationview?id=".$alert->data_validate_no;
+					$href = base_url()."journalvalidationview?id=".$alert->data_validate_no."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;;
 				}
 				else if(!is_null($alert->data_entry_no) && substr($alert->alert_message,-8,8) === 'Rejected' ){ //progressive journal
-					$href = base_url()."journaldataentryadd?jid=".$alert->data_entry_no;
+					$href = base_url()."journaldataentryadd?jid=".$alert->data_entry_no."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;;
 				}
 				if(substr($alert->alert_message,-8,8) === 'Accepted') :
                     //$alert_d0 ="<input type='checkbox' name='chk_chk' id='chk_chk[]'  value='$alert->alert_no' onclick='test()'>" ;
-                    $alert_d0 ="<input type='checkbox' class='cboxes' name='chk_chk' id='chk_chk[]' checked='checked' value='$alert->alert_no'>" ;
+                    $alert_d0 ="<input type='checkbox' class='cboxes $class' name='chk_chk' id='chk_chk[]' checked='checked' value='$alert->alert_no'>" ;
 					$alert_d1 = $alert->journal_name." ".$alert->alert_message;
 					$alert_d2 = date("d-M-y", strtotime($alert->alert_date));
 					$alert_d3 = $alert->frequency_period != "" ? $alert->frequency_period : '-' ;
@@ -82,7 +86,7 @@ class Api extends CI_Controller
 					$href = $alert_d1;
 					// echo json_encode($data);
 				else:
-                    $alert_d0 ="<input type='checkbox' id='dis_chk' name='dis_chk'  disabled='disabled'>" ;
+                    $alert_d0 ="<input type='checkbox' class='cboxes $class' id='dis_chk' name='dis_chk'  disabled='disabled'>" ;
 					$alert_d1 = $alert->journal_name." ".$alert->alert_message;
 					$alert_d2 = date("d-M-y", strtotime($alert->alert_date));
 					$alert_d3 = $alert->frequency_period != "" ? $alert->frequency_period : '-' ;
@@ -103,7 +107,6 @@ class Api extends CI_Controller
 		// $data = array('sda','dsadsa','ds');
 		// echo json_encode($data);
 	}
-	
 	function get_progressive_attributes() {
 		$jid = $_GET['jid'];
 		$r = $this->assessment->get_progressive_attributes($jid);

@@ -346,9 +346,6 @@ function remove_img(url) {
 
 </script>
 
-
-
-
 <?php
 $dependency = $details[0]->dependency;
 //var_dump($details);
@@ -358,6 +355,13 @@ foreach ($labels as $label):
 endforeach;
 $labelnames = substr($labelnames, 1);
 $labelname = explode(",", $labelnames);
+	$dependency = $details[0]->dependency;
+	$labelnames='';
+	foreach ($labels as $label): 
+		$labelnames .= ','.$label->sec_label_desc;
+	endforeach;
+	$labelnames=substr($labelnames,1);
+	$labelname=explode(",",$labelnames);
 ?>
 <div class="container">
 <div class="page-header">

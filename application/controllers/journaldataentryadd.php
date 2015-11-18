@@ -430,6 +430,7 @@ class Journaldataentryadd extends CI_Controller
             $this->assessment->update_seq_journal_data_entry_picture($t[0], $t[1]);
         }
     }
+
 }
 
 ?>
