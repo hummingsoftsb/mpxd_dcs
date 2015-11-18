@@ -44,7 +44,31 @@ Class Assessment extends CI_Model
         $q = $this->db->query($query);
         return $q->result();
     }
+    // Function To Fetch All pending data entry owner Record
+    function show_pending_journal_dataentry_p($data,$offset,$perPage,$userid,$roleid)
+    {
+        $data=strtolower($data);
+        $data=str_replace("'","''",$data);
+        $query ="select a.project_no,a.project_name,b.journal_name,b.journal_no,c.data_entry_status_id from project_template a, journal_master b, journal_data_entry_master c where a.project_no=b.project_no and b.journal_no=c.journal_no and c.data_entry_status_id=1 ";
+        if($userid!="1" && $roleid!="1")
+        {
+            $query .=" and c.journal_no in (select journal_no from journal_validator where validate_user_id=$userid)";
+        }
+        if($data!="" && $data!="project_name asc" && $data!="project_name desc" && $data!="journal_name asc" && $data!="journal_name desc")
+        {
+            $query .=" and( lower(a.project_name) like '%".$data."%' ";
+            $query .=" or lower(b.journal_name) like '%".$data."%' )";
 
+        }
+        if($data=="project_name asc" || $data=="project_name desc" || $data=="journal_name asc" || $data=="journal_name desc") {
+            $query.="Order By ".$data;
+        } else {
+            $query.="Order By project_name asc,journal_name asc";
+        }
+        $query .=" OFFSET ".$offset."LIMIT ".$perPage;
+        $q = $this->db->query($query);
+        return $q->result();
+    }
     // Function To Fetch Selected data entry owner journal Record
     function show_pjde_id($data)
     {
