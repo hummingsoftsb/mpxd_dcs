@@ -263,8 +263,9 @@ final class ParseClient
         curl_setopt($rest, CURLOPT_URL, $url);
         curl_setopt($rest, CURLOPT_RETURNTRANSFER, 1);
 		
+		
 		//Modified by Ilyas! This is to get over the SSL errors. Not a good security practice though.
-		//curl_setopt($rest, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($rest, CURLOPT_SSL_VERIFYPEER, false);
 		//End
 		
         if ($method === 'POST') {

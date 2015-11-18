@@ -287,7 +287,7 @@ class Admindataattr extends CI_Controller
 		{
 			//query the database
 			$result = $this->admin->delete_dataatt($id);
-			$sess_array = array('message' => $this->securitys->get_label_object(17)." Deleted Successfully","type" => 1);
+			$sess_array = array('message' => $this->securitys->get_label_object(9)." Deleted Successfully","type" => 1);
 			$this->session->set_userdata('message', $sess_array);
 			echo json_encode(array('st'=>1, 'msg' => 'Success'));
 		}
