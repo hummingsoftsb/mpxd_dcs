@@ -1,5 +1,6 @@
 //hehehehehehehehehehehehehe
 function checkAndSendAllImages() {
+
 	if (checkImageUpload()) {
 		sendAll();
 	}
@@ -266,3 +267,179 @@ $(function () {
 		if (shouldRefresh) location.reload();
 	})
 });
+
+// agaile
+
+
+$(function () {
+    'use strict';
+    var uploadButton = $('<button/>')
+        .addClass('btn btn-primary')
+        .prop('disabled', true)
+        .text('Processing...')
+        .on('click', function () {
+            var $this = $(this),
+                data = $this.data();
+            $this
+                .off('click')
+                .text('Abort')
+                .on('click', function () {
+                    $this.remove();
+                    data.abort();
+                });
+            data.submit().always(function () {
+                $this.remove();
+            });
+        });
+    $('#updateimage').fileupload({
+        url: uploadUrl,
+        dataType: 'json',
+        autoUpload: false,
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        maxFileSize: 10000000,
+        // Enable image resizing, except for Android and Opera,
+        // which actually support image resizing, but fail to
+        // send Blob objects via XHR requests:
+        disableImageResize: true,
+        previewMaxWidth: 100,
+        previewMaxHeight: 100,
+        previewCrop: false,
+        paramName: 'file',
+        fail: function(e, data) {
+            if (e.isDefaultPrevented()) {
+                return false;
+            }
+            $.each(pendingFiles, function(idx, i) {
+                if (i == data) pendingFiles.splice(idx,1);
+            });
+            var that = $(this).data('blueimp-fileupload') ||
+                    $(this).data('fileupload'),
+                template,
+                deferred;
+            if (data.context) {
+                data.context.each(function (index) {
+                    if (data.errorThrown !== 'abort') {
+                        var file = data.files[index];
+                        file.error = file.error || data.errorThrown ||
+                        data.i18n('unknownError');
+                        deferred = that._addFinishedDeferreds();
+                        that._transition($(this)).done(
+                            function () {
+                                var node = $(this);
+                                template = that._renderDownload([file])
+                                    .replaceAll(node);
+                                that._forceReflow(template);
+                                that._transition(template).done(
+                                    function () {
+                                        data.context = $(this);
+                                        that._trigger('failed', e, data);
+                                        that._trigger('finished', e, data);
+                                        deferred.resolve();
+                                    }
+                                );
+                            }
+                        );
+                    } else {
+                        deferred = that._addFinishedDeferreds();
+                        that._transition($(this)).done(
+                            function () {
+                                $(this).remove();
+                                that._trigger('failed', e, data);
+                                that._trigger('finished', e, data);
+                                deferred.resolve();
+                            }
+                        );
+                    }
+                });
+            } else if (data.errorThrown !== 'abort') {
+                data.context = that._renderUpload(data.files)[
+                    that.options.prependFiles ? 'prependTo' : 'appendTo'
+                    ](that.options.filesContainer)
+                    .data('data', data);
+                that._forceReflow(data.context);
+                deferred = that._addFinishedDeferreds();
+                that._transition(data.context).done(
+                    function () {
+                        data.context = $(this);
+                        that._trigger('failed', e, data);
+                        that._trigger('finished', e, data);
+                        deferred.resolve();
+                    }
+                );
+            } else {
+                that._trigger('failed', e, data);
+                that._trigger('finished', e, data);
+                that._addFinishedDeferreds().resolve();
+            }
+        }
+    }).on('fileuploadadd', function (e, data) {
+        pendingFiles.push(data);
+        data.context = $('<div/>').appendTo('#files');
+        $.each(data.files, function (index, file) {
+            var node = $('<p/>')
+                .append($('<span/>').text(file.name));
+            if (!index) {
+                node
+                    .append('<br>')
+                    .append(uploadButton.clone(true).data(data));
+            }
+            node.appendTo(data.context);
+        });
+    }).on('fileuploadprocessalways', function (e, data) {
+        var index = data.index,
+            file = data.files[index],
+            node = $(data.context.children()[index]);
+        if (file.preview) {
+            node
+                //.prepend('<br>')
+                .prepend(file.preview);
+        }
+        if (file.error) {
+            node
+                .append('<br>')
+                .append($('<span class="text-danger"/>').text(file.error));
+        }
+
+    }).on('fileuploadprogressall', function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress .progress-bar').css(
+            'width',
+            progress + '%'
+        );
+    }).on('fileuploaddone', function (e, data) {
+        $.each(data.result.file, function (index, file) {
+            if (file.url) {
+                shouldRefresh = true;
+                var link = $('<a>')
+                    .attr('target', '_blank')
+                    .prop('href', file.url);
+                $(data.context.children()[index])
+                    .wrap(link);
+            } else if (file.error) {
+                var error = $('<span class="text-danger"/>').text(file.error);
+                $(data.context.children()[index])
+                    .append('<br>')
+                    .append(error);
+            }
+        });
+    }).on('fileuploadfinished',function(e,data) {
+        data.context.find('.remove').off().on('click', function(e){
+            e.preventDefault();
+            $(this).parents('tr').remove();
+        });
+    }).on('fileuploadfail', function (e, data) {
+        $.each(data.files, function (index) {
+            var error = $('<span class="text-danger"/>').text('File upload failed.');
+            $(data.context.children()[index])
+                .append('<br>')
+                .append(error);
+        });
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+    $('.closebutton, #testmodal .close').on('click',function(){
+        if (shouldRefresh) location.reload();
+    })
+});
+
+

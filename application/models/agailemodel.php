@@ -36,6 +36,12 @@ Class AgaileModel extends CI_Model
         $q = $this->db->query($query);
         return $q->num_rows();
     }
+
+    function delete_image_for_replace($picid,$datenno){
+        $this->db->where('data_entry_pict_no', $picid);
+        $this->db->where('data_entry_no', $datenno);
+        return $this->db->delete('journal_data_entry_picture');
+    }
 }
 
 ?>
