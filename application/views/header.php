@@ -288,7 +288,7 @@ $rlabelname = explode(",", $rlabelnames);
                             aCount = oTable.fnGetData().length;
                             $('#aCount').text(aCount);
                            $('#checkboxes input:checkbox').each(function(){
-                               var time = 250;
+                               var time = 500;
                                setTimeout(function() {
                                    $('.not_seen').closest('tr').css('background-color', '#FC6C6C');
                                }, time);
@@ -296,7 +296,7 @@ $rlabelname = explode(",", $rlabelnames);
                         }, 10000);
                         $('#notification_alert').click(function(){
                             $('#checkboxes input:checkbox').each(function(){
-                                var time = 250;
+                                var time = 500;
                                 setTimeout(function() {
                                     $('.not_seen').closest('tr').css('background-color', '#FC6C6C');
                                 }, time);
