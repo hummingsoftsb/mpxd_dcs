@@ -158,7 +158,7 @@ class Reportphoto extends CI_Controller {
 		//echo json_encode($project_assigned); die();
 		foreach($project_arr as $pa){			
 			foreach($projects_data as $pdata){
-				if(strtolower($pa['name']) == strtolower($pdata->project_name) && $session_data['roleid'] == 1){
+				if(strtolower($pa['name']) == strtolower($pdata->project_name) && ($session_data['roleid'] == 1 || $session_data['roleid'] == 16)){
 					$pdata->indent = $pa['indent'];
 					$projects[] = $pdata;
 				}

@@ -233,7 +233,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-						<input type=submit value="Update" class="btn btn-primary btn-sm" onclick="showloader();">
+						<input type=submit value="Save Changes" class="btn btn-primary btn-sm" onclick="showloader();">
 					</div>
 				</form>
 			</div>

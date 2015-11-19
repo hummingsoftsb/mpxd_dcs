@@ -290,15 +290,15 @@ $rlabelname = explode(",", $rlabelnames);
                            $('#checkboxes input:checkbox').each(function(){
                                var time = 500;
                                setTimeout(function() {
-                                   $('.not_seen').closest('tr').css('background-color', '#FC6C6C');
+                                   $('.not_seen').closest('tr').css('background-color', '#e6f3f7');
                                }, time);
                            });
-                        }, 10000);
+                        }, 30000);
                         $('#notification_alert').click(function(){
                             $('#checkboxes input:checkbox').each(function(){
                                 var time = 500;
                                 setTimeout(function() {
-                                    $('.not_seen').closest('tr').css('background-color', '#FC6C6C');
+                                    $('.not_seen').closest('tr').css('background-color', '#e6f3f7');
                                 }, time);
                          });
                         });
