@@ -101,6 +101,7 @@ Class Timeline extends CI_Model {
         $data = str_replace("'", "''", $data);
         //$query = "(select a.complete_percent,c.journal_name,c.start_date,c.end_date,d.project_name,e.frequency_detail_name from data_entry_status a,journal_data_entry_master b,journal_master c,project_template d,frequency_detail e where a.data_entry_status_id=b.data_entry_status_id and c.journal_no=b.journal_no and c.project_no=d.project_no and b.frequency_detail_no=e.frequency_detail_no";
         $query = "(select a.complete_percent,c.journal_name,c.start_date,c.end_date,d.project_name,e.frequency_detail_name,f.user_full_name,f.user_full_name from data_entry_status a,journal_data_entry_master b,journal_master c,project_template d,frequency_detail e,sec_user f, journal_data_user g where a.data_entry_status_id=b.data_entry_status_id and c.journal_no=b.journal_no and c.project_no=d.project_no and b.frequency_detail_no=e.frequency_detail_no and g.journal_no = c.journal_no and f.user_id = g.data_user_id";
+        //$query = "(select b.data_entry_no,a.complete_percent,d.project_name,c.journal_name,e.frequency_detail_name,c.start_date,c.end_date,f.user_full_name,i.user_full_name as gate_name,a.data_entry_status_desc from data_entry_status a,journal_data_entry_master b,journal_master c,project_template d,frequency_detail e,sec_user f, journal_data_user g,journal_data_validate_master h,sec_user i where a.data_entry_status_id=b.data_entry_status_id and c.journal_no=b.journal_no and c.project_no=d.project_no and b.frequency_detail_no=e.frequency_detail_no and g.journal_no = c.journal_no and f.user_id = g.data_user_id and b.data_entry_no = h.data_entry_no and h.validate_user_id = i.user_id";
         if ($data == "completed") {
             $query .=" and a.complete_percent=100.00";
         } else if ($data == "pending") {
@@ -124,6 +125,7 @@ Class Timeline extends CI_Model {
         }*/
         $query .=")";
         $query .=" order by project_name, journal_name,frequency_detail_name asc";
+        //echo($query);
         $query = $this->db->query($query);
         return $query->num_rows();
     }
@@ -157,7 +159,7 @@ Class Timeline extends CI_Model {
         }*/
         $query .=")";
         $query .=" order by project_name, journal_name, frequency_detail_name asc OFFSET " . $offset . "LIMIT " . $perPage;
-//        echo $query;
+ //       echo $query;
 //        exit;
         $q = $this->db->query($query);
         return $q->result();
@@ -168,8 +170,10 @@ Class Timeline extends CI_Model {
     // Function To Fetch All Journal Record
     function show_jourstat1() {
         //$query = "(select a.complete_percent,c.journal_name,c.start_date,c.end_date,d.project_name,e.frequency_detail_name from data_entry_status a,journal_data_entry_master b,journal_master c,project_template d,frequency_detail e where a.data_entry_status_id=b.data_entry_status_id and c.journal_no=b.journal_no and c.project_no=d.project_no and b.frequency_detail_no=e.frequency_detail_no";
-        $query = "(select b.data_entry_no,a.complete_percent,d.project_name,c.journal_name,e.frequency_detail_name,c.start_date,c.end_date,f.user_full_name,i.user_full_name as gate_name,a.data_entry_status_desc from data_entry_status a,journal_data_entry_master b,journal_master c,project_template d,frequency_detail e,sec_user f, journal_data_user g,journal_data_validate_master h,sec_user i where a.data_entry_status_id=b.data_entry_status_id and c.journal_no=b.journal_no and c.project_no=d.project_no and b.frequency_detail_no=e.frequency_detail_no and g.journal_no = c.journal_no and f.user_id = g.data_user_id and b.data_entry_no = h.data_entry_no and h.validate_user_id = i.user_id";
+        $query = "(select b.data_entry_no,a.complete_percent,d.project_name,c.journal_name,e.frequency_detail_name,c.start_date,c.end_date,f.user_full_name,i.user_full_name as gate_name,a.data_entry_status_desc,h.validate_level_no from data_entry_status a,journal_data_entry_master b,journal_master c,project_template d,frequency_detail e,sec_user f, journal_data_user g,journal_data_validate_master h,sec_user i where a.data_entry_status_id=b.data_entry_status_id and c.journal_no=b.journal_no and c.project_no=d.project_no and b.frequency_detail_no=e.frequency_detail_no and g.journal_no = c.journal_no and f.user_id = g.data_user_id and b.data_entry_no = h.data_entry_no and h.validate_user_id = i.user_id";
         $query .=")";
+        $query .=" order by project_name, journal_name, frequency_detail_name asc, validate_level_no asc";
+        //echo($query);
         $q = $this->db->query($query);
         return $q->result();
     }

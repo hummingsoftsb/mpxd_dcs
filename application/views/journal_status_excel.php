@@ -45,6 +45,7 @@ $labelname=explode(",",$labelnames);
         }
     </style>
 <div = "table">
+
 <table class="table table-striped table-hover" id="status_table" name="status_table">
     <tr>
         <th>No</th>
