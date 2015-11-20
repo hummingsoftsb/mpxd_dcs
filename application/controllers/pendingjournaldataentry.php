@@ -78,6 +78,7 @@ class Pendingjournaldataentry extends CI_Controller
 
             //Load all progressive record data
             $data['records'] = $this->assessment->show_pending_journal_dataentry_p($search, $offset, $config['per_page'], $userid, $roleid);
+            print_r($data);
             $data['totalrows'] = $config['total_rows'];
             $data['mpage'] = $config['per_page'];
             $data['page'] = $page + 1;
@@ -140,6 +141,7 @@ class Pendingjournaldataentry extends CI_Controller
                 $np_journal->project_name = $npj->project_name;
                 $np_journal->journal_name = $npj->journal_name;
                 $np_journal->journal_no = $npj->journal_no;
+                $np_journal->frequency_detail_name = '-';
                 $npjs[] = $np_journal;
             }
             $combined_records = array();
@@ -150,7 +152,6 @@ class Pendingjournaldataentry extends CI_Controller
                 $combined_records[] = $r;
             }
             $data['records'] = $combined_records;
-
             $combined_pjdefreq = array();
             foreach ($data['pjdefreq'] as $k => $r) {
                 $combined_pjdefreq[$k] = $r;
