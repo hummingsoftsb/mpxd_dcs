@@ -78,7 +78,6 @@ class Pendingjournaldataentry extends CI_Controller
 
             //Load all progressive record data
             $data['records'] = $this->assessment->show_pending_journal_dataentry_p($search, $offset, $config['per_page'], $userid, $roleid);
-            print_r($data);
             $data['totalrows'] = $config['total_rows'];
             $data['mpage'] = $config['per_page'];
             $data['page'] = $page + 1;
