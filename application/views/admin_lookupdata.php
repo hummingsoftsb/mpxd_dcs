@@ -284,6 +284,11 @@
 	<!-- <div class="row text-center text-danger"><?php echo $message; ?> </div> -->
 	<div class="row text-center <?php echo $message_type == 1? "text-success" : "text-danger"; ?>"><?php echo $message; ?></div>
 	<div class="row">
+<!--        --><?php
+//        echo '<pre>';
+//        print_r($records);
+//        echo '<pre>';
+//        ?>
 		<table class="table table-striped table-hover">
 	        <thead>
     			<tr>
@@ -304,7 +309,9 @@
 				  			<td><?php echo $sno; ?></td>
 				  			<td><?php echo $record->lk_code; ?></td>
 				  			<td><?php echo $record->lk_data; ?></td>
-				  			<td  style="text-align: center;"><?php echo $record->lk_value; ?></td>
+<!--                            Modified by agaile as per requirements on 20/11/2015 task #9605-->
+				  			<td style="text-align: center;"><?php $a = explode(".",$record->lk_value); echo $a[0]; ?></td>
+<!--				  			<td  style="text-align: center;">--><?php //echo $record->lk_value; ?><!--</td>-->
 	      					<td>
 								<?php
 									if($editperm==1)
