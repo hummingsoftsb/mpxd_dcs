@@ -140,6 +140,7 @@ class Pendingjournaldataentry extends CI_Controller
                 $np_journal->project_name = $npj->project_name;
                 $np_journal->journal_name = $npj->journal_name;
                 $np_journal->journal_no = $npj->journal_no;
+                $np_journal->frequency_detail_name = '-';
                 $npjs[] = $np_journal;
             }
             $combined_records = array();
@@ -150,7 +151,6 @@ class Pendingjournaldataentry extends CI_Controller
                 $combined_records[] = $r;
             }
             $data['records'] = $combined_records;
-
             $combined_pjdefreq = array();
             foreach ($data['pjdefreq'] as $k => $r) {
                 $combined_pjdefreq[$k] = $r;

@@ -33,16 +33,16 @@ var mode = 'add';
 
 function openModalEdit(journal_no) {
 	mode = "update";
-	$('#MyModal').modal('show');
+	$('#MyModal2').modal('show');
 	var j = $.grep(journals, function(n){return (n.journal_no == journal_no)})[0];
 	
-	$('#projectname').val(j.project_no);
-	$('#journalname').val(j.journal_name);
-	$('#user').val(j.owner_user_id);
-	$('#validateuser1').val(j.validate_user_id);
-	$('#dataentryuser1').val(j.data_user_id);
-	$('#reminder_frequency').val(j.reminder_frequency);
-	$('#journal_no').val(j.journal_no);
+	$('#MyModal2 #projectname').val(j.project_no);
+	$('#MyModal2 #journalname').val(j.journal_name);
+	$('#MyModal2 #user').val(j.owner_user_id);
+	$('#MyModal2 #validateuser1').val(j.validate_user_id);
+	$('#MyModal2 #dataentryuser1').val(j.data_user_id);
+	$('#MyModal2 #reminder_frequency').val(j.reminder_frequency);
+	$('#MyModal2 #journal_no').val(j.journal_no);
 }
 
 $(document).on("click", ".modaldelete", function ()
@@ -58,13 +58,14 @@ $(document).on("click", ".modaldelete", function ()
 
 function notify(text) {
 	$('#notification').empty().append($('<div class="alert alert-danger alert-dismissible fade in" role="alert" style="text-align:left;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong id="notification_text">'+text+'</strong></div></div>')).show();
+	$('#notification2').empty().append($('<div class="alert alert-danger alert-dismissible fade in" role="alert" style="text-align:left;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong id="notification_text">'+text+'</strong></div></div>')).show();
 }
 	$(document).ready(function()
 	{
 	
 		$('#addbutton').on('click', function(){mode = 'add';$('#journal_no').val('');});
 	
-		$('#addrecord').on('submit', function(e){
+		$('#addrecord, #addrecord2').on('submit', function(e){
 			var $t = $(this);
 			var data = $t.serializeArray();
 			var url = '<?php echo base_url(); ?><?php echo $cpagename; ?>/'+ ((mode == "add") ? "add":"update") +'/';
@@ -147,7 +148,7 @@ function notify(text) {
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-						<h4 class="modal-title" id="myModalLabel"><?php echo $labelobject; ?></h4>
+						<h4 class="modal-title" id="myModalLabel">Add <?php echo $labelobject; ?></h4>
 					</div>
 					<div class="modal-body">
 						<form method=post id=addrecord>
@@ -269,7 +270,143 @@ function notify(text) {
 								</div>
 						</div>
 							<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
-							<input type="submit" class="btn btn-primary btn-sm" value="Save" onclick="showloader();" />
+							<input type="submit" class="btn btn-primary btn-sm" value="Add Journal" onclick="showloader();" />
+						</div>
+					</form>
+				</div>
+			
+		</div>
+	</div>
+	<!--close-->
+	<!-- pop-up -->
+	<div class="modal fade" id="MyModal2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" id="myModalLabel">Edit <?php echo $labelobject; ?></h4>
+					</div>
+					<div class="modal-body">
+						<form method=post id=addrecord2>
+							
+							
+							<input type="hidden" name="journal_no" id="journal_no" value=""/>
+							<div class="row" style="margin-bottom:15px">
+							<div class="form-group">
+								<label for="select" class="col-lg-4 control-label"><?php echo $labelname[0]; ?> <red>*</red></label>
+								<div class="col-lg-8">
+									<select class="dropdown-toggle form-control" id="projectname" name="projectname">
+										<?php
+											foreach ($projects as $project):
+										?>
+												<option value="<?php echo $project->project_no; ?>"><?php echo $project->project_name; ?></option>
+										<?php
+											endforeach;
+										?>
+									</select>
+								</div>
+							</div>
+							</div>
+
+							<div class="row" style="margin-bottom:15px">
+							<div class="form-group">
+								<label for="select" class="col-lg-4 control-label"><?php echo $labelname[1]; ?> <red>*</red></label>
+								<div class="col-lg-8">
+									<input type="text" class="form-control" id="journalname" name="journalname" placeholder="" maxlength="120">
+								</div>
+							</div>
+							</div>
+
+
+							<div class="row" style="margin-bottom:15px">
+							<div class="form-group">
+								<label for="select" class="col-lg-4 control-label"><?php echo $labelname[3]; ?> <red>*</red></label>
+								<div class="col-lg-8">
+									<select class="dropdown-toggle form-control" id="user" name="user">
+										<?php
+											$session_data = $this->session->userdata('logged_in');
+											$userid = $session_data['id'];
+											foreach ($users as $user):
+												if($user->user_id==$userid)
+													{
+										?>
+														<option value="<?php echo $user->user_id; ?>" selected="selected"><?php echo $user->user_full_name; ?></option>
+												<?php	
+													}
+													else
+													{
+												?>
+														<option value="<?php echo $user->user_id; ?>"><?php echo $user->user_full_name; ?></option>
+										<?php
+													}
+											endforeach;
+										?>
+									</select>
+								</div>
+							</div>
+							</div>
+
+							<div class="row" style="margin-bottom:15px">
+							<div class="form-group">
+        						<label for="select" class="col-lg-4 control-label"><?php echo $labelname[5]; ?> <red>*</red></label>
+        						<div class="col-lg-8">
+									<select class="dropdown-toggle form-control" id="validateuser1" name="validateuser1">
+										<?php
+											foreach ($users as $user):
+										?>
+												<option value="<?php echo $user->user_id; ?>"><?php echo $user->user_full_name; ?></option>
+										<?php
+											endforeach;
+										?>
+									</select>
+								</div>
+							</div>
+							</div>
+							
+							
+							<div class="row" style="margin-bottom:15px">
+							<div class="form-group">
+								<label for="select" class="col-lg-4 control-label"><?php echo $labelname[6]; ?> <red>*</red></label>
+								<div class="col-lg-8">
+									<select class="dropdown-toggle form-control" id="dataentryuser1" name="dataentryuser1">
+										<?php
+											foreach ($users as $user):
+										?>
+												<option value="<?php echo $user->user_id; ?>"><?php echo $user->user_full_name; ?></option>
+										<?php
+											endforeach;
+										?>
+									</select>
+								</div>
+							</div>
+							</div>
+							
+							<div class="row" style="margin-bottom:15px">
+							<div class="form-group">
+								<label for="select" class="col-lg-4 control-label">Reminder Frequency</label>
+								<div class="col-lg-8">
+									<select class="dropdown-toggle form-control" id="reminder_frequency" name="reminder_frequency">
+										<option value="">None</option>
+										<option value="Weekly">Weekly</option>
+										<option value="Monthly">Monthly</option>
+									</select>
+								</div>
+							</div>
+							</div>
+							
+							
+						</div>
+						
+						<div class="modal-footer" style="text-align:center;border:0;">
+						<div class="row">
+							<div class="col-md-12"><div id="notification2" style="display:none">
+		
+								
+								</div>
+								</div>
+						</div>
+							<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+							<input type="submit" class="btn btn-primary btn-sm" value="Save Changes" onclick="showloader();" />
 						</div>
 					</form>
 				</div>
