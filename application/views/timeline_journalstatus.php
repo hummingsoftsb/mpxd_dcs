@@ -189,9 +189,9 @@ $labelname = explode(",", $labelnames);
         <tbody>
 
 <?php
-/*echo "<pre>";
-	print_r($records);
-	echo "</pre>";*/
+//echo "<pre>";
+//	print_r($records);
+//	echo "</pre>";
 ?>
 <?php $i=0; foreach($records as $pstat) { $i++;
     $startdate = date("d-m-Y", strtotime($pstat['start_date']));
@@ -241,9 +241,9 @@ $labelname = explode(",", $labelnames);
 
         <div class="col-md-12">
             <div class="col-md-4">
-                <ul class="pagination">
-                    <?php echo $this->pagination->create_links(); ?>
-                </ul>
+<!--                <ul class="pagination">-->
+<!--                    --><?php //echo $this->pagination->create_links(); ?>
+<!--                </ul>-->
             </div>
 <!--            <div class="col-md-4 col-md-offset-1">-->
 <!--                <div class="form-group">-->

@@ -223,7 +223,7 @@ class Securityroles extends CI_Controller
 		}
 		if($this->input->post('roleupdate')=="Add")
 		{
-			$sess_array = array('message' => $this->securitys->get_label_object(18)." Added Successfully","type" => 1);
+			$sess_array = array('message' => $this->securitys->get_label_object(13)." Added Successfully","type" => 1);
 		}
 		else
 		{
@@ -241,7 +241,7 @@ class Securityroles extends CI_Controller
 		{
 			//query the database
 			$result = $this->securitys->delete_role($id);
-			$sess_array = array('message' => $this->securitys->get_label_object(18)." Deleted Successfully","type" => 1);
+			$sess_array = array('message' => $this->securitys->get_label_object(13)." Deleted Successfully","type" => 1);
 			$this->session->set_userdata('message', $sess_array);
 			echo json_encode(array('st'=>1, 'msg' => 'Success'));
 		}

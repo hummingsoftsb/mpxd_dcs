@@ -82,7 +82,12 @@ class Journalstatus extends CI_Controller
             // create a temp: array
             $temp_array =array();
 			//Load all record data
-            $result = $this->timeline->show_jourstat($search,$offset,$config['per_page']);
+            //previous one
+            //$result = $this->timeline->show_jourstat($search,$offset,$config['per_page']);
+
+            //Load all record data
+            // changed the query in fetching the data
+            $result = $this->timeline->show_jourstat1();
             $data['first']  = $result ;
             // to concatenate the gate keeper name
             foreach($result as $result_row)
