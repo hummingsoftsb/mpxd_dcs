@@ -283,7 +283,8 @@ class Designjournalnonp_ilyas extends CI_Controller
         }
         else
         {
-            $sess_array = array('message' => "Cannot delete ".$this->securitys->get_label_object(20).", Assigned to ".$this->securitys->get_label_object(21).$id,"type" => 0);
+            //$sess_array = array('message' => "Cannot delete ".$this->securitys->get_label_object(20).", Assigned to ".$this->securitys->get_label_object(21).$id,"type" => 0);
+            $sess_array = array('message' => "Failed to delete, Journal is in progress.","type" => 0);
             $this->session->set_userdata('message', $sess_array);
         }
     }

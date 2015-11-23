@@ -4,6 +4,7 @@ header("Content-Disposition:attachment;filename=Project_Journal_Status.xls");
 header("Pragma:no-cache");
 header("Expires:0");
 ?>
+
 <?php
 $labelnames='';
 foreach ($labels as $label):
@@ -20,19 +21,6 @@ $labelname=explode(",",$labelnames);
     </div>
 
 
-<!--    <div class="row">
-
-
-        <div class="col-md-4">
-            <ul class="breadcrumb" style=" text-align: center; ">
-                <li><a href="<?php /*echo base_url(); */?>home">Home</a></li>
-                <li><?php /*echo $labelgroup; */?></li>
-                <li class="active"><?php /*echo $labelobject; */?></li>
-            </ul>
-        </div>
-
-
-    </div>-->
 
 </div>
 
