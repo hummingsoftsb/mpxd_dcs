@@ -212,7 +212,7 @@ $rlabelname = explode(",", $rlabelnames);
                                         <a href="javascript:;" data-toggle="modal" data-target=".bs-example-modal-md_alert" id="notification_alert">
                                             <span class="glyphicon glyphicon-warning-sign">&nbsp;</span><i
                                                 class="fa fa-cloud"></i><span id="aCount"
-                                                                              class="badge pull-right"><?php echo count($alerts); ?></span>
+                                                                              class="badge pull-right"><?php echo $alertcount; ?></span>
                                         </a>
                                     </li>
                                     <!--  -->
