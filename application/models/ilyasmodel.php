@@ -505,43 +505,39 @@ Class IlyasModel extends CI_Model
 		return $resultarray;*/
 	}
 
-    function get_journals_nonp_pending($data,$offset=0,$perPage,$userid,$emptyAllowed=false,$roleid) {
-        /* Get all journals for the current user */
-        $data=strtolower($data);
-        $data=str_replace("'","''",$data);
-        $isSort = ($data=="project_name asc" || $data=="project_name desc" || $data=="journal_name asc" || $data=="journal_name desc");
-        $isSearch = (($data != "") && (!$isSort));
-        $isOwner = ($userid != "1" && $roleid !="1");
-        $owner = "AND b.journal_no IN (SELECT journal_no FROM journal_validator_nonprogressive WHERE validate_user_id=$userid)";
-        $search = " AND (lower(a.project_name) like '%".$data."%' or lower(b.journal_name) like '%".$data."%' )";
-
-        $query = "SELECT * FROM (SELECT DISTINCT ON(b.journal_no) i.config_no,i.col_header,i.col_width,i.uom_id,i.type,i.col_order,a.project_name,b.nonp_enabled,b.journal_name, b.project_no, b.reminder_frequency ,b.journal_no,e.user_full_name, e.user_id AS owner_user_id, jvn.validate_user_id, jdu.data_user_id FROM project_template a, journal_master_nonprogressive b, sec_user e, journal_validator_nonprogressive jvn, journal_data_user_nonprogressive jdu, ilyas_config i WHERE a.project_no=b.project_no AND b.user_id=e.user_id AND jvn.journal_no=b.journal_no AND jdu.journal_no=b.journal_no AND i.journal_no=b.journal_no ".($isOwner ? $owner : "")." ".($isSearch ? $search : ""). " ";
-        // Sorting function
-        if($isSearch)
-        {
-            $query .= $search;
+    /* Get all pending non-progressive journals for the current user */
+    function get_journals_nonp_pending($data, $offset = 0, $perPage, $userid, $emptyAllowed = false, $roleid)
+    {
+        /*query to select record with no entry in table ilyas */
+        $query1 = "SELECT a.project_no,b.journal_no,a.project_name,b.journal_name,a.start_date,a.end_date,b.reminder_frequency,e.user_full_name as data_entry
+                    from project_template a join journal_master_nonprogressive b on a.project_no = b.project_no join ilyas_config c on b.journal_no = c.journal_no
+                    join journal_validator_nonprogressive d on b.journal_no=d.journal_no join journal_data_user_nonprogressive f on b.journal_no=f.journal_no join sec_user e on f.data_user_id = e.user_id
+                    where c.config_no not in (SELECT config_no from ilyas) and d.validate_user_id = $userid
+                    group by b.journal_no, a.project_no,e.user_full_name";
+        $result1 = $this->db->query($query1)->result();
+        /*query to select last updated time from table ilyas */
+        $query2 = "SELECT max(timestamp), jmnp.reminder_frequency, jmnp.journal_no FROM ilyas_config ic, ilyas i, journal_master_nonprogressive jmnp, journal_validator_nonprogressive jvnp
+               WHERE ic.config_no = i.config_no and ic.journal_no = jmnp.journal_no and jmnp.journal_no = jvnp.journal_no and jvnp.validate_user_id = $userid
+               GROUP BY ic.journal_no, jmnp.reminder_frequency, jmnp.journal_no";
+        $result2 = $this->db->query($query2)->result();
+        $result3 = array();
+        foreach ($result2 as $row) {
+            $last_revision_date = date_format(date_create($row->max), 'Y-m-d');
+            $frequency = $row->reminder_frequency;
+            $now = date('Y-m-d');
+            $daylen = 60 * 60 * 24;
+            $days_diff = (strtotime($now) - strtotime($last_revision_date)) / $daylen;
+            if (($frequency == 'Weekly' && $days_diff > 7) || ($frequency == 'Monthly' && $days_diff > 30)) {
+                $query3 = "SELECT a.project_no,b.journal_no,a.project_name,b.journal_name,a.start_date,a.end_date,b.reminder_frequency,e.user_full_name as data_entry
+                    from project_template a join journal_master_nonprogressive b on a.project_no = b.project_no join ilyas_config c on b.journal_no = c.journal_no
+                    join journal_validator_nonprogressive d on b.journal_no=d.journal_no join journal_data_user_nonprogressive f on b.journal_no=f.journal_no join sec_user e on f.data_user_id = e.user_id
+                    where c.config_no in (SELECT config_no from ilyas) and d.validate_user_id = $userid and b.reminder_frequency !=''
+                    group by b.journal_no, a.project_no,e.user_full_name";
+                $result3 = $this->db->query($query3)->result();
+            }
         }
-        $query .= "Order by b.journal_no asc) a ";
-        if ($isSort) {
-            $query.=" Order By ".$data;
-        } else {
-            $query.=" Order By project_name asc,journal_name asc";
-        }
-        if (!is_null($perPage)) {
-            $query .= " Offset $offset Limit $perPage";
-        } else {
-            $query .= "";
-        }
-        $q = $this->db->query($query);
-        if (!$q) return [];
-
-        $resultarray = [];
-
-        foreach ($q->result() as $j):
-            array_push($resultarray, $j);
-        endforeach;
-
-        return $resultarray;
+        $result = array_merge($result1, $result3);
+        return $result;
     }
 
 	// This function gets all non progressive journals INCLUDING the ones that does not have configs yet.

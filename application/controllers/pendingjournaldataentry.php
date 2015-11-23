@@ -61,7 +61,6 @@ class Pendingjournaldataentry extends CI_Controller
 
             // Config setup for Pagination
             $config['base_url'] = base_url() . 'index.php/pendingjournaldataentry/index';
-            //$config['base_url'] = base_url().'index.php/journaldataentrynonp_ilyas/index';
             $config['total_rows'] = $this->assessment->totalpjde($search, $userid);
             if ($this->session->userdata('selectrecord')) {
                 $selectrecord = $this->session->userdata('selectrecord');
@@ -139,6 +138,7 @@ class Pendingjournaldataentry extends CI_Controller
                 $np_journal = new stdClass;
                 $np_journal->project_name = $npj->project_name;
                 $np_journal->journal_name = $npj->journal_name;
+                $np_journal->data_entry = $npj->data_entry;
                 $np_journal->journal_no = $npj->journal_no;
                 $np_journal->frequency_detail_name = '-';
                 $npjs[] = $np_journal;
