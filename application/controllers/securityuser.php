@@ -304,16 +304,22 @@ class Securityuser extends CI_Controller
 		}
 	}
 
+    /*function to delete user*/
 	function delete()
 	{
 		$id=$this->input->post('id');
 		if($this->securitys->delete_check_user($id)==0)
 		{
 			//query the database
-			$result = $this->securitys->delete_user($id);
-			$sess_array = array('message' => $this->securitys->get_label_object(14)." Deleted Successfully","type" => 1);
-			$this->session->set_userdata('message', $sess_array);
-			echo json_encode(array('st'=>1, 'msg' => 'Success'));
+            if($this->securitys->delete_check_user_journal($id)==0) {
+                $result = $this->securitys->delete_user($id);
+                $sess_array = array('message' => $this->securitys->get_label_object(14) . " Deleted Successfully", "type" => 1);
+                $this->session->set_userdata('message', $sess_array);
+                echo json_encode(array('st' => 1, 'msg' => 'Success'));
+            } else {
+                $sess_array = array('message' => "Cannot delete this ".$this->securitys->get_label_object(14).", Assigned to  ".$this->securitys->get_label_object_name(49),"type" => 0);
+                $this->session->set_userdata('message', $sess_array);
+            }
 		}
 		else
 		{
