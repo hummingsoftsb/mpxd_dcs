@@ -61,10 +61,6 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".modaledit", function () {
-        //alert('edit');
-//            alert($(this).attr('data-picid'));
-//            alert($(this).attr('data-enno'));
-//            alert($(this).attr('data-desc'));
         pcid = $(this).attr('data-picid');
         datenno = $(this).attr('data-enno');
         desc = $(this).attr('data-desc');
