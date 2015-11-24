@@ -1,10 +1,14 @@
 <script src="<?php echo base_url(); ?>ilyas/fancybox/jquery.fancybox.pack.js"></script>
 <script src="<?php echo base_url(); ?>ilyas/multiupload.js"></script>
 <script>var uploadUrl = '<?php echo base_url(); ?>journaldataentryadd/addimage/'</script>
+<script>var uploadUrl2 = '<?php echo base_url(); ?>journaldataentryadd/replaceimage/'</script>
 <script src="<?php echo base_url(); ?>ilyas/multiupload/custom.js"></script>
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/css/multiupload.css" type="text/css" media="screen" />
 <script>
+    var pcid;
+    var datenno;
+    var desc;
 	$(document).ready(function()
 	{
 		$('#addRecord').submit(function(e)
@@ -91,6 +95,54 @@
 				renumber_table('#tableimage');
 				}
 		}).disableSelection();
+
+        $(document).on("click", ".modaledit", function () {
+            pcid = $(this).attr('data-picid');
+            datenno = $(this).attr('data-enno');
+            desc = $(this).attr('data-desc');
+            var empty = "";
+            $(".modal-body #picid").val($(this).data('picid'));
+            $(".modal-body #imagedesc1").val($(this).data('desc'));
+            $(".modal-body #divimg").html('<img src="' + $(this).data('img') + '" class="img-responsive" alt="" style="width: 200px; height: 137px;">');
+            $('#errordesc1').html(empty);
+            $('#diverrormsg').html(empty);
+
+        });
+
+        $("#upld").click(function () {
+            if (document.getElementById("iddesc").value.trim() == "") {
+                document.getElementById("iddesc").value = desc;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: uploadUrl2,
+                data: {
+                    data_entry_pic_no: pcid,
+                    data_entry_no: datenno
+                },
+                async: false,
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == "success") {
+                        alert('success');
+                    }
+                    else {
+                        alert('failed');
+                    }
+                },
+
+                failure: function () {
+                    console.log(' Ajax Failure');
+                },
+                complete: function () {
+                    console.log("complete");
+                }
+            });
+
+
+        });
 	});
 	
 	function renumber_table(tableID) {
@@ -101,10 +153,10 @@
 			$(this).find('.tableimgno').html(count);
 			picid = $(this).data("rowid");
 			seqs += picid + ':' + count + ',';
-		})
+		});
 		showloader();
 		$.post( "<?php echo base_url(); ?><?php echo $cpagename; ?>/updateimgsequence",{seqs:seqs}, function() {}).done(function(){hideloader()});
-	;}
+	}
 	
 	function getcomments() {
 		return $('input[type="text"][name^="comment"]').toArray().reduce(function(p, c, i, a){return p.value+c.value});
@@ -120,7 +172,7 @@
             <span class="preview"></span>
         </td>
         <td style="width:40%">
-			<textarea id="" name="imagedesc_{%=fileId%}" maxlength="500" class="description-textarea textarea-fill" form="addimage" rows="5"></textarea>
+			<textarea id="iddesc" name="imagedesc_{%=fileId%}" maxlength="500" class="description-textarea textarea-fill" form="addimage" rows="5"></textarea>
         </td>
         <td style="width:40%">
             <p class="name"><b>{%=file.name%}</b> - <span class="size">Processing...</span></p>
@@ -349,7 +401,7 @@
 									echo '<td class="tableimgno">'.$dataimage->pict_seq_no.'</td>';
 									echo '<td><a title="'.$dataimage->pict_definition.'" class="fancybox" rel="group" href="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'"><img src="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'" class="img-responsive" alt="" style="width: 200px; height: 137px;"></a></td>';
 									echo '<td class="image-description" data-picid="'.$dataimage->data_entry_pict_no.'"> <a style="cursor: pointer" class="text">'.$dataimage->pict_definition.'</a> <div class="edit" style="display:none;"><textarea name="image_description" class="form-control">'.$dataimage->pict_definition.'</textarea><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
-									echo '<td> <a href="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'" download><span class="glyphicon glyphicon-download-alt" title="Download"></span></a>  <a class="modaldelete" href="#" data-toggle="modal" class="modaldelete" data-imgid="'.$dataimage->data_entry_pict_no.'" data-dataid="'.$dataimage->data_entry_no.'"><span class="glyphicon glyphicon-trash" title="Delete"></span></a></td>';
+									echo '<td> <a href="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'" download><span class="glyphicon glyphicon-download-alt" title="Download">&nbsp;</span></a><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '"><span class="glyphicon glyphicon-edit">&nbsp;</span></a><a class="modaldelete" href="#" data-toggle="modal" class="modaldelete" data-imgid="'.$dataimage->data_entry_pict_no.'" data-dataid="'.$dataimage->data_entry_no.'"><span class="glyphicon glyphicon-trash" title="Delete"></span></a></td>';
 									echo '<td> <input name="pict-comment'.$dataimage->data_entry_pict_no.'" class="pict-comment" size="30" data-id="'. $dataimage->data_entry_pict_no .'" type="text"/> </td>';
 									echo '</tr>';
 								endforeach;
@@ -645,4 +697,58 @@
 		</div>
 	</div>
 </div>
+
+    <!-- -------------------- Start :  AGAILE ------------------------ -->
+    <div class="modal fade bs-example-modal-lg3" id="testmodal" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span><span
+                            class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Update Picture</h4>
+                </div>
+                <div class="modal-body">
+                    <form method=post id=updateimage enctype="multipart/form-data"
+                          onSubmit="return checkAndSendAllImages();">
+
+                        <div class="modal-body">
+                            <input type="hidden" id="dataentryno1" name="dataentryno1" value="<?php echo $dataentryno; ?>"/>
+
+                            <div style="text-align:center">
+                                <button class="btn btn-success fileinput-button">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <span>Add files...</span>
+                                    <input type="file" id="imagefile" name="file[]" multiple>
+                                </button>
+                                <button type="submit" class="btn btn-primary start" id="upld">
+                                    <i class="glyphicon glyphicon-upload"></i>
+                                    <span>Start upload</span>
+                                </button>
+                            </div>
+                            <table role="presentation" class="table table-striped table-vertical-middle">
+                                <thead>
+                                <tr>
+                                    <th>Picture</th>
+                                    <th>Description</th>
+                                    <th>Progress</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody class="files"></tbody>
+                            </table>
+                            <p style="font-size:12px"><span style="text-decoration:underline">Notes:</span><br/>
+                                Allowed image types: png, jpg, gif<br/>
+                                Maximum image size: 10MB
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="closebutton btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- --------------------End ------------------------ -->
 </div>
