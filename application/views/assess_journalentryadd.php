@@ -20,9 +20,7 @@ $(document).ready(function () {
         $('#errordesc').html(empty);
         $('#diverrormsg').html(empty);
         $('#imagePreview').attr("src", "");
-
     });
-
 
     $("#upld").click(function () {
         if (document.getElementById("iddesc").value.trim() == "") {
@@ -56,8 +54,6 @@ $(document).ready(function () {
                 console.log("complete");
             }
         });
-
-
     });
 
     $(document).on("click", ".modaledit", function () {

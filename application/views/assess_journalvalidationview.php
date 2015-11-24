@@ -161,6 +161,27 @@
 	function getcomments() {
 		return $('input[type="text"][name^="comment"]').toArray().reduce(function(p, c, i, a){return p.value+c.value});
 	}
+
+    /*function to limit image description characters. added by jane*/
+    function img_desc_limit(){
+        var characters = 118;
+        $("#counter").append("You have <strong>"+  characters+"</strong> characters remaining");
+        $("#iddesc").keyup(function(){
+            if($(this).val().length > characters){
+                $(this).val($(this).val().substr(0, characters));
+            }
+            var remaining = characters -  $(this).val().length;
+            $("#counter").html("You have <strong>"+  remaining+"</strong> characters remaining");
+            if(remaining <= 10)
+            {
+                $("#counter").css("color","red");
+            }
+            else
+            {
+                $("#counter").css("color","black");
+            }
+        });
+    }
 	
 </script>
 
@@ -172,7 +193,8 @@
             <span class="preview"></span>
         </td>
         <td style="width:40%">
-			<textarea id="iddesc" name="imagedesc_{%=fileId%}" maxlength="500" class="description-textarea textarea-fill" form="addimage" rows="5"></textarea>
+			<textarea id="iddesc" name="imagedesc_{%=fileId%}" maxlength="118" class="description-textarea textarea-fill" form="addimage" rows="5" onclick="img_desc_limit();"></textarea>
+        <div id="counter"></div>
         </td>
         <td style="width:40%">
             <p class="name"><b>{%=file.name%}</b> - <span class="size">Processing...</span></p>
