@@ -433,7 +433,7 @@
 							</label>
 						</div>
 					  </div>
-					  <?php if ($closeButton) { ?>
+					  <?php if ($closeButton && ($is_image==0) || $approve_stop_status && $is_image) {?>
 					  <div class="col-xs-3" style="margin-bottom: 8px;">
 						  <div class="radio">
 								<label>
@@ -441,7 +441,7 @@
 								</label>
 							</div>
 					  </div>
-					  <?php } if($is_image == 1) : ?>
+					  <?php  } if($is_image == 1) : ?>
 					  <div class="col-xs-2" style="margin-bottom: 8px;">Reject notes</div>
 					  <div id="reject-note" class="col-xs-5" style="color: blue; margin-bottom: 40px;">
 						<textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
