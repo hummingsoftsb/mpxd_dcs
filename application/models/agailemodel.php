@@ -42,6 +42,17 @@ Class AgaileModel extends CI_Model
         $this->db->where('data_entry_no', $datenno);
         return $this->db->delete('journal_data_entry_picture');
     }
+
+    function fetch_dataentry_no($journal_no)
+    {
+        $query = "select * from journal_data_entry_master where journal_no=$journal_no";
+        $data_entry_no = $this->db->query($query)->result();
+        $deno = $data_entry_no[0]->data_entry_no;
+        $query2 = "select * from journal_data_entry_audit_log where data_entry_no=$deno";
+        $q = $this->db->query($query2);
+        return $q->num_rows();
+
+    }
 }
 
 ?>

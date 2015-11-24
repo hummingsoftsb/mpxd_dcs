@@ -1,3 +1,4 @@
+<script>var uploadUrl3 = '<?php echo base_url(); ?><?php echo $cpagename; ?>/fetch_dataentry_no/'</script>
 <?php
 	$userkey='';
 	$uservalue='';
@@ -45,6 +46,56 @@
 	$labelname=explode(",",$labelnames);
 	
 ?>
+<!-- Agaile Start-->
+<script>
+    var jno;
+    var edi;
+    $(document).ready(function () {
+        $(document).on("click", ".modaledit", function () {
+             jno = $(this).attr('data-editid');
+            //alert(jno);
+            $.ajax({
+                type: 'POST',
+                url: uploadUrl3,
+                data: {
+                    journal_no: jno
+                },
+                async: false,
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == "success") {
+                        document.getElementById('startdate1').removeAttribute("readonly");
+                        $( "#startdate1" ).datepicker(
+                            {
+                                showOn: "button",
+                                buttonImage: "<?php echo base_url(); ?>img/calendar.gif",
+                                buttonImageOnly: true,
+                                buttonText: "Select date",
+                                dateFormat: "dd-mm-yy"
+
+                            });
+                        //alert("in");
+                    }
+                    else if(data.status == "failed") {
+                       // document.getElementById('startdate1').className = "";
+                        //document.getElementById('startdate1'). = "true";
+                        //alert("out");
+                    }
+                },
+
+                failure: function () {
+                    console.log(' Ajax Failure');
+                },
+                complete: function () {
+                    console.log("complete");
+                }
+            });
+        });
+    });
+
+</script>
+<!-- Agaile End-->
 <script>
 
 var currentTableDependency = [];
@@ -803,8 +854,7 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
 				alert('The Search field may only contain alpha-numeric characters, underscores, dashes and bracket.');
 			}
 	    });
-
-		$( "#startdate" ).datepicker(
+        $( "#startdate" ).datepicker(
 		{
 			showOn: "button",
 			buttonImage: "<?php echo base_url(); ?>img/calendar.gif",
@@ -1655,7 +1705,7 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
 							<div class="form-group">
 								<label for="select" class="col-lg-2 control-label"><?php echo $labelname[5]; ?> <red>*</red></label>
 								<div class="col-lg-10">
-									<input class="input-small" type="text" id="startdate1" name="startdate1" disabled="true">
+									<input class="input-small" type="text" id="startdate1" name="startdate1" readonly="readonly">
 								</div>
 							</div>
 
@@ -1791,7 +1841,7 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
 								{
 
 							?>
-									<a href="#" data-toggle="modal" data-target="#MyModal1" class="modaledit" data-editid="<?php echo $record->journal_no; ?>" data-projno="<?php echo $record->project_no; ?>" data-journalname="<?php echo $record->journal_name; ?>" data-user="<?php echo $record->user_id; ?>" data-startdate="<?php echo $record->start_date; ?>" data-enddate="<?php echo $record->end_date; ?>" data-frequency="<?php echo $record->frequency_no; ?>"
+									<a href="#" id="editing" data-toggle="modal" data-target="#MyModal1" class="modaledit" data-editid="<?php echo $record->journal_no; ?>" data-projno="<?php echo $record->project_no; ?>" data-journalname="<?php echo $record->journal_name; ?>" data-user="<?php echo $record->user_id; ?>" data-startdate="<?php echo $record->start_date; ?>" data-enddate="<?php echo $record->end_date; ?>" data-frequency="<?php echo $record->frequency_no; ?>"
 									data-validatorvalue="<?php echo $validatorvalues; ?>" data-dataentryvalue="<?php echo $dataentryvalues; ?>" data-dataattbvalue="<?php echo $dataattbvalues; ?>" data-journalproperty="<?php echo $record->journal_property; ?>" data-albumname="<?php echo $record->album_name; ?>" data-dependency='<?php echo $dependency;?>' data-isimage='<?php echo $is_image;?>'> <span class="glyphicon glyphicon-edit">&nbsp;</span></a>
 							<?php
 								}
