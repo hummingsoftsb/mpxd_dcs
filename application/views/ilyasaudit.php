@@ -50,7 +50,7 @@ $owner=$details->user_full_name;
 	</br>-->
 	<div class="col-xs-3" style="text-align: right; margin-bottom: 12px;"><b>History</b></div>
 	<div class="col-xs-9" style="color: blue; margin-bottom: 12px;"><select class="input" id="revision">
-		<?php foreach($hot_revisions as $k=>$v): ?><option value="<?php echo $v->revision?>"><?php echo $v->timestamp.' (Rev. '.$v->revision.')'; ?></option><?php endforeach; ?>
+		<?php foreach($hot_revisions as $k=>$v): ?><option value="<?php echo $v->revision?>"><?php echo $v->timestamp.' (Rev. '.$v->revision.')'.' (by '.$v->user_full_name.')'; ?></option><?php endforeach; ?>
 	</select></div>
 	</br>
 </div>
@@ -140,7 +140,7 @@ function hideloader() {
 }
 
 function notify(v) {
-	var $div = $('<div class="alert alert-danger alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>'+v+'</div>');
+	var $div = $('<div class="alert alert-danger alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">ï¿½</span></button>'+v+'</div>');
 	$div.appendTo($('#notification'));
 }
 

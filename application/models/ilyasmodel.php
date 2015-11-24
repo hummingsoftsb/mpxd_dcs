@@ -938,7 +938,7 @@ Class IlyasModel extends CI_Model
 	
 	function get_audit_revisions($jid) {
 		$jid = str_replace("'","",$jid);
-		$query = "SELECT DISTINCT b.revision, b.timestamp FROM journal_nonprogressive_data_entry_audit_log b WHERE b.journal_no = '$jid' ORDER BY revision desc";
+		$query = "SELECT DISTINCT b.revision, b.timestamp, c.user_full_name FROM journal_nonprogressive_data_entry_audit_log b, sec_user c WHERE b.journal_no = '$jid' AND b.user_id=c.user_id ORDER BY revision desc";
 		$q = $this->db->query($query);
 		return $q->result();
 	}
