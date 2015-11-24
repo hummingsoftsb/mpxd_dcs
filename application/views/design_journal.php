@@ -590,7 +590,14 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
 			var journalproperty = $(this).data('journalproperty');
 			var albumname = $(this).data('albumname');
 			var user = $(this).data('user');
-			var startdate = $(this).data('startdate');
+            //alert($(this).data('startdate'));
+            var tmpdt=$(this).data('startdate');
+            var dt=tmpdt.substring(8,10);
+            var mn=tmpdt.substring(5,7);
+           // alert(mn);
+            var yr=tmpdt.substring(0,4);
+			//var startdate = $(this).data('startdate');
+            var startdate = dt+"-"+mn+"-"+yr;
 			var enddate = $(this).data('enddate');
 			var frequency = $(this).data('frequency');
 			var validatorval=$(this).data('validatorvalue');
