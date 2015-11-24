@@ -409,7 +409,7 @@ Class Securitys extends CI_Model
 		return $result->row();
 	}
 
-	// Add Check Query For Selected User¶
+	// Add Check Query For Selected Userï¿½
 	function add_check_user($data,$data1)
 	{
 		$data=str_replace("'","''",$data);
@@ -452,6 +452,53 @@ Class Securitys extends CI_Model
 	{//journal_master journal_data_validate_master journal_data_user journal_data_entry_picture journal_data_entry_master journal_data_entry_detail journal_data_entry_audit_log
 		$query=$this->db->query("select user_id from project_template where user_id=$id");
 		return $query->num_rows();
+	}
+
+	//check whether the user_id is existed in any table. done by jane.
+	function delete_check_user_journal($id)
+	{
+        $where = array('user_id' => $id);
+        $result = $this->db->select('user_id')->from('journal_master_nonprogressive')
+                ->where($where)
+                ->get()
+                ->num_rows() > 0;
+        if ($result == false) {
+            $where = array('data_user_id' => $id);
+            $result = $this->db->select('data_user_id')->from('journal_data_user_nonprogressive')
+                    ->where($where)
+                    ->get()
+                    ->num_rows() > 0;
+            if ($result == false) {
+                $where = array('validate_user_id' => $id);
+                $result = $this->db->select('validate_user_id')->from('journal_validator_nonprogressive')
+                        ->where($where)
+                        ->get()
+                        ->num_rows() > 0;
+                if ($result == false) {
+                    $where = array('user_id' => $id);
+                    $result = $this->db->select('user_id')->from('journal_master')
+                            ->where($where)
+                            ->get()
+                            ->num_rows() > 0;
+                    if ($result == false) {
+                        $where = array('data_user_id' => $id);
+                        $result = $this->db->select('data_user_id')->from('journal_data_user')
+                                ->where($where)
+                                ->get()
+                                ->num_rows() > 0;
+                        if ($result == false) {
+                            $where = array('validate_user_id' => $id);
+                            $result = $this->db->select('validate_user_id')->from('journal_validator')
+                                    ->where($where)
+                                    ->get()
+                                    ->num_rows() > 0;
+                            return $result;
+                        }
+                    }
+                }
+            }
+        }
+        return $result;
 	}
 
 	// Delete Query For Selected User

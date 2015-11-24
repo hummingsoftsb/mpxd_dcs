@@ -37,7 +37,7 @@ Class Alertreminder extends CI_Model
             $query = "select ua.data_entry_no,ua.alert_no,ua.alert_date,ua.alert_message,ua.alert_seen_status,ua.alert_user_id,ua.nonp_journal_id from user_alert ua where alert_hide=0 AND ua.data_entry_no IS NULL order by alert_no desc";
             $query = $this->db->query($query);
             $query_result2 = $query->result();
-        }else{
+        } else {
             $query = "select ua.data_entry_no,ua.alert_no,ua.alert_date,ua.alert_message,ua.alert_seen_status,ua.alert_user_id,ua.nonp_journal_id from user_alert ua where alert_hide=0 AND ua.data_entry_no IS NULL AND ua.alert_user_id=$id order by alert_no desc";
             $query = $this->db->query($query);
             $query_result2 = $query->result();
@@ -167,10 +167,18 @@ Class Alertreminder extends CI_Model
 //		return $merged;
 //	}
 
+    /*function to return count of user alerts*/
 	function count_alert($id)
 	{
 		// $query=$this->db->query("select alert_no from user_alert where alert_hide=0 and alert_user_id=".$id);
-		$query=$this->db->query("select alert_no from user_alert where alert_hide=0 and alert_user_id=".$id);
+        $user_role_query = "select sec_role_id from sec_user where user_id=$id";
+        $user_role_query = $this->db->query($user_role_query)->result();
+        if($user_role_query[0]->sec_role_id==1) {
+            /*for getting all notifications to admin user*/
+            $query = $this->db->query("select alert_no from user_alert where alert_hide=0");
+        } else {
+            $query = $this->db->query("select alert_no from user_alert where alert_hide=0 and alert_seen_status = 0 and alert_user_id=" . $id);
+        }
 		return $query->num_rows();
 	}
 

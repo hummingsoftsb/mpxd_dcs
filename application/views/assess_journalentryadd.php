@@ -333,6 +333,7 @@ function resetval(minval, txt) {
     $('#dataattb' + txt).val(minval);
     revalidateInputs();
 }
+/*function to remove uploaded image. added by jane*/
 function remove_img(url) {
     var data_entry_no = url.split('/')[1];
     var pict_user_id = url.split('/')[2];
@@ -343,7 +344,26 @@ function remove_img(url) {
         pict_file_name: pict_file_name
     });
 }
-
+/*function to limit image description characters. added by jane*/
+function img_desc_limit(){
+    var characters = 118;
+    $("#counter").append("You have <strong>"+  characters+"</strong> characters remaining");
+    $("#iddesc").keyup(function(){
+        if($(this).val().length > characters){
+            $(this).val($(this).val().substr(0, characters));
+        }
+        var remaining = characters -  $(this).val().length;
+        $("#counter").html("You have <strong>"+  remaining+"</strong> characters remaining");
+        if(remaining <= 10)
+        {
+            $("#counter").css("color","red");
+        }
+        else
+        {
+            $("#counter").css("color","black");
+        }
+    });
+}
 </script>
 
 <?php
@@ -711,7 +731,8 @@ endforeach;
                         </thead>
                         <tbody class="files"></tbody>
                     </table>
-                    <p style="font-size:12px"><span style="text-decoration:underline">Notes:</span><br/>
+                    <p style="font-size:12px">
+                        <span style="text-decoration:underline">Notes:</span><br/>
                         Allowed image types: png, jpg, gif<br/>
                         Maximum image size: 10MB
                     </p>
@@ -922,7 +943,8 @@ endforeach;
         </td>
 
         <td style="width:40%">
-			<textarea id="iddesc" name="imagedesc_{%=fileId%}" maxlength="500" class="description-textarea textarea-fill" form="addimage" rows="5" ></textarea>
+			<textarea id="iddesc" name="imagedesc_{%=fileId%}" maxlength="118" class="description-textarea textarea-fill" form="addimage" rows="5" onclick="img_desc_limit();" ></textarea>
+        <div id="counter"></div>
         </td>
 
         <td style="width:40%">
@@ -930,7 +952,6 @@ endforeach;
 			<strong class="error text-danger"></strong>
             <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
         </td>
-
 		<td style="width:10%;">
 			{% if (!i) { %}
                 <button class="btn btn-sm btn-warning cancel">

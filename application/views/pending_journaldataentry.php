@@ -102,6 +102,7 @@
             	<th><?php echo $labelname[9]?></th>
 	            <th><a href="javascript:void(0)"><?php echo $labelname[0]; ?></a></th>
 	            <th><a href="javascript:void(0)"><?php echo $labelname[1]; ?></a></th>
+	            <th><a href="javascript:void(0)">Data Entry</a></th>
 	            <th><a href="javascript:void(0)">Week</a></th>
 	            <th class="no-sort">Status</th>
 	        </tr>
@@ -115,6 +116,7 @@
 			        	<td><?php echo $k+1; ?></td>
 			            <td><?php echo $pjde->project_name; ?></td>
 			            <td><?php echo $pjde->journal_name; ?></td>
+			            <td><?php echo $pjde->data_entry; ?></td>
                         <td><?php echo $pjde->frequency_detail_name; ?></td>
 			            <?php  $pjdefdat=$pjdefreq[$pjde->journal_no]; ?>
 			            <td>Data Entry Pending</td>
