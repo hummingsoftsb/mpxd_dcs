@@ -48,7 +48,7 @@ Class AgaileModel extends CI_Model
         $query = "select * from journal_data_entry_master where journal_no=$journal_no";
         $data_entry_no = $this->db->query($query)->result();
         $deno = $data_entry_no[0]->data_entry_no;
-        $query2 = "select * from journal_data_entry_audit_log where data_entry_no=$deno";
+        $query2 = "select * from journal_data_validate_master where data_entry_no=$deno";
         $q = $this->db->query($query2);
         return $q->num_rows();
 
