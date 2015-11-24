@@ -11,6 +11,7 @@ class Designjournal extends CI_Controller
 		$this->load->model('securitys','',TRUE);
 		$this->load->model('admin','',TRUE);
 		$this->load->model('alertreminder','',TRUE);
+		$this->load->model('agailemodel','',TRUE);
 	}
 
 	function index($offset=0)
@@ -364,11 +365,14 @@ class Designjournal extends CI_Controller
 
 	function update()
 	{
+//        print_r($_POST);
+//        exit;
 		$label=$this->securitys->get_label_object_name(77);
 		$label1=$this->securitys->get_label_object_name(78);
 		$label2=$this->securitys->get_label_object_name(80);
 		$label3=$this->securitys->get_label_object_name(81);
 		$label4=$this->securitys->get_label_object_name(82);
+		$label5=$this->securitys->get_label_object_name(41);
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('projectname1', $label, 'trim|required|xss_clean');
 		$this->form_validation->set_rules('journalname1', $label1, 'trim|required|alpha_numeric_spaces_special|xss_clean');
@@ -376,6 +380,7 @@ class Designjournal extends CI_Controller
 		$this->form_validation->set_rules('albumname1', $label1, 'trim|xss_clean');
 		$this->form_validation->set_rules('user1', $label2, 'trim|required|xss_clean');
 		$this->form_validation->set_rules('frequency1', $label3, 'trim|required|xss_clean');
+		$this->form_validation->set_rules('startdate1', $label5, 'trim|required|xss_clean');
 
 		$attbcount=$this->input->post('dataattbcount1');
 		$dataattberror='';
@@ -441,12 +446,14 @@ class Designjournal extends CI_Controller
 			$journalid=$this->input->post('editjournalno');
 			$dependency=$this->input->post('dependency');
 			$albumname=$this->input->post('albumname1');
-			
+			$startdate=$this->input->post('startdate1');
+            // Added start date in array for updation -Agaile 24/11/2015
+
 			if (json_decode($dependency) && (json_last_error()!=JSON_ERROR_NONE)) { echo "JSON ERROR IN DEPENDENCY!"; die(); }
 			
 			if($this->design->update_check_journal($name,$projectno,$journalid)==0)
 			{
-				$data = array('project_no' => $projectno,'journal_name' => $name,'journal_property' => $property,'user_id' => $this->input->post('user1'),'frequency_no' => $this->input->post('frequency1'), 'dependency' => $dependency, 'album_name' => $albumname);
+				$data = array('project_no' => $projectno,'journal_name' => $name,'journal_property' => $property,'user_id' => $this->input->post('user1'),'start_date' =>$startdate,'frequency_no' => $this->input->post('frequency1'), 'dependency' => $dependency, 'album_name' => $albumname);
 
 				//query the database
 				$this->design->update_journal($journalid,$data);
@@ -585,5 +592,24 @@ class Designjournal extends CI_Controller
 	{
 		$this->index();
 	}
+
+    // added by agaile to enable edit and non edit start date 23/11/2015
+    function fetch_dataentry_no()
+    {
+        $journal_no = trim($_POST['journal_no']);
+        $data = array();
+        if ($journal_no != "") {
+            $result = $this->agailemodel->fetch_dataentry_no($journal_no);
+            if ($result) {
+                //$this->load->helper('image_upload');
+                $data['status'] = 'failed';
+            } else {
+                $data['status'] = 'success';
+            }
+        } else {
+            $data['status'] = '';
+        }
+        echo json_encode($data);
+    }
 }
 ?>

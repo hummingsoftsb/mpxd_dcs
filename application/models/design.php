@@ -179,6 +179,7 @@ Class Design extends CI_Model
 			$sql .=" ) ";
 		}
 		$sql .=" Order By project_name asc, journal_name asc OFFSET ".$offset." LIMIT ".$perPage;
+        //echo($sql);
         $q = $this->db->query($sql);
         return $q->result();
 	}
