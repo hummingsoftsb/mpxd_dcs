@@ -75,6 +75,7 @@ class Journalvalidationview extends CI_Controller
 			$data['validatorcount']=$this->assessment->total_validation_journal_validator($id);
 			$data['dataentryattbs']=$this->assessment->show_validation_journal_data_entry_detail($id);
 			$data['dataimages']=$this->assessment->show_validation_journal_data_entry_picture($id);
+			$data['approve_stop_status']=$this->assessment->approve_stop_status_check($id);
 			$data['validatorid']=$id;
 			
 			$data['message_type']=$type;

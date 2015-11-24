@@ -981,6 +981,27 @@ Class Assessment extends CI_Model
         $q = $this->db->query($query);
         return $q->result();
     }
+    /*for checking the level of validator. done by jane*/
+    function approve_stop_status_check($id)
+    {
+        $query1 = "select validate_level_no, data_entry_no from journal_data_validate_master jdvm where data_validate_no=$id";
+        $q1 = $this->db->query($query1);
+        $result1 = $q1->result();
+        $validate_level_no1 = $result1[0]->validate_level_no;
+        $data_entry_no = $result1[0]->data_entry_no;
+
+        $query2 = "SELECT MAX(validate_level_no) FROM journal_data_validate_master WHERE data_entry_no = $data_entry_no";
+        $q2 = $this->db->query($query2);
+        $result2 = $q2->result();
+        $validate_level_no2 = $result2[0]->max;
+        if (!empty($validate_level_no1) && (!empty($validate_level_no2))) {
+        if($validate_level_no1 == $validate_level_no2) {
+            return true;
+        }
+            return false;
+        }
+
+    }
 }
 
 ?>
