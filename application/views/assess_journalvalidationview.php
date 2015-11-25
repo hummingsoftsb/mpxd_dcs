@@ -408,11 +408,11 @@
 				</table>
 		</fieldset>
 		</br>
-        <?php
-        echo'<pre>';
-        print_r($dataimages);
-        echo'</pre>';
-        ?>
+<!--        --><?php
+//        echo'<pre>';
+//        print_r($dataimages);
+//        echo'</pre>';
+//        ?>
 		<?php 
 			if(count($dataimages)!=0) 
 			{
