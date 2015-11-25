@@ -55,7 +55,7 @@ class ParsePlugin {
 			ParsePush::send(array(
 			  "where" => $query,
 			  "data" => $push_data,
-			  "sound" => ""
+			  "sound" => "default"
 			));
 		}
 	}
