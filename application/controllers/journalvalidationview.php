@@ -341,5 +341,16 @@ class Journalvalidationview extends CI_Controller
 			$this->assessment->update_seq_journal_data_entry_picture($t[0],$t[1]);
 		}
 	}
+
+    /*function to remove uploaded image from validation view. added by jane*/
+    function removeimage()
+    {
+        header('Access-Control-Allow-Origin: *');
+        $dataid = $this->input->post('data_entry_no');
+        $pict_file_name = $this->input->post('pict_file_name');
+        //query the database
+        $result = $this->assessment->remove_journal_data_entry_picture_validator($dataid, $pict_file_name);
+        echo json_encode(array('st' => 1, 'msg' => 'Success'));
+    }
 }
 ?>

@@ -161,7 +161,15 @@
 	function getcomments() {
 		return $('input[type="text"][name^="comment"]').toArray().reduce(function(p, c, i, a){return p.value+c.value});
 	}
-
+    /*function to remove uploaded image. added by jane*/
+    function remove_img(url) {
+        var data_entry_no = url.split('/')[1];
+        var pict_file_name = url.split('/')[3];
+        $.post("<?php echo base_url(); ?><?php echo $cpagename; ?>/removeimage", {
+            data_entry_no: data_entry_no,
+            pict_file_name: pict_file_name
+        });
+    }
     /*function to limit image description characters. added by jane*/
     function img_desc_limit(){
         var characters = 118;
@@ -243,7 +251,7 @@
 		</p>
         </td>
         <td>
-			<button class="btn btn-sm btn-warning remove">
+			<button class="btn btn-sm btn-warning remove" id="image_remove" onclick="remove_img('{%=file.url%}')">
                     <i class="glyphicon glyphicon-ban-circle"></i>
                     <span>Remove</span>
 			</button>

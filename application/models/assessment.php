@@ -378,11 +378,20 @@ Class Assessment extends CI_Model
         $this->db->delete('journal_data_entry_picture');
     }
 
+    /*function to remove uploaded image from data entry. added by jane*/
     function remove_journal_data_entry_picture($dataid, $pict_user_id, $pict_file_name)
     {
         $this->db->where('data_entry_no', $dataid);
         $this->db->where('pict_file_name', $pict_file_name);
         $this->db->where('pict_user_id', $pict_user_id);
+        $this->db->delete('journal_data_entry_picture');
+    }
+
+    /*function to remove uploaded image from validation view. added by jane*/
+    function remove_journal_data_entry_picture_validator($dataid, $pict_file_name)
+    {
+        $this->db->where('data_entry_no', $dataid);
+        $this->db->where('pict_file_name', $pict_file_name);
         $this->db->delete('journal_data_entry_picture');
     }
 

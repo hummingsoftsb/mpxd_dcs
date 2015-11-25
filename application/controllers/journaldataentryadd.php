@@ -211,6 +211,7 @@ class Journaldataentryadd extends CI_Controller
         echo json_encode(array('st' => 1, 'msg' => 'Success', 'imgval' => $value));
     }
 
+    /*function to remove uploaded image from data entry. added by jane*/
     function removeimage()
     {
         header('Access-Control-Allow-Origin: *');
