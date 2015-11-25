@@ -406,6 +406,11 @@
 				</table>
 		</fieldset>
 		</br>
+<!--        --><?php
+//        echo'<pre>';
+//        print_r($dataimages);
+//        echo'</pre>';
+//        ?>
 		<?php 
 			if(count($dataimages)!=0) 
 			{
@@ -432,7 +437,7 @@
 									echo '<td><a title="'.$dataimage->pict_definition.'" class="fancybox" rel="group" href="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'"><img src="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'" class="img-responsive" alt="" style="width: 200px; height: 137px;"></a></td>';
 									echo '<td class="image-description" data-picid="'.$dataimage->data_entry_pict_no.'"> <a style="cursor: pointer" class="text">'.$dataimage->pict_definition.'</a> <div class="edit" style="display:none;"><textarea name="image_description" class="form-control">'.$dataimage->pict_definition.'</textarea><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
 									echo '<td> <a href="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'" download><span class="glyphicon glyphicon-download-alt" title="Download">&nbsp;</span></a><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '"><span class="glyphicon glyphicon-edit">&nbsp;</span></a><a class="modaldelete" href="#" data-toggle="modal" class="modaldelete" data-imgid="'.$dataimage->data_entry_pict_no.'" data-dataid="'.$dataimage->data_entry_no.'"><span class="glyphicon glyphicon-trash" title="Delete"></span></a></td>';
-									echo '<td> <input name="pict-comment'.$dataimage->data_entry_pict_no.'" class="pict-comment" size="30" data-id="'. $dataimage->data_entry_pict_no .'" type="text"/> </td>';
+									echo '<td> <input name="pict-comment'.$dataimage->data_entry_pict_no.'" class="pict-comment" size="30" data-id="'. $dataimage->data_entry_pict_no .'" type="text" value= '.$dataimage->pict_validate_comment.' > </td>';
 									echo '</tr>';
 								endforeach;
 							?>
