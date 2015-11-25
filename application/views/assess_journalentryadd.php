@@ -656,7 +656,9 @@ endforeach;
                     id="modaladd" name="modaladd">Upload
             </button>
         </a></p>
+    <?php if(!empty($reject_note->reject_notes)) {?>
     <small><?php echo $reject_note->reject_notes != '' ? '<b class="text-default">' . $labelname[13] . ': <span class="glyphicon glyphicon-warning-sign" style="color:red"> </span> </b>' . $reject_note->reject_notes . '' : '' ?></small>
+    <?php } ?>
 <!--    --><?php //echo $reject_note->reject_notes ?>
 <!--    --><?php //echo $reject_note->data_validate_no ?>
     <?php
@@ -682,7 +684,8 @@ endforeach;
                 echo '<td class="image-description" data-picid="' . $dataimage->data_entry_pict_no . '"> <a style="cursor: pointer" class="text">' . $dataimage->pict_definition . '</a> <div class="edit" style="display:none;"><textarea name="image_description" class="form-control">' . $dataimage->pict_definition . '</textarea><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
                 //echo '<td> ' . $dataimage->pict_validate_comment . ' </td>';
                 echo '<td> ' . $dataimage->pict_validate_comment . ' </td>';
-                echo '<td><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '" data-rejnote="' .$reject_note->reject_notes.'" data-validate-no="' .$reject_note->data_validate_no.'" data-pic-val-comment="' .$dataimage->pict_validate_comment.'"><span class="glyphicon glyphicon-edit">&nbsp;</span></a></td>';
+                echo '<td><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '" ><span class="glyphicon glyphicon-edit">&nbsp;</span></a></td>';
+                //echo '<td><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '"><span class="glyphicon glyphicon-edit">&nbsp;</span></a></td>';
                 echo '<td> <a href="#" class="modaldelete" data-imgid="' . $dataimage->data_entry_pict_no . '" data-dataid="' . $dataimage->data_entry_no . '"><span class="glyphicon glyphicon-trash">&nbsp;</span></a></td>';
                 echo '</tr>';
             endforeach;
