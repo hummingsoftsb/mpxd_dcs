@@ -345,11 +345,18 @@ Class Assessment extends CI_Model
 
     function add_seq_journal_data_entry_picture($id)
     {
-        $query = "select data_entry_pict_no from journal_data_entry_picture where data_entry_no=$id order by data_entry_pict_no asc";
-        $result = $this->db->query($query);
-        $rows = $result->result();
+        $query1 = "select data_entry_pict_no from journal_data_entry_picture where data_entry_no=$id and pict_seq_no!=0 order by pict_seq_no asc";
+        $result1 = $this->db->query($query1);
+        $rows1 = $result1->result();
         $sno = 1;
-        foreach ($rows as $row):
+        foreach ($rows1 as $row):
+                $this->db->query("update journal_data_entry_picture set pict_seq_no=$sno where data_entry_pict_no=" . $row->data_entry_pict_no);
+                $sno++;
+        endforeach;
+        $query2 = "select data_entry_pict_no from journal_data_entry_picture where data_entry_no=$id and pict_seq_no=0 order by last_modified asc";
+        $result2 = $this->db->query($query2);
+        $rows2 = $result2->result();
+        foreach ($rows2 as $row):
             $this->db->query("update journal_data_entry_picture set pict_seq_no=$sno where data_entry_pict_no=" . $row->data_entry_pict_no);
             $sno++;
         endforeach;

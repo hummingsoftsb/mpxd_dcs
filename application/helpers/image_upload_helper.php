@@ -9,6 +9,7 @@
 	$id=$ci->input->post('dataentryno1');
 
     $picvalcomment = trim($ci->input->post('val_comment'));
+    $seq_no = $ci->input->post('seq_no');
    // $pic_vali_comment = $picvalcomment;
     if(!empty($picvalcomment))
     {
@@ -139,14 +140,18 @@
 		$ci->imageresize->save($actual_file_pathname);
 		//
 		if(!empty($pic_vali_comment)) {
-            $data = array('data_entry_no' => $id, 'pict_file_name' => $actual_filename, 'pict_file_path' => $file_path, 'pict_definition' => $description, 'pict_user_id' => $userid, 'data_source' => '1', 'pict_validate_comment' => $pic_vali_comment);
+            $data = array('data_entry_no' => $id,'pict_seq_no' => $seq_no, 'pict_file_name' => $actual_filename, 'pict_file_path' => $file_path, 'pict_definition' => $description, 'pict_user_id' => $userid, 'data_source' => '1', 'pict_validate_comment' => $pic_vali_comment);
         }
         else{
-            $data = array('data_entry_no' => $id, 'pict_file_name' => $actual_filename, 'pict_file_path' => $file_path, 'pict_definition' => $description, 'pict_user_id' => $userid, 'data_source' => '1');
+            $data = array('data_entry_no' => $id,'pict_seq_no' => $seq_no, 'pict_file_name' => $actual_filename, 'pict_file_path' => $file_path, 'pict_definition' => $description, 'pict_user_id' => $userid, 'data_source' => '1');
         }
 		if ($is_mobile) $data['unique_id_mobile'] = $filename;
-		$ci->assessment->add_journal_data_entry_picture($data);
-		$ci->assessment->add_seq_journal_data_entry_picture($id);
+        if(!empty($data['pict_seq_no'])){
+		    $ci->assessment->add_journal_data_entry_picture($data);
+        } else {
+            $ci->assessment->add_journal_data_entry_picture($data);
+		    $ci->assessment->add_seq_journal_data_entry_picture($id);
+        }
 		/*$result=$ci->assessment->show_journal_data_entry_picture($id);
 		$value='';
 		foreach($result as $row)

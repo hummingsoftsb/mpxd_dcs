@@ -63,7 +63,9 @@ $(document).ready(function () {
         desc = $(this).attr('data-desc');
         rejnote = $(this).attr('data-rejnote');
         pic_val_comment = $(this).attr('data-pic-val-comment');
+        pic_seq_no = $(this).attr('data-pic-seq-no');
         document.getElementById('val_comment').value=pic_val_comment;
+        document.getElementById('seq_no').value=pic_seq_no;
         datavalno = $(this).attr('data-validate-no');
         var empty = "";
         $(".modal-body #picid").val($(this).data('picid'));
@@ -290,13 +292,12 @@ function renumber_table(tableID) {
         $(this).find('.tableimgno').html(count);
         picid = $(this).data("rowid");
         seqs += picid + ':' + count + ',';
-    })
+    });
     showloader();
     $.post("<?php echo base_url(); ?><?php echo $cpagename; ?>/updateimgsequence", {seqs: seqs}, function () {
     }).done(function () {
         hideloader()
     });
-    ;
 }
 
 function addplus(maxval, txt) {
@@ -702,7 +703,7 @@ endforeach;
                     echo '<td><a title="' . $dataimage->pict_definition . '" class="fancybox" rel="group" href="' . base_url() . $dataimage->pict_file_path . $dataimage->pict_file_name . '"><img src="' . base_url() . $dataimage->pict_file_path . $dataimage->pict_file_name . '" class="img-responsive" alt="" style="width: 200px; height: 137px;"></a></td>';
                     echo '<td class="image-description" data-picid="' . $dataimage->data_entry_pict_no . '"> <a style="cursor: pointer" class="text">' . $dataimage->pict_definition . '</a> <div class="edit" style="display:none;"><textarea name="image_description" class="form-control">' . $dataimage->pict_definition . '</textarea><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
                     echo '<td> ' . $dataimage->pict_validate_comment . ' </td>';
-                    echo '<td><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '" data-pic-val-comment="' . $dataimage->pict_validate_comment . '" ><span class="glyphicon glyphicon-edit">&nbsp;</span></a></td>';
+                    echo '<td><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '" data-pic-val-comment="' . $dataimage->pict_validate_comment . '" data-pic-seq-no="' . $dataimage->pict_seq_no . '" ><span class="glyphicon glyphicon-edit">&nbsp;</span></a></td>';
                     echo '<td> <a href="#" class="modaldelete" data-imgid="' . $dataimage->data_entry_pict_no . '" data-dataid="' . $dataimage->data_entry_no . '"><span class="glyphicon glyphicon-trash">&nbsp;</span></a></td>';
                     echo '</tr>';
                 endforeach;
@@ -714,7 +715,7 @@ endforeach;
                     echo '<td><a title="' . $dataimage->pict_definition . '" class="fancybox" rel="group" href="' . base_url() . $dataimage->pict_file_path . $dataimage->pict_file_name . '"><img src="' . base_url() . $dataimage->pict_file_path . $dataimage->pict_file_name . '" class="img-responsive" alt="" style="width: 200px; height: 137px;"></a></td>';
                     echo '<td class="image-description" data-picid="' . $dataimage->data_entry_pict_no . '"> <a style="cursor: pointer" class="text">' . $dataimage->pict_definition . '</a> <div class="edit" style="display:none;"><textarea name="image_description" class="form-control">' . $dataimage->pict_definition . '</textarea><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
                     echo '<td> ' . $dataimage->pict_validate_comment . ' </td>';
-                    echo '<td><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '" data-pic-val-comment="' . $dataimage->pict_validate_comment . '" data-rejnote="' .$reject_note->reject_notes.'" data-validate-no="'.$reject_note->data_validate_no.'" ><span class="glyphicon glyphicon-edit">&nbsp;</span></a></td>';
+                    echo '<td><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '" data-pic-val-comment="' . $dataimage->pict_validate_comment . '" data-pic-seq-no="' . $dataimage->pict_seq_no . '" data-rejnote="' .$reject_note->reject_notes.'" data-validate-no="'.$reject_note->data_validate_no.'" ><span class="glyphicon glyphicon-edit">&nbsp;</span></a></td>';
                     echo '<td> <a href="#" class="modaldelete" data-imgid="' . $dataimage->data_entry_pict_no . '" data-dataid="' . $dataimage->data_entry_no . '"><span class="glyphicon glyphicon-trash">&nbsp;</span></a></td>';
                     echo '</tr>';
                 endforeach;
@@ -832,6 +833,7 @@ endforeach;
                     <div class="modal-body">
                         <input type="hidden" id="dataentryno1" name="dataentryno1" value="<?php echo $dataentryno; ?>"/>
                         <input type="hidden" id="val_comment" name="val_comment"/>
+                        <input type="hidden" id="seq_no" name="seq_no"/>
                         <div style="text-align:center">
                             <button class="btn btn-success fileinput-button">
                                 <i class="glyphicon glyphicon-plus"></i>
