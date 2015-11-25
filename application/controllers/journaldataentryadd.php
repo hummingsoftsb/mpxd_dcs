@@ -247,6 +247,8 @@ class Journaldataentryadd extends CI_Controller
 
     function add()
     {
+//        alert('add');
+//        exit;
         $this->load->library('form_validation');
 
         $dataattbcount = $this->input->post('dataattbcount');
