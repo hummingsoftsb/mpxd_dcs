@@ -442,6 +442,7 @@
 									echo '<td> <a href="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'" download><span class="glyphicon glyphicon-download-alt" title="Download">&nbsp;</span></a><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '" data-pic-seq-no="' . $dataimage->pict_seq_no . '"><span class="glyphicon glyphicon-edit">&nbsp;</span></a><a class="modaldelete" href="#" data-toggle="modal" class="modaldelete" data-imgid="'.$dataimage->data_entry_pict_no.'" data-dataid="'.$dataimage->data_entry_no.'"><span class="glyphicon glyphicon-trash" title="Delete"></span></a></td>';
 									//echo '<td> <input name="pict-comment'.$dataimage->data_entry_pict_no.'" class="pict-comment" size="30" data-id="'. $dataimage->data_entry_pict_no .'" type="text" value= '.$dataimage->pict_validate_comment.' > </td>';
 									echo '<td><textarea name="pict-comment'.$dataimage->data_entry_pict_no.'" class="pict-comment" size="30" data-id="'. $dataimage->data_entry_pict_no .'" >'.$dataimage->pict_validate_comment.'</textarea>  </td>';
+									//echo '<td><textarea name="pict-comment'.$dataimage->data_entry_pict_no.'" class="pict-comment" size="30" data-id="'. $dataimage->data_entry_pict_no .'" >'.$dataimage->pict_validate_comment.'</textarea>  </td>';
 									echo '</tr>';
 								endforeach;
 							?>
