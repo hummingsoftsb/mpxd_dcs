@@ -342,7 +342,7 @@ function remove_img(url) {
     });
 }
 /*function to limit image description characters. added by jane*/
-function img_desc_limit(){
+/*function img_desc_limit(){
     var characters = 118;
     $("#counter").append("You have <strong>"+  characters+"</strong> characters remaining");
     $("#iddesc").keyup(function(){
@@ -351,6 +351,26 @@ function img_desc_limit(){
         }
         var remaining = characters -  $(this).val().length;
         $("#counter").html("You have <strong>"+  remaining+"</strong> characters remaining");
+        if(remaining <= 10)
+        {
+            $("#counter").css("color","red");
+        }
+        else
+        {
+            $("#counter").css("color","black");
+        }
+    });
+}*/
+/*function to limit image description characters. added by jane*/
+function img_desc_limit(){
+    var characters = 118;
+    $("#counter").show();
+    $("#iddesc").keyup(function(){
+        if($(this).val().length > characters){
+            $(this).val($(this).val().substr(0, characters));
+        }
+        var remaining = characters -  $(this).val().length;
+        $(".char_class").text(remaining);
         if(remaining <= 10)
         {
             $("#counter").css("color","red");
@@ -965,7 +985,7 @@ endforeach;
 
         <td style="width:40%">
 			<textarea id="iddesc" name="imagedesc_{%=fileId%}" maxlength="118" class="description-textarea textarea-fill" form="addimage" rows="5" onclick="img_desc_limit();" ></textarea>
-        <div id="counter"></div>
+        <div id="counter" style="display:none">You have <strong class="char_class"> 118 </strong> characters remaining</div>
         </td>
 
         <td style="width:40%">
