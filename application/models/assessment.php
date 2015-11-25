@@ -630,6 +630,13 @@ Class Assessment extends CI_Model
         return $q->result();
     }
 
+    function show_validation_journal_data_entry_picture_rejectnotes($id)
+    {
+        $query = "select * from journal_data_entry_picture where data_entry_no=(select data_entry_no from journal_data_validate_master where data_validate_no=$id) order by pict_seq_no";
+        $q = $this->db->query($query);
+        return $q->result();
+    }
+
     function update_journal_data_validate_detail($validateno, $dataentryno, $dataattbid, $comment)
     {
         $query = "select validate_comment	 from journal_data_validate_detail where data_validate_no=$validateno and data_entry_no=$dataentryno and data_attb_id=$dataattbid";
@@ -772,6 +779,22 @@ Class Assessment extends CI_Model
             $this->db->query("update journal_data_entry_detail set frequency_max_opt=null where data_entry_no='$id' and data_attb_id=" . $row->data_attb_id);
         endforeach;
     }
+
+ // Added by agaile to capture the validator comments while approve 25/11/2015
+    //Agaile:START
+    function update_validate_accept_picture($a)
+    {
+        foreach ($a as $k => $b) {
+            $data = array(
+                'pict_validate_comment' => $b
+            );
+
+            $this->db->where('data_entry_pict_no', $k);
+            $this->db->update('journal_data_entry_picture', $data);
+        }
+    }
+
+    // Agaile :END
 
     function update_validate_reject_picture($a)
     {

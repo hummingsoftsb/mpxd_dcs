@@ -75,6 +75,7 @@ class Journalvalidationview extends CI_Controller
 			$data['validatorcount']=$this->assessment->total_validation_journal_validator($id);
 			$data['dataentryattbs']=$this->assessment->show_validation_journal_data_entry_detail($id);
 			$data['dataimages']=$this->assessment->show_validation_journal_data_entry_picture($id);
+			$data['rejectnotes']=$this->assessment->show_validation_journal_data_entry_picture_rejectnotes($id);
 			$data['approve_stop_status']=$this->assessment->approve_stop_status_check($id);
 			$data['validatorid']=$id;
 			
@@ -132,6 +133,17 @@ class Journalvalidationview extends CI_Controller
 			}
 			if($this->input->post('optradio')=="Approve")
 			{
+//                Added by Agaile, While approve the validator comments where not saved
+                //AGAILE :START
+                $pict_comment = array();
+                foreach($this->input->post() as $k => $post){
+                    if(substr($k,0,12) === 'pict-comment'){
+                        $pic_id = substr($k,12);
+                        $pict_comment[$pic_id] = $this->input->post('pict-comment'.$pic_id);
+                    }
+                }
+                $this->assessment->update_validate_accept_picture($pict_comment);
+                // AGAILE :END
 				$this->assessment->update_validate_accept($validatorno,$dataentryno);
 
 				if($this->assessment->update_validate_accept_email_check($dataentryno)==0)
