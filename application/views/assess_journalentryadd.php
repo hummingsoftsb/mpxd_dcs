@@ -63,7 +63,7 @@ $(document).ready(function () {
         desc = $(this).attr('data-desc');
         rejnote = $(this).attr('data-rejnote');
         pic_val_comment = $(this).attr('data-pic-val-comment');
-        document.getElementById('pic_val_comment1').value=pic_val_comment;
+        document.getElementById('val_comment').value=pic_val_comment;
         datavalno = $(this).attr('data-validate-no');
         var empty = "";
         $(".modal-body #picid").val($(this).data('picid'));
@@ -831,7 +831,7 @@ endforeach;
 
                     <div class="modal-body">
                         <input type="hidden" id="dataentryno1" name="dataentryno1" value="<?php echo $dataentryno; ?>"/>
-                        <input type="hidden" id="pic_val_comment1" name="pic_val_comment1" />
+                        <input type="hidden" id="val_comment" name="val_comment"/>
                         <div style="text-align:center">
                             <button class="btn btn-success fileinput-button">
                                 <i class="glyphicon glyphicon-plus"></i>

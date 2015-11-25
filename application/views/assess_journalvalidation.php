@@ -39,6 +39,9 @@
 	});
 </script>
 <?php
+echo '<pre>';
+?>
+<?php
 	$labelnames='';
 	foreach ($labels as $label):
 		$labelnames .= ','.$label->sec_label_desc;

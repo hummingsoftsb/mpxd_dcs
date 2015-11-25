@@ -8,9 +8,9 @@
 	
 	$id=$ci->input->post('dataentryno1');
 
-    $picvalcomment = trim($ci->input->post('pic_val_comment1'));
+    $picvalcomment = trim($ci->input->post('val_comment'));
    // $pic_vali_comment = $picvalcomment;
-    if(!empty($picvalcomment) && ($picvalcomment!=0))
+    if(!empty($picvalcomment))
     {
     $pic_vali_comment = $picvalcomment;
     }

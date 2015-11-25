@@ -272,8 +272,8 @@ Class Assessment extends CI_Model
     function publish_journal_data_entry($id, $userid)
     {
         $this->db->query("update journal_data_entry_master set data_entry_status_id=2,publish_user_id=$userid,publish_date='" . date("Y-m-d") . "' where data_entry_no=$id");
-// query modified by agaile  validate_status in (0,2) to  validate_status in (0,3)
-        $query = "select data_validate_no from journal_data_validate_master where data_entry_no=$id and validate_status in (0,2) order by validate_level_no asc limit 1";
+// query modified by agaile  validate_status in (0,2) to  validate_status in (0,2,3)
+        $query = "select data_validate_no from journal_data_validate_master where data_entry_no=$id and validate_status in (0,2,3) order by validate_level_no asc limit 1";
         $q = $this->db->query($query);
         $rows = $q->result();
         $datavalid = '';
