@@ -343,6 +343,7 @@ Class Assessment extends CI_Model
     // 	$this->db->update('user_reminder', array('reminder_hide' => 1));
     // }
 
+    /*function to update data entry image seq no. modified by jane*/
     function add_seq_journal_data_entry_picture($id)
     {
         $query1 = "select data_entry_pict_no from journal_data_entry_picture where data_entry_no=$id and pict_seq_no!=0 order by pict_seq_no asc";
