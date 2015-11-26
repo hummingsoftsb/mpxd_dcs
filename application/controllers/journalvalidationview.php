@@ -167,6 +167,7 @@ class Journalvalidationview extends CI_Controller
                     //Modified by Jane. This is for adding alert to next level validator
 					$data = array('alert_date' => date("Y-m-d"),'alert_user_id' => $validatorid,'data_entry_no' => $dataentryno,'alert_message' => 'Data Entry Published','alert_hide' => '0','email_send_option' => '1');
 					$this->assessment->add_user_alert($data);
+                    $this->assessment->update_alert_on_save($dataentryno,$userid);
 				}
 				else
 				{
