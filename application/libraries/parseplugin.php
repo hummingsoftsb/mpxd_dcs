@@ -51,11 +51,10 @@ class ParsePlugin {
 		$query->equalTo('installationId', $installation_id);
 		
 		if ($installation_id) {
-			$push_data = array('alert' => $message, 'data' => $data);
+			$push_data = array('alert' => $message, 'data' => $data, 'sound' => 'default');
 			ParsePush::send(array(
 			  "where" => $query,
-			  "data" => $push_data,
-			  "sound" => ""
+			  "data" => $push_data
 			));
 		}
 	}
