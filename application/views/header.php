@@ -285,7 +285,7 @@ $rlabelname = explode(",", $rlabelnames);
 
                        setInterval(function () {
                             oTable.api().ajax.reload(null, false); // user paging is not reset on reload
-                            aCount = oTable.fnGetData().length;
+                            aCount = oTable.count;
                             $('#aCount').text(aCount);
                            $('#checkboxes input:checkbox').each(function(){
                                var time = 500;

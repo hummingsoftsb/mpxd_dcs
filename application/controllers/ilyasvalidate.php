@@ -44,6 +44,7 @@ class Ilyasvalidate extends CI_Controller
 			}
 			
 			$id=$this->input->get('jid');
+            $user_id = $session_data['id'];
             //function for updating user alert seen status
             if($this->input->get('alert_id')!="") {
                 $alert_id = $this->input->get('alert_id');
@@ -51,7 +52,7 @@ class Ilyasvalidate extends CI_Controller
             if($this->input->get('alert_user_id')!="") {
                 $alert_user_id = $this->input->get('alert_user_id');
             }
-            if(!empty($alert_id) && (!empty($alert_user_id))){
+            if(!empty($alert_id) && (!empty($alert_user_id))&& ($user_id==$alert_user_id)){
                 $this->alertreminder->update_reminder_status($alert_id, $alert_user_id);
             }
             //end
@@ -80,14 +81,6 @@ class Ilyasvalidate extends CI_Controller
 			if (sizeOf($data['details']) < 1) return;
 			$data['details'] = $data['details'][0];
 			$data['lookups'] = $this->ilyasmodel->get_lookup_data();
-			//var_dump($data);
-			/*
-			$save = $this->input->post('data');
-			if ($save) {
-				var_dump($save);
-			}
-			*/
-			
 			$data['hot_config'] = $this->ilyasmodel->get_config($id, true);
 			$data['hot_data'] = $this->ilyasmodel->get_data($id);
 			$data['hot_lock'] = $this->ilyasmodel->get_validationlock($id);
@@ -158,11 +151,11 @@ class Ilyasvalidate extends CI_Controller
 					 $data_name = $emails->data_name;
 					 $data_email = $emails->data_email;
 					$journalname = $jdetails[0]->journal_name;
-					
+
 					$data = array('alert_date' => date("Y-m-d"),'alert_user_id' => $data_id,'data_entry_no' => null,'alert_message' => $journalname.' Data Entry Accepted','alert_hide' => '0','email_send_option' => '1', 'nonp_journal_id' => $jid);
 					$this->assessment->add_user_alert($data);
 					$this->assessment->update_alert_on_save_nonp($jid,$userid);
-					
+
 					//$emails = $this->ilyasmodel->get_emails($jid)[0];
 					//var_dump($emails);
 					//Temporary disabled.
@@ -227,7 +220,7 @@ class Ilyasvalidate extends CI_Controller
 				$status = $this->ilyasmodel->validate_reject_row($jid,$comments); // Change this to validate_reject if you want cell level comments
 				if ($status) {
 					$emails = $this->ilyasmodel->get_emails($jid)[0];
-					
+
 					$validator_id = $emails->validator_id;
 					$validator_name = $emails->validator_name;
 					$validator_email = $emails->validator_email;
@@ -235,15 +228,15 @@ class Ilyasvalidate extends CI_Controller
 					$data_name = $emails->data_name;
 					$data_email = $emails->data_email;
 					$journalname = $jdetails[0]->journal_name;
-					
+
 					$data = array('alert_date' => date("Y-m-d"),'alert_user_id' => $data_id,'data_entry_no' => null,'alert_message' => $journalname.' Data Entry Rejected','alert_hide' => '0','email_send_option' => '1', 'nonp_journal_id' => $jid);
 					$this->assessment->add_user_alert($data);
 					$this->assessment->update_alert_on_save_nonp($jid,$userid);
-					
+
 					$this->load->model('mailermodel');
 					$this->mailermodel->insert_queue_rejected_nonprogressive($validator_id, $jid);
-			
-					
+
+
 					//$this->swiftmailer->data_entry_rejected_nonprogressive($data_email, $data_name, $journalname, $jid);
 					/*
 					$this->email->from('test@hummingsoft.com.my', 'MPXD');

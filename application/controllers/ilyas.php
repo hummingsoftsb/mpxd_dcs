@@ -51,6 +51,7 @@ class Ilyas extends CI_Controller
 			}
 			
 			$id=$this->input->get('jid');
+            $user_id = $session_data['id'];
             //function for updating user alert seen status
             if($this->input->get('alert_id')!="") {
                 $alert_id = $this->input->get('alert_id');
@@ -58,7 +59,7 @@ class Ilyas extends CI_Controller
             if($this->input->get('alert_user_id')!="") {
                 $alert_user_id = $this->input->get('alert_user_id');
             }
-            if(!empty($alert_id) && (!empty($alert_user_id))){
+            if(!empty($alert_id) && (!empty($alert_user_id))&& ($user_id==$alert_user_id)){
                 $this->alertreminder->update_reminder_status($alert_id, $alert_user_id);
             }
             //end
