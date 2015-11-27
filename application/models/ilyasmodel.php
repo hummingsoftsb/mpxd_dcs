@@ -709,7 +709,7 @@ Class IlyasModel extends CI_Model
 			
 			//Copy approved data into log
 			$query = "INSERT INTO ilyas_log (SELECT *,$jid FROM ilyas where config_no in (SELECT config_no FROM ilyas_config WHERE journal_no = $jid) and revision = $revision)";
-			$this->db->query($query);
+            $this->db->query($query);
 		}
 		return $q;
 	}

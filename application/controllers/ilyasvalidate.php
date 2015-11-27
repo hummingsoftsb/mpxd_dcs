@@ -45,7 +45,7 @@ class Ilyasvalidate extends CI_Controller
 			
 			$id=$this->input->get('jid');
             $user_id = $session_data['id'];
-            //function for updating user alert seen status
+            //function for updating user alert seen status. done by jane
             if($this->input->get('alert_id')!="") {
                 $alert_id = $this->input->get('alert_id');
             }
@@ -153,7 +153,7 @@ class Ilyasvalidate extends CI_Controller
 					$journalname = $jdetails[0]->journal_name;
 
 					$data = array('alert_date' => date("Y-m-d"),'alert_user_id' => $data_id,'data_entry_no' => null,'alert_message' => $journalname.' Data Entry Accepted','alert_hide' => '0','email_send_option' => '1', 'nonp_journal_id' => $jid);
-					$this->assessment->add_user_alert($data);
+                    $this->assessment->add_user_alert($data);
 					$this->assessment->update_alert_on_save_nonp($jid,$userid);
 
 					//$emails = $this->ilyasmodel->get_emails($jid)[0];
