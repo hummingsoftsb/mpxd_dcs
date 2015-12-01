@@ -9,15 +9,13 @@ Class Alertreminder extends CI_Model
 
         //Modified by Jane. For getting all notifications to admin user - progressive
         $user_role_query = "select sec_role_id from sec_user where user_id=$id";
-        $user_role_query = $this->db->query($user_role_query)->result();
-        if($user_role_query[0]->sec_role_id==1){
+        $user_role_query = $this->db->query($user_role_query)->row();
+        if($user_role_query->sec_role_id==1){
             $query = "select jdvm.data_validate_no,jdvm.validate_status,jdem.data_entry_status_id,ua.data_entry_no,ua.alert_no,ua.alert_date,ua.alert_seen_status,ua.alert_user_id,jm.journal_name,ua.alert_message,fd.frequency_period from user_alert ua,journal_data_entry_master jdem,frequency_detail fd,journal_master jm, journal_data_validate_master jdvm where ua.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no and jdem.journal_no=jm.journal_no and jdem.data_entry_no=jdvm.data_entry_no and alert_hide=0 order by alert_no desc";
             $query = $this->db->query($query);
             $query_result = $query->result();
         } else {
             $query = "select jdvm.data_validate_no,jdvm.validate_status,jdem.data_entry_status_id,ua.data_entry_no,ua.alert_no,ua.alert_date,ua.alert_seen_status,ua.alert_user_id,jm.journal_name,ua.alert_message,fd.frequency_period from user_alert ua,journal_data_entry_master jdem,frequency_detail fd,journal_master jm, journal_data_validate_master jdvm where ua.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no and jdem.journal_no=jm.journal_no and ua.alert_user_id=$id and jdem.data_entry_no=jdvm.data_entry_no and alert_hide=0 order by alert_no desc";
-            /*echo $query;
-            echo "</br>";*/
             $query = $this->db->query($query);
             $query_result = $query->result();
         }
@@ -35,7 +33,7 @@ Class Alertreminder extends CI_Model
         }*/
 
         //Modified by Jane. For getting all notifications to admin user - non progressive
-        if($user_role_query[0]->sec_role_id==1) {
+        if($user_role_query->sec_role_id==1) {
             $query = "select ua.data_entry_no,ua.alert_no,ua.alert_date,ua.alert_message,ua.alert_seen_status,ua.alert_user_id,ua.nonp_journal_id from user_alert ua where alert_hide=0 AND ua.data_entry_no IS NULL order by alert_no desc";
             $query = $this->db->query($query);
             $query_result2 = $query->result();
@@ -174,8 +172,8 @@ Class Alertreminder extends CI_Model
 	{
 		// $query=$this->db->query("select alert_no from user_alert where alert_hide=0 and alert_user_id=".$id);
         $user_role_query = "select sec_role_id from sec_user where user_id=$id";
-        $user_role_query = $this->db->query($user_role_query)->result();
-        if($user_role_query[0]->sec_role_id==1) {
+        $user_role_query = $this->db->query($user_role_query)->row();
+        if($user_role_query->sec_role_id==1) {
             /*for getting all notifications to admin user*/
             $query = $this->db->query("select alert_no from user_alert where alert_hide=0");
         } else {
@@ -204,31 +202,46 @@ Class Alertreminder extends CI_Model
 //	}
 
 // modified by jane
-
 // Start
-
     function show_reminder($id)
     {
         //For progressive reminder
-        $query ="select ur.reminder_status_id, ur.data_entry_no,ur.reminder_no,ur.reminder_date,jm.journal_name,ur.reminder_message,fd.frequency_period from user_reminder ur,journal_data_entry_master jdem,frequency_detail fd,journal_master jm where ur.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no and jdem.journal_no=jm.journal_no and ur.reminder_user_id=$id and reminder_hide=0 order by reminder_no desc";
-        $query = $this->db->query($query);
-        $query_result = $query->result();
+        $user_role_query = "select sec_role_id from sec_user where user_id=$id";
+        $user_role_query = $this->db->query($user_role_query)->row();
+        if($user_role_query->sec_role_id==1) {
+            $query = "select ur.reminder_status_id, ur.data_entry_no,ur.reminder_no,ur.reminder_date::timestamp(0),jm.journal_name,ur.reminder_message,fd.frequency_period,sc.user_full_name,sr.sec_role_name from user_reminder ur,journal_data_entry_master jdem,frequency_detail fd,journal_master jm,sec_user sc,sec_role sr where ur.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no and jdem.journal_no=jm.journal_no and ur.reminder_user_id = sc.user_id and sc.sec_role_id = sr.sec_role_id and reminder_hide=0 group by sc.user_full_name,ur.reminder_status_id,ur.data_entry_no,ur.reminder_no,jm.journal_name,fd.frequency_period,sr.sec_role_name order by reminder_no desc ";
+            $query = $this->db->query($query);
+            $query_result = $query->result();
+        } else {
+            $query = "select ur.reminder_status_id, ur.data_entry_no,ur.reminder_no,ur.reminder_date::timestamp(0),jm.journal_name,ur.reminder_message,fd.frequency_period, sc.user_full_name,sr.sec_role_name from user_reminder ur,journal_data_entry_master jdem,frequency_detail fd,journal_master jm,sec_user sc,sec_role sr where ur.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no and jdem.journal_no=jm.journal_no and ur.reminder_user_id = sc.user_id and sc.sec_role_id = sr.sec_role_id and ur.reminder_user_id=$id and reminder_hide=0 group by sc.user_full_name,ur.data_entry_no, ur.reminder_status_id,ur.reminder_no,jm.journal_name,fd.frequency_period,sr.sec_role_name order by reminder_no desc";
+            $query = $this->db->query($query);
+            $query_result = $query->result();
+        }
         //For non progressive reminder
-        $query2 = "select ur.reminder_status_id, ur.nonp_journal_id,ur.reminder_no,ur.reminder_date,jmnp.journal_name,ur.reminder_message,jmnp.reminder_frequency from user_reminder ur,journal_master_nonprogressive jmnp,frequency_detail fd where ur.nonp_journal_id=jmnp.journal_no and ur.reminder_user_id=$id and reminder_hide=0 group by ur.reminder_no,jmnp.journal_name,jmnp.reminder_frequency order by reminder_no desc";
+        if($user_role_query->sec_role_id==1) {
+            $query2 = "select ur.reminder_status_id, ur.nonp_journal_id,ur.reminder_no,ur.reminder_date::timestamp(0),jmnp.journal_name,ur.reminder_message,jmnp.reminder_frequency,sc.user_full_name,sr.sec_role_name from user_reminder ur,journal_master_nonprogressive jmnp,frequency_detail fd,sec_user sc,sec_role sr where ur.nonp_journal_id=jmnp.journal_no and ur.reminder_user_id = sc.user_id and sc.sec_role_id = sr.sec_role_id and reminder_hide=0 group by ur.reminder_no,jmnp.journal_name,jmnp.reminder_frequency,sc.user_full_name,sr.sec_role_name order by reminder_no desc";
+            $query2 = $this->db->query($query2);
+            $query_result2 = $query2->result();
+        } else {
+        $query2 = "select ur.reminder_status_id, ur.nonp_journal_id,ur.reminder_no,ur.reminder_date::timestamp(0),jmnp.journal_name,ur.reminder_message,jmnp.reminder_frequency,sc.user_full_name,sr.sec_role_name from user_reminder ur,journal_master_nonprogressive jmnp,frequency_detail fd,sec_user sc,sec_role sr where ur.nonp_journal_id=jmnp.journal_no and ur.reminder_user_id = sc.user_id and sc.sec_role_id = sr.sec_role_id and ur.reminder_user_id=$id and reminder_hide=0 group by ur.reminder_no,jmnp.journal_name,jmnp.reminder_frequency,sc.user_full_name,sr.sec_role_name order by reminder_no desc";
         $query2 = $this->db->query($query2);
         $query_result2 = $query2->result();
+        }
         $merge = array_merge($query_result, $query_result2);
         return $merge;
     }
-
-
-
-
 //end
 
 	function count_reminder($id)
 	{
-		$query=$this->db->query("select reminder_no from user_reminder where reminder_hide=0 and reminder_user_id=".$id);
+        $user_role_query = "select sec_role_id from sec_user where user_id=$id";
+        $user_role_query = $this->db->query($user_role_query)->row();
+        if($user_role_query->sec_role_id==1) {
+            /*for getting all notifications to admin user*/
+            $query = $this->db->query("select reminder_no from user_reminder where reminder_hide=0");
+        } else {
+            $query = $this->db->query("select reminder_no from user_reminder where reminder_hide=0 and reminder_user_id=" . $id);
+        }
 		return $query->num_rows();
 	}
 

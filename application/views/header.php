@@ -303,6 +303,15 @@ $rlabelname = explode(",", $rlabelnames);
                          });
                         });
                     });
+                    function confirm_fn(path){
+                        $(".bs-example-modal-confirm").modal("show");
+                    }
+                    function redirect_fn() {
+                        var reminder_no = $("#resend-location").attr("data");
+                        $.post("<?php echo base_url(); ?>reminders/resend_reminder/", {reminder_no: reminder_no}, function (data) {
+                            location.reload();
+                        });
+                    }
                 </script>
 
                 <style type="text/css">
@@ -362,6 +371,29 @@ $rlabelname = explode(",", $rlabelnames);
     </div>
 </div>
 <!-- alert ---->
+<!--Confirm --->
+<div class="modal fade bs-example-modal-confirm" tabindex="-1" role="dialog" aria-labelledby="myConfirmationLabel" aria-hidden="true" style="z-index: 1060 !important;margin-top: 7%">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure to resend the reminder again?</p>
+                <div class="row">
+                    <div class="col-md-8" style="margin-left: 60px;">
+                        <input class="btn btn-success btn-sm" value="No" type="button" data-dismiss="modal">
+                        <span>&nbsp;&nbsp;</span>
+                        <input class="btn btn-primary btn-sm" value="Yes" onclick="redirect_fn()" type="button">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Confirm End--->
 <!-- Reminders ---->
 <div class="modal fade bs-example-modal-md_reminders" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
      aria-hidden="true">
@@ -379,9 +411,15 @@ $rlabelname = explode(",", $rlabelnames);
 
                         <th>No</th>
                         <th><?php echo $rlabelname[0]; ?></th>
+                        <?php if($ses_data['roleid']==1){ ?>
+                        <th>Assignee</th>
+                        <?php } ?>
                         <th><?php echo $rlabelname[1]; ?></th>
                         <th><?php echo $rlabelname[2]; ?></th>
                         <!--th><?php echo $rlabelname[3]; ?></th-->
+                        <?php if($ses_data['roleid']==1){ ?>
+                        <th><?php echo $alabelname[3]; ?></th>
+                        <?php } ?>
                     </tr>
                     </thead>
                     <tbody>
@@ -400,13 +438,18 @@ $rlabelname = explode(",", $rlabelnames);
                             <?php } else { ?>
                                 <td><a href="<?php echo base_url(); ?>journalvalidationnonp"><?php echo $record->reminder_message; ?></a></td>
                             <?php } ?>
+                            <?php if($ses_data['roleid']==1){ ?>
+                            <td><?php echo $record->user_full_name.' ('.$record->sec_role_name.')'; ?></td>
+                            <?php } ?>
                             <td><?php echo $record->reminder_date; ?></td>
                             <?php if(!empty($record->nonp_journal_id)) {?>
                                 <td><?php echo $record->reminder_frequency; ?></td>
                             <?php }else { ?>
                                 <td><?php echo $record->frequency_period; ?></td>
                             <?php } ?>
-                            <!--td><a href="#" data-toggle="modal" class="reminderhide" data-id="<?php echo $record->reminder_no; ?>"><span class="glyphicon glyphicon-trash">&nbsp;</span></a></td-->
+                            <?php if($ses_data['roleid']==1){ ?>
+                            <td><a id="resend-location" href='javascript:;' data='<?php echo $record->reminder_no; ?>' onclick="confirm_fn();"><span title='Resend' class='glyphicon glyphicon-send'></span></a></td>
+                            <?php } ?>
                         </tr>
 
                         <?php
