@@ -10,9 +10,10 @@ class Ilyasvalidate extends CI_Controller
    		$this->load->helper(array('url','general'));
 		$this->load->model('alertreminder','',TRUE);
 		$this->load->model('securitys','',TRUE);
-	   $this->load->model('assessment','',TRUE);
-	   $this->load->model('ilyasmodel','',TRUE);
-   	   $this->load->library('swiftmailer');
+	    $this->load->model('assessment','',TRUE);
+	    $this->load->model('ilyasmodel','',TRUE);
+        $this->load->model('reminder','',TRUE);
+   	    $this->load->library('swiftmailer');
 	}
 	
 	function index()
@@ -273,6 +274,12 @@ class Ilyasvalidate extends CI_Controller
 			{
 				/*$this->assessment->update_validate_close($validatorno,$dataentryno);*/
 			}
+
+            /*call reminder update function*/
+            $this->update();
+            /*$reminders_controller = new Reminders();
+            $reminders_controller->update();*/
+
 			$sess_array = array('message' => "Journal Validation Updated Successfully", 'type' => 1);
 			$this->session->set_userdata('message', $sess_array);
 			echo json_encode(array('st'=>$status, 'msg' => 'Success'));
@@ -313,5 +320,11 @@ class Ilyasvalidate extends CI_Controller
 		$id=$this->input->post('id');
 		$this->alertreminder->hide_reminder($id);
 	}*/
+
+    /*function to update reminders*/
+    function update(){
+        $this->reminder->update_reminder();
+        echo "Done.";
+    }
 }
 ?>

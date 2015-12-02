@@ -12,6 +12,7 @@ class Journalvalidationview extends CI_Controller
    	   $this->load->library(array('email','swiftmailer','parseplugin'));
 	   $this->load->helper(array('form','url','general'));
 	   $this->load->model('alertreminder','',TRUE);
+       $this->load->model('reminder','',TRUE);
 	}
 
 	function index($offset=0)
@@ -246,6 +247,12 @@ class Journalvalidationview extends CI_Controller
 			{
 				$this->assessment->update_validate_close($validatorno,$dataentryno);
 			}
+
+            /*call reminder update function*/
+            $this->update();
+            /*$reminders_controller = new Reminders();
+            $reminders_controller->update();*/
+            
 			$sess_array = array('message' => "Journal Validation Updated Successfully","type" => 1); //1 success , 0 error
 			// $sess_array = array('message' => "Journal Validation Updated Successfully");
 			$this->session->set_userdata('message', $sess_array);
@@ -365,6 +372,12 @@ class Journalvalidationview extends CI_Controller
         //query the database
         $result = $this->assessment->remove_journal_data_entry_picture_validator($dataid, $pict_file_name);
         echo json_encode(array('st' => 1, 'msg' => 'Success'));
+    }
+
+    /*function to update reminders*/
+    function update(){
+        $this->reminder->update_reminder();
+        echo "Done.";
     }
 }
 ?>

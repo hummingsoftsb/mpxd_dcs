@@ -7,11 +7,12 @@ class Ilyas extends CI_Controller
 	function __construct()
 	{
    		parent::__construct();
-   		$this->load->helper(array('url','general'));
-		$this->load->model('alertreminder','',TRUE);
-		$this->load->model('securitys','',TRUE);
-	   $this->load->model('assessment','',TRUE);
-	   $this->load->model('ilyasmodel','',TRUE);
+        $this->load->helper(array('url', 'general'));
+        $this->load->model('alertreminder', '', TRUE);
+        $this->load->model('securitys', '', TRUE);
+        $this->load->model('assessment', '', TRUE);
+        $this->load->model('ilyasmodel', '', TRUE);
+        $this->load->model('reminder', '', TRUE);
    	   //$this->load->library('swiftmailer');
 	}
 	
@@ -134,7 +135,6 @@ class Ilyas extends CI_Controller
 				$jdetails=$this->assessment->show_journalnonp($id);
 				if (sizeOf($jdetails) > 0) {
 					/* The journal exists */
-					//var_dump($id);
 					$data_date = $this->input->post("data_date");
 					
 					$q = $this->ilyasmodel->save_data($id,json_decode($this->input->post("data")), $session_data['id'], $data_date, $ispublish);
@@ -167,18 +167,21 @@ class Ilyas extends CI_Controller
 						//$actual_link = "http://192.168.1.52/index.php/ilyasvalidate?jid=187";
 						
 						//$this->email->message($message);
-						//echo $mail_content;
 						//$this->email->send();
+
+						/*call reminder update function*/
+                        $this->update();
+                        /*$reminders_controller = new Reminders();
+                        $reminders_controller->update();*/
+
 						$sess_array = array('message' => "Journal Published Successfully","type" => 1);
 						$this->session->set_userdata('message', $sess_array);
+
+
 					}
 					echo json_decode($q);
-					//print_r(json_decode($this->input->get("data")));
 				}
-				//print_r(json_decode($this->input->get("data")));
 			}
-			//$lol = $this->ilyasmodel->save_data();
-			//var_dump($lol);
 		}
    		else
    		{
@@ -221,5 +224,11 @@ class Ilyas extends CI_Controller
 		$id=$this->input->post('id');
 		$this->alertreminder->hide_reminder($id);
 	}*/
+
+    /*function to update reminders*/
+    function update(){
+        $this->reminder->update_reminder();
+        echo "Done.";
+    }
 }
 ?>
