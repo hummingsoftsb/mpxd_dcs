@@ -377,7 +377,7 @@ class Journalvalidationview extends CI_Controller
     /*function to update reminders*/
     function update(){
         $this->reminder->update_reminder();
-        echo "Done.";
+        //echo "Done.";
     }
 }
 ?>

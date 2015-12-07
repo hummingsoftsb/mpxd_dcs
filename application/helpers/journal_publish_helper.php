@@ -35,9 +35,9 @@
 		$ci->assessment->publish_journal_data_entry($id,$userid);
 
 		//Email
-		 $emailres=$ci->assessment->publish_journal_data_entry_email($id,$userid);
-		 //update alert based on data_entry_no
-		 $ci->assessment->update_alert_on_save($id,$userid);
+		$emailres=$ci->assessment->publish_journal_data_entry_email($id,$userid);
+		//update alert based on data_entry_no
+		$ci->assessment->update_alert_on_save($id,$userid);
 		foreach($emailres as $rows):
 			$datavalidateno=$rows->data_validate_no;
 			$journalno=$rows->journal_no;
@@ -66,4 +66,6 @@
 		$sess_array = array('message' => "Journal Published Successfully","type" => 1);
 		$ci->session->set_userdata('message', $sess_array);
 	}
+	$ci->load->model('reminder','',TRUE);
+	$ci->reminder->update_reminder();
 	echo json_encode(array('st'=>1, 'msg' => 'Success','msg1'=>$varientvalue,'msg2'=>$varientcount));
