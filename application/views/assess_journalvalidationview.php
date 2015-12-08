@@ -524,7 +524,7 @@
 					var a = confirm(msg);
 					var thisform = $("form#addRecord");
 					if (a) {
-						showloader(20000)
+						showloader(20000);
 						thisform.submit();
 						return true;
 					} else {

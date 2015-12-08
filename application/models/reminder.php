@@ -97,6 +97,7 @@ Class Reminder extends CI_Model
         $this->db->query($query_validator);
     }
 
+    // function to resend reminder by admin. done by jane
     function resend_reminder($reminder_no){
         $query = "SELECT * FROM user_reminder WHERE reminder_no=$reminder_no";
         $result = $this->db->query($query)->row();

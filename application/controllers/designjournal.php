@@ -12,6 +12,7 @@ class Designjournal extends CI_Controller
 		$this->load->model('admin','',TRUE);
 		$this->load->model('alertreminder','',TRUE);
 		$this->load->model('agailemodel','',TRUE);
+        $this->load->model('reminder','',TRUE);
 	}
 
 	function index($offset=0)
@@ -352,6 +353,11 @@ class Designjournal extends CI_Controller
 					$this->design->add_journal_data_entry_master($frequencydata);
 				}
 
+                /*call reminder update function*/
+                $this->update_reminder();
+                /*$reminders_controller = new Reminders();
+                $reminders_controller->update();*/
+
 				$sess_array = array('message' => $this->securitys->get_label_object(7)." Added Successfully","type" => 1);
 				$this->session->set_userdata('message', $sess_array);
 				echo json_encode(array('st'=>1, 'msg' => 'Success','msg1'=>'','msg2'=>'','msg3'=>'','msg4'=>'','msg5'=>'','msg6'=>''));
@@ -610,6 +616,11 @@ class Designjournal extends CI_Controller
             $data['status'] = '';
         }
         echo json_encode($data);
+    }
+
+    /*function to update reminders*/
+    function update_reminder(){
+        $this->reminder->update_reminder();
     }
 }
 ?>

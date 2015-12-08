@@ -230,9 +230,9 @@ $(document).ready(function () {
         } else {
             hideloader();
         }
-        /*calling reminder update function*/
-        $.post("<?php echo base_url(); ?>reminders/update", {
-        });
+        /*calling reminder update function*//*
+        $.post("<?php echo base_url(); ?>ilyas/update", {
+        });*/
     });
 
     $('.image-description .text').on("click", function () {
