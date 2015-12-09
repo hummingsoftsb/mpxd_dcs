@@ -103,6 +103,11 @@
 	</div-->
 	<!-- <div class="row text-center text-danger"><?php echo $message; ?> </div> -->
 	<div class="row text-center <?php echo $message_type == 1? "text-success" : "text-danger"; ?>"><?php echo $message; ?></div>
+<!--    --><?php
+//    echo '<pre>';
+//    print_r($pjdefreq);
+//    echo '</pre>';
+//    ?>
 	<table id="journal_list" class="table table-striped table-hover ">
     	<thead>
         	<tr>

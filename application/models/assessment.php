@@ -38,9 +38,11 @@ Class Assessment extends CI_Model
         if ($data == "project_name asc" || $data == "project_name desc" || $data == "journal_name asc" || $data == "journal_name desc") {
             $query .= "Order By " . $data;
         } else {
-            $query .= "Order By project_name asc,journal_name asc";
+            //$query .= "Order By project_name asc,journal_name asc";
+            $query .= "Order By journal_no asc";
         }
         $query .= " OFFSET " . $offset . "LIMIT " . $perPage;
+        //print_r($query);
         $q = $this->db->query($query);
         return $q->result();
     }
@@ -150,7 +152,64 @@ Class Assessment extends CI_Model
                     $this->db->query($query);
                 }
             endforeach;
-        } else { // image journal
+        }
+        // added one more condition for journal type is both - Agaile 09/12/2015
+        // AGAILE :START
+        else if($q->num_rows() == 0 && $is_image == 2){
+            $query = "select journal_no from journal_data_entry_master where data_entry_no=$id";
+            $res = $this->db->query($query);
+            $rows = $res->result();
+            foreach ($rows as $row):
+                $journalno = $row->journal_no;
+            endforeach;
+            $query = "select * from journal_detail where journal_no=$journalno";
+            $res = $this->db->query($query);
+            $rows = $res->result();
+            foreach ($rows as $row):
+                $query = "insert into journal_data_entry_detail";
+                $query .= "(data_entry_no,data_attb_id,start_value,actual_value,end_value,frequency_max_value,display_seq_no,data_source,created_user_id,created_date)";
+                $query .= " values('$id','" . $row->data_attb_id . "','" . $row->start_value . "','" . intval($row->start_value) . "','" . $row->end_value . "','" . $row->frequency_max_value . "','" . $row->display_seq_no . "',1,'$loginid','" . date("Y-m-d") . "')";
+                $this->db->query($query);
+            endforeach;
+
+            $query = "select * from journal_validator where journal_no=$journalno";
+            $res = $this->db->query($query);
+            $rows = $res->result();
+            foreach ($rows as $row):
+                $query = "insert into journal_data_validate_master";
+                $query .= "(data_entry_no,validate_user_id,validate_level_no,validate_status)";
+                $query .= " values('$id','" . $row->validate_user_id . "','" . $row->validate_level_no . "',0)";
+                $this->db->query($query);
+            endforeach;
+
+            $query = "select frequency_detail_no from journal_data_entry_master where data_entry_no=$id";
+            $q = $this->db->query($query);
+            $rows = $q->result();
+            foreach ($rows as $row):
+                $frequencyno = $row->frequency_detail_no;
+                $frequencyno--;
+            endforeach;
+            $query = "select data_attb_id,actual_value,data_entry_no from journal_data_entry_detail where data_entry_no=(select data_entry_no from journal_data_entry_master where frequency_detail_no=$frequencyno and journal_no=$journalno)";
+            $q = $this->db->query($query);
+            $rows = $q->result();
+            foreach ($rows as $row):
+                if ($row->actual_value != "") {
+                    $this->db->query("update journal_data_entry_detail set actual_value='" . $row->actual_value . "',prev_actual_value='" . $row->actual_value . "'  where data_entry_no=$id and data_attb_id=" . $row->data_attb_id);
+                    $q1 = $this->db->query("select cur_user_id,cur_date from journal_data_entry_audit_log where data_entry_no=" . $row->data_entry_no . " and data_attb_id=" . $row->data_attb_id . " order by audit_log_no desc limit 1");
+                    $rows1 = $q1->result();
+                    foreach ($rows1 as $row1):
+                        $prevuserid = $row1->cur_user_id;
+                        $prevdate = $row1->cur_date;
+                    endforeach;
+                    $query = "insert into journal_data_entry_audit_log";
+                    $query .= "(data_entry_no,data_attb_id,cur_user_id,cur_date,cur_value,prv_value,prv_user_id,prv_date)";
+                    $query .= " values('$id','" . $row->data_attb_id . "','$loginid','" . date("Y-m-d") . "','" . $row->actual_value . "','" . $row->actual_value . "'," . $prevuserid . ",'" . $prevdate . "')";
+                    $this->db->query($query);
+                }
+            endforeach;
+        }
+        // // AGAILE :END
+        else { // image journal
             $query = "select journal_no from journal_data_entry_master where data_entry_no=$id";
             $res = $this->db->query($query);
             $row = $res->row();
@@ -229,6 +288,7 @@ Class Assessment extends CI_Model
     {
         //$query="select jded.*,da.data_attb_label,da.data_attb_type_id,da.data_set_id,da.data_attb_data_type_id,da.data_attb_digits,(select uom_name from unit_measure where unit_measure.uom_id=da.uom_id) as uom_name from  journal_data_entry_detail jded,data_attribute da where jded.data_attb_id=da.data_attb_id and jded.data_entry_no=$id order by display_seq_no asc";
         $query = "select jded.*,da.data_attb_label,da.data_attb_type_id,da.data_set_id,da.data_attb_data_type_id,da.field_lock,da.data_attb_digits,da.uom_id,(select uom_name from unit_measure where unit_measure.uom_id=da.uom_id) as uom_name,(SELECT validate_comment FROM journal_data_validate_detail jdvd where jdvd.data_attb_id = jded.data_attb_id AND jdvd.data_entry_no = jded.data_entry_no limit 1) as comments,start_value,prev_actual_value,end_value from  journal_data_entry_detail jded,data_attribute da where jded.data_attb_id=da.data_attb_id and jded.data_entry_no=$id order by display_seq_no asc";
+        //print_r($query);
         $q = $this->db->query($query);
         return $q->result();
     }

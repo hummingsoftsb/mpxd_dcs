@@ -232,6 +232,20 @@ Class Design extends CI_Model
 		return $journalno;
 	}
 
+    // function to add image when the type of entry is both image and dataentry
+
+    function add_journal_img($data,$projectno,$name)
+    {
+        // Inserting in Table Journal Master
+        $this->db->insert('journal_master', $data);
+        $query=$this->db->query("select journal_no from journal_master where journal_name='$name' and is_image=1");
+        $rows=$query->result();
+        foreach ($rows as $row):
+            $journalno=$row->journal_no;
+        endforeach;
+        return $journalno;
+    }
+
 	//Function to add new record
 	function add_journal_validator($data)
 	{
