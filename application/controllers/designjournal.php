@@ -173,6 +173,10 @@ class Designjournal extends CI_Controller
 
     function add()
     {
+//        echo '<pre>';
+//        print_r($_POST);
+//        echo '<pre>';
+//        exit;
         $label=$this->securitys->get_label_object_name(77);
         $label1=$this->securitys->get_label_object_name(78);
         $label2=$this->securitys->get_label_object_name(80);
@@ -187,8 +191,10 @@ class Designjournal extends CI_Controller
         $this->form_validation->set_rules('frequency', $label3, 'trim|required|xss_clean');
         $this->form_validation->set_rules('startdate', $label4, 'trim|required|numeric_dash|xss_clean');
         $this->form_validation->set_rules('enddate', 'End Date', 'trim|numeric_dash|xss_clean');
-        $this->form_validation->set_rules('j_type', '$label5', 'trim|numeric_dash|xss_clean');
+       // $this->form_validation->set_rules('j_type', '$label5', 'trim|numeric_dash|xss_clean');
         $this->form_validation->set_rules('albumname', '$label5', 'trim|xss_clean');
+        
+        $journal_type = $this->input->post('j_type');
 
         // Commented by Agaile on 26/11/2015
 
