@@ -52,6 +52,7 @@ class Api extends CI_Controller
      		$session_data = $this->session->userdata('logged_in');
 			// $data_username = $session_data['username'];
 			$alerts = $this->alertreminder->show_alert($session_data['id']);
+			$alert_count = $this->alertreminder->count_alert($session_data['id']);
 			// $data1_alertcount = $this->alertreminder->count_alert($session_data['id']);
 			// $data1_reminders = $this->alertreminder->show_reminder($session_data['id']);
 			// $data1_remindercount = $this->alertreminder->count_reminder($session_data['id']);
@@ -97,6 +98,7 @@ class Api extends CI_Controller
 				$outputdata = new stdClass();
 				$outputdata->test = 'ddd';
 				$output['data'][] = array($alert_d0,$k+1,$href,$alert_d2,$alert_d3,$alert_d4);
+				$output['count'] = $alert_count;
 			}
 			header("Content-type: application/json");
 			echo json_encode($output);

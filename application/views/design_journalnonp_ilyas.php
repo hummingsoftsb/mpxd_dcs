@@ -90,7 +90,7 @@ function notify(text) {
 				}
 				
 				hideloader(function(){});
-			})
+			});
 			
 			e.preventDefault();
 			//return false;

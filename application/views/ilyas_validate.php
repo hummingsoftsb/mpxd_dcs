@@ -268,7 +268,7 @@ $(function(){
 		//console.log(i.meta.id);
 		addLookupCode(i.meta.id, j[0], j[1]);
 	
-	})
+	});
 	
 	
 	var container = document.getElementById("hottable_container");

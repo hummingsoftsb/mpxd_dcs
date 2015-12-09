@@ -13,6 +13,7 @@ class Journaldataentryadd extends CI_Controller
         $this->load->helper(array('form', 'url', 'general'));
         $this->load->model('alertreminder', '', TRUE);
         $this->load->model('agailemodel', '', TRUE);
+        $this->load->model('reminder','',TRUE);
     }
 
     function test()
@@ -421,6 +422,10 @@ class Journaldataentryadd extends CI_Controller
     function publish()
     {
         $this->load->helper('journal_publish');
+        /*call reminder update function*/
+        $this->update();
+        /*$reminders_controller = new Reminders();
+        $reminders_controller->update();*/
     }
 
     function updateimgsequence()
@@ -433,7 +438,10 @@ class Journaldataentryadd extends CI_Controller
             $this->assessment->update_seq_journal_data_entry_picture($t[0], $t[1]);
         }
     }
-
+    /*function to update reminders*/
+    function update(){
+        $this->reminder->update_reminder();
+    }
 }
 
 ?>

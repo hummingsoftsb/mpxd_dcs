@@ -12,6 +12,7 @@ class Designjournalnonp_ilyas extends CI_Controller
 		$this->load->model('admin','',TRUE);
 		$this->load->model('alertreminder','',TRUE);
 		$this->load->model('ilyasmodel','',TRUE);
+        $this->load->model('reminder','',TRUE);
 	}
 
 	function index($offset=0)
@@ -188,7 +189,12 @@ class Designjournalnonp_ilyas extends CI_Controller
 				$dataentrydata=array('journal_no'=>$jid,'data_user_id'=>$data_user_id,'default_owner_opt'=> ($dataentryowner == $data_user_id) ? "1":"0");
 				
 				$this->design->add_journal_data_entrynonp($dataentrydata);
-				
+
+                /*call reminder update function*/
+                $this->reminder_update();
+                /*$reminders_controller = new Reminders();
+                $reminders_controller->update();*/
+
 				$sess_array = array('message' => $this->securitys->get_label_object(20)." Added Successfully","type" => 1);
 				$this->session->set_userdata('message', $sess_array);
 				echo json_encode(array('st'=>1));
@@ -317,5 +323,10 @@ class Designjournalnonp_ilyas extends CI_Controller
 	{
 		$this->index();
 	}
+
+    /*function to update reminders*/
+    function reminder_update(){
+        $this->reminder->update_reminder();
+    }
 }
 ?>

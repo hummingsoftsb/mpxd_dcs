@@ -198,7 +198,7 @@ $(document).ready(function () {
                         for (var i = 1; i <= varientvalue1.length; i++) {
                             if (varientvalue1[i - 1] != "") {
                                 var content = '';
-                                var varientvalue2 = varientvalue1[i - 1]
+                                var varientvalue2 = varientvalue1[i - 1];
                                 content += '<tr>';
                                 content += '<td>' + i + '</td>';
                                 content += '<td>' + varientvalue2[2] + '</td>';
@@ -221,6 +221,7 @@ $(document).ready(function () {
                         }
                         $('#MyModal2').modal('show');
                     }
+
                 }, 'json').always(function (data) {
                     console.log(data);
                 });
@@ -229,6 +230,9 @@ $(document).ready(function () {
         } else {
             hideloader();
         }
+        /*calling reminder update function*//*
+        $.post("<?php echo base_url(); ?>ilyas/update", {
+        });*/
     });
 
     $('.image-description .text').on("click", function () {

@@ -12,6 +12,7 @@ class Journalvalidationview extends CI_Controller
    	   $this->load->library(array('email','swiftmailer','parseplugin'));
 	   $this->load->helper(array('form','url','general'));
 	   $this->load->model('alertreminder','',TRUE);
+       $this->load->model('reminder','',TRUE);
 	}
 
 	function index($offset=0)
@@ -49,6 +50,7 @@ class Journalvalidationview extends CI_Controller
 			}
 
 			$id=$this->input->get('id');
+            $user_id = $session_data['id'];
             //function for updating user alert seen status
             if($this->input->get('alert_id')!="") {
                 $alert_id = $this->input->get('alert_id');
@@ -56,7 +58,7 @@ class Journalvalidationview extends CI_Controller
             if($this->input->get('alert_user_id')!="") {
                 $alert_user_id = $this->input->get('alert_user_id');
             }
-            if(!empty($alert_id) && (!empty($alert_user_id))){
+            if(!empty($alert_id) && (!empty($alert_user_id)) && ($user_id==$alert_user_id)){
                 $this->alertreminder->update_reminder_status($alert_id, $alert_user_id);
             }
             //end
@@ -167,6 +169,7 @@ class Journalvalidationview extends CI_Controller
                     //Modified by Jane. This is for adding alert to next level validator
 					$data = array('alert_date' => date("Y-m-d"),'alert_user_id' => $validatorid,'data_entry_no' => $dataentryno,'alert_message' => 'Data Entry Published','alert_hide' => '0','email_send_option' => '1');
 					$this->assessment->add_user_alert($data);
+                    $this->assessment->update_alert_on_save($dataentryno,$userid);
 				}
 				else
 				{
@@ -191,7 +194,7 @@ class Journalvalidationview extends CI_Controller
 					$data = array('alert_date' => date("Y-m-d"),'alert_user_id' => $dataentryid,'data_entry_no' => $dataentryno,'alert_message' => 'Date Entry Accepted','alert_hide' => '0','email_send_option' => '1');
 					$this->assessment->add_user_alert($data);
 					$this->assessment->update_alert_on_save($dataentryno,$userid);
-					$this->parseplugin->sendMessageByUserId($userid,'There is a new notification for you', array("sync" => true, "silentforeground" => true));
+					/*$this->parseplugin->sendMessageByUserId($userid,'There is a new notification for you', array("sync" => true, "silentforeground" => true));*/
 					
 				}
 
@@ -244,6 +247,12 @@ class Journalvalidationview extends CI_Controller
 			{
 				$this->assessment->update_validate_close($validatorno,$dataentryno);
 			}
+
+            /*call reminder update function*/
+            $this->update();
+            /*$reminders_controller = new Reminders();
+            $reminders_controller->update();*/
+
 			$sess_array = array('message' => "Journal Validation Updated Successfully","type" => 1); //1 success , 0 error
 			// $sess_array = array('message' => "Journal Validation Updated Successfully");
 			$this->session->set_userdata('message', $sess_array);
@@ -363,6 +372,11 @@ class Journalvalidationview extends CI_Controller
         //query the database
         $result = $this->assessment->remove_journal_data_entry_picture_validator($dataid, $pict_file_name);
         echo json_encode(array('st' => 1, 'msg' => 'Success'));
+    }
+
+    /*function to update reminders*/
+    function update(){
+        $this->reminder->update_reminder();
     }
 }
 ?>

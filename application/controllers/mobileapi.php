@@ -302,7 +302,7 @@ class mobileapi extends CI_Controller
 					// If the count is more than 0, journal is initialized with its data attributes.
 					if ($count != 0) $data_attributes = $this->assessment->show_journal_data_entry_detail($entry->data_entry_no);
 					
-					$reject_notes = $this->assessment->show_journal_reject_note($entry->data_entry_no);
+					$reject_notes = $this->assessment->show_journal_reject_note_2($entry->data_entry_no);
 					//var_dump($data_attributes);
 					$result[$project->project_no]['journals'][$project->journal_no]['data_entries'][$entry->data_entry_no] = array(
 						'data_entry_no' => $data_entry_no,

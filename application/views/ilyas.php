@@ -175,12 +175,12 @@ function hot_save_data(publish, callback) {
 	if ($('#data_date').val() == "") { alert("Data date is invalid. Please select a correct date"); if(p_data_date) p_data_date.show(); return false; }
 	var d = hot_object.hot_serialize_data();
 	var d = remove_read_only(d);
-	var p = ((typeof publish == "boolean") && (publish))
+	var p = ((typeof publish == "boolean") && (publish));
 
 	var data = $.toJSON(d);
 	
 	console.log(data);
-	showloader()
+	showloader();
 	//console.log(<?php echo $details->journal_no; ?>);
 	$.post("<?php echo $this->config->base_url().'index.php/'.$cpagename; ?>/save_data?jid=<?php echo $details->journal_no; ?>&publish="+p.toString(), {data:data, data_date:p_data_date.toString()}).always(function(data){
 		console.log(data);
@@ -189,10 +189,10 @@ function hot_save_data(publish, callback) {
 			lockTable();
 			lockButton();
 			//location.reload();
-			location.href="<?php echo $this->config->base_url(); ?>journaldataentry";
+//			location.href="<?php //echo $this->config->base_url(); ?>//journaldataentry";
 		}
 		else {
-			hideloader();
+//			hideloader();
 		}
 		if (typeof callback == "function") callback();
 	});

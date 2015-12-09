@@ -403,6 +403,7 @@ Class Assessment extends CI_Model
     // 	$this->db->update('user_reminder', array('reminder_hide' => 1));
     // }
 
+    /*function to update data entry image seq no. modified by jane*/
     function add_seq_journal_data_entry_picture($id)
     {
         $query1 = "select data_entry_pict_no from journal_data_entry_picture where data_entry_no=$id and pict_seq_no!=0 order by pict_seq_no asc";
@@ -898,6 +899,17 @@ Class Assessment extends CI_Model
         else
             return '';
     }
+	
+	function show_journal_reject_note_2($id) 
+	{
+		$query = "select jdvr.reject_notes from journal_data_validate_reject jdvr,journal_data_validate_master jdvm where jdvr.data_validate_no = jdvm.data_validate_no and jdvm.data_entry_no = {$id}";
+        $q = $this->db->query($query);
+        $row = $q->row();
+        if ($row)
+            return $row->reject_notes;
+        else
+            return '';
+	}
 
 
     // check access
