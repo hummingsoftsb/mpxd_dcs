@@ -193,7 +193,7 @@ class Designjournal extends CI_Controller
         $this->form_validation->set_rules('enddate', 'End Date', 'trim|numeric_dash|xss_clean');
        // $this->form_validation->set_rules('j_type', '$label5', 'trim|numeric_dash|xss_clean');
         $this->form_validation->set_rules('albumname', '$label5', 'trim|xss_clean');
-        
+
         $journal_type = $this->input->post('j_type');
 
         // Commented by Agaile on 26/11/2015
