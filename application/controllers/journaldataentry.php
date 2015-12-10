@@ -132,11 +132,13 @@ class Journaldataentry extends CI_Controller
 						$pjde.="<a href='javascript:void(0)'  style='color: grey;'>".$pjdefre->frequency_detail_name."</a> ,";
 					}
 	        	}
-				if(!$isthisweek)
+				if(!$isthisweek) {
 					unset($data['records'][$k]);
+                }
 				else
-				$data['pjdefreq'][$freq->journal_no]=$pjde; 
+				$data['pjdefreq'][$freq->journal_no]=$pjde;
 			}
+           // print_r($data['pjdefreq']);
 			$data1['username'] = $session_data['username'];
 			$data1['alerts']=$this->alertreminder->show_alert($session_data['id']);
 			$data1['alertcount']=$this->alertreminder->count_alert($session_data['id']);

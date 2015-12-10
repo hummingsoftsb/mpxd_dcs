@@ -461,12 +461,19 @@ endforeach;
         </table>
     </div>
 </div>
+<?php
+//echo '<pre>';
+//print_r($dataentryattbs);
+//echo '</pre>';
+//
+//?>
 <div
     class="row text-center <?php echo $message_type == 1 ? "text-success" : "text-danger"; ?>"><?php echo $message; ?></div>
-<!--	 --><?php //var_dump($message_type); ?><!-- -->
+<!--	 --><?php //var_dump($message_type); ?><!-- 2 -->
 <form id="addRecord" method="POST" action="<?php echo base_url(); ?><?php echo $cpagename; ?>/add/">
 <?php echo $is_image == 1 ? '<input type="hidden" name="isimage" value="1"/>' : '' ?>
-<fieldset style="<?php echo $is_image == 1 ? 'display: none;' : '' ?>">
+<!-- Changed the condition to show the fieldset when the data entry type is both :Agaile -->
+<fieldset style="<?php echo $is_image == 2 || $is_image == 0 ? '': 'display: none;'?>">
     <legend><?php echo $labelname[8]; ?></legend>
     <table class="table table-striped table-hover ">
         <tr>
@@ -663,14 +670,14 @@ endforeach;
 </br>
 
 <div class="row text-center text-danger" id="diverrormsg"></div>
-<!--          modified by agaile in the view added a warning sign in front of validator comment   -->
 <?php
 //echo '<pre>';
 //print_r($dataimages);
 //print_r($reject_note);
 //echo '</pre>';
 //?>
-<fieldset style="<?php echo $is_image == 1 ? '' : 'display: none;' ?>">
+<!-- Changed the condition to show the fieldset when the data entry type is both :Agaile -->
+<fieldset style="<?php echo $is_image == 1 || $is_image == 2 ? '' : 'display: none;' ?>">
     <legend><?php echo $labelname[14]; ?></legend>
     <p style="text-align: right;"><?php echo $labelname[15]; ?> &nbsp &nbsp &nbsp <a href="javascript:void(0)"
                                                                                      data-toggle="modal"
@@ -679,6 +686,7 @@ endforeach;
                     id="modaladd" name="modaladd">Upload
             </button>
         </a></p>
+    <!--          modified by agaile in the view added a warning sign in front of validator comment   -->
     <?php if(!empty($reject_note->reject_notes)) {?>
     <small><?php echo $reject_note->reject_notes != '' ? '<b class="text-default">' . $labelname[13] . ': <span class="glyphicon glyphicon-warning-sign" style="color:red"> </span> </b>' . $reject_note->reject_notes . '' : '' ?></small>
     <?php } ?>

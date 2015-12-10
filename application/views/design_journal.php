@@ -1,5 +1,10 @@
 <script>var uploadUrl3 = '<?php echo base_url(); ?><?php echo $cpagename; ?>/fetch_dataentry_no/'</script>
 <?php
+
+//echo '<pre>';
+//print_r($labels);
+//echo '</pre>';
+
 	$userkey='';
 	$uservalue='';
 	foreach ($users as $user):
@@ -66,6 +71,9 @@
                 success: function (data) {
                     if (data.status == "success") {
                         document.getElementById('startdate1').removeAttribute("readonly");
+
+//                        Show Date picker to edit the date
+
                         $( "#startdate1" ).datepicker(
                             {
                                 showOn: "button",
@@ -1215,6 +1223,7 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
 						<h4 class="modal-title" id="myModalLabel">Add New <?php echo $labelobject; ?></h4>
+
 					</div>
 					<form method=post id=addrecord action="<?php echo base_url(); ?><?php echo $cpagename; ?>/add/">
 						<div class="modal-body">
@@ -1292,8 +1301,8 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
 							<div class="form-group">
 								<label for="select" class="col-lg-2 control-label"><?php echo $labelname[22]; ?> <red>*</red></label>
 								<div class="col-lg-10">
-									<select class="dropdown-toggle" id="j_type" name="j_type">
-										<option value="1">Data Entry</option>
+									<select class="dropdown-toggle" id="j_type" name="j_type[]" multiple="multiple">
+										<option value="1" selected="selected">Data Entry</option>
 										<option value="2">Image</option>
 									</select>
 								</div>
@@ -1451,6 +1460,7 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
 										</table>
 										<fieldset id="data_attribute_form">
 											<legend><?php echo $labelname[12]; ?></legend>
+                                            <?php echo validation_errors(); ?>
 											<div class="table">
 												<table class="table table-striped table-hover" id="dataattbtab">
 													<tr>
