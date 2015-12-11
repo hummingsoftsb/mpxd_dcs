@@ -104,11 +104,22 @@ class Reportphoto extends CI_Controller {
 			array( 'name' =>'Semantan Construction Progress' , 'indent' => 1),	
 			
 			array( 'name' =>'Depot 1 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'V5 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'Taman Mutiara Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Taman Connaught Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Taman Pertama Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Taman Midah Construction Progress' , 'indent' => 1),
+
+            array( 'name' =>'Underground Construction Progress' , 'indent' => 0),
+            array( 'name' =>'Underground Tunnel Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Muzium Negara Construction Progress' , 'indent' => 2),
+            array( 'name' =>'Pasar Seni Construction Progress' , 'indent' => 2),
+            array( 'name' =>'Merdeka Construction Progress' , 'indent' => 2),
+            array( 'name' =>'Bukit Bintang Construction Progress' , 'indent' => 2),
+            array( 'name' =>'Tun Razak Exchange Construction Progress' , 'indent' => 2),
+            array( 'name' =>'Cochrane Construction Progress' , 'indent' => 2),
+            array( 'name' =>'Maluri Construction Progress' , 'indent' => 2),
+
+            array( 'name' =>'V5 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'Taman Mutiara Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Taman Connaught Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Taman Pertama Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Taman Midah Construction Progress' , 'indent' => 1),
 			
 			array( 'name' =>'V6 Construction Progress' , 'indent' => 0),
 			array( 'name' =>'Banda Tun Hussein Onn Construction Progress' , 'indent' => 1),
@@ -125,16 +136,6 @@ class Reportphoto extends CI_Controller {
 			array( 'name' =>'Kajang Construction Progress' , 'indent' => 1),
 			
 			array( 'name' =>'Depot 2 Construction Progress' , 'indent' => 0),
-			
-			array( 'name' =>'Underground Construction Progress' , 'indent' => 0),
-			array( 'name' =>'Underground Tunnel Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Muzium Negara Construction Progress' , 'indent' => 2),
-			array( 'name' =>'Pasar Seni Construction Progress' , 'indent' => 2),
-			array( 'name' =>'Merdeka Construction Progress' , 'indent' => 2),
-			array( 'name' =>'Bukit Bintang Construction Progress' , 'indent' => 2),
-			array( 'name' =>'Tun Razak Exchange Construction Progress' , 'indent' => 2),
-			array( 'name' =>'Cochrane Construction Progress' , 'indent' => 2),
-			array( 'name' =>'Maluri Construction Progress' , 'indent' => 2),
 			
 			array( 'name' =>'MSPR 1 Construction Progress' , 'indent' => 0),
 			array( 'name' =>'MSPR 4 Construction Progress' , 'indent' => 0),

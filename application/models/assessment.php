@@ -63,9 +63,9 @@ Class Assessment extends CI_Model
 
         }
         if($data=="project_name asc" || $data=="project_name desc" || $data=="journal_name asc" || $data=="journal_name desc") {
-            $query.="Order By ".$data;
+            $query.=" Order By ".$data;
         } else {
-            $query.="Order By project_name asc,journal_name asc";
+            $query.=" Order By project_name asc,journal_name asc";
         }
         $query .=" OFFSET ".$offset."LIMIT ".$perPage;
         $q = $this->db->query($query);

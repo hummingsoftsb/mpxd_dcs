@@ -66,7 +66,7 @@ class Reminders extends CI_Controller
 		echo "Done.";
 	}
 
-    /*For resend the reminder to user manually by admin. Added by Jane*/
+    /*For resending the reminder to user manually by admin. Done by Jane*/
     function resend_reminder(){
         $reminder_no = $this->input->post('reminder_no');
         $this->reminder->resend_reminder($reminder_no);

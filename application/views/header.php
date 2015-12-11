@@ -303,12 +303,14 @@ $rlabelname = explode(",", $rlabelnames);
                          });
                         });
                     });
-                    function confirm_fn(path){
+                    function confirm_fn(i){
+                        $('#tempid').val($('#reminder_no_hid'+i).val());
                         $(".bs-example-modal-confirm").modal("show");
                     }
                     function redirect_fn() {
-                        var reminder_no = $("#resend-location").attr("data");
-                        $.post("<?php echo base_url(); ?>reminders/resend_reminder/", {reminder_no: reminder_no}, function (data) {
+                        var reminder_no_hid="";
+                        reminder_no_hid = $("#tempid").val();
+                        $.post("<?php echo base_url(); ?>reminders/resend_reminder/", {reminder_no: reminder_no_hid}, function (data) {
                             location.reload();
                         });
                     }
@@ -425,8 +427,21 @@ $rlabelname = explode(",", $rlabelnames);
                     <tbody>
                     <?php
                     $sno = 1;
+                    $i = 0;
                     foreach ($reminders as $record):
+                        $i++;
+                        //to disable resend button for 12 hours. Done by jane
+                        $current_timestamp = date('Y-m-d H:i:s');
+                        $class = 'glyphicon glyphicon-send';
+                        if(!empty($record->maxt)){
+                            $reminder_timestamp = date_format(date_create($record->maxt), 'Y-m-d H:i:s');
+                            $hours_diff = (strtotime($current_timestamp)-strtotime($reminder_timestamp))/3600;
+                            if($hours_diff<12) {
+                                $class = '';
+                            }
+                        }
                         ?>
+
                         <tr>
                             <td><?php echo $sno; ?></td>
                             <?php if($record->reminder_status_id == 1 && (!empty($record->data_entry_no))){ ?>
@@ -448,10 +463,12 @@ $rlabelname = explode(",", $rlabelnames);
                                 <td><?php echo $record->frequency_period; ?></td>
                             <?php } ?>
                             <?php if($ses_data['roleid']==1){ ?>
-                            <td><a id="resend-location" href='javascript:;' data='<?php echo $record->reminder_no; ?>' onclick="confirm_fn();"><span title='Resend' class='glyphicon glyphicon-send'></span></a></td>
+                                <input type="hidden" id="reminder_no_hid<?php echo $i;?>" name="reminder_no_hid" value="<?php echo $record->reminder_no; ?>">
+                            <td><a id="resend-location" href='javascript:;' onclick="confirm_fn('<?php echo $i;?>');"><span title='Resend' class='<?php echo $class; ?>'></span></a></td>
                             <?php } ?>
+                            <input type="hidden" name="data_entry_hid" id="data_entry_hid" value="<?php if(!empty($record->data_entry_no)){echo $record->data_entry_no;}?>">
+                            <input type="hidden" name="nonp_journal_hid" id="nonp_journal_hid" value="<?php if(!empty($record->nonp_journal_id)){echo $record->nonp_journal_id;}?>">
                         </tr>
-
                         <?php
                         $sno = $sno + 1;
                     endforeach;
@@ -459,6 +476,7 @@ $rlabelname = explode(",", $rlabelnames);
                         echo "<tr><td colspan='5' class='row text-center text-danger'> No Reminder Found</td></tr>";
                     }
                     ?>
+                    <input type="hidden" id="tempid"/>
                     </tbody>
                 </table>
             </div>

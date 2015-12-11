@@ -97,7 +97,7 @@ Class Reminder extends CI_Model
         $this->db->query($query_validator);
     }
 
-    // function to resend reminder by admin. done by jane
+    // function to resend reminder by admin. Done by jane
     function resend_reminder($reminder_no){
         $query = "SELECT * FROM user_reminder WHERE reminder_no=$reminder_no";
         $result = $this->db->query($query)->row();
@@ -113,6 +113,29 @@ Class Reminder extends CI_Model
         }
         $insert_query = "INSERT INTO user_reminder(reminder_date, reminder_user_id, data_entry_no, reminder_status_id, reminder_message, reminder_hide, email_send_opt, nonp_journal_id) values(now(), $result->reminder_user_id, $data_entry_no, $result->reminder_status_id, '".$result->reminder_message."', $result->reminder_hide, $result->email_send_opt, $journal_no)";
         $this->db->query($insert_query);
+        $insert_reminder_log = "INSERT INTO user_reminder_log(timestamp, user_id, data_entry_no, nonp_journal_id) values (now(), $result->reminder_user_id, $data_entry_no, $journal_no)";
+        $this->db->query($insert_reminder_log);
+    }
+
+    // function to check reminder log. Done by jane
+    function reminder_log()
+    {
+        $query = "SELECT * FROM user_reminder";
+        $result = $this->db->query($query)->result();
+        $result1 = array();
+        $result2 = array();
+        foreach ($result as $row) {
+            if (!empty($row->data_entry_no)) {
+                $log_query = "SELECT MAX(timestamp),data_entry_no FROM user_reminder_log WHERE data_entry_no=$row->data_entry_no GROUP BY data_entry_no";
+                $result1 = $this->db->query($log_query)->result_array();
+            }
+            if (!empty($row->nonp_journal_id)) {
+                $log_query = "SELECT MAX(timestamp),nonp_journal_id FROM user_reminder_log WHERE nonp_journal_id=$row->nonp_journal_id GROUP BY nonp_journal_id";
+                $result2 = $this->db->query($log_query)->result_array();
+            }
+        }
+        $merge = array_merge($result1, $result2);
+        return $merge;
     }
 }
 ?>
