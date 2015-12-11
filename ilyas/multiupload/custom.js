@@ -82,6 +82,7 @@ function sendAll() {
 			return resolve(pending);
 		});
 	}, deferred.promise()).then(function(){
+        //console.log('inside');
 		console.log('Finished successfully');
 		pendingFiles = [];
 		removeHidden();
