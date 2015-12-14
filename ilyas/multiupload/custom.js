@@ -10,7 +10,9 @@ function checkAndSendAllImages() {
 function checkImageUpload(){
 	var ok = true;
 	$.each($('.description-textarea'), function(a){
-		if ($(this).val() == "") ok = false;
+        // Added trim function to check the white spaces : Agaile 14/12/2015
+        var trimmed =$(this).val().trim();
+		if (trimmed == "") ok = false;
 	});
 	
 	if (!ok) { 
