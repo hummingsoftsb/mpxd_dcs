@@ -168,9 +168,16 @@ function notification_collective_rejected($logo, $user, $journals) {
 	return notification_base($logo, $user, $text);
 }
 
-function notification_data_entry_pending($logo, $user, $journalname, $jid) {
-    $url = base_url()."index.php/journaldataentry?search=".urlencode($journalname);
-//    $text = '<p>Journal <strong>'.$journalname.'</strong> data entry is pending. Please click on the following link to continue.</p>';
-    $text = '<p>Journal <strong>'.$journalname.'</strong> data entry is pending. Please click on the following link to continue. <a href='.$url.'>Click Here</a></p>';
+/*function to set reminder mail body for pending journals. done by jane*/
+function notification_data_entry_pending($logo, $user, $journals) {
+    $base_url_progressive = base_url()."journaldataentryadd?jid=";
+    $base_url_nonprogressive = base_url()."index.php/ilyas?jid=";
+    $text = "<p>The following data entries are pending:</p><ul>";
+    foreach($journals as $journal):
+        $url = ($journal['type'] == 'progressive') ? $base_url_progressive.$journal['jid'] : $base_url_nonprogressive.$journal['jid'];
+        $journalname = $journal['journalname'];
+        $text .= "<li><a href='$url'>$journalname</a></li>";
+    endforeach;
+    $text .= "</ul>";
     return notification_base($logo, $user, $text);
 }

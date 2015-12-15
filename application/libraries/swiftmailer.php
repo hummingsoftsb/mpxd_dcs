@@ -178,15 +178,19 @@ class Swiftmailer {
 		);
 	}
 
-    function data_entry_pending($email, $dename, $journalname, $jid) {
+    /*function to send reminder mail for pending journals. done by jane*/
+    function send_collective_pending($email, $user, $journals) {
         $message = Swift_Message::newInstance("Notification - Data entry pending")
             ->setFrom(array($this->smtp_user => $this->sender_name))
-            ->setTo(array($email => $dename))
+            ->setTo(array($email => $user))
             ->setContentType('text/html');
 
         $logo = $message->embed(Swift_Image::fromPath($this->mpxd_logo));
-        $message->setBody(notification_data_entry_pending($logo, $dename, $journalname, $jid));
-        return $this->send($message);
+        $body = notification_data_entry_pending($logo, $user, $journals);
+        $message->setBody($body);
+        $status = $this->send($message);
+        return array(
+            'status' => $status
+        );
     }
- 
 }

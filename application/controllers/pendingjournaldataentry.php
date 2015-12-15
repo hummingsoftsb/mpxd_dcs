@@ -143,6 +143,7 @@ class Pendingjournaldataentry extends CI_Controller
                 $np_journal->journal_no = $npj->journal_no;
                 $np_journal->frequency_detail_name = '-';
                 $np_journal->user_id = $npj->user_id;
+                $np_journal->journal_type = 'nonprogressive';
                 $npjs[] = $np_journal;
             }
             $combined_records = array();
@@ -329,7 +330,7 @@ class Pendingjournaldataentry extends CI_Controller
         $this->index();
     }
 
-    /* Function to send reminder via email*/
+    /* Function to send reminder via email. Done by Jane*/
     function send_email_reminder(){
         $data = array();
         $ids = ( explode( ',', $this->input->get_post('ids') ));
@@ -337,13 +338,16 @@ class Pendingjournaldataentry extends CI_Controller
             foreach ($ids as $id) {
                 $values = explode('#', $id);
                 $user_id = $values[0];
-                $journal_no = $values[1];
                 $journal_name = $values[2];
-                $this->load->library('swiftmailer');
-                $user_details = $this->ilyasmodel->get_user_email($user_id);
-                $user_full_name = trim($user_details[0]->user_full_name);
-                $user_email = trim($user_details[0]->email_id);
-                if ($this->swiftmailer->data_entry_pending($user_email, $user_full_name, $journal_name, $journal_no)) {
+                $journal_type = $values[3];
+                if($values[4]!=0){
+                    $journal_no = $values[4];
+                } else {
+                    $journal_no = $values[1];
+                }
+                $journal_status = 'pending';
+                $this->load->model('mailermodel');
+                if ($this->mailermodel->insert_queue_pending($user_id, $journal_status, $journal_type, $journal_no)) {
                     $data['status'] = "success";
                 } else {
                     $data['status'] = "fail";

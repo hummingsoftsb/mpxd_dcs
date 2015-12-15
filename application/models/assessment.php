@@ -51,7 +51,7 @@ Class Assessment extends CI_Model
     {
         $data=strtolower($data);
         $data=str_replace("'","''",$data);
-        $query ="select a.project_no,a.project_name,b.journal_name,b.journal_no,c.data_entry_status_id,d.frequency_detail_name,e.user_full_name as data_entry,e.user_id from project_template a, journal_master b, journal_data_entry_master c, frequency_detail d, sec_user e, journal_data_user f where a.project_no=b.project_no and b.journal_no=c.journal_no and c.data_entry_status_id=1 and b.journal_no=f.journal_no and c.frequency_detail_no=d.frequency_detail_no and e.user_id = f.data_user_id";
+        $query ="select a.project_no,a.project_name,b.journal_name,b.journal_no,c.data_entry_status_id,c.data_entry_no,d.frequency_detail_name,e.user_full_name as data_entry,e.user_id from project_template a, journal_master b, journal_data_entry_master c, frequency_detail d, sec_user e, journal_data_user f where a.project_no=b.project_no and b.journal_no=c.journal_no and c.data_entry_status_id=1 and b.journal_no=f.journal_no and c.frequency_detail_no=d.frequency_detail_no and e.user_id = f.data_user_id";
         if($userid!="1" && $roleid!="1")
         {
             $query .=" and c.journal_no in (select journal_no from journal_validator where validate_user_id=$userid)";

@@ -33,7 +33,20 @@ Class MailerModel extends CI_Model
 		$query = "SELECT journal_name FROM journal_master_nonprogressive WHERE journal_no = '$jid'";
 		return $this->db->query($query)->result();
 	}
-	
+
+    /*function to get journal_name based on data_entry_no for pending journals progressive. done by jane*/
+    function get_progressive_pending_journals($dataentryno) {
+        $dataentryno = str_replace("'","",$dataentryno);
+        $query = "SELECT journal_name FROM journal_data_entry_master a, journal_master b WHERE a.journal_no = b.journal_no AND a.data_entry_no = '$dataentryno'";
+        return $this->db->query($query)->result();
+    }
+
+    /*function to get journal_name based on data_entry_no for pending journals non-progressive. done by jane*/
+    function get_nonprogressive_pending_journals($jid) {
+        $jid = str_replace("'","",$jid);
+        $query = "SELECT journal_name FROM journal_master_nonprogressive WHERE journal_no = '$jid'";
+        return $this->db->query($query)->result();
+    }
 	
 	// Not sanitized, please do not use directly
 	private function insert_queue($user_id, $queue_type, $journal_type, $jid) {
@@ -53,8 +66,12 @@ Class MailerModel extends CI_Model
 	function insert_queue_rejected_progressive($user_id, $jid) {
 		return $this->insert_queue($user_id, 'rejected', 'progressive', $jid);
 	}
-	
-	
+
+    /*function to insert pending data entry to the table email_queue. done by jane*/
+	function insert_queue_pending($user_id, $journal_status, $journal_type, $journal_no) {
+		return $this->insert_queue($user_id, $journal_status, $journal_type, $journal_no);
+	}
+
 	function delete_queue($sent) {
 		$this->db->where_in('id',$sent);
 		return $this->db->delete('email_queue');

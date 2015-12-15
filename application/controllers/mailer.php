@@ -44,7 +44,6 @@ class Mailer extends CI_Controller
 			if (!isset($all[$r->type])) $all[$r->type] = array();
 			array_push($all[$r->type], $r);
 		endforeach;
-		
 		$user_fullname = $rows[0]->user_full_name;
 		$user_email = $rows[0]->email_id;
 		$user_id = $rows[0]->user_id;
@@ -52,11 +51,16 @@ class Mailer extends CI_Controller
 		if (isset($all['published'])) {
 			$statuses['published'] = $this->send_published($user_id,$user_email,$user_fullname,$all['published']);
 		}
-		
+
+        // Rejected journals
 		if (isset($all['rejected'])) {
 			$statuses['rejected'] = $this->send_rejected($user_id,$user_email,$user_fullname,$all['rejected']);
 		}
-		
+
+        // Pending journals
+		if (isset($all['pending'])) {
+			$statuses['pending'] = $this->send_pending($user_id,$user_email,$user_fullname,$all['pending']);
+		}
 		return $statuses;
 	}
 	
@@ -127,6 +131,43 @@ class Mailer extends CI_Controller
 			// Store logs
 			$log_data = array(
 				'email' => 'rejected',
+				'sendables' => $sendables
+			);
+			$this->mailermodel->add_log($sent_result['status'], $user_id, $user_fullname, $user_email, json_encode($log_data));
+		}
+		return $status;
+	}
+    /*function to send reminder mail for pending journals. done by jane*/
+	private function send_pending($user_id,$user_email,$user_fullname,$items) {
+		$status = false;
+		$sendables = array();
+		$sent = array();
+		foreach($items as $item):
+			$data = json_decode($item->data, true);
+			// JSON data corrupted, skip this.
+			if (is_null($data)) continue;
+			if (($data['type']) == "progressive") $q = $this->mailermodel->get_progressive_pending_journals($data['jid']); // This uses data entry no instead of journal no
+			else if (($data['type']) == "nonprogressive") $q = $this->mailermodel->get_nonprogressive_pending_journals($data['jid']);
+
+			if (sizeOf($q) < 1) continue;
+			$journalname = $q[0]->journal_name;
+			array_push($sendables, array(
+				'type' => $data['type'],
+				'jid' => $data['jid'],
+				'journalname' => $journalname
+			));
+			array_push($sent, $item->id);
+		endforeach;
+		if (sizeOf($sendables) > 0) {
+			$sent_result = $this->swiftmailer->send_collective_pending($user_email,$user_fullname,$sendables);
+			if ($sent_result['status'] > 0) {
+				// Delete all sent
+				$this->mailermodel->delete_queue($sent);
+				$status = true;
+			}
+			// Store logs
+			$log_data = array(
+				'email' => 'pending',
 				'sendables' => $sendables
 			);
 			$this->mailermodel->add_log($sent_result['status'], $user_id, $user_fullname, $user_email, json_encode($log_data));

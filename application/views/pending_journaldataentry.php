@@ -114,7 +114,18 @@
 				foreach ($records as $k => $pjde):
 			?>
         			<tr>
-                        <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="checkbox[]" class="checkbox1" id="checkbox[]" value='<?php echo $pjde->user_id."#".$pjde->journal_no."#".$pjde->journal_name; ?>'/></td>
+                        <?php if(!empty($pjde->journal_type) && ($pjde->journal_type=='nonprogressive')){
+                            $journal_type = 'nonprogressive';
+                        } else {
+                            $journal_type = 'progressive';
+                        }
+                        if(!empty($pjde->data_entry_no)){
+                            $data_entry_no = $pjde->data_entry_no;
+                        } else {
+                            $data_entry_no = 0;
+                        }
+                        ?>
+                        <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="checkbox[]" class="checkbox1" id="checkbox[]" value='<?php echo $pjde->user_id."#".$pjde->journal_no."#".$pjde->journal_name."#".$journal_type."#".$data_entry_no; ?>'/></td>
 			            <td><?php echo $pjde->project_name; ?></td>
 			            <td><?php echo $pjde->journal_name; ?></td>
 			            <td><?php echo $pjde->data_entry; ?></td>
