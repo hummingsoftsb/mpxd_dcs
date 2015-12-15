@@ -787,7 +787,7 @@ endforeach;
                     </table>
                     <p style="font-size:12px">
                         <span style="text-decoration:underline">Notes:</span><br/>
-                        Allowed image types: png, jpg, gif<br/>
+                        Allowed image types: png, jpeg, jpg<br/>
                         Maximum image size: 10MB
                     </p>
                     <!--

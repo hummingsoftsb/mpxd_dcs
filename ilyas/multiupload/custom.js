@@ -10,7 +10,9 @@ function checkAndSendAllImages() {
 function checkImageUpload(){
 	var ok = true;
 	$.each($('.description-textarea'), function(a){
-		if ($(this).val() == "") ok = false;
+        // Added trim function to check the white spaces : Agaile 14/12/2015
+        var trimmed =$(this).val().trim();
+		if (trimmed == "") ok = false;
 	});
 	
 	if (!ok) { 
@@ -82,6 +84,7 @@ function sendAll() {
 			return resolve(pending);
 		});
 	}, deferred.promise()).then(function(){
+        //console.log('inside');
 		console.log('Finished successfully');
 		pendingFiles = [];
 		removeHidden();
@@ -121,7 +124,8 @@ $(function () {
         url: uploadUrl,
         dataType: 'json',
         autoUpload: false,
-        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        // blocked .gif file types as adviced by zul : Agaile 14/12/2015
+        acceptFileTypes: /(\.|\/)(jpe?g|png)$/i,
         maxFileSize: 10000000,
         // Enable image resizing, except for Android and Opera,
         // which actually support image resizing, but fail to
