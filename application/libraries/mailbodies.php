@@ -167,3 +167,10 @@ function notification_collective_rejected($logo, $user, $journals) {
 	$text .= "</ul>";
 	return notification_base($logo, $user, $text);
 }
+
+function notification_data_entry_pending($logo, $user, $journalname, $jid) {
+    $url = base_url()."index.php/journaldataentry?search=".urlencode($journalname);
+//    $text = '<p>Journal <strong>'.$journalname.'</strong> data entry is pending. Please click on the following link to continue.</p>';
+    $text = '<p>Journal <strong>'.$journalname.'</strong> data entry is pending. Please click on the following link to continue. <a href='.$url.'>Click Here</a></p>';
+    return notification_base($logo, $user, $text);
+}

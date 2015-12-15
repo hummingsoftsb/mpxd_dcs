@@ -18,7 +18,7 @@ class Swiftmailer {
 	
 	function send($message){ 
 		//Create the Transport 
-		$transport = Swift_SmtpTransport::newInstance ($this->smtp_host, $this->smtp_port) 
+		$transport = Swift_SmtpTransport::newInstance ($this->smtp_host, $this->smtp_port)
 		->setUsername($this->smtp_user)
 		->setPassword($this->smtp_pass); 
 
@@ -177,5 +177,16 @@ class Swiftmailer {
 			'status' => $status
 		);
 	}
+
+    function data_entry_pending($email, $dename, $journalname, $jid) {
+        $message = Swift_Message::newInstance("Notification - Data entry pending")
+            ->setFrom(array($this->smtp_user => $this->sender_name))
+            ->setTo(array($email => $dename))
+            ->setContentType('text/html');
+
+        $logo = $message->embed(Swift_Image::fromPath($this->mpxd_logo));
+        $message->setBody(notification_data_entry_pending($logo, $dename, $journalname, $jid));
+        return $this->send($message);
+    }
  
 }

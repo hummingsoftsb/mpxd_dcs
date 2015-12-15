@@ -13,6 +13,7 @@ class Pendingjournaldataentry extends CI_Controller
         $this->load->model('design', '', TRUE);
         $this->load->model('securitys', '', TRUE);
         $this->load->model('ilyasmodel', '', TRUE);
+        $this->load->library('email');
     }
 
     function index($offset = 0)
@@ -141,6 +142,7 @@ class Pendingjournaldataentry extends CI_Controller
                 $np_journal->data_entry = $npj->data_entry;
                 $np_journal->journal_no = $npj->journal_no;
                 $np_journal->frequency_detail_name = '-';
+                $np_journal->user_id = $npj->user_id;
                 $npjs[] = $np_journal;
             }
             $combined_records = array();
@@ -161,7 +163,6 @@ class Pendingjournaldataentry extends CI_Controller
             }
 
             $data['pjdefreq'] = $combined_pjdefreq;
-
             $this->load->view('header', $data1);
             $this->load->view('pending_journaldataentry', $data);
             $this->load->view('footer');
@@ -326,6 +327,30 @@ class Pendingjournaldataentry extends CI_Controller
     function search()
     {
         $this->index();
+    }
+
+    /* Function to send reminder via email*/
+    function send_email_reminder(){
+        $data = array();
+        $ids = ( explode( ',', $this->input->get_post('ids') ));
+        if(!empty($ids)) {
+            foreach ($ids as $id) {
+                $values = explode('#', $id);
+                $user_id = $values[0];
+                $journal_no = $values[1];
+                $journal_name = $values[2];
+                $this->load->library('swiftmailer');
+                $user_details = $this->ilyasmodel->get_user_email($user_id);
+                $user_full_name = trim($user_details[0]->user_full_name);
+                $user_email = trim($user_details[0]->email_id);
+                if ($this->swiftmailer->data_entry_pending($user_email, $user_full_name, $journal_name, $journal_no)) {
+                    $data['status'] = "success";
+                } else {
+                    $data['status'] = "fail";
+                }
+            }
+        }
+        echo json_encode($data);
     }
 }
 

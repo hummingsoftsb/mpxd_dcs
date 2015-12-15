@@ -66,6 +66,7 @@
 	$labelnames=substr($labelnames,1);
 	$labelname=explode(",",$labelnames);
 ?>
+<div id="after_header">
 <div class="container">
 	<div class="page-header">
 	  	<h1 id="nav"><?php echo $labelobject; ?></h1>
@@ -95,11 +96,11 @@
 		<a href="<?php echo base_url(); ?><?php echo $cpagename; ?>" class="btn btn-danger btn-sm">Clear</a>
 	</div-->
 	<!-- <div class="row text-center text-danger"><?php echo $message; ?> </div> -->
-	<div class="row text-center <?php echo $message_type == 1? "text-success" : "text-danger"; ?>"><?php echo $message; ?></div>
-	<table id="journal_list" class="table table-striped table-hover ">
+    <div class="row text-center <?php echo $message_type == 1? "text-success" : "text-danger"; ?>" id="status_update_result_id"><?php echo $message; ?></div>
+	<table id="journal_list" class="table table-striped table-hover">
     	<thead>
         	<tr>
-            	<th><?php echo $labelname[9]?></th>
+            	<th><input id="selecctall" type="checkbox"></th>
 	            <th><a href="javascript:void(0)"><?php echo $labelname[0]; ?></a></th>
 	            <th><a href="javascript:void(0)"><?php echo $labelname[1]; ?></a></th>
 	            <th><a href="javascript:void(0)">Data Entry</a></th>
@@ -113,7 +114,7 @@
 				foreach ($records as $k => $pjde):
 			?>
         			<tr>
-			        	<td><?php echo $k+1; ?></td>
+                        <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="checkbox[]" class="checkbox1" id="checkbox[]" value='<?php echo $pjde->user_id."#".$pjde->journal_no."#".$pjde->journal_name; ?>'/></td>
 			            <td><?php echo $pjde->project_name; ?></td>
 			            <td><?php echo $pjde->journal_name; ?></td>
 			            <td><?php echo $pjde->data_entry; ?></td>
@@ -125,7 +126,7 @@
 
 		</tbody>
 	</table>
-	
+    <button class="btn btn-warning btn-sm pull-left" id="send_email" onclick="showloader();">Send Reminder Email</button>
 </div>
 <script>
 $(document).ready(function() {
@@ -146,8 +147,80 @@ $(document).ready(function() {
 });
 
 </script>
+<!--For sending reminder via email. Done by Jane-->
+<script>
+    $(document).ready(function() {
+        resetcheckbox();
+        $('#selecctall').click(function(event) {  //on click
+            if (this.checked) { // check select status
+                $('.checkbox1').each(function() { //loop through each checkbox
+                    this.checked = true;  //select all checkboxes with class "checkbox1"
+                });
+            } else {
+                $('.checkbox1').each(function() { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                });
+            }
+        });
 
+        $("#send_email").on('click', function(e) {
+            e.preventDefault();
+            var checkValues = $('.checkbox1:checked').map(function(){
+                return $(this).val();
+            }).get();
+            $.each( checkValues, function( i, val ) {
+                $("#"+val).remove();
+            });
+            $.ajax({
+                url: '<?php echo base_url() ?><?php echo $cpagename; ?>/send_email_reminder',
+                type: 'post',
+                dataType: "json",
+                data: 'ids=' + checkValues,
+                success: function (data) {
+                    if (data.status == "success") {
+                        hideloader();
+                        $("div#status_update_result").remove();
+                        $('<div id="status_update_result" style="color:green;">Your message was sent successfully..!</div>').fadeIn('slow').appendTo('#status_update_result_id');
+                    } else {
+                        hideloader();
+                        $("div#status_update_result").remove();
+                        $('<div id="status_update_result" style="color:green;">Oops something went wrong..!</div>').fadeIn('slow').appendTo('#status_update_result_id');
+                    }
+                },
+                failure: function () {
+                    console.log(' Ajax Failure');
+                },
+                complete: function () {
+                    console.log("complete");
+                }
+            });
+        });
 
+        /*$(".addrecord").click(function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            $.ajax({
+                type: 'POST',
+                url: url
+            }).done(function() {
+                window.location.reload();
+            });
+        });*/
+
+        function  resetcheckbox(){
+            $('input:checkbox').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"
+            });
+        }
+    });
+    function showloader() {
+        $('#after_header').loader('show');
+    }
+
+    function hideloader() {
+        setTimeout(function(){$('#after_header').loader('hide')},200);
+    }
+</script>
 
 
 
