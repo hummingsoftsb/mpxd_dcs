@@ -111,6 +111,19 @@ class Swiftmailer {
 		
 		return $this->send($message);
 	}
+
+    /*function to send notification email to validator. done by jane*/
+	function validation_assigned($email, $validator, $journalname, $jid) {
+		$message = Swift_Message::newInstance("Notification - Validation assigned")
+		->setFrom(array($this->smtp_user => $this->sender_name))
+		->setTo(array($email => $validator))
+		->setContentType('text/html');
+
+		$logo = $message->embed(Swift_Image::fromPath($this->mpxd_logo));
+		$message->setBody(notification_validation_assigned($logo, $validator, $journalname, $jid));
+
+		return $this->send($message);
+	}
 	
 	function add_new_user($user, $username, $email, $password) {
 		$message = Swift_Message::newInstance("MPXD Data Capture System Login Detail")
