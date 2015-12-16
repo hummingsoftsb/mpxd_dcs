@@ -696,7 +696,19 @@ Class Design extends CI_Model
 		}
 		return false;
 	}
-	
 
+    // function to get the previous progressive journal validator. done by jane.
+    function get_previous_journal_validator($id)
+    {
+        $query=$this->db->query("select validate_user_id from journal_validator where journal_no='$id'");
+        return $query->result();
+    }
+
+    // function to get the previous non-progressive journal validator. done by jane.
+    function get_previous_nonp_journal_validator($id)
+    {
+        $query=$this->db->query("select validate_user_id from journal_validator_nonprogressive where journal_no='$id'");
+        return $query->result();
+    }
 }
 ?>

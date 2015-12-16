@@ -142,6 +142,12 @@ function notification_data_entry_assigned($logo, $user, $journalname, $jid) {
 	return notification_base($logo, $user, $text);
 }
 
+/*function to set notification mail body for validators. done by jane*/
+function notification_validation_assigned($logo, $user, $journalname, $jid) {
+	$text = '<p>Journal <strong>'.$journalname.'</strong> has been assigned to you.</p>';
+	return notification_base($logo, $user, $text);
+}
+
 function notification_collective_published($logo, $user, $journals) {
 	$base_url_progressive = base_url()."index.php/journalvalidationview?id=";
 	$base_url_nonprogressive = base_url()."index.php/ilyasvalidate?jid=";

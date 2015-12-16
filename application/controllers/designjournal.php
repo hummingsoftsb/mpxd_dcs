@@ -13,6 +13,8 @@ class Designjournal extends CI_Controller
         $this->load->model('alertreminder','',TRUE);
         $this->load->model('agailemodel','',TRUE);
         $this->load->model('reminder','',TRUE);
+        $this->load->model('ilyasmodel');
+        $this->load->library('swiftmailer');
     }
 
     function index($offset=0)
@@ -400,14 +402,12 @@ class Designjournal extends CI_Controller
 
     function update()
     {
-//        print_r($_POST);
-//        exit;
-        $label=$this->securitys->get_label_object_name(77);
-        $label1=$this->securitys->get_label_object_name(78);
-        $label2=$this->securitys->get_label_object_name(80);
-        $label3=$this->securitys->get_label_object_name(81);
-        $label4=$this->securitys->get_label_object_name(82);
-        $label5=$this->securitys->get_label_object_name(41);
+        $label = $this->securitys->get_label_object_name(77);
+        $label1 = $this->securitys->get_label_object_name(78);
+        $label2 = $this->securitys->get_label_object_name(80);
+        $label3 = $this->securitys->get_label_object_name(81);
+        $label4 = $this->securitys->get_label_object_name(82);
+        $label5 = $this->securitys->get_label_object_name(41);
         $this->load->library('form_validation');
         $this->form_validation->set_rules('projectname1', $label, 'trim|required|xss_clean');
         $this->form_validation->set_rules('journalname1', $label1, 'trim|required|alpha_numeric_spaces_special|xss_clean');
@@ -417,50 +417,43 @@ class Designjournal extends CI_Controller
         $this->form_validation->set_rules('frequency1', $label3, 'trim|required|xss_clean');
         $this->form_validation->set_rules('startdate1', $label5, 'trim|required|xss_clean');
 
-        $attbcount=$this->input->post('dataattbcount1');
-        $dataattberror='';
-        $attbselect=0;
-        $dataentryid=$this->input->post('dataentryid1');
-        $dataentryids=explode(',',$dataentryid);
-        $dataerror='';
-        $datamsg='Select at least one data owner ';
-        for($j=0;$j<count($dataentryids);$j++)
-        {
-            $dataentryowner=$this->input->post('dataentryowner1');
-            if($dataentryowner==$dataentryids[$j])
-            {
-                $dataerror="yes";
-                $datamsg='';
+        $attbcount = $this->input->post('dataattbcount1');
+        $dataattberror = '';
+        $attbselect = 0;
+        $dataentryid = $this->input->post('dataentryid1');
+        $dataentryids = explode(',', $dataentryid);
+        $dataerror = '';
+        $datamsg = 'Select at least one data owner ';
+        for ($j = 0; $j < count($dataentryids); $j++) {
+            $dataentryowner = $this->input->post('dataentryowner1');
+            if ($dataentryowner == $dataentryids[$j]) {
+                $dataerror = "yes";
+                $datamsg = '';
             }
         }
-        for($i=1;$i<=$attbcount-1;$i++)
-        {
+        for ($i = 1; $i <= $attbcount - 1; $i++) {
             //$chk='1dataattb'.$i;
-            $start='1start'.$i;
-            $end='1end'.$i;
-            $week='1week'.$i;
-            $order='1order'.$i;
+            $start = '1start' . $i;
+            $end = '1end' . $i;
+            $week = '1week' . $i;
+            $order = '1order' . $i;
             //$attbid='1dataattbid'.$i;
             //var_dump($attbid);
             /*if($this->input->post($chk)=="on")
             {*/
 
-            if($this->input->post($start)=='' /*|| !ctype_digit($this->input->post($start))*/)
-            {
-                $dataattberror="Start value is required.";
+            if ($this->input->post($start) == '' /*|| !ctype_digit($this->input->post($start))*/) {
+                $dataattberror = "Start value is required.";
             }
-            if($this->input->post($end)=='' /*|| !ctype_digit($this->input->post($end))*/)
-            {
-                $dataattberror="End value is required.";
+            if ($this->input->post($end) == '' /*|| !ctype_digit($this->input->post($end))*/) {
+                $dataattberror = "End value is required.";
             }
-            if($this->input->post($week)=='' /*|| !ctype_digit($this->input->post($week))*/)
-            {
-                $dataattberror="Weekly Max value is required.";
+            if ($this->input->post($week) == '' /*|| !ctype_digit($this->input->post($week))*/) {
+                $dataattberror = "Weekly Max value is required.";
             }
-            if($this->input->post($order)=='' || !ctype_digit($this->input->post($order)))
-            {
+            if ($this->input->post($order) == '' || !ctype_digit($this->input->post($order))) {
                 //$dataattberror="Enter Data Attribute Details or Invalid Input 4 asd ".$attbcount.' dsa';
-                $dataattberror="Attribute Order is required.";
+                $dataattberror = "Attribute Order is required.";
             }
             //$attbselect=1;
             //}
@@ -469,80 +462,87 @@ class Designjournal extends CI_Controller
         {
             $dataattberror="Enter atleast one Data Attribute";
         }*/
-        if($this->form_validation->run() == FALSE || $dataattberror!='' || $dataerror=='')
-        {
-            echo json_encode(array('st'=>0, 'msg' => form_error('projectname1'),'msg1'=>form_error('journalname1'),'msg2'=>form_error('user1'),'msg3'=>form_error('frequency1'),'msg4'=>$dataattberror,'msg5'=>$datamsg,'msg6'=>form_error('journalproperty1')));
-        }
-        else
-        {
-            $name=$this->input->post('journalname1');
-            $property=$this->input->post('journalproperty1');
-            $projectno=$this->input->post('projectname1');
-            $journalid=$this->input->post('editjournalno');
-            $dependency=$this->input->post('dependency');
-            $albumname=$this->input->post('albumname1');
-            $startdate=$this->input->post('startdate1');
+        if ($this->form_validation->run() == FALSE || $dataattberror != '' || $dataerror == '') {
+            echo json_encode(array('st' => 0, 'msg' => form_error('projectname1'), 'msg1' => form_error('journalname1'), 'msg2' => form_error('user1'), 'msg3' => form_error('frequency1'), 'msg4' => $dataattberror, 'msg5' => $datamsg, 'msg6' => form_error('journalproperty1')));
+        } else {
+            $name = $this->input->post('journalname1');
+            $property = $this->input->post('journalproperty1');
+            $projectno = $this->input->post('projectname1');
+            $journalid = $this->input->post('editjournalno');
+            $dependency = $this->input->post('dependency');
+            $albumname = $this->input->post('albumname1');
+            $startdate = $this->input->post('startdate1');
             // Added start date in array for updation -Agaile 24/11/2015
 
-            if (json_decode($dependency) && (json_last_error()!=JSON_ERROR_NONE)) { echo "JSON ERROR IN DEPENDENCY!"; die(); }
+            if (json_decode($dependency) && (json_last_error() != JSON_ERROR_NONE)) {
+                echo "JSON ERROR IN DEPENDENCY!";
+                die();
+            }
 
-            if($this->design->update_check_journal($name,$projectno,$journalid)==0)
-            {
-                $data = array('project_no' => $projectno,'journal_name' => $name,'journal_property' => $property,'user_id' => $this->input->post('user1'),'start_date' =>$startdate,'frequency_no' => $this->input->post('frequency1'), 'dependency' => $dependency, 'album_name' => $albumname);
+            if ($this->design->update_check_journal($name, $projectno, $journalid) == 0) {
+                $data = array('project_no' => $projectno, 'journal_name' => $name, 'journal_property' => $property, 'user_id' => $this->input->post('user1'), 'start_date' => $startdate, 'frequency_no' => $this->input->post('frequency1'), 'dependency' => $dependency, 'album_name' => $albumname);
 
                 //query the database
-                $this->design->update_journal($journalid,$data);
+                $this->design->update_journal($journalid, $data);
+
+                /*for getting previous journal validators. modified by jane*/
+                $previous_validator_ids = array();
+                $ids = $this->design->get_previous_journal_validator($journalid);
+                foreach ($ids as $row):
+                    $previous_validator_ids[] = $row->validate_user_id;
+                endforeach;
+                /*end*/
 
                 $this->design->delete_journal_validator($journalid);
                 //Validator
                 $validator_data = array();
-                $validatorid=$this->input->post('validatorid1');
-                $validatorids=explode(',',$validatorid);
-                for($j=0;$j<count($validatorids);$j++)
-                {
-                    $validatoruser='1validateuser'.$validatorids[$j];
-                    $validatorlevel='1level'.$validatorids[$j];
+                $current_validator_ids = array();
+                $validatorid = $this->input->post('validatorid1');
+                $validatorids = explode(',', $validatorid);
+                for ($j = 0; $j < count($validatorids); $j++) {
+                    $validatoruser = '1validateuser' . $validatorids[$j];
+                    $validatorlevel = '1level' . $validatorids[$j];
                     $validator_data[$this->input->post($validatoruser)] = $this->input->post($validatorlevel);
-                    $validatordata=array('journal_no'=>$journalid,'validate_user_id'=>$this->input->post($validatoruser),'validate_level_no'=>$this->input->post($validatorlevel));
+                    $validatordata = array('journal_no' => $journalid, 'validate_user_id' => $this->input->post($validatoruser), 'validate_level_no' => $this->input->post($validatorlevel));
+                    $current_validator_ids[] = $this->input->post($validatoruser);
+
                     $this->design->add_journal_validator($validatordata);
                 }
+                /*for sending email notifications to the new journal validators. modified by jane*/
+                $diff = $this->array_recursive_diff($current_validator_ids, $previous_validator_ids);
+                foreach ($diff as $validator) {
+                    if (!empty($validator)) {
+                        $user = $this->ilyasmodel->get_user_email($validator);
+                        $email = $user[0]->email_id;
+                        $validator = $user[0]->user_full_name;
+                        $this->swiftmailer->validation_assigned($email, $validator, $name, $journalid);
+                    }
+                }
+                /*end*/
+
                 $this->design->update_journal_data_entry_validator($journalid, $validator_data);
 
-                //var_dump(array_keys($validator_data));die();
                 // Update existing data entries to have new validators
                 $previous_owner_id = $this->design->get_journal_data_entry_owner($journalid);
-                //var_dump($previous_owner_id);
-                //die();
                 $this->design->delete_journal_data_entry($journalid);
                 //Data Entry
-                $dataentryid=$this->input->post('dataentryid1');
-                $dataentryids=explode(',',$dataentryid);
+                $dataentryid = $this->input->post('dataentryid1');
+                $dataentryids = explode(',', $dataentryid);
                 //$this->design->get_journal_data_entry_owner($journalid);
-                for($j=0;$j<count($dataentryids);$j++)
-                {
-                    $dataentryuser='1dataentryuser'.$dataentryids[$j];
-                    $dataentryowner=$this->input->post('dataentryowner1');
-                    //var_dump($dataentryowner);
-                    if($dataentryowner==$dataentryids[$j])
-                    {
-                        $dataentrydata=array('journal_no'=>$journalid,'data_user_id'=>$this->input->post($dataentryuser),'default_owner_opt'=>'1');
+                for ($j = 0; $j < count($dataentryids); $j++) {
+                    $dataentryuser = '1dataentryuser' . $dataentryids[$j];
+                    $dataentryowner = $this->input->post('dataentryowner1');
+                    if ($dataentryowner == $dataentryids[$j]) {
+                        $dataentrydata = array('journal_no' => $journalid, 'data_user_id' => $this->input->post($dataentryuser), 'default_owner_opt' => '1');
                         // Email to the new data entry user
                         if (($previous_owner_id) && ($this->input->post($dataentryuser) != $previous_owner_id)) {
-                            $this->load->model('ilyasmodel');
-                            $this->load->library('swiftmailer');
                             $user = $this->ilyasmodel->get_user_email($this->input->post($dataentryuser))[0];
-
                             $email = $user->email_id;
                             $dename = $user->user_full_name;
-                            //var_dump($email);
-                            //var_dump($email);
-                            //die();
                             $this->swiftmailer->data_entry_assigned($email, $dename, $name, $journalid);
                         }
-                    }
-                    else
-                    {
-                        $dataentrydata=array('journal_no'=>$journalid,'data_user_id'=>$this->input->post($dataentryuser),'default_owner_opt'=>'0');
+                    } else {
+                        $dataentrydata = array('journal_no' => $journalid, 'data_user_id' => $this->input->post($dataentryuser), 'default_owner_opt' => '0');
                     }
                     $this->design->add_journal_data_entry($dataentrydata);
                 }
@@ -551,35 +551,53 @@ class Designjournal extends CI_Controller
 
                 $this->design->delete_journal_detail($journalid);
                 //Data Attribute
-                $dataattbcount=$this->input->post('dataattbcount1');
-                for($j=1;$j<=$dataattbcount;$j++)
-                {
-                    $chk='1dataattb'.$j;
-                    $start='1start'.$j;
-                    $end='1end'.$j;
-                    $week='1week'.$j;
-                    $order='1order'.$j;
-                    $attbid='1dataattbid'.$j;
-                    //var_dump($this->input->post($chk));
-                    //var_dump($this->input->post($attbid));
-                    if($this->input->post($chk)=="on")
-                    {
+                $dataattbcount = $this->input->post('dataattbcount1');
+                for ($j = 1; $j <= $dataattbcount; $j++) {
+                    $chk = '1dataattb' . $j;
+                    $start = '1start' . $j;
+                    $end = '1end' . $j;
+                    $week = '1week' . $j;
+                    $order = '1order' . $j;
+                    $attbid = '1dataattbid' . $j;
+                    if ($this->input->post($chk) == "on") {
                         if (($this->input->post($attbid)) != FALSE) {
-                            $dataattbdata=array('journal_no'=>$journalid,'data_attb_id'=>$this->input->post($attbid),'start_value'=>$this->input->post($start),'end_value'=>$this->input->post($end),'frequency_max_value'=>$this->input->post($week),'display_seq_no'=>$this->input->post($order));
+                            $dataattbdata = array('journal_no' => $journalid, 'data_attb_id' => $this->input->post($attbid), 'start_value' => $this->input->post($start), 'end_value' => $this->input->post($end), 'frequency_max_value' => $this->input->post($week), 'display_seq_no' => $this->input->post($order));
                             $this->design->add_journal_detail($dataattbdata);
                         }
                     }
                 }
 
-                $sess_array = array('message' => $this->securitys->get_label_object(7)." Updated Successfully","type" => 1);
+                $sess_array = array('message' => $this->securitys->get_label_object(7) . " Updated Successfully", "type" => 1);
                 $this->session->set_userdata('message', $sess_array);
-                echo json_encode(array('st'=>1, 'msg' => 'Success','msg1'=>'','msg2'=>'','msg3'=>'','msg4'=>''));
-            }
-            else
-            {
-                echo json_encode(array('st'=>0, 'msg' => $label1." already exist",'msg1'=>'','msg2'=>'','msg3'=>'','msg4'=>'','msg5'=>'','msg6'=>''));
+                echo json_encode(array('st' => 1, 'msg' => 'Success', 'msg1' => '', 'msg2' => '', 'msg3' => '', 'msg4' => ''));
+            } else {
+                echo json_encode(array('st' => 0, 'msg' => $label1 . " already exist", 'msg1' => '', 'msg2' => '', 'msg3' => '', 'msg4' => '', 'msg5' => '', 'msg6' => ''));
             }
         }
+    }
+
+    /*private function to compare are find difference between two arrays. done by jane.*/
+    private function array_recursive_diff($current_validator_ids, $previous_validator_ids)
+    {
+        $difference = array();
+        foreach ($current_validator_ids as $key => $value) {
+            if (array_key_exists($key, $previous_validator_ids)) {
+                if (is_array($value)) {
+                    $recursive_diff = $this->array_recursive_diff($value, $previous_validator_ids[$key]);
+                    if (count($recursive_diff)) {
+                        $difference[$key] = $recursive_diff;
+                    }
+                } else {
+                    if ($value != $previous_validator_ids[$key]) {
+                        $difference[$key] = $value;
+                    }
+                }
+            } else {
+                $difference[$key] = $value;
+            }
+        }
+
+        return $difference;
     }
 
     function delete()

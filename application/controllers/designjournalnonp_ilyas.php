@@ -13,6 +13,7 @@ class Designjournalnonp_ilyas extends CI_Controller
 		$this->load->model('alertreminder','',TRUE);
 		$this->load->model('ilyasmodel','',TRUE);
         $this->load->model('reminder','',TRUE);
+        $this->load->library('swiftmailer');
 	}
 
 	function index($offset=0)
@@ -234,16 +235,26 @@ class Designjournalnonp_ilyas extends CI_Controller
 			{
 				// Journal exists.
 				$data = array('project_no' => $projectno,'journal_name' => $name,'user_id' => $this->input->post('user'), 'reminder_frequency' => $this->input->post('reminder_frequency'));
-				//var_dump($data);				
-				
+
 				//update journal
 				//$jid = $this->design->add_journalnonp($data,$projectno,$name);
 				$this->design->update_journalnonp($jid, $data);
 				
-				$validatordata=array('validate_user_id'=>$this->input->post('validateuser1'),'validate_level_no'=>'1');
+				$validatordata = array('validate_user_id'=>$this->input->post('validateuser1'),'validate_level_no'=>'1');
+
+                /*Validator user change, send email to the new user. Modified by jane.*/
+                $previous_validator = $this->design->get_previous_nonp_journal_validator($jid);
+                $current_validator = $this->input->post('validateuser1');
+                if($previous_validator[0]->validate_user_id != $current_validator) {
+                    $user = $this->ilyasmodel->get_user_email($current_validator);
+                    $email = $user[0]->email_id;
+                    $validator = $user[0]->user_full_name;
+                    $this->swiftmailer->validation_assigned($email, $validator, $name, $jid);
+                }
+                /*End*/
+
 				$this->ilyasmodel->update_journal_validator($jid, $validatordata);
 
-				
 				$dataentryowner = $this->input->post('dataentryowner');
 				$data_user_id = $this->input->post('dataentryuser1');
 				//$dataentrydata=array('data_user_id'=>$data_user_id,'default_owner_opt'=> ($dataentryowner == $data_user_id) ? "1":"0");
@@ -257,9 +268,6 @@ class Designjournalnonp_ilyas extends CI_Controller
 					$user = $this->ilyasmodel->get_user_email($data_user_id)[0];
 					$email = $user->email_id;
 					$dename = $user->user_full_name;
-					//var_dump($email);
-					//die();
-					$this->load->library('swiftmailer');
 					$this->swiftmailer->data_entry_assigned($email, $dename, $name, $jid);
 				}
 				

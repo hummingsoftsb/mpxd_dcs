@@ -999,6 +999,13 @@ Class IlyasModel extends CI_Model
 		$q = $this->db->query($query);
 		return $q->result();
 	}
+
+    /*function to get validator email and full_name. done by jane*/
+	function get_validator_email($user_id) {
+		$query = "SELECT user_full_name,email_id FROM sec_user WHERE user_id='$user_id'";
+		$q = $this->db->query($query);
+		return $q->result();
+	}
 	
 	/* Below is misc. helper functions */
 	
