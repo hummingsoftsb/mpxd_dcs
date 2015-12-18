@@ -415,7 +415,6 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
 						var uom = $('#datagrpuom'+i).val();
 						var order = dataattbcount;
 						var dependency = "";
-						
 						var content = drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,order,dependency,"add");
 						$("#dataattbtab").append(content);
 							/*var content ='<tr><td><input type="hidden" name="dataattbid'+dataattbcount+'" id="dataattbid'+dataattbcount+'" value="'+$('#datagrpid'+i).val()+'"/>';
