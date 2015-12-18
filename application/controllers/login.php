@@ -58,12 +58,18 @@ class Login extends CI_Controller
 				redirect("/".base64_decode($back),'refresh'); }
 			else 
 				redirect('journaldataentry','refresh');*/
-				
+
+            $session_data = $this->session->userdata('logged_in');
+            if($session_data['roleid'] == 2) {
+                $url = base_url()."journalvalidation";
+            } else {
+                $url = base_url()."journaldataentry";
+            }
 			$result['st'] = '1';
 			if ((!is_null($back)) && (mb_check_encoding(base64_decode($back), 'ASCII'))) {
 				$result['location'] = base_url().base64_decode($back);
 			} else {
-				$result['location'] = base_url()."journaldataentry";
+				$result['location'] = $url;
 			}
 			echo json_encode($result);
 		}

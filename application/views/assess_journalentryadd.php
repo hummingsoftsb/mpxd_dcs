@@ -14,6 +14,7 @@ var desc;
 var rejnote;
 var pic_val_comment;
 var datavalno;
+var j=0;
 $(document).ready(function () {
     $("#modaladd").click(function () {
         var empty = "";
@@ -26,8 +27,8 @@ $(document).ready(function () {
     });
 
     $("#upld").click(function () {
-        if (document.getElementById("iddesc").value.trim() == "") {
-            document.getElementById("iddesc").value = desc;
+        if (document.getElementById("iddesc"+j).value.trim() == "") {
+            document.getElementById("iddesc"+j).value = desc;
         }
         $.ajax({
             type: 'POST',
@@ -371,22 +372,24 @@ function remove_img(url) {
     });
 }*/
 /*function to limit image description characters. added by jane*/
-function img_desc_limit(){
+function img_desc_limit(j){
     var characters = 80;
-    $("#counter").show();
-    $("#iddesc").keyup(function(){
+    $("#counter"+j).show();
+    var a = $("#i_hidden_upload").val();
+    $("#iddesc"+j).keyup(function(){
         if($(this).val().length > characters){
             $(this).val($(this).val().substr(0, characters));
         }
         var remaining = characters -  $(this).val().length;
-        $(".char_class").text(remaining);
+        //$(".char_class").text(remaining);
+        $("#idchar"+j).text(remaining);
         if(remaining <= 10)
         {
-            $("#counter").css("color","red");
+            $("#counter"+j).css("color","red");
         }
         else
         {
-            $("#counter").css("color","black");
+            $("#counter"+j).css("color","black");
         }
     });
 }
@@ -1019,15 +1022,16 @@ endforeach;
 </div>
 
 <script id="template-upload" type="text/x-tmpl">
-{% for (var i=0; i < o.files.length; i++) { var file=o.files[i]; var fileId = file.name.replace('.','_')+'_'+file.size; %}
+{% for (var i=0; i < o.files.length; i++) { j++; var file=o.files[i]; var fileId = file.name.replace('.','_')+'_'+file.size; %}
     <tr class="template-upload fade">
         <td style="width:10%">
             <span class="preview"></span>
         </td>
 
         <td style="width:40%">
-			<textarea id="iddesc" name="imagedesc_{%=fileId%}" maxlength="80" class="description-textarea textarea-fill" form="addimage" rows="5" onclick="img_desc_limit();" ></textarea>
-        <div id="counter" style="display:none">You have <strong class="char_class"> 80 </strong> characters remaining</div>
+			<textarea id="iddesc{%=j%}" name="imagedesc_{%=fileId%}" maxlength="80" class="description-textarea textarea-fill" form="addimage" rows="5" onclick="img_desc_limit('{%=j%}');" ></textarea>
+        <input type="hidden" id="i_hidden_upload" value="{%=j%}">
+        <div id="counter{%=j%}" style="display:none">You have <strong class="char_class" id="idchar{%=j%}"> 80 </strong> characters remaining</div>
         </td>
 
         <td style="width:40%">
