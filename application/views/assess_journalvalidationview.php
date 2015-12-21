@@ -524,6 +524,9 @@
 					  <div class="col-xs-2" style="margin-bottom: 8px;">Reject notes</div>
 					  <div id="reject-note" class="col-xs-5" style="color: blue; margin-bottom: 40px;">
 						<textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+                          <div>
+                          <?php if(!empty($reject_note)){ echo $reject_note; }?>
+                          </div>
 					  </div>
 					  <?php else : ?>
 					  <input type="hidden" name="comment" id="comment" value=""/>

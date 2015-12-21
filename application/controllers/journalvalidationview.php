@@ -78,6 +78,7 @@ class Journalvalidationview extends CI_Controller
 			$data['dataentryattbs']=$this->assessment->show_validation_journal_data_entry_detail($id);
 			$data['dataimages']=$this->assessment->show_validation_journal_data_entry_picture($id);
 			$data['rejectnotes']=$this->assessment->show_validation_journal_data_entry_picture_rejectnotes($id);
+			$data['reject_note']=$this->assessment->show_journal_validator_reject_note($id);
 			$data['approve_stop_status']=$this->assessment->approve_stop_status_check($id);
 			$data['validatorid']=$id;
 			

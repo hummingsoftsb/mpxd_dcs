@@ -911,6 +911,17 @@ Class Assessment extends CI_Model
             return '';
 	}
 
+	function show_journal_validator_reject_note($id)
+	{
+		$query = "select jdvr.reject_notes from journal_data_validate_reject jdvr,journal_data_validate_master jdvm where jdvr.data_validate_no = jdvm.data_validate_no and jdvr.data_validate_no = {$id}";
+        $q = $this->db->query($query);
+        $row = $q->row();
+        if ($row)
+            return $row->reject_notes;
+        else
+            return '';
+	}
+
 
     // check access
     function get_journal_data_entry_master($jid)
