@@ -7,6 +7,13 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css"
       media="screen"/>
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/css/multiupload.css" type="text/css" media="screen"/>
+<style>
+    p.set-w {
+        word-wrap: break-word;
+        width: 425px;
+        overflow: auto;
+    }
+</style>
 <script>
 var pcid;
 var datenno;
@@ -742,7 +749,7 @@ endforeach;
                     echo '<tr style="cursor:all-scroll;" data-rowid="' . $dataimage->data_entry_pict_no . '">';
                     echo '<td class="tableimgno">' . $dataimage->pict_seq_no . '</td>';
                     echo '<td><a title="' . $dataimage->pict_definition . '" class="fancybox" rel="group" href="' . base_url() . $dataimage->pict_file_path . $dataimage->pict_file_name . '"><img src="' . base_url() . $dataimage->pict_file_path . $dataimage->pict_file_name . '" class="img-responsive" alt="" style="width: 200px; height: 137px;"></a></td>';
-                    echo '<td class="image-description" data-picid="' . $dataimage->data_entry_pict_no . '"> <a style="cursor: pointer" class="text">' . $dataimage->pict_definition . '</a> <div class="edit" style="display:none;"><textarea id="img_dec_edit'.$i.'" name="image_description" class="form-control">' . $dataimage->pict_definition . '</textarea><input type="hidden" id="i_hidden" value="' . $i . '"><div id="counter_edit'.$i.'" style="display:none">You have <strong class="char_class_edit'.$i.'"> 80 </strong> characters remaining</div><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
+                    echo '<td class="image-description" data-picid="' . $dataimage->data_entry_pict_no . '"> <a style="cursor: pointer" class="text">' . wordwrap($dataimage->pict_definition, 40, "<br />\n", true) . '</a> <div class="edit" style="display:none;"><textarea id="img_dec_edit'.$i.'" name="image_description" class="form-control">' . wordwrap($dataimage->pict_definition, 40, "<br />\n", true) . '</textarea><input type="hidden" id="i_hidden" value="' . $i . '"><div id="counter_edit'.$i.'" style="display:none">You have <strong class="char_class_edit'.$i.'"> 80 </strong> characters remaining</div><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
                     echo '<td> ' . $dataimage->pict_validate_comment . ' </td>';
                     echo '<td><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '" data-pic-val-comment="' . $dataimage->pict_validate_comment . '" data-pic-seq-no="' . $dataimage->pict_seq_no . '" ><span class="glyphicon glyphicon-edit">&nbsp;</span></a></td>';
                     echo '<td> <a href="#" class="modaldelete" data-imgid="' . $dataimage->data_entry_pict_no . '" data-dataid="' . $dataimage->data_entry_no . '"><span class="glyphicon glyphicon-trash">&nbsp;</span></a></td>';
@@ -756,7 +763,7 @@ endforeach;
                     echo '<tr style="cursor:all-scroll;" data-rowid="' . $dataimage->data_entry_pict_no . '">';
                     echo '<td class="tableimgno">' . $dataimage->pict_seq_no . '</td>';
                     echo '<td><a title="' . $dataimage->pict_definition . '" class="fancybox" rel="group" href="' . base_url() . $dataimage->pict_file_path . $dataimage->pict_file_name . '"><img src="' . base_url() . $dataimage->pict_file_path . $dataimage->pict_file_name . '" class="img-responsive" alt="" style="width: 200px; height: 137px;"></a></td>';
-                    echo '<td class="image-description" data-picid="' . $dataimage->data_entry_pict_no . '"> <a style="cursor: pointer" class="text">' . $dataimage->pict_definition . '</a> <div class="edit" style="display:none;"><textarea id="img_dec_edit'.$i.'" name="image_description" class="form-control">' . $dataimage->pict_definition . '</textarea><input type="hidden" id="i_hidden" value="' . $i . '"><div id="counter_edit'.$i.'" style="display:none">You have <strong class="char_class_edit'.$i.'"> 80 </strong> characters remaining</div><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
+                    echo '<td class="image-description" data-picid="' . $dataimage->data_entry_pict_no . '"> <a style="cursor: pointer" class="text">' . wordwrap($dataimage->pict_definition, 40, "<br />\n", true) . '</a> <div class="edit" style="display:none;"><textarea id="img_dec_edit'.$i.'" name="image_description" class="form-control">' . wordwrap($dataimage->pict_definition, 40, "<br />\n", true) . '</textarea><input type="hidden" id="i_hidden" value="' . $i . '"><div id="counter_edit'.$i.'" style="display:none">You have <strong class="char_class_edit'.$i.'"> 80 </strong> characters remaining</div><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
                     echo '<td> ' . $dataimage->pict_validate_comment . ' </td>';
                     echo '<td><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '" data-pic-val-comment="' . $dataimage->pict_validate_comment . '" data-pic-seq-no="' . $dataimage->pict_seq_no . '" data-rejnote="' .$reject_note->reject_notes.'" data-validate-no="'.$reject_note->data_validate_no.'" ><span class="glyphicon glyphicon-edit">&nbsp;</span></a></td>';
                     echo '<td> <a href="#" class="modaldelete" data-imgid="' . $dataimage->data_entry_pict_no . '" data-dataid="' . $dataimage->data_entry_no . '"><span class="glyphicon glyphicon-trash">&nbsp;</span></a></td>';
@@ -1067,9 +1074,9 @@ endforeach;
             </span>
         </td>
         <td>
-            <p class="name">
+            <p class="name set-w">
                 {% if (!file.error) { %}
-                    <span>{%=file.description%}</span>
+                    <span >{%=file.description%}</span>
                 {% } %}
             </p>
             {% if (file.error) { %}

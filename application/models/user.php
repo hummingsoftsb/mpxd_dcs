@@ -133,6 +133,18 @@ function chkuser($username, $email)
 	$query_result = $query->result();
 	return $query_result;
 	}
+
+	//Function to get the url path to redirect the user
+	function get_role_url_path($roleid)
+	{
+        $query = "SELECT sec_role_url_path FROM sec_role WHERE sec_role_id = $roleid";
+        $row =  $this->db->query($query)->row();
+        if(!empty($row->sec_role_url_path)){
+            return $row->sec_role_url_path;
+        } else {
+            return false;
+        }
+	}
 	
 	
 	

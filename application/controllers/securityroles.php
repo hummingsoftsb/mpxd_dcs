@@ -144,19 +144,19 @@ class Securityroles extends CI_Controller
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('role', $label, 'trim|required|alpha_numeric_spaces_special|xss_clean');
 		$this->form_validation->set_rules('roledesc',$label1, 'trim|required|alpha_numeric_spaces_special|xss_clean');
-
+		$this->form_validation->set_rules('rolepath','Path', 'trim|required|alpha_numeric_spaces_special|xss_clean');
 		if($this->form_validation->run() == FALSE)
 		{
-			echo json_encode(array('st'=>0, 'msg' => form_error('role'),'msg1'=>form_error('roledesc')));
+			echo json_encode(array('st'=>0, 'msg' => form_error('role'),'msg1'=>form_error('roledesc'),'msg2'=>form_error('rolepath')));
 		}
 		else
 		{
 			if($this->securitys->add_check_role($this->input->post('role'))==0)
 			{
-				$data = array('sec_role_name' => $this->input->post('role'),'sec_role_desc' => $this->input->post('roledesc'));
+				$data = array('sec_role_name' => $this->input->post('role'),'sec_role_desc' => $this->input->post('roledesc'),'sec_role_url_path' => $this->input->post('rolepath'));
 
 				//query the database
-				$result = $this->securitys->add_role($this->input->post('role'),$this->input->post('roledesc'));
+				$result = $this->securitys->add_role($this->input->post('role'),$this->input->post('roledesc'),$this->input->post('rolepath'));
 				$sess_array = array('message' =>  $this->securitys->get_label_object(13)." Added Successfully","type" => 1);
 				$this->session->set_userdata('message', $sess_array);
 				echo json_encode(array('st'=>1, 'msg' => $result));
@@ -175,10 +175,11 @@ class Securityroles extends CI_Controller
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('role1', $label, 'trim|required|alpha_numeric_spaces_special|xss_clean');
 		$this->form_validation->set_rules('roledesc1', $label1, 'trim|required|alpha_numeric_spaces_special|xss_clean');
+		$this->form_validation->set_rules('rolepath1', 'Path', 'trim|required|alpha_numeric_spaces_special|xss_clean');
 
 		if($this->form_validation->run() == FALSE)
 		{
-			echo json_encode(array('st'=>0, 'msg' => form_error('role1'),'msg1'=>form_error('roledesc1')));
+			echo json_encode(array('st'=>0, 'msg' => form_error('role1'),'msg1'=>form_error('roledesc1'),'msg2'=>form_error('rolepath1')));
 		}
 		else
 		{
@@ -186,7 +187,7 @@ class Securityroles extends CI_Controller
 			$rolename=$this->input->post('role1');
 			if($this->securitys->update_check_role($id,$rolename)==0)
 			{
-				$data = array('sec_role_name' => $rolename,'sec_role_desc' => $this->input->post('roledesc1'));
+				$data = array('sec_role_name' => $rolename,'sec_role_desc' => $this->input->post('roledesc1'),'sec_role_url_path' => $this->input->post('rolepath1'));
 
 				//query the database
 				$result = $this->securitys->update_role($id,$data);
