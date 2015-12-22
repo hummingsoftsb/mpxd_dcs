@@ -227,6 +227,45 @@
             }
         });
     }
+
+    /*function to check reject note on reject radio button click for image journal. added by jane*/
+    function checkImgComment(){
+        if ($('input[name=optradio]:checked').val() == "Reject") {
+            if ($("#comment").val() == "") {
+                $('input[id="save"]').attr('disabled','disabled');
+                e.preventDefault();
+            } else {
+                enablesubmit();
+            }
+        }
+    }
+
+    /*function to check reject note on reject radio button click. added by jane*/
+    function checkComment(){
+        if ($('input[name=optradio]:checked').val() == "Reject") {
+            var commentCount = document.getElementById("dataattbcount").value;
+            var comments = new Array();
+            for(i=0;i<=commentCount;i++){
+                comments.push($("#comment"+i).val());
+            }
+            if(comments !="") {
+                enablesubmit();
+            } else {
+                $('input[id="save"]').attr('disabled','disabled');
+            }
+        }
+    }
+
+    /*function to check reject note on comment box click. added by jane*/
+    function checkEmpty() {
+    $("#comment").keyup(function(){
+        if(($("#comment").val() == "") && ($('input[name=optradio]:checked').val() == "Reject")){
+            $('input[id="save"]').attr('disabled','disabled');
+        } else {
+            enablesubmit();
+        }
+    });
+    }
 </script>
 
 
@@ -508,8 +547,8 @@
 					  <div class="col-xs-2" style="margin-bottom: 8px;">
 						<div class="radio">
 							<label>
-								<input type="radio" id="optradio" name="optradio" value="Reject" onclick="<?php echo $is_image == 1 ? '' : 'checkTextField();' ?>">Reject
-							</label>
+								<input type="radio" id="optradio" name="optradio" value="Reject" onclick="<?php echo $is_image == 1 ? 'checkImgComment();' : 'checkTextField();checkComment();' ?>">Reject
+                                    </label>
 						</div>
 					  </div>
 					  <?php if ($closeButton && ($is_image==0) || $approve_stop_status && $is_image) {?>
@@ -523,7 +562,7 @@
 					  <?php  } if($is_image == 1) : ?>
 					  <div class="col-xs-2" style="margin-bottom: 8px;">Reject notes</div>
 					  <div id="reject-note" class="col-xs-5" style="color: blue; margin-bottom: 40px;">
-						<textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+						<textarea class="form-control" rows="5" id="comment" name="comment" onclick="checkEmpty();"></textarea>
                           <div>
                           <?php if(!empty($reject_note)){ echo $reject_note; }?>
                           </div>
@@ -600,7 +639,7 @@
 					$('.pict-comment, #comment').keyup(function(){
 						checkPicComment();
 						checkRbReject();
-					})
+					});
 					
 					function checkPicCommentField(){
 						if($('input[value=Reject]:checked').length > 0)
@@ -611,20 +650,20 @@
 						var charlen = 0;
 							$('.pict-comment').each(function(){
 								charlen += $(this).val().length;
-							})
+							});
 							
 						if(charlen > 0)
 							$('input[id="save"]').removeAttr('disabled');
 						else
 							$('input[id="save"]').attr('disabled','disabled');
 					}
-				})
+				});
 				function disablesubmit(){
 					if ($('input[value=Reject]:checked').length > 0) {
 						$('input[id="save"]').attr('disabled','disabled');
 					} else if ($('input[value=Reject]:checked').length = 0) {
 						$('input[id="save"]').removeAttr('disabled');
-					};
+					}
 				}
 				function enablesubmit(){
 					$('input[id="save"]').removeAttr('disabled');
@@ -632,7 +671,6 @@
 				
 				function checkTextField() {
 					if ($('input[value=Reject]:checked').length > 0) {
-						
 						var commentCount = document.getElementById("dataattbcount").value;
 						var combine_id  = [];
 						var combine = [];
@@ -653,7 +691,7 @@
 							$('input[id="save"]').attr('disabled','disabled');
 						}else{
 							$('input[id="save"]').removeAttr('disabled');
-						};
+						}
 					}
 				}
 				
