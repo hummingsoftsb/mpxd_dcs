@@ -253,11 +253,12 @@ Class Securitys extends CI_Model
 	}
 
 	// Add Query For Selected Role
-	function add_role($name,$desc)
+	function add_role($name,$desc,$path)
 	{
 		$name=str_replace("'","''",$name);
 		$desc=str_replace("'","''",$desc);
-		$this->db->query("insert into sec_role (sec_role_name,sec_role_desc) values('$name','$desc') ");
+        $path=str_replace("'","''",$path);
+		$this->db->query("insert into sec_role (sec_role_name,sec_role_desc,sec_role_url_path) values('$name','$desc','$path') ");
 		$query=$this->db->query("select sec_role_id from sec_role where sec_role_name='".$name."'");
 		$rows=$query->result();
 		foreach ($rows as $row):

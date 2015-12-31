@@ -5,11 +5,14 @@
 		{
 			var role = "";
 			var roledesc = "";
+			var rolepath = "";
 			var error="";
 			$(".modal-body #role").val( role );
 			$(".modal-body #roledesc").val( roledesc );
+			$(".modal-body #rolepath").val( rolepath );
 			$('#erroraddrole').html(error);
 			$('#erroraddroledesc').html(error);
+			$('#erroraddrolepath').html(error);
 		});
 
 		$('#addrecord').submit(function()
@@ -21,6 +24,7 @@
 					hideloader();
 		 			$('#erroraddrole').html(data.msg);
 		 			$('#erroraddroledesc').html(data.msg1);
+		 			$('#erroraddrolepath').html(data.msg2);
 				}
 				if(data.st == 1)
 				{
@@ -42,12 +46,15 @@
 			var roleid = $(this).data('roleid');
 		    var role = $(this).data('role');
 		    var roledesc = $(this).data('roledesc');
+		    var rolepath = $(this).data('rolepath');
 		    var error="";
 			$(".modal-body #roleid").val( roleid );
 		    $(".modal-body #role1").val( role );
 		    $(".modal-body #roledesc1").val( roledesc );
+		    $(".modal-body #rolepath1").val( rolepath );
 		    $('#erroreditrole').html(error);
 			$('#erroreditroledesc').html(error);
+			$('#erroreditrolepath').html(error);
 		});
 
 		$('#updaterecord').submit(function()
@@ -59,6 +66,7 @@
 					hideloader();
 		 			$('#erroreditrole').html(data.msg);
 		 			$('#erroreditroledesc').html(data.msg1);
+		 			$('#erroreditrolepath').html(data.msg2);
 				}
 				if(data.st == 1)
 				{
@@ -352,6 +360,20 @@
 						        	<input type="text" class="form-control" id="roledesc" name="roledesc" maxlength="80">
 						        </div>
 	      					</div>
+                            <br>
+                            <div class="form-group">
+                                <label for="select" class="col-md-3 control-label"></label>
+                                <div class="col-md-8">
+                                    <label id="erroraddrolepath" class="text-danger"></label>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="select" class="col-lg-3 control-label">Path <red>*</red></label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" id="rolepath" name="rolepath" maxlength="40">
+                                </div>
+                            </div>
 	      				</div>
 	      				<div class="modal-footer">
 							<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
@@ -400,6 +422,20 @@
 	        					<label for="select" class="col-lg-3 control-label"><?php echo $labelname[1]; ?> <red>*</red></label>
 						        <div class="col-lg-8">
 						        	<input type="text" class="form-control" id="roledesc1" name="roledesc1" maxlength="80">
+						        </div>
+	      					</div>
+	     					<br>
+	     					<div class="form-group">
+								<label for="select" class="col-md-3 control-label"></label>
+								<div class="col-md-8">
+									<label id="erroreditrolepath" class="text-danger"></label>
+								</div>
+							</div>
+							<br>
+	      					<div class="form-group">
+	        					<label for="select" class="col-lg-3 control-label">Path <red>*</red></label>
+						        <div class="col-lg-8">
+						        	<input type="text" class="form-control" id="rolepath1" name="rolepath1" maxlength="80">
 						        </div>
 	      					</div>
 	      				</div>
@@ -538,7 +574,7 @@
 									if($editperm==1)
 									{
 								?>
-										<a href="#" data-toggle="modal" data-target=".bs-example-modal-md2" class="modaledit" data-roleid="<?php echo $record->sec_role_id; ?>" data-role="<?php echo $record->sec_role_name; ?>" data-roledesc="<?php echo $record->sec_role_desc; ?>" ><span class="glyphicon glyphicon-edit">&nbsp;</span></a>
+										<a href="#" data-toggle="modal" data-target=".bs-example-modal-md2" class="modaledit" data-roleid="<?php echo $record->sec_role_id; ?>" data-role="<?php echo $record->sec_role_name; ?>" data-roledesc="<?php echo $record->sec_role_desc; ?>" data-rolepath="<?php echo $record->sec_role_url_path; ?>" ><span class="glyphicon glyphicon-edit">&nbsp;</span></a>
 								<?php
 									}
 									else

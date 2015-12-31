@@ -5,10 +5,18 @@
 <script src="<?php echo base_url(); ?>ilyas/multiupload/custom.js"></script>
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/css/multiupload.css" type="text/css" media="screen" />
+<style>
+    p.set-w {
+        word-wrap: break-word;
+        width: 425px;
+        overflow: auto;
+    }
+</style>
 <script>
     var pcid;
     var datenno;
     var desc;
+    var j=0;
 	$(document).ready(function()
 	{
 		$('#addRecord').submit(function(e)
@@ -52,12 +60,16 @@
 		$('.image-description .text').on("click", function(){
 			$(this).hide();
 			$(this).parent().find(".edit").show();
+            var i = $(this).parent().parent().find('#i_hidden').val();
+            img_desc_edit_limit(i);
 		});
 		$('.image-description .cancel').on("click", function(){
 			$(this).parent().hide();
 			$(this).parent().parent().find('.text').show();
 			desc = $(this).parent().parent().find('a').text();
 			$(this).parent().find('textarea').val(desc);
+            var i = $(this).parent().parent().find('#i_hidden').val();
+            img_desc_edit_limit(i);
 			
 		});
 		$('.image-description .save').on("click", function(){
@@ -112,8 +124,8 @@
         });
 
         $("#upld").click(function () {
-            if (document.getElementById("iddesc").value.trim() == "") {
-                document.getElementById("iddesc").value = desc;
+            if (document.getElementById("iddesc"+j).value.trim() == "") {
+                document.getElementById("iddesc"+j).value = desc;
             }
 
             $.ajax({
@@ -173,38 +185,101 @@
         });
     }
     /*function to limit image description characters. added by jane*/
-    function img_desc_limit(){
-        var characters = 118;
-        $("#counter").show();
-        $("#iddesc").keyup(function(){
+    function img_desc_limit(j){
+        var characters = 80;
+        $("#counter"+j).show();
+        var a = $("#i_hidden_upload").val();
+        $("#iddesc"+j).keyup(function(){
             if($(this).val().length > characters){
                 $(this).val($(this).val().substr(0, characters));
             }
             var remaining = characters -  $(this).val().length;
-            $(".char_class").text(remaining);
+            //$(".char_class").text(remaining);
+            $("#idchar"+j).text(remaining);
             if(remaining <= 10)
             {
-                $("#counter").css("color","red");
+                $("#counter"+j).css("color","red");
             }
             else
             {
-                $("#counter").css("color","black");
+                $("#counter"+j).css("color","black");
             }
         });
     }
-	
+
+    /*function to limit image description characters in edit description. added by jane*/
+    function img_desc_edit_limit(i){
+        var characters = 80;
+        $("#image_description"+i).keyup(function(){
+            $("#counter_edit"+i).show();
+            if($(this).val().length > characters){
+                $(this).val($(this).val().substr(0, characters));
+            }
+            var remaining = characters -  $(this).val().length;
+            $(".char_class_edit"+i).text(remaining);
+            if(remaining <= 10)
+            {
+                $("#counter_edit"+i).css("color","red");
+            }
+            else
+            {
+                $("#counter_edit"+i).css("color","black");
+            }
+        });
+    }
+
+    /*function to check reject note on reject radio button click for image journal. added by jane*/
+    function checkImgComment(){
+        if ($('input[name=optradio]:checked').val() == "Reject") {
+            if ($("#comment").val() == "") {
+                $('input[id="save"]').attr('disabled','disabled');
+                e.preventDefault();
+            } else {
+                enablesubmit();
+            }
+        }
+    }
+
+    /*function to check reject note on reject radio button click. added by jane*/
+    function checkComment(){
+        if ($('input[name=optradio]:checked').val() == "Reject") {
+            var commentCount = document.getElementById("dataattbcount").value;
+            var comments = new Array();
+            for(i=0;i<=commentCount;i++){
+                comments.push($("#comment"+i).val());
+            }
+            if(comments !="") {
+                enablesubmit();
+            } else {
+                $('input[id="save"]').attr('disabled','disabled');
+            }
+        }
+    }
+
+    /*function to check reject note on comment box click. added by jane*/
+    function checkEmpty() {
+    $("#comment").keyup(function(){
+        if(($("#comment").val() == "") && ($('input[name=optradio]:checked').val() == "Reject")){
+            $('input[id="save"]').attr('disabled','disabled');
+        } else {
+            enablesubmit();
+        }
+    });
+    }
 </script>
 
 
 <script id="template-upload" type="text/x-tmpl">
-{% for (var i=0; i < o.files.length; i++) { var file=o.files[i]; var fileId = file.name.replace('.','_')+'_'+file.size; %}
+{% for (var i=0; i < o.files.length; i++) { j++; var file=o.files[i]; var fileId = file.name.replace('.','_')+'_'+file.size; %}
+
     <tr class="template-upload fade">
         <td style="width:10%">
             <span class="preview"></span>
         </td>
         <td style="width:40%">
-			<textarea id="iddesc" name="imagedesc_{%=fileId%}" maxlength="118" class="description-textarea textarea-fill" form="addimage" rows="5" onclick="img_desc_limit();"></textarea>
-        <div id="counter" style="display:none">You have <strong class="char_class"> 118 </strong> characters remaining</div>
+			<textarea id="iddesc{%=j%}" name="imagedesc_{%=fileId%}" maxlength="80" class="description-textarea textarea-fill" form="addimage" rows="5" onclick="img_desc_limit('{%=j%}');"></textarea>
+			<input type="hidden" id="i_hidden_upload" value="{%=j%}">
+        <div id="counter{%=j%}" style="display:none">You have <strong class="char_class" id="idchar{%=j%}"> 80 </strong> characters remaining</div>
         </td>
         <td style="width:40%">
             <p class="name"><b>{%=file.name%}</b> - <span class="size">Processing...</span></p>
@@ -221,6 +296,7 @@
             {% } %}
 		</td>
     </tr>
+
 {% } %}
 </script>
 <!-- The template to display files available for download -->
@@ -235,7 +311,7 @@
             </span>
         </td>
         <td>
-            <p class="name">
+            <p class="name set-w">
                 {% if (!file.error) { %}
                     <span>{%=file.description%}</span>
                 {% } %}
@@ -434,11 +510,13 @@
 						</thead>
 						<tbody>
 							<?php
+                            $i = 0;
 								foreach($dataimages as $dataimage):
+                                    $i++;
 									echo '<tr style="cursor:all-scroll;" data-rowid="'.$dataimage->data_entry_pict_no.'">';
 									echo '<td class="tableimgno">'.$dataimage->pict_seq_no.'</td>';
 									echo '<td><a title="'.$dataimage->pict_definition.'" class="fancybox" rel="group" href="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'"><img src="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'" class="img-responsive" alt="" style="width: 200px; height: 137px;"></a></td>';
-									echo '<td class="image-description" data-picid="'.$dataimage->data_entry_pict_no.'"> <a style="cursor: pointer" class="text">'.$dataimage->pict_definition.'</a> <div class="edit" style="display:none;"><textarea name="image_description" class="form-control">'.$dataimage->pict_definition.'</textarea><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
+									echo '<td class="image-description" data-picid="'.$dataimage->data_entry_pict_no.'"> <a style="cursor: pointer" class="text">'.wordwrap($dataimage->pict_definition, 40, "<br />\n", true).'</a> <div class="edit" style="display:none;"><textarea name="image_description" id="image_description'.$i.'" class="form-control">'.$dataimage->pict_definition.'</textarea><input type="hidden" id="i_hidden" value="' . $i . '"><div id="counter_edit'.$i.'" style="display:none">You have <strong class="char_class_edit'.$i.'"> 80 </strong> characters remaining</div><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
 									echo '<td> <a href="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'" download><span class="glyphicon glyphicon-download-alt" title="Download">&nbsp;</span></a><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '" data-pic-seq-no="' . $dataimage->pict_seq_no . '"><span class="glyphicon glyphicon-edit">&nbsp;</span></a><a class="modaldelete" href="#" data-toggle="modal" class="modaldelete" data-imgid="'.$dataimage->data_entry_pict_no.'" data-dataid="'.$dataimage->data_entry_no.'"><span class="glyphicon glyphicon-trash" title="Delete"></span></a></td>';
 									//echo '<td> <input name="pict-comment'.$dataimage->data_entry_pict_no.'" class="pict-comment" size="30" data-id="'. $dataimage->data_entry_pict_no .'" type="text" value= '.$dataimage->pict_validate_comment.' > </td>';
 									echo '<td><textarea name="pict-comment'.$dataimage->data_entry_pict_no.'" class="pict-comment" size="30" data-id="'. $dataimage->data_entry_pict_no .'" >'.$dataimage->pict_validate_comment.'</textarea>  </td>';
@@ -469,8 +547,8 @@
 					  <div class="col-xs-2" style="margin-bottom: 8px;">
 						<div class="radio">
 							<label>
-								<input type="radio" id="optradio" name="optradio" value="Reject" onclick="<?php echo $is_image == 1 ? '' : 'checkTextField();' ?>">Reject
-							</label>
+								<input type="radio" id="optradio" name="optradio" value="Reject" onclick="<?php echo $is_image == 1 ? 'checkImgComment();' : 'checkTextField();checkComment();' ?>">Reject
+                                    </label>
 						</div>
 					  </div>
 					  <?php if ($closeButton && ($is_image==0) || $approve_stop_status && $is_image) {?>
@@ -484,7 +562,10 @@
 					  <?php  } if($is_image == 1) : ?>
 					  <div class="col-xs-2" style="margin-bottom: 8px;">Reject notes</div>
 					  <div id="reject-note" class="col-xs-5" style="color: blue; margin-bottom: 40px;">
-						<textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+						<textarea class="form-control" rows="5" id="comment" name="comment" onclick="checkEmpty();"></textarea>
+                          <div>
+                          <?php if(!empty($reject_note)){ echo $reject_note; }?>
+                          </div>
 					  </div>
 					  <?php else : ?>
 					  <input type="hidden" name="comment" id="comment" value=""/>
@@ -558,7 +639,7 @@
 					$('.pict-comment, #comment').keyup(function(){
 						checkPicComment();
 						checkRbReject();
-					})
+					});
 					
 					function checkPicCommentField(){
 						if($('input[value=Reject]:checked').length > 0)
@@ -569,20 +650,20 @@
 						var charlen = 0;
 							$('.pict-comment').each(function(){
 								charlen += $(this).val().length;
-							})
+							});
 							
 						if(charlen > 0)
 							$('input[id="save"]').removeAttr('disabled');
 						else
 							$('input[id="save"]').attr('disabled','disabled');
 					}
-				})
+				});
 				function disablesubmit(){
 					if ($('input[value=Reject]:checked').length > 0) {
 						$('input[id="save"]').attr('disabled','disabled');
 					} else if ($('input[value=Reject]:checked').length = 0) {
 						$('input[id="save"]').removeAttr('disabled');
-					};
+					}
 				}
 				function enablesubmit(){
 					$('input[id="save"]').removeAttr('disabled');
@@ -590,7 +671,6 @@
 				
 				function checkTextField() {
 					if ($('input[value=Reject]:checked').length > 0) {
-						
 						var commentCount = document.getElementById("dataattbcount").value;
 						var combine_id  = [];
 						var combine = [];
@@ -611,7 +691,7 @@
 							$('input[id="save"]').attr('disabled','disabled');
 						}else{
 							$('input[id="save"]').removeAttr('disabled');
-						};
+						}
 					}
 				}
 				

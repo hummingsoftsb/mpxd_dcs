@@ -7,6 +7,13 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css"
       media="screen"/>
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/css/multiupload.css" type="text/css" media="screen"/>
+<style>
+    p.set-w {
+        word-wrap: break-word;
+        width: 425px;
+        overflow: auto;
+    }
+</style>
 <script>
 var pcid;
 var datenno;
@@ -14,6 +21,7 @@ var desc;
 var rejnote;
 var pic_val_comment;
 var datavalno;
+var j=0;
 $(document).ready(function () {
     $("#modaladd").click(function () {
         var empty = "";
@@ -26,8 +34,8 @@ $(document).ready(function () {
     });
 
     $("#upld").click(function () {
-        if (document.getElementById("iddesc").value.trim() == "") {
-            document.getElementById("iddesc").value = desc;
+        if (document.getElementById("iddesc"+j).value.trim() == "") {
+            document.getElementById("iddesc"+j).value = desc;
         }
         $.ajax({
             type: 'POST',
@@ -238,12 +246,16 @@ $(document).ready(function () {
     $('.image-description .text').on("click", function () {
         $(this).hide();
         $(this).parent().find(".edit").show();
+        var i = $(this).parent().parent().find('#i_hidden').val();
+        img_desc_edit_limit(i);
     });
     $('.image-description .cancel').on("click", function () {
         $(this).parent().hide();
         $(this).parent().parent().find('.text').show();
         desc = $(this).parent().parent().find('a').text();
         $(this).parent().find('textarea').val(desc);
+        var i = $(this).parent().parent().find('#i_hidden').val();
+        img_desc_edit_limit(i);
 
     });
     $('.image-description .save').on("click", function () {
@@ -348,7 +360,7 @@ function remove_img(url) {
 }
 /*function to limit image description characters. added by jane*/
 /*function img_desc_limit(){
-    var characters = 118;
+    var characters = 80;
     $("#counter").append("You have <strong>"+  characters+"</strong> characters remaining");
     $("#iddesc").keyup(function(){
         if($(this).val().length > characters){
@@ -367,22 +379,44 @@ function remove_img(url) {
     });
 }*/
 /*function to limit image description characters. added by jane*/
-function img_desc_limit(){
-    var characters = 118;
-    $("#counter").show();
-    $("#iddesc").keyup(function(){
+function img_desc_limit(j){
+    var characters = 80;
+    $("#counter"+j).show();
+    var a = $("#i_hidden_upload").val();
+    $("#iddesc"+j).keyup(function(){
         if($(this).val().length > characters){
             $(this).val($(this).val().substr(0, characters));
         }
         var remaining = characters -  $(this).val().length;
-        $(".char_class").text(remaining);
+        //$(".char_class").text(remaining);
+        $("#idchar"+j).text(remaining);
         if(remaining <= 10)
         {
-            $("#counter").css("color","red");
+            $("#counter"+j).css("color","red");
         }
         else
         {
-            $("#counter").css("color","black");
+            $("#counter"+j).css("color","black");
+        }
+    });
+}
+/*function to limit image description characters in edit description. added by jane*/
+function img_desc_edit_limit(i){
+    var characters = 80;
+    $("#img_dec_edit"+i).keyup(function(){
+        $("#counter_edit"+i).show();
+        if($(this).val().length > characters){
+            $(this).val($(this).val().substr(0, characters));
+        }
+        var remaining = characters -  $(this).val().length;
+        $(".char_class_edit"+i).text(remaining);
+        if(remaining <= 10)
+        {
+            $("#counter_edit"+i).css("color","red");
+        }
+        else
+        {
+            $("#counter_edit"+i).css("color","black");
         }
     });
 }
@@ -709,11 +743,13 @@ endforeach;
             <tbody>
             <?php
             if(empty($reject_note->reject_notes)) {
+                $i = 0;
                 foreach ($dataimages as $dataimage):
+                    $i++;
                     echo '<tr style="cursor:all-scroll;" data-rowid="' . $dataimage->data_entry_pict_no . '">';
                     echo '<td class="tableimgno">' . $dataimage->pict_seq_no . '</td>';
                     echo '<td><a title="' . $dataimage->pict_definition . '" class="fancybox" rel="group" href="' . base_url() . $dataimage->pict_file_path . $dataimage->pict_file_name . '"><img src="' . base_url() . $dataimage->pict_file_path . $dataimage->pict_file_name . '" class="img-responsive" alt="" style="width: 200px; height: 137px;"></a></td>';
-                    echo '<td class="image-description" data-picid="' . $dataimage->data_entry_pict_no . '"> <a style="cursor: pointer" class="text">' . $dataimage->pict_definition . '</a> <div class="edit" style="display:none;"><textarea name="image_description" class="form-control">' . $dataimage->pict_definition . '</textarea><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
+                    echo '<td class="image-description" data-picid="' . $dataimage->data_entry_pict_no . '"> <a style="cursor: pointer" class="text">' . wordwrap($dataimage->pict_definition, 40, "<br />\n", true) . '</a> <div class="edit" style="display:none;"><textarea id="img_dec_edit'.$i.'" name="image_description" class="form-control">' . wordwrap($dataimage->pict_definition, 40, "<br />\n", true) . '</textarea><input type="hidden" id="i_hidden" value="' . $i . '"><div id="counter_edit'.$i.'" style="display:none">You have <strong class="char_class_edit'.$i.'"> 80 </strong> characters remaining</div><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
                     echo '<td> ' . $dataimage->pict_validate_comment . ' </td>';
                     echo '<td><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '" data-pic-val-comment="' . $dataimage->pict_validate_comment . '" data-pic-seq-no="' . $dataimage->pict_seq_no . '" ><span class="glyphicon glyphicon-edit">&nbsp;</span></a></td>';
                     echo '<td> <a href="#" class="modaldelete" data-imgid="' . $dataimage->data_entry_pict_no . '" data-dataid="' . $dataimage->data_entry_no . '"><span class="glyphicon glyphicon-trash">&nbsp;</span></a></td>';
@@ -721,11 +757,13 @@ endforeach;
                 endforeach;
             }
             else{
+                $i = 0;
                 foreach ($dataimages as $dataimage):
+                    $i++;
                     echo '<tr style="cursor:all-scroll;" data-rowid="' . $dataimage->data_entry_pict_no . '">';
                     echo '<td class="tableimgno">' . $dataimage->pict_seq_no . '</td>';
                     echo '<td><a title="' . $dataimage->pict_definition . '" class="fancybox" rel="group" href="' . base_url() . $dataimage->pict_file_path . $dataimage->pict_file_name . '"><img src="' . base_url() . $dataimage->pict_file_path . $dataimage->pict_file_name . '" class="img-responsive" alt="" style="width: 200px; height: 137px;"></a></td>';
-                    echo '<td class="image-description" data-picid="' . $dataimage->data_entry_pict_no . '"> <a style="cursor: pointer" class="text">' . $dataimage->pict_definition . '</a> <div class="edit" style="display:none;"><textarea name="image_description" class="form-control">' . $dataimage->pict_definition . '</textarea><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
+                    echo '<td class="image-description" data-picid="' . $dataimage->data_entry_pict_no . '"> <a style="cursor: pointer" class="text">' . wordwrap($dataimage->pict_definition, 40, "<br />\n", true) . '</a> <div class="edit" style="display:none;"><textarea id="img_dec_edit'.$i.'" name="image_description" class="form-control">' . wordwrap($dataimage->pict_definition, 40, "<br />\n", true) . '</textarea><input type="hidden" id="i_hidden" value="' . $i . '"><div id="counter_edit'.$i.'" style="display:none">You have <strong class="char_class_edit'.$i.'"> 80 </strong> characters remaining</div><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
                     echo '<td> ' . $dataimage->pict_validate_comment . ' </td>';
                     echo '<td><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '" data-pic-val-comment="' . $dataimage->pict_validate_comment . '" data-pic-seq-no="' . $dataimage->pict_seq_no . '" data-rejnote="' .$reject_note->reject_notes.'" data-validate-no="'.$reject_note->data_validate_no.'" ><span class="glyphicon glyphicon-edit">&nbsp;</span></a></td>';
                     echo '<td> <a href="#" class="modaldelete" data-imgid="' . $dataimage->data_entry_pict_no . '" data-dataid="' . $dataimage->data_entry_no . '"><span class="glyphicon glyphicon-trash">&nbsp;</span></a></td>';
@@ -991,15 +1029,16 @@ endforeach;
 </div>
 
 <script id="template-upload" type="text/x-tmpl">
-{% for (var i=0; i < o.files.length; i++) { var file=o.files[i]; var fileId = file.name.replace('.','_')+'_'+file.size; %}
+{% for (var i=0; i < o.files.length; i++) { j++; var file=o.files[i]; var fileId = file.name.replace('.','_')+'_'+file.size; %}
     <tr class="template-upload fade">
         <td style="width:10%">
             <span class="preview"></span>
         </td>
 
         <td style="width:40%">
-			<textarea id="iddesc" name="imagedesc_{%=fileId%}" maxlength="118" class="description-textarea textarea-fill" form="addimage" rows="5" onclick="img_desc_limit();" ></textarea>
-        <div id="counter" style="display:none">You have <strong class="char_class"> 118 </strong> characters remaining</div>
+			<textarea id="iddesc{%=j%}" name="imagedesc_{%=fileId%}" maxlength="80" class="description-textarea textarea-fill" form="addimage" rows="5" onclick="img_desc_limit('{%=j%}');" ></textarea>
+        <input type="hidden" id="i_hidden_upload" value="{%=j%}">
+        <div id="counter{%=j%}" style="display:none">You have <strong class="char_class" id="idchar{%=j%}"> 80 </strong> characters remaining</div>
         </td>
 
         <td style="width:40%">
@@ -1035,9 +1074,9 @@ endforeach;
             </span>
         </td>
         <td>
-            <p class="name">
+            <p class="name set-w">
                 {% if (!file.error) { %}
-                    <span>{%=file.description%}</span>
+                    <span >{%=file.description%}</span>
                 {% } %}
             </p>
             {% if (file.error) { %}
