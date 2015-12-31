@@ -22,6 +22,7 @@
 	return false;
  };
 window.pegasus = function pegasus(a, xhr) {
+var callback = function(){};
   xhr = new XMLHttpRequest();
 
   // Open url
@@ -34,7 +35,7 @@ window.pegasus = function pegasus(a, xhr) {
   // onError   handler
   // cb        placeholder to avoid using var, should not be used
   xhr.onreadystatechange = xhr.then = function(onSuccess, onError, cb) {
-
+	
     // Test if onSuccess is a function or a load event
     if (onSuccess.call) a = [onSuccess, onError];
 
@@ -45,11 +46,13 @@ window.pegasus = function pegasus(a, xhr) {
       // 0 if status is between 0 and 399
       // 1 if status is over
       cb = a[0|xhr.status / 400];
+	  
 
       // Safari doesn't support xhr.responseType = 'json'
       // so the response is parsed
 	  
       if (cb) {
+		callback = cb;
 		if (xhr.status === 200) {
 			//console.log('PARSE',xhr.status);
 			cb(tryParseJSON(xhr.responseText));
@@ -70,6 +73,9 @@ window.pegasus = function pegasus(a, xhr) {
   
   //xhr.onerror = function(e){console.log('heheheh',e);}
  
+	  
+  xhr.timeout = 90;
+  xhr.ontimeout = function(){console.log(callback);callback(xhr);};
   // Send
   xhr.send();
 
@@ -103,12 +109,13 @@ function loadManifest(manifest,fromLocalStorage,timeout){
 
   // Load Scripts
   function loadScripts(){
+  console.log("Loading scripts");
     scripts.forEach(function(src) {
       if(!src) return;
       // Ensure the 'src' has no '/' (it's in the root already)
       if(src[0] === '/') src = src.substr(1);
       src = manifest.root + src ;
-	console.log(src);
+	//
       // Load javascript
       if(src.substr(-3) === ".js"){
         el= document.createElement('script');
@@ -158,6 +165,7 @@ if(!manifest){
   var url = (s? s.getAttribute('manifest'): null) || 'manifest.json';
   // get manifest.json, then loadManifest.
   pegasus(url).then(loadManifest,function(xhr){
+	
     console.error('Could not download '+url+': '+xhr.status);
   });
 // Manifest was in localStorage. Load it immediatly.

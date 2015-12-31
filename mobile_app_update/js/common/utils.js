@@ -225,6 +225,10 @@
 		if (navigator.userAgent.indexOf('Android') >= 0 && window.devicePixelRatio) {
 			deviceWidth = deviceWidth / window.devicePixelRatio;
 		}
+		else if (cordova.platformId == 'ios') {
+			// A hack to let cropping be more usable
+			deviceWidth = deviceWidth / window.devicePixelRatio;
+		}
 		return deviceWidth;
 	}
 	
@@ -343,8 +347,9 @@
 	}
 	
 	function cropImage(fpath) {
-		var width = effectiveDeviceWidth();
+		var width = effectiveDeviceWidth();//////
 		var height = width*0.75;
+		console.log('Cropping with',width,height);
 		return $jrCrop.crop({url:fpath, width:width, height:height}).then(function(a){
 			var blob = base64toBlob(a.toDataURL().split(',')[1],'image/png');
 			var starttime = Date.now();

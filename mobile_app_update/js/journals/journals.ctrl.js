@@ -3,21 +3,32 @@
   angular.module('app')
     .controller('JournalsCtrl', JournalsCtrl);
 
-  function JournalsCtrl($scope, $window, $ionicModal, $ionicPopover, $ionicActionSheet, $log, JournalSrv, $ionicScrollDelegate, AuthSrv, $state){
+  function JournalsCtrl($rootScope, $scope, $window, $ionicModal, $ionicPopover, $ionicActionSheet, $log, JournalSrv, $ionicScrollDelegate, AuthSrv, $state, DataSrv){
     var vm = {};
+	
     $scope.vm = vm;
 	$scope.isLoaded = false;	
 	vm.data_listed = [];
 	vm.processed_data = [];
 	vm.settings = {};
+	
 	//vm.settings.max_items_to_load = 10;
 	
 	vm.pageSize = 10;
 	vm.currentPage = 1;
 	vm.totalPage = Math.ceil(vm.data_listed.length / vm.pageSize);
-	vm.pageChangeHandler = function(){
-		 $ionicScrollDelegate.resize();
+	vm.pageChangeHandler = function() {
+		$ionicScrollDelegate.resize();
 	}
+	/*
+	vm.startSynchronize = function() {
+		DataSrv.synchronize();
+	}
+	
+	vm.dismissDialog = function() {
+		$rootScope.syncDialog = false;
+	}*/
+	
 	
 	
 	/* 
@@ -78,7 +89,12 @@
 		vm.refreshData();
 	}
 	
-	$scope.$on('sync', function(evt, data){
+	/*$scope.$on('sync', function(evt, data){
+		if (data.lastSync.st == "complete-success") {
+			vm.refreshData();
+		}
+	});*/
+	DataSrv.hookOn('sync', function(data){
 		if (data.lastSync.st == "complete-success") {
 			vm.refreshData();
 		}
@@ -95,10 +111,26 @@
 		} else {
 			JournalSrv.getEntryInitialized(project.project_no, journal.journal_no, journal.data_entries[0]).then(function(initialized){
 				if (!initialized) {
-					if (confirm('Assign data attributes to the current week?')) {
+					//console.log(journal);
+					var go = false;
+					if (journal.is_image) {
+						go = true;
+					} else {
+						go = confirm('Assign data attributes to the current week?');
+					}
+					
+					if (go) {
 						JournalSrv.setEntryInitialized(project.project_no, journal.journal_no, journal.data_entries[0]);
 						$state.go('app.tabs.dataentry', {projectId: project.project_no, journalId: journal.journal_no, entryId: journal.data_entries[0], force: true});
 					}
+					/*
+					if (!journal.is_image && confirm('Assign data attributes to the current week?')) {
+						
+					} else if (journal.is_image) {
+						JournalSrv.setEntryInitialized(project.project_no, journal.journal_no, journal.data_entries[0]);
+						$state.go('app.tabs.dataentry', {projectId: project.project_no, journalId: journal.journal_no, entryId: journal.data_entries[0], force: true});
+					}*/
+					
 				} else {
 					$state.go('app.tabs.dataentry', {projectId: project.project_no, journalId: journal.journal_no, entryId: journal.data_entries[0], force: true});
 				}

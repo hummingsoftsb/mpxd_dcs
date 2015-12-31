@@ -269,9 +269,10 @@
 			}
 			after.promise.then(function(){
 				if (success) {
-				if (!$scope.images[idx].internal) { 
+				console.log('Imaaaageee',$scope.images,idx);
+				/*if (!$scope.images[idx].internal) {
 					$scope.images[idx].deleted = true;
-				}
+				}*/
 				$scope.resortImages();
 				$scope.saveData().then(function(){
 					//$scope.images.splice(idx,1);
@@ -397,6 +398,8 @@
 									pict_seq_no: $scope.images.length+1
 								});
 								savedIndexes.push($scope.images.length-1);
+							}, function(e){
+								console.log("Cancelled?", e);
 							});
 							//console.log('cropPromise',cropPromise);
 							return cropPromise;
@@ -465,6 +468,8 @@
 	var pLookup = JournalSrv.getLookups();
 	var pInitialized = JournalSrv.getEntryInitialized(projectId, journalId, entryId);
 	var loadDeffered = $q.defer();
+	
+	$rootScope.isCurrentPageJournalEntry = true;
 
 	$q.all([pJD,pUOM,pLookup,pInitialized]).then(function(results){
 		//console.log('results',results);

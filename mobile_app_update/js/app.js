@@ -61,7 +61,7 @@ angular.module('ngIOS9UIWebViewPatch', ['ng']).config(['$provide', function($pro
     //$httpProvider.interceptors.push('AuthInterceptor');
   }
 
-  function runBlock($rootScope, $state, $log, AuthSrv, PushPlugin, ToastPlugin, Config, $cordovaNetwork, $cordovaPush, $window, PushSrv, UpdateSrv){
+  function runBlock($rootScope, $state, $log, AuthSrv, PushPlugin, ToastPlugin, Config, $cordovaNetwork, $cordovaPush, $window, PushSrv, UpdateSrv, DataSrv){
     window.now = UpdateSrv.updateAppNow;
 	checkRouteRights();
 	//console.log('Setting up push notification');
@@ -102,6 +102,9 @@ angular.module('ngIOS9UIWebViewPatch', ['ng']).config(['$provide', function($pro
 		console.log('FROM:'+from,'TO:'+to,$rootScope.exitNext);
 		//console.log('toparams: ',toParams);//
 		//console.log('fromparams: ',fromParams);
+		if ((from == 'app.tabs.dataentry') && (to != 'app.tabs.dataentry')) {
+			$rootScope.isCurrentPageJournalEntry = false;
+		}
 		if ((from == '') && (to == 'loading')) {
 			// First load, allow.
 		} else if ((from == '') && (to != 'loading')) {
@@ -147,8 +150,20 @@ angular.module('ngIOS9UIWebViewPatch', ['ng']).config(['$provide', function($pro
 	function askExit() {
 		if (confirm('Exit?'))
 		{
-			console.log('Yes exit');
-			if (navigator.app) navigator.app.exitApp();
+			if ($rootScope.isSyncRequired) {
+				if (confirm('Sync before exit?')) {
+					DataSrv.synchronize().then(function(){
+						console.log('Yes exit');
+						if (navigator.app) navigator.app.exitApp();
+					});
+				} else {
+					console.log('Yes exit');
+					if (navigator.app) navigator.app.exitApp();
+				}
+			} else {
+				console.log('Yes exit');
+				if (navigator.app) navigator.app.exitApp();
+			}
 		}
 		else
 		{

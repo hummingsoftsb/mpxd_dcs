@@ -13,13 +13,25 @@
 	vm.alertCount = 0;
 	vm.remindCount = 0;
 	vm.isExitAvailable = ((typeof navigator.app != 'undefined') && (typeof navigator.app.exitApp == 'function'));
-	
+	DataSrv.setSyncRequired(false);
+	DataSrv.getSyncRequired(true);
 	vm.sync = function() {
 		DataSrv.synchronize().catch(function(e){
 			console.log('Catched sync from menu.ctrl!',e);
 			$scope.syncing = false;
 		});
 	}
+	
+	
+	vm.startSynchronize = function() {
+		DataSrv.synchronize();
+	}
+	
+	vm.dismissDialog = function() {
+		$rootScope.syncDialog = false;
+		
+	}
+	
 	
 	vm.refreshData = function(){
 		DataSrv.getData().then(function(data){ 
@@ -55,7 +67,19 @@
 	navigator.notification.confirm(
 		'Confirm exit?', function(b){if (b==2){navigator.app.exitApp()}},'Exit','Cancel,OK'
     )*/
-		if (vm.isExitAvailable) navigator.app.exitApp();
+		if (vm.isExitAvailable) {
+			if ($rootScope.isSyncRequired) {
+				if (confirm('Sync before exit?')) {
+					DataSrv.synchronize().then(function(){
+					navigator.app.exitApp();
+					});
+				} else {
+					navigator.app.exitApp();
+				}
+			} else {
+				navigator.app.exitApp();
+			}
+		}
 	}
 
     function logout(){

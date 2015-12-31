@@ -25,7 +25,7 @@
 	
 	vm.changeDeveloperMode = function($event){
 		// This function is after it is clicked - in other words, true is false and false is true.
-		////
+		//
 		
 		console.log('is it',vm.developerEnabled)
 		
@@ -93,6 +93,10 @@
 	
 	DataSrv.hookOn('sync', function(a) {
 		vm.lastSync = a.lastSync.displayTime;
+	});
+	
+	AuthSrv.hookOn('backendUrl', function() {
+		vm.serverURL = Config.backendUrl;
 	});
 	
 	
