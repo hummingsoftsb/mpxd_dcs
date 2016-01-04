@@ -34,7 +34,7 @@ class Reportphoto extends CI_Controller {
         $freq_id = $this->input->get('freq');
 		$projects = $this->input->get('project');
 		$pdate = $this->input->get('date');
-		
+
 		//Requests for ppt
         if ($freq_id && $projects) {
 			

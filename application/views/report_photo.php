@@ -140,10 +140,10 @@ $labelname = explode(",", $labelnames);
 <script>
 $("#check-all-project").on("click", function(){
 	$("#project-list input:checkbox").prop('checked', true);
-})
+});
 $("#clear-all-project").on("click", function(){
 	$("#project-list input:checkbox").prop('checked', false);
-})
+});
 
 $( "#proj_date" ).datepicker({
 	showOn: "button",

@@ -1034,6 +1034,7 @@ Class Assessment extends CI_Model
     function get_image_by_date($pdate, $pid)
     {
         $query = "select jdep.pict_file_name,jdep.pict_file_path,jdep.pict_definition,pt.project_name,pt.project_no,fd.cut_off_date from journal_data_entry_picture jdep, journal_data_entry_master jdem, journal_master jm, project_template pt, frequency_detail fd where fd.frequency_detail_no = jdem.frequency_detail_no and jdep.data_entry_no = jdem.data_entry_no and jdem.journal_no = jm.journal_no and jm.project_no = pt.project_no and fd.end_date = '{$pdate}' and pt.project_no in ({$pid}) order by jdem.journal_no, jdep.pict_seq_no";
+        echo $query;
         $q = $this->db->query($query);
         return $q->result();
     }
