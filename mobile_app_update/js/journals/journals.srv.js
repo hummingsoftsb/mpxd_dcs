@@ -4,8 +4,8 @@
     .factory('JournalSrv', JournalSrv);
 
   // This is a dummy service to use in demo...
-  JournalSrv.$inject = ['$http', '$q', '$timeout', 'Utils', 'Config', '_', 'StorageUtils', 'DataSrv', 'AuthSrv'];
-  function JournalSrv($http, $q, $timeout, Utils, Config, _, StorageUtils, DataSrv, AuthSrv){
+  JournalSrv.$inject = ['$http', '$q', '$timeout', 'Utils', 'Config', '_', 'StorageUtils', 'DataSrv', 'AuthSrv', '$rootScope'];
+  function JournalSrv($http, $q, $timeout, Utils, Config, _, StorageUtils, DataSrv, AuthSrv, $rootScope){
     var cachedTwitts = undefined;
     var service = {
       getAllProjects: getAllProjects,
@@ -20,6 +20,7 @@
 	  getEntryInitialized: getEntryInitialized,
 	  setEntryPublished: setEntryPublished,
 	  getEntryPublished: getEntryPublished,
+	  getAllEntryPublished: getAllEntryPublished,
 	  hookOn: hookOn
     };
 	var hooks = {};
@@ -94,6 +95,8 @@
 		data.timestamp = new Date().getTime();
 		return StorageUtils.set(entryName, data).then(function(){
 			return StorageUtils.get(uploadedStorageName).then(function(data){
+				
+				DataSrv.setSyncRequired(true);
 				if (typeof data == 'undefined') data = [];
 				//if (typeof data['dirty'] == 'undefined') data['dirty'] = {};
 				//data['dirty'][entryName] = true;
@@ -167,12 +170,14 @@
 		
 		
 		StorageUtils.get(initializedStorageName).then(function(inited){
+			DataSrv.setSyncRequired(true);
 			if (typeof inited == 'undefined') {
 				return StorageUtils.set(initializedStorageName, [entryName]);
 			} else {
 				if (inited.indexOf(entryName) != -1) return true;
 				return StorageUtils.set(initializedStorageName, inited.concat([entryName]));
 			}
+			
 		});
 	}
 	
@@ -193,6 +198,7 @@
 				//console.log('here2',inited.indexOf(entryName));
 				return true;
 			}
+			
 			return false;
 		});
 	}
@@ -203,12 +209,14 @@
 		var publishedStorageName = username+'-published-entries';
 		
 		return StorageUtils.get(publishedStorageName).then(function(pubbed){
+			DataSrv.setSyncRequired(true);
 			if (typeof pubbed == 'undefined') {
 				return StorageUtils.set(publishedStorageName, [entryName]).then(function(){runHook('published')});
 			} else {
 				if (pubbed.indexOf(entryName) != -1) { runHook('published'); return true };
 				return StorageUtils.set(publishedStorageName, pubbed.concat([entryName])).then(function(){runHook('published')});
 			}
+			
 		});
 	}
 	

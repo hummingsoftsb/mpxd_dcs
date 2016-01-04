@@ -99,6 +99,7 @@
 				user.lastLoggedOnline = new Date().getTime();
 				user.lastLoggedOffine = null;
 				var salt = (new Date()).valueOf().toString();
+				StorageUtils.set('last-server-ip',Config.backendUrl);
 				return StorageUtils.set('profile-'+credentials.login,{'credentials':{
 					login: credentials.login,
 					password: CryptoJS.SHA3(salt+credentials.password).toString(),
@@ -196,6 +197,16 @@
 	
 	function sendAuthenticatedRequest(url, data) {
 		if (isLogged()) {
+			if (typeof $rootScope.isCheckedBackend != 'undefined' || !$rootScope.isCheckedBackend) {
+				var last_url = StorageUtils.getSync('last-server-ip');
+				if ((typeof last_url != 'undefined') && (last_url != null) && (last_url != ''))  {
+					Config.backendUrl = last_url;
+					window.asdasd = $rootScope;
+					runHook('backendUrl');
+				}
+	
+				$rootScope.isCheckedBackend = true;
+			}
 			if (typeof data == "undefined") data = {};
 			data.session_id = getSession().sessionId;
 			return CommSrv.sendRequest(url,data).then(function(response){ return response }, function(error){
@@ -291,9 +302,11 @@
 	var user = getSession();
 	if ($rootScope.isOnline) {
 		if (user.logged) {
-			return CommSrv.sendRequest('/mobileapi/logout', {'session_id':user.sessionId}).then(function(){
-				internalLogout(dontGoToLogin);
+			var promise = CommSrv.sendRequest('/mobileapi/logout', {'session_id':user.sessionId}).then(function(){
+				
 			});
+			internalLogout(dontGoToLogin);
+			return promise;
 		} else {
 			internalLogout(dontGoToLogin);
 		}
@@ -341,10 +354,10 @@
 			return sendSafeAuthenticatedRequest('/mobileapi/ping').then(function(logged){
 				return logged;
 			}, function(e){
-				return false;
+				return $q.when(false);
 			});
 		} else {
-			return isLogged();
+			return $q.when(isLogged());
 		}
 	}
 	

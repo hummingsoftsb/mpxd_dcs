@@ -11,7 +11,9 @@
 		pull: _pull,
 		push: _push,
 		getLastSync: getLastSync,
-		hookOn: hookOn
+		hookOn: hookOn,
+		getSyncRequired: getSyncRequired,
+		setSyncRequired: setSyncRequired
     };
 	var hooks = {};
 	
@@ -197,6 +199,39 @@
 				//console.log('got from data!', res);
 				//$rootScope.$emit('sync:pull_complete', res);
 			});
+		})
+	}
+	
+	function setSyncRequired(f) {
+		$rootScope.isSyncRequired = f;
+		$rootScope.syncDialog = f;
+		StorageUtils.set('sync-required',f);
+	}
+	
+	function getSyncRequired(d) {
+		d = (typeof d == 'boolean' && d);
+		var user = AuthSrv.getSession();
+		if (typeof user.username == 'undefined') return;
+		var username = user.username;
+		var initializedStorageName = username+'-initialized-entries';
+		var uploadedStorageName = username+'-to-upload-entries';
+		var publishedStorageName = username+'-published-entries';
+		var queries = [StorageUtils.get(initializedStorageName), StorageUtils.get(uploadedStorageName), StorageUtils.get(publishedStorageName), StorageUtils.get('sync-required')];
+		return $q.all(queries).then(function(values){
+			// Check storage for pending updates
+			for(var i = 0; i < 3; i++) {
+				if ((typeof values[i] != 'undefined') && (values[i].length > 0)) { $rootScope.isSyncRequired = true; if (d) $rootScope.syncDialog = true; return true; }
+			}
+			
+			// Check flag (in storage) for pending updates FROM server.
+			if ((typeof values[3] != 'undefined') && (values[3])) {
+				console.log('kikiki',values[3]);
+				if (d) $rootScope.syncDialog = true;
+				return true;
+			}
+			$rootScope.isSyncRequired = false;
+			if (d) $rootScope.syncDialog = false;
+			return false;
 		})
 	}
 	
@@ -694,6 +729,7 @@
 				
 			});*/
 		}, function(error) {
+			
 			if (synchronize_busy_promise != null) synchronize_busy_promise.reject(error);
 			//console.log("ERROR RUNNED HERE TOO",error);
 			//syncing = false;
@@ -725,7 +761,7 @@
 			progressDeferred.promise.then(function(stuff){
 				if (e == 'Error contacting server') {
 					$rootScope.popupMessage = 'Disconnected from server';
-					setTimeout(function(){ stuff.popup.close(); }, 2000)
+					setTimeout(function(){ stuff.popup.close(); getSyncRequired(true); }, 2000)
 				} else { stuff.popup.close(); }
 			});
 			console.log("ERROR RUNNED HERE",e);
@@ -733,7 +769,7 @@
 				if ((typeof progressDeferred == 'undefined')) {
 					//var promise = runPopup();
 					progressDeferred = $q.defer();
-					runPopup().then(function(p){ progressDeferred.resolve(p); });
+					runPopup().then(function(p){ progressDeferred.resolve(p);  });
 				} 
 				
 				//console.log('GOT NOTIEFED',n);
@@ -764,6 +800,8 @@
 						case 'pull-end':
 							updateProgress += 1;
 							$rootScope.popupMessage = 'Completed';
+							getSyncRequired(true);
+							setSyncRequired(false);
 							break;
 					}
 					var percent = (totalProgress == 0) ? 0: (updateProgress/totalProgress)*100;

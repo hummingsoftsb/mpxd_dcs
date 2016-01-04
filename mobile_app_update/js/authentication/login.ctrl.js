@@ -3,7 +3,7 @@
   angular.module('app')
     .controller('LoginCtrl', LoginCtrl);
 
-  function LoginCtrl($rootScope, $scope, $state, AuthSrv, $window, $q, ToastPlugin, DataSrv, PushSrv, UpdateSrv){
+  function LoginCtrl($rootScope, $scope, $state, AuthSrv, $window, $q, DataSrv, PushSrv, UpdateSrv, StorageUtils){
     var vm = {};
     $scope.vm = vm;
 
@@ -45,7 +45,9 @@
 		//$rootScope.session = user;
 		//console.log(DataSrv);
 		//DataSrv.getData();
-		;;;
+		
+		
+		
 		setTimeout(function(){if ($rootScope.isOnline) {
 			DataSrv.synchronize().then(function(){
 				UpdateSrv.promptForUpdate();

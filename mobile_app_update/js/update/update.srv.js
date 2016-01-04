@@ -92,8 +92,15 @@
 		
 		setTimeout(function(){
 			console.log('Checking updates..');
+			
 			//vm.updating = true;
 			deferred.notify({updating: true});
+			var timeout = setTimeout(function(){
+				$ionicLoading.hide();
+				ToastPlugin.showLongTop('Unable to contact server');
+				deferred.notify({updating: false});
+				deferred.resolve();
+			}, 7000);
 			$ionicLoading.show();
 			//console.log('UPDATE SRV',UpdateSrv);
 			check().then(function(c){
@@ -101,6 +108,7 @@
 					console.log('Got update! Downloading..');
 					ToastPlugin.showLongTop('Downloading updates');
 					download().then(function(d){
+						clearTimeout(timeout);
 						$ionicLoading.hide();
 						console.log('Finished downloading, will update now',d);
 						deferred.notify({updating: false});

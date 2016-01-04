@@ -2,6 +2,9 @@
   <ion-content>
   
 <div ng-controller="JournalsCtrl">
+
+
+
 <div class="bar bar-header item-input-inset">
   <label class="item-input-wrapper">
     <i class="icon ion-ios-search placeholder-icon"></i>
@@ -41,6 +44,32 @@
 	</div>
   
   </div>
+  
+  
     </ion-content>
+<!--
+<div ng-show="isSyncRequired && syncDialog" style="position:absolute; bottom:0px; z-index:10; width:100%; padding: 0 10px;">
+	<div style="position:relative">
+	<div style="position:absolute; top:0; right:10px;">
+	<button class="button button-icon icon ion-ios-close-empty" ng-click="vm.dismissDialog()" style="color:#fff"></button>
+	</div>
+	<div style="background: rgba(0,0,0,0.85); color:#fff; padding:2px 16px;">
 
+	<h4 style="color:#fff;"><i class="icon ion-android-alert" style="font-size:17px; color:#fff;"></i> Synchronize pending</h4>
+		<p>Device is not sync with server.</p>
+	<button class="button button-small button-clear button-light" ng-click="vm.startSynchronize()" style="padding-left:0; padding-bottom:10px;">
+		SYNC NOW
+	</button>
+	<button class="button button-small button-clear button-light" ng-click="vm.dismissDialog()" style="color: #888; margin-left:10px; padding-bottom:10px;">
+		DISMISS
+	</button>
+	</div>
+	</div>
+</div>-->
+
+
+
+
+</div>
+</div>
 </ion-view>

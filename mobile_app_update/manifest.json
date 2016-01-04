@@ -1,7 +1,7 @@
 {
   "files": {
     "alerts.ctrl__0": {
-      "version": "c2934d6805755c48ca016556438fa7a3966f8eef",
+      "version": "22d5d5cacd5fe1f691a526f26aaed0b989ca4c46",
       "filename": "js/alerts/alerts.ctrl.js"
     },
     "alerts__1": {
@@ -21,7 +21,7 @@
       "filename": "js/alerts/reminds.html"
     },
     "app__5": {
-      "version": "5eaa1c5fddb25e9c04463afed9015cd7d8cee22b",
+      "version": "567225f96e9f33b20641018b0309e9c0e5f324ba",
       "filename": "js/app.js"
     },
     "authentication.routes__6": {
@@ -29,15 +29,15 @@
       "filename": "js/authentication/authentication.routes.js"
     },
     "authentication.srv__7": {
-      "version": "f12d9835a131d37fe5b36404b8580fad3956ffee",
+      "version": "ea945267fb55dee2357ebf26599cb4b11d4d7f34",
       "filename": "js/authentication/authentication.srv.js"
     },
     "login.ctrl__8": {
-      "version": "66e5ea24ab75b305e7a75db9e015c31914fb0b35",
+      "version": "63732f18974239817c2ddd0a2fb37b91a16872e1",
       "filename": "js/authentication/login.ctrl.js"
     },
     "login__9": {
-      "version": "ca6b686b22bd5e1433c0b2ed0212e4fe2cf0b87b",
+      "version": "4253e4436477b090a83e7892fc10a33a2940f7e7",
       "filename": "js/authentication/login.html"
     },
     "circular-progress__14": {
@@ -141,7 +141,7 @@
       "filename": "js/common/storage-utils.js"
     },
     "utils__41": {
-      "version": "24a1d1a938907d863f2c5c65ca09f5b870525323",
+      "version": "e261e33647d9147ff8b515e1aa0590cf6e89c765",
       "filename": "js/common/utils.js"
     },
     "communication.srv__42": {
@@ -149,7 +149,7 @@
       "filename": "js/communication/communication.srv.js"
     },
     "_config__45": {
-      "version": "a5090c8ced9b88f37806c7c4cdedab4a7ef434bb",
+      "version": "8de67cde815561e42268e87196005d7758bc3d4e",
       "filename": "js/config/_config.js"
     },
     "_log__46": {
@@ -169,7 +169,7 @@
       "filename": "js/data/data.routes.js"
     },
     "data.srv__50": {
-      "version": "35e1dff889af8e803ea53ba6c6dee302ef42a2f4",
+      "version": "9bc22329d18750de2a882578488989c88f875a12",
       "filename": "js/data/data.srv.js"
     },
     "journals.routes__51": {
@@ -185,7 +185,7 @@
       "filename": "js/filters.js"
     },
     "journal.dataentry.ctrl__54": {
-      "version": "f59241c3804699cf5e663d3e11bf74da1da407ba",
+      "version": "47ad74494e8222f70a319a3ad703ea23fa9e4c59",
       "filename": "js/journals/journal.dataentry.ctrl.js"
     },
     "journal.dataentry__55": {
@@ -201,11 +201,11 @@
       "filename": "js/journals/journal.detail.html"
     },
     "journals.ctrl__58": {
-      "version": "f126aeffdeeda6cf48438f8000898c51151187d6",
+      "version": "62989dfbb587042887cf5ee99cde6691070e540c",
       "filename": "js/journals/journals.ctrl.js"
     },
     "journals__59": {
-      "version": "9790a3fa5f1eb36f395614124de6263eba78487f",
+      "version": "64120141bfc95eb8c982419235fe661e706543ff",
       "filename": "js/journals/journals.html"
     },
     "journals.routes__60": {
@@ -213,11 +213,11 @@
       "filename": "js/journals/journals.routes.js"
     },
     "journals.srv__61": {
-      "version": "dacfc3e146be60e291990c8e8c784104299be28d",
+      "version": "05be5bc2d98f8508e914515caefe3576dde2b49d",
       "filename": "js/journals/journals.srv.js"
     },
     "layout__62": {
-      "version": "8ac78c2954350553f6296a9aa473498d877146c3",
+      "version": "39a7275eee6b8a6029e9d92ecea5c0f2836ed9a2",
       "filename": "js/layout/layout.html"
     },
     "layout.routes__63": {
@@ -225,7 +225,7 @@
       "filename": "js/layout/layout.routes.js"
     },
     "loading.ctrl__64": {
-      "version": "740d22542b5f2599ca441c6d06839dbaeb30c109",
+      "version": "1ac55853505ca10e8fd0382a8e7893e71c0166c0",
       "filename": "js/layout/loading.ctrl.js"
     },
     "loading__65": {
@@ -233,7 +233,7 @@
       "filename": "js/layout/loading.html"
     },
     "menu.ctrl__66": {
-      "version": "251008391a92192ce2a8b4dd03be50a66d0a9986",
+      "version": "67e8457ea00c5dd3441cd596569cf226448a1951",
       "filename": "js/layout/menu.ctrl.js"
     },
     "tabs.ctrl__68": {
@@ -257,7 +257,7 @@
       "filename": "js/notifications/notifications.routes.js"
     },
     "push.srv__73": {
-      "version": "5ddbab8c14bfd407ac600db110da480e91852bd5",
+      "version": "bc77c5f1c60733b93d7f29bc9140c771d9317a88",
       "filename": "js/push/push.srv.js"
     },
     "about__74": {
@@ -265,7 +265,7 @@
       "filename": "js/settings/about.html"
     },
     "settings.ctrl__75": {
-      "version": "32b9552c7474a4cb093fa64456dc2f1261ea5b7a",
+      "version": "b0ea01e56adcc356942a4926c0c6228cad99a54a",
       "filename": "js/settings/settings.ctrl.js"
     },
     "settings__76": {
@@ -277,7 +277,7 @@
       "filename": "js/settings/settings.routes.js"
     },
     "update.srv__78": {
-      "version": "29b08129d17c0d2db69201324ca0fc4b0f8f6af2",
+      "version": "9f6121e6b281720523aefece7fbe3882f1b0eeec",
       "filename": "js/update/update.srv.js"
     },
     "dcs__89": {
@@ -289,7 +289,7 @@
       "filename": "js/finished.js"
     },
     "templates": {
-      "version": "1b5a6004bbb573d4c247b2ff45b46371f6e04d52",
+      "version": "b1b1a10d061ee3fcb804ef2762fbbc915075be21",
       "filename": "templates.js"
     },
     "blur.jpg": {
@@ -354,6 +354,6 @@
     "lib/klud.js",
     "css/dcs.css"
   ],
-  "version": "ef889c7096ff7321d3ac5b1d850602c965ee0bb3",
-  "versionNumber": "1.0.1032"
+  "version": "57d4a856d7996465b6b857044830b072a0c6689d",
+  "versionNumber": "1.0.1448"
 }
