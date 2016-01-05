@@ -710,5 +710,12 @@ Class Design extends CI_Model
         $query=$this->db->query("select validate_user_id from journal_validator_nonprogressive where journal_no='$id'");
         return $query->result();
     }
+
+    // function to get lookup data detail. done by jane
+    function get_lookup_data($id)
+    {
+        $query=$this->db->query("select da.data_set_id, ldd.lk_data,ldd.lk_value from data_attribute da, lookup_data_detail ldd where da.data_set_id = ldd.data_set_id and da.data_attb_id='$id'");
+        return $query->result();
+    }
 }
 ?>

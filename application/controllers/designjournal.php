@@ -665,6 +665,24 @@ class Designjournal extends CI_Controller
         echo json_encode($data);
     }
 
+    // function to get lookup data detail. done by jane
+    function get_lookup_data()
+    {
+        $id=$this->input->post('id');
+        if(!empty($id))
+        {
+            //query the database
+            $data['menu_details'] = $this->design->get_lookup_data($id);
+            if ($data) {
+                $data['status'] = "success";
+            } else {
+                $data['status'] = "fail";
+            }
+            echo json_encode($data);
+        }
+    }
+
+
     /*function to update reminders*/
     function update_reminder(){
         $this->reminder->update_reminder();

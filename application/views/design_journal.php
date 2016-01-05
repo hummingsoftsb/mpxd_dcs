@@ -1,4 +1,5 @@
 <script>var uploadUrl3 = '<?php echo base_url(); ?><?php echo $cpagename; ?>/fetch_dataentry_no/'</script>
+<script>var uploadUrl = '<?php echo base_url(); ?><?php echo $cpagename; ?>/get_lookup_data/'</script>
 <?php
 
 //echo '<pre>';
@@ -258,7 +259,7 @@ function populateSortable(id, selected) {
 	var selectedarr = selected.split("|");
 	$.each(selectedarr, function(idx, i) {
 		$tbody.append(buildDependencyTD(fromtable, id, i));
-	})
+	});
 	
 	
 	/*
@@ -286,25 +287,97 @@ function showDependencyModal(id, selected) {
 }
 
 // Draw modal's attribute table. Have to have "1"+attributename for edit modal and attributename for add modal
-
+/*Modified by jane, to follow the input type of each attributes*/
 function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,order,dependency,type) {
-	var isAdd = ((typeof type != "undefined") && (type == "add")) ? true : false;
-	var idname = (!isAdd ? "1":"") + 'dataattbid'+dataattbcount
-	var checkname = (!isAdd ? "1":"") + 'dataattb'+dataattbcount
-	var startname = (!isAdd ? "1":"") + 'start'+dataattbcount
-	var endname = (!isAdd ? "1":"") + 'end'+dataattbcount
-	var weekname = (!isAdd ? "1":"") + 'week'+dataattbcount
-	var ordername = (!isAdd ? "1":"") + 'order'+dataattbcount
-	var dependencyname = (!isAdd ? "1":"") + 'dependency'+dataattbcount
-	
-	var content ='<tr><td><input type="hidden" name="'+idname+'" id="'+idname+'" value="'+id+'"/>';
-	content += '<input type="checkbox" id="'+checkname+'" name="'+checkname+'" checked="true"/></td>';
-	content += '<td>'+label+'</td>';
-	content += '<td>'+desc+'</td>';
-	content += '<td><input id="'+startname+'" type="text" maxlength="15" name="'+startname+'" style="width:60px" value="'+start+'"></td>';
-	content += '<td><input id="'+endname+'" type="text" maxlength="15" name="'+endname+'" style="width:60px" value="'+end+'"></td>';
-	content += '<td align="center"><input id="'+weekname+'" type="text" maxlength="15" name="'+weekname+'" style="width:60px" value="'+weekly+'"></td>';
-	content += '<td style="width:60px">'+uom+'</td>';
+    var isAdd = ((typeof type != "undefined") && (type == "add")) ? true : false;
+    var idname = (!isAdd ? "1" : "") + 'dataattbid' + dataattbcount;
+    var checkname = (!isAdd ? "1" : "") + 'dataattb' + dataattbcount;
+    var startname = (!isAdd ? "1" : "") + 'start' + dataattbcount;
+    var endname = (!isAdd ? "1" : "") + 'end' + dataattbcount;
+    var weekname = (!isAdd ? "1" : "") + 'week' + dataattbcount;
+    var ordername = (!isAdd ? "1" : "") + 'order' + dataattbcount;
+    var dependencyname = (!isAdd ? "1" : "") + 'dependency' + dataattbcount;
+    var content = '<tr><td><input type="hidden" name="' + idname + '" id="' + idname + '" value="' + id + '"/>';
+    content += '<input type="checkbox" id="' + checkname + '" name="' + checkname + '" checked="true"/></td>';
+    content += '<td>' + label + '</td>';
+    content += '<td>' + desc + '</td>';
+    if (desc == "Text Box" || desc == "Increment Text Box") {
+        content += '<td><input id="' + startname + '" type="text" maxlength="15" name="' + startname + '" style="width:60px" value="' + start + '"></td>';
+        content += '<td><input id="' + endname + '" type="text" maxlength="15" name="' + endname + '" style="width:60px" value="' + end + '"></td>';
+        content += '<td align="center"><input id="' + weekname + '" type="text" maxlength="15" name="' + weekname + '" style="width:60px" value="' + weekly + '"></td>';
+    } else if (desc == "Status Option") {
+        content += '<td><select class="dropdown-toggle" id="' + startname + '"  name="' + startname + '">';
+        if(start=="0.00") {
+            content += '<option value="1">Yes</option>';
+            content += '<option value="0"  selected="selected">No</option>';
+        } else {
+            content += '<option value="1" selected="selected">Yes</option>';
+            content += '<option value="0">No</option>';
+        }
+        content +='</select></td>';
+
+        content += '<td><select class="dropdown-toggle" id="' + endname + '"  name="' + endname + '">';
+        if(end=="0.00") {
+            content += '<option value="1">Yes</option>';
+            content += '<option value="0"  selected="selected">No</option>';
+        } else {
+            content += '<option value="1" selected="selected">Yes</option>';
+            content += '<option value="0">No</option>';
+        }
+        content +='</select></td>';
+
+        content += '<td align="center"><input id="' + weekname + '" type="text" maxlength="15" name="' + weekname + '" style="width:60px" value="' + weekly + '"></td>';
+        content +='</td>';
+    } else if (desc == "Dropdown") {
+        $.ajax({
+            type: 'POST',
+            url: uploadUrl,
+            data: {
+                id: id
+            },
+            async: false,
+            cache: false,
+            dataType: "json",
+            success: function (data) {
+                if (data.status == "success") {
+                    content += '<td><select class="dropdown-toggle" id="' + startname + '" name="' + startname + '">';
+                    for (var i = 0; i < data.menu_details.length; i++) {
+                        var text1 = data.menu_details[i].lk_data;
+                        var value1 = data.menu_details[i].lk_value;
+                        if(start==value1) {
+                        content +='<option value="'+value1+'" selected=="selected">'+text1+'</option>';
+                        } else {
+                            content +='<option value="'+value1+'">'+text1+'</option>';
+                        }
+                    }
+                    content +='</select></td>';
+
+                    content += '<td><select class="dropdown-toggle" id="' + endname + '" name="' + endname + '">';
+                    for (var j = 0; j < data.menu_details.length; j++) {
+                        var text2 = data.menu_details[j].lk_data;
+                        var value2 = data.menu_details[j].lk_value;
+                        if(end==value2) {
+                            content +='<option value="'+value2+'" selected=="selected">'+text2+'</option>';
+                        } else {
+                            content +='<option value="'+value2+'">'+text2+'</option>';
+                        }
+                    }
+                    content +='</select></td>';
+
+                    content += '<td align="center"><input id="' + weekname + '" type="text" maxlength="15" name="' + weekname + '" style="width:60px" value="' + weekly + '"></td>';
+                    content +='</td>';
+                }
+            },
+
+            failure: function () {
+                console.log(' Ajax Failure');
+            },
+            complete: function () {
+                console.log("Complete");
+            }
+        });
+    }
+    content += '<td style="width:60px">'+uom+'</td>';
 	content += '<td><input id="'+ordername+'" type="text" maxlength="3" name="'+ordername+'" style="width:40px; text-align:center" value="'+dataattbcount+'" value="'+order+'"></td>';
 	//content += '<td><a href="javascript:void(0);showDependencyModal(\''+datakeyid[i]+'\',\''+datadependency+'\');">D</a></td></tr>';
 	content += '<td><select id="'+dependencyname+'" class="multiselect" data-id="'+id+'" data-dependency="'+dependency+'" multiple="multiple"></select></td></tr>';
@@ -313,9 +386,6 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
 
 	$(document).ready(function()
 	{
-	
-		
-		
 		var validatorcount=2;
 		var dataentrycount=2;
 		var validatorcount1=2;

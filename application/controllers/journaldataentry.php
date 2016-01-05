@@ -171,8 +171,7 @@ class Journaldataentry extends CI_Controller
 			foreach($npjs as $r){
 				$combined_records[] = $r;
 			}
-			$data['records'] = $combined_records; 
-			
+			$data['records'] = $combined_records;
 			$combined_pjdefreq = array();
 			foreach($data['pjdefreq'] as $k => $r){
 				$combined_pjdefreq[$k] = $r;
