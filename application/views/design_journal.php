@@ -179,7 +179,7 @@ function populateDependencySelect(forceAdd) {
 	$multis.empty();
 	$.each($multis, function(idx,i){
 		var id = $(this).data("id");
-		var dep = ""+$(this).data("dependency")
+		var dep = ""+$(this).data("dependency");
 		if (typeof dep == "undefined") dep = [];
 		else dep = dep.split("|");
 		var d = buildOptions(fromTable, id, dep);
@@ -288,7 +288,7 @@ function showDependencyModal(id, selected) {
 
 // Draw modal's attribute table. Have to have "1"+attributename for edit modal and attributename for add modal
 /*Modified by jane, to follow the input type of each attributes*/
-function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,order,dependency,type) {
+function drawAttributeTable(dataattbcount, id, label, desc, start, end, weekly, uom, order, dependency, type) {
     var isAdd = ((typeof type != "undefined") && (type == "add")) ? true : false;
     var idname = (!isAdd ? "1" : "") + 'dataattbid' + dataattbcount;
     var checkname = (!isAdd ? "1" : "") + 'dataattb' + dataattbcount;
@@ -307,27 +307,27 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
         content += '<td align="center"><input id="' + weekname + '" type="text" maxlength="15" name="' + weekname + '" style="width:60px" value="' + weekly + '"></td>';
     } else if (desc == "Status Option") {
         content += '<td><select class="dropdown-toggle" id="' + startname + '"  name="' + startname + '">';
-        if(start=="0.00") {
+        if (start == "0.00") {
             content += '<option value="1">Yes</option>';
             content += '<option value="0"  selected="selected">No</option>';
         } else {
             content += '<option value="1" selected="selected">Yes</option>';
             content += '<option value="0">No</option>';
         }
-        content +='</select></td>';
+        content += '</select></td>';
 
         content += '<td><select class="dropdown-toggle" id="' + endname + '"  name="' + endname + '">';
-        if(end=="0.00") {
+        if (end == "0.00") {
             content += '<option value="1">Yes</option>';
             content += '<option value="0"  selected="selected">No</option>';
         } else {
             content += '<option value="1" selected="selected">Yes</option>';
             content += '<option value="0">No</option>';
         }
-        content +='</select></td>';
+        content += '</select></td>';
 
         content += '<td align="center"><input id="' + weekname + '" type="text" maxlength="15" name="' + weekname + '" style="width:60px" value="' + weekly + '"></td>';
-        content +='</td>';
+        content += '</td>';
     } else if (desc == "Dropdown") {
         $.ajax({
             type: 'POST',
@@ -344,28 +344,28 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
                     for (var i = 0; i < data.menu_details.length; i++) {
                         var text1 = data.menu_details[i].lk_data;
                         var value1 = data.menu_details[i].lk_value;
-                        if(start==value1) {
-                        content +='<option value="'+value1+'" selected=="selected">'+text1+'</option>';
+                        if (start == value1) {
+                            content += '<option value="' + value1 + '" selected=="selected">' + text1 + '</option>';
                         } else {
-                            content +='<option value="'+value1+'">'+text1+'</option>';
+                            content += '<option value="' + value1 + '">' + text1 + '</option>';
                         }
                     }
-                    content +='</select></td>';
+                    content += '</select></td>';
 
                     content += '<td><select class="dropdown-toggle" id="' + endname + '" name="' + endname + '">';
                     for (var j = 0; j < data.menu_details.length; j++) {
                         var text2 = data.menu_details[j].lk_data;
                         var value2 = data.menu_details[j].lk_value;
-                        if(end==value2) {
-                            content +='<option value="'+value2+'" selected=="selected">'+text2+'</option>';
+                        if (end == value2) {
+                            content += '<option value="' + value2 + '" selected=="selected">' + text2 + '</option>';
                         } else {
-                            content +='<option value="'+value2+'">'+text2+'</option>';
+                            content += '<option value="' + value2 + '">' + text2 + '</option>';
                         }
                     }
-                    content +='</select></td>';
+                    content += '</select></td>';
 
                     content += '<td align="center"><input id="' + weekname + '" type="text" maxlength="15" name="' + weekname + '" style="width:60px" value="' + weekly + '"></td>';
-                    content +='</td>';
+                    content += '</td>';
                 }
             },
 
@@ -377,11 +377,11 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
             }
         });
     }
-    content += '<td style="width:60px">'+uom+'</td>';
-	content += '<td><input id="'+ordername+'" type="text" maxlength="3" name="'+ordername+'" style="width:40px; text-align:center" value="'+dataattbcount+'" value="'+order+'"></td>';
-	//content += '<td><a href="javascript:void(0);showDependencyModal(\''+datakeyid[i]+'\',\''+datadependency+'\');">D</a></td></tr>';
-	content += '<td><select id="'+dependencyname+'" class="multiselect" data-id="'+id+'" data-dependency="'+dependency+'" multiple="multiple"></select></td></tr>';
-	return content;
+    content += '<td style="width:60px">' + uom + '</td>';
+    content += '<td><input id="' + ordername + '" type="text" maxlength="3" name="' + ordername + '" style="width:40px; text-align:center" value="' + dataattbcount + '" value="' + order + '"></td>';
+    //content += '<td><a href="javascript:void(0);showDependencyModal(\''+datakeyid[i]+'\',\''+datadependency+'\');">D</a></td></tr>';
+    content += '<td><select id="' + dependencyname + '" class="multiselect" data-id="' + id + '" data-dependency="' + dependency + '" multiple="multiple"></select></td></tr>';
+    return content;
 }
 
 	$(document).ready(function()
@@ -685,7 +685,7 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
 			
 			$.each(dependency, function(idx,i){
 				adependency[idx] = i;
-			})
+			});
 			
 			//console.log(dependency);
 
@@ -1177,7 +1177,7 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
 				$("#data_attribute_form").hide();
 			else
 				$("#data_attribute_form").show();
-		})
+		});
 		
 		var checkStartValue = function(n) { 
 		console.log(n%1);
@@ -1527,7 +1527,7 @@ function drawAttributeTable(dataattbcount,id,label,desc,start,end,weekly,uom,ord
 												<td><span class="glyphicon glyphicon-trash">&nbsp;</span></td>
 											</tr>
 										</table>
-										<fieldset id="data_attribute_form">
+										<fieldset id="data_attribute_form" style="margin-left: -82px !important;">
 											<legend><?php echo $labelname[12]; ?></legend>
                                             <?php echo validation_errors(); ?>
 											<div class="table">
