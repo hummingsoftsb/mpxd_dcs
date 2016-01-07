@@ -189,10 +189,10 @@ function hot_save_data(publish, callback) {
 			lockTable();
 			lockButton();
 			//location.reload();
-//			location.href="<?php //echo $this->config->base_url(); ?>//journaldataentry";
+			location.href="<?php echo $this->config->base_url(); ?>journaldataentry";
 		}
 		else {
-//			hideloader();
+			hideloader();
 		}
 		if (typeof callback == "function") callback();
 	});

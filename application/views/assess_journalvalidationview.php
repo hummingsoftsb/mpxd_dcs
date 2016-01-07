@@ -697,7 +697,7 @@
 				
 				function checkTextField() {
                     var is_img = $('#is_image_val').val();
-					if ($('input[value=Reject]:checked').length > 0 && is_img == 0) {
+					if ($('input[value=Reject]:checked').length > 0 && is_img == 0  ) {
 						var commentCount = document.getElementById("dataattbcount").value;
 						var combine_id  = [];
 						var combine = [];
