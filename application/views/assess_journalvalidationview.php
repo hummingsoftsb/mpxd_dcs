@@ -230,7 +230,8 @@
 
     /*function to check reject note on reject radio button click for image journal. added by jane*/
     function checkImgComment(){
-        if ($('input[name=optradio]:checked').val() == "Reject") {
+        var is_img = $('#is_image_val').val();
+        if ($('input[name=optradio]:checked').val() == "Reject" && is_img == 1) {
             if ($("#comment").val() == "") {
                 $('input[id="save"]').attr('disabled','disabled');
                 e.preventDefault();
@@ -242,13 +243,32 @@
 
     /*function to check reject note on reject radio button click. added by jane*/
     function checkComment(){
-        if ($('input[name=optradio]:checked').val() == "Reject") {
+        var is_img = $('#is_image_val').val();
+        if ($('input[name=optradio]:checked').val() == "Reject" && is_img == 0) {
             var commentCount = document.getElementById("dataattbcount").value;
             var comments = new Array();
             for(i=0;i<=commentCount;i++){
                 comments.push($("#comment"+i).val());
             }
             if(comments !="") {
+                enablesubmit();
+            } else {
+                $('input[id="save"]').attr('disabled','disabled');
+            }
+        }
+    }
+
+    /*function to check either image reject note or gatekeeper comment is filled on reject radio button click, for combination journal.
+     (image + data entry journal). added by jane*/
+    function eitherCommentCheck(){
+        var is_img = $('#is_image_val').val();
+        if ($('input[name=optradio]:checked').val() == "Reject" && is_img == 2) {
+            var commentCount = document.getElementById("dataattbcount").value;
+            var comments = new Array();
+            for(i=0;i<=commentCount;i++){
+                comments.push($("#comment"+i).val());
+            }
+            if((comments !="" && comments != "," )|| $("#comment").val() != "") {
                 enablesubmit();
             } else {
                 $('input[id="save"]').attr('disabled','disabled');
@@ -351,8 +371,7 @@
 </script>
 
 
-<?php 
-
+<?php
 	foreach($details as $row):
 		$week=$row->frequency_period;
 		$pname=$row->project_name;
@@ -428,7 +447,7 @@
 			}
 		?>
 	</div>
-	<form onmousemove="<?php echo $is_image == 1 ? '' : 'checkTextField();' ?>" id="addRecord" method="POST" action="<?php echo base_url(); ?><?php echo $cpagename; ?>/add/">
+	<form onmousemove="<?php echo $is_image == 2 ? 'eitherCommentCheck();' : 'checkTextField();' ?>" id="addRecord" method="POST" action="<?php echo base_url(); ?><?php echo $cpagename; ?>/add/">
 		<!-- ---------------------- -->
 		<fieldset style="<?php echo $is_image == 1 ? 'display: none;' : '' ?>">
 			<legend>Data Attributes for Journal</legend>
@@ -474,7 +493,7 @@
 								//echo '<td>'.intval($dataentryattb->frequency_max_opt).'</td>';
 								
 								echo '<td>'.$dataentryattb->uom_name.'</td>';
-								echo '<td><input type="text" id="comment'.$sno.'" name="comment'.$sno.'" value="" class="commentValue" onkeyup="checkTextField();checkRbReject();"/></td>';
+								echo '<td><input type="text" id="comment'.$sno.'" name="comment'.$sno.'" value="" class="commentValue" onkeyup="'.$is_image.' == 2 ? eitherCommentCheck(); : checkTextField();checkRbReject();"/></td>';
 								echo "</tr>";
 								$sno++;
 							endforeach;
@@ -547,8 +566,12 @@
 					  <div class="col-xs-2" style="margin-bottom: 8px;">
 						<div class="radio">
 							<label>
+                                <?php if($is_image == 1 || $is_image == 0) {?>
 								<input type="radio" id="optradio" name="optradio" value="Reject" onclick="<?php echo $is_image == 1 ? 'checkImgComment();' : 'checkTextField();checkComment();' ?>">Reject
-                                    </label>
+                                <?php } elseif($is_image==2) {?>
+                                <input type="radio" id="optradio" name="optradio" value="Reject" onclick="eitherCommentCheck();" >Reject
+                                <?php } ?>
+                            </label>
 						</div>
 					  </div>
 					  <?php if ($closeButton && ($is_image==0) || $approve_stop_status && $is_image) {?>
@@ -559,10 +582,10 @@
 								</label>
 							</div>
 					  </div>
-					  <?php  } if($is_image == 1) : ?>
+					  <?php  } if($is_image == 1 || $is_image == 2) : ?>
 					  <div class="col-xs-2" style="margin-bottom: 8px;">Reject notes</div>
 					  <div id="reject-note" class="col-xs-5" style="color: blue; margin-bottom: 40px;">
-						<textarea class="form-control" rows="5" id="comment" name="comment" onclick="checkEmpty();"></textarea>
+						<textarea class="form-control" rows="5" id="comment" name="comment" onclick="<?php echo $is_image == 1 ? 'checkEmpty();checkImgComment();' : 'eitherCommentCheck();' ?>"></textarea>
                           <div>
                           <?php if(!empty($reject_note)){ echo $reject_note; }?>
                           </div>
@@ -576,6 +599,7 @@
 						</select>
 					  </div-->
 					</div>
+                <input type="hidden" id="is_image_val" name="is_image_val" value="<?php echo $is_image; ?>"/>
 					<!--div class="row" style="width: 70%; margin: auto;">
 					  <div class="col-xs-5" style="margin-bottom: 8px;">
 						
@@ -655,7 +679,9 @@
 						if(charlen > 0)
 							$('input[id="save"]').removeAttr('disabled');
 						else
+                        {
 							$('input[id="save"]').attr('disabled','disabled');
+                        }
 					}
 				});
 				function disablesubmit(){
@@ -670,7 +696,8 @@
 				}
 				
 				function checkTextField() {
-					if ($('input[value=Reject]:checked').length > 0) {
+                    var is_img = $('#is_image_val').val();
+					if ($('input[value=Reject]:checked').length > 0 && is_img == 0) {
 						var commentCount = document.getElementById("dataattbcount").value;
 						var combine_id  = [];
 						var combine = [];
@@ -686,7 +713,6 @@
 						for (i = 0; i < arrCombineId.length; i++) {
 							commentValue += document.getElementById(arrCombineId[i]).value;
 						}
-						console.log(commentValue);
 						if (commentValue == '') {
 							$('input[id="save"]').attr('disabled','disabled');
 						}else{
