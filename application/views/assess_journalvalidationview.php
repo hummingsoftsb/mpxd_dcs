@@ -38,7 +38,7 @@
 				else if(data.st == 1)
 				{
  					hideloader();
- 					location.href="<?php //echo base_url(); ?>//journalvalidation";
+ 					location.href="<?php echo base_url(); ?>journalvalidation";
 				}
 
 			}, 'json').always(function(d){console.log(d);});
