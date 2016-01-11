@@ -400,6 +400,7 @@ class Designjournal extends CI_Controller
         // AGAILE : END
     }
 
+    /*Modified by jane*/
     function update()
     {
         $label = $this->securitys->get_label_object_name(77);
@@ -562,7 +563,7 @@ class Designjournal extends CI_Controller
                     if ($this->input->post($chk) == "on") {
                         if (($this->input->post($attbid)) != FALSE) {
                             $dataattbdata = array('journal_no' => $journalid, 'data_attb_id' => $this->input->post($attbid), 'start_value' => $this->input->post($start), 'end_value' => $this->input->post($end), 'frequency_max_value' => $this->input->post($week), 'display_seq_no' => $this->input->post($order));
-                            $this->design->add_journal_detail($dataattbdata);
+                            $this->design->update_journal_detail($journalid, $this->input->post($attbid), $this->input->post($start), $this->input->post($end), $this->input->post($week), $this->input->post($order));
                         }
                     }
                 }

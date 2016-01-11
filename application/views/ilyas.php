@@ -225,11 +225,8 @@ $(function(){
         onSelect: function() {
             //console.log(this.getMoment().format('Do MMMM YYYY'));
         }
-	})
-	
-	
-	
-	
+	});
+
 	$('#today_button').on('click', function() {
 		if (p_data_date) p_data_date.setDate(new Date());
 	});
@@ -260,7 +257,7 @@ $(function(){
 		//console.log(i.meta.id);
 		addLookupCode(i.meta.id, j[0], j[1]);
 		//console.log(j);
-	})
+	});
 	
 	raw_config = <?php echo json_encode($hot_config); ?>;
 	//hot_config = hot_build_config(raw_config);
@@ -310,8 +307,7 @@ $(function(){
 			}
 			return cellProperties;
 		}
-	})
-	
+	});
 	
 	show_comments();
 	if (hot_lock) {

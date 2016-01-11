@@ -593,10 +593,7 @@ function drawAttributeTable(dataattbcount, id, label, desc, start, end, weekly, 
 			for(i=1;i<=dataattbgrpcount;i++)
 			{
 				if($("#1datagrp"+i).is(':checked'))
-				{	
-				
-				
-				
+				{
 					var id = $('#1datagrpid'+i).val();
 					var label = $('#1datagrplabel'+i).val();
 					var desc = $('#1datagrpdesc'+i).val();
@@ -660,7 +657,7 @@ function drawAttributeTable(dataattbcount, id, label, desc, start, end, weekly, 
 			$("#dataentryid1").val(empty);
 			validatorcount1=1;
 			dataentrycount1=1;
-			var editid = $(this).data('editid'); 
+			var editid = $(this).data('editid');
 			var isimage = $(this).data('isimage');
 			var projno = $(this).data('projno');
 			var journalname = $(this).data('journalname');
@@ -1139,7 +1136,6 @@ function drawAttributeTable(dataattbcount, id, label, desc, start, end, weekly, 
 		});
 		$("#MyModal input:checkbox").change(function()
 		{
-			alert('test');
 			var id=$(this).attr('id');
 			id=id.substring(8);
 			var ordercount=$("#ordercount").val();
@@ -1575,7 +1571,7 @@ function drawAttributeTable(dataattbcount, id, label, desc, start, end, weekly, 
 			<div class="modal-content">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title" id="myModalLabel"><?php echo $labelname[12]; ?></h4>
+						<h4 class="modal-title" id="myModalLabel"><?php echo $labelname[12]; ?>hhh</h4>
 					</div>
 					<div class="modal-body">
 						<div class="table">

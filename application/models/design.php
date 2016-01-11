@@ -334,11 +334,20 @@ Class Design extends CI_Model
 		$this->db->insert('journal_data_user', $data);
 	}
 
-	//Function to add new record
+	//Function to add new record. Modified by jane
 	function add_journal_detail($data)
 	{
 		// Inserting in Table Journal Detail
-		$this->db->insert('journal_detail', $data);
+        return $this->db->insert('journal_detail', $data);
+
+	}
+
+	//Function to update record. Done by jane
+	function update_journal_detail($journalid, $attbid, $start, $end, $week, $order)
+	{
+		// Inserting in Table Journal Detail
+        $this->db->query("INSERT INTO journal_detail (journal_no, data_attb_id, start_value, end_value, frequency_max_value, display_seq_no) SELECT $journalid, $attbid, $start, $end, $week, $order WHERE NOT EXISTS (SELECT journal_no, data_attb_id  FROM journal_detail WHERE journal_no = $journalid and data_attb_id =  $attbid)");
+
 	}
 
 	//Function to add new record
