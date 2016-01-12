@@ -145,7 +145,8 @@ class Journalvalidationview extends CI_Controller
                         $pict_comment[$pic_id] = $this->input->post('pict-comment'.$pic_id);
                     }
                 }
-                $this->assessment->update_validate_accept_picture($pict_comment);
+
+                    $this->assessment->update_validate_accept_picture($pict_comment);
                 // AGAILE :END
 				$this->assessment->update_validate_accept($validatorno,$dataentryno);
 
@@ -209,7 +210,7 @@ class Journalvalidationview extends CI_Controller
 						$pict_comment[$pic_id] = $this->input->post('pict-comment'.$pic_id);
 					}
 				}
-				$this->assessment->update_validate_reject_picture($pict_comment);
+                    $this->assessment->update_validate_reject_picture($pict_comment);
 				
 				$this->assessment->update_validate_reject($validatorno,$dataentryno,$this->input->post('comment'),$userid);
 

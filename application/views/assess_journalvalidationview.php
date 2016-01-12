@@ -532,17 +532,22 @@
                             $i = 0;
 								foreach($dataimages as $dataimage):
                                     $i++;
+                                    $pdo = "";
+                                    if(!empty($dataimage->pict_validate_comment)) {
+                                        $pdo = "PDO : ";
+                                    }
 									echo '<tr style="cursor:all-scroll;" data-rowid="'.$dataimage->data_entry_pict_no.'">';
 									echo '<td class="tableimgno">'.$dataimage->pict_seq_no.'</td>';
 									echo '<td><a title="'.$dataimage->pict_definition.'" class="fancybox" rel="group" href="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'"><img src="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'" class="img-responsive" alt="" style="width: 200px; height: 137px;"></a></td>';
 									echo '<td class="image-description" data-picid="'.$dataimage->data_entry_pict_no.'"> <a style="cursor: pointer" class="text">'.wordwrap($dataimage->pict_definition, 40, "<br />\n", true).'</a> <div class="edit" style="display:none;"><textarea name="image_description" id="image_description'.$i.'" class="form-control">'.$dataimage->pict_definition.'</textarea><input type="hidden" id="i_hidden" value="' . $i . '"><div id="counter_edit'.$i.'" style="display:none">You have <strong class="char_class_edit'.$i.'"> 80 </strong> characters remaining</div><input class="btn btn-primary btn-xs save" type="button" value="Save"/><input class="btn btn-xs btn-danger cancel" type="button" value="Cancel"/></div></td>';
 									echo '<td> <a href="'.base_url().$dataimage->pict_file_path.$dataimage->pict_file_name.'" download><span class="glyphicon glyphicon-download-alt" title="Download">&nbsp;</span></a><a href="#" data-toggle="modal" class="modaledit" data-target="#testmodal" data-picid="' . $dataimage->data_entry_pict_no . '" data-enno="' . $dataimage->data_entry_no . '" data-desc="' . $dataimage->pict_definition . '" data-pic-seq-no="' . $dataimage->pict_seq_no . '"><span class="glyphicon glyphicon-edit">&nbsp;</span></a><a class="modaldelete" href="#" data-toggle="modal" class="modaldelete" data-imgid="'.$dataimage->data_entry_pict_no.'" data-dataid="'.$dataimage->data_entry_no.'"><span class="glyphicon glyphicon-trash" title="Delete"></span></a></td>';
 									//echo '<td> <input name="pict-comment'.$dataimage->data_entry_pict_no.'" class="pict-comment" size="30" data-id="'. $dataimage->data_entry_pict_no .'" type="text" value= '.$dataimage->pict_validate_comment.' > </td>';
-									echo '<td><textarea name="pict-comment'.$dataimage->data_entry_pict_no.'" class="pict-comment" size="30" data-id="'. $dataimage->data_entry_pict_no .'" >'.$dataimage->pict_validate_comment.'</textarea>  </td>';
+									echo '<td><textarea name="pict-comment'.$dataimage->data_entry_pict_no.'" id="pict-comment'.$i.'" class="pict-comment" size="30" data-id="'. $dataimage->data_entry_pict_no .'" ></textarea><div id="divt'.$i.'"> '. $pdo . $dataimage->pict_validate_comment .' </div></td>';
 									//echo '<td><textarea name="pict-comment'.$dataimage->data_entry_pict_no.'" class="pict-comment" size="30" data-id="'. $dataimage->data_entry_pict_no .'" >'.$dataimage->pict_validate_comment.'</textarea>  </td>';
 									echo '</tr>';
 								endforeach;
 							?>
+                            <input type="hidden" id="valcount" name="valcount" value="<?php echo $i; ?>" />
 						</tbody>
 					</table>
 			</fieldset>
@@ -759,12 +764,32 @@
 						}, 'json');
 					}
 				});
+                /*function setTemp(){
+                   // alert("in");
+                    var cnt=document.getElementById("valcount").value;
+                    alert(cnt);
+                    for(var i=1;i<=cnt;i++){
+                       if(document.getElementById("pict-comment"+i).value=="") {
+                           alert("in");
+                           document.getElementById("pict-comment"+i).value=(document.getElementById("divt"+i).innerHTML).replace("PDO : ","");
+                       }
+                    }
+                }*/
+                /*done by jane. for filling validator comment text area*/
+                function setTemp(){
+                    var cnt=document.getElementById("valcount").value;
+                    for(var i=0;i<cnt;i++){
+                       if(document.getElementById("pict-comment"+i).value=="") {
+                           document.getElementById("pict-comment"+i).value=(document.getElementById("divt"+i).innerHTML);
+                       }
+                    }
+                }
 			</script>
 			<div class="row" style="width:70%; margin:auto">
 						
 					</div>
 		<div class="form-group" style="">
-			<input id="save" disabled type="button" class="btn btn-primary btn-sm" value="Save" onclick="<?php echo $is_image == 1 ? '' : 'checkTextField();' ?>verifySave();"/>
+			<input id="save" disabled type="button" class="btn btn-primary btn-sm" value="Save" onclick="<?php echo $is_image == 1 ? '' : 'checkTextField();' ?>verifySave();" onmouseover="setTemp();"/>
 			<a href="<?php echo base_url(); ?>/journalvalidation" class="btn btn-danger btn-sm">Cancel</a>
 		</div>
 </form>
