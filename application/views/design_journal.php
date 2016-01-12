@@ -1833,8 +1833,8 @@ function drawAttributeTable(dataattbcount, id, label, desc, start, end, weekly, 
 												<td align="right"><a href="javascript:void(0)" class="addDataEntry1" >Add</a></td>
 											</tr>
 											<tr>
-												<th><?php echo $labelname[8]; ?>a</th>
-												<th><?php echo $labelname[11]; ?>a</th>
+												<th><?php echo $labelname[8]; ?></th>
+												<th><?php echo $labelname[11]; ?></th>
 												<th>Delete</th>
 											</tr>
 										</table>
