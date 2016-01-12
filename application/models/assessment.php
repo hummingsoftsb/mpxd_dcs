@@ -357,6 +357,12 @@ Class Assessment extends CI_Model
         $q = $this->db->query($query);
         return $q->result();
     }
+	
+	public function next_validator($validate_no){
+		$query = "select * from journal_data_validate_master where data_validate_no = {$validate_no}";
+		$q = $this->db->query($query);
+        return $q->row();
+	}
 
     function add_user_alert($data)
     {
@@ -853,8 +859,9 @@ Class Assessment extends CI_Model
     function update_validate_accept_picture($a)
     {
         foreach ($a as $k => $b) {
+			if(strlen($b['comment']) == 0) continue; //if no new comment, dont update (zul:12/1/2016)
             $data = array(
-                'pict_validate_comment' => $b
+                'pict_validate_comment' => $b['user'].$b['comment']
             );
 
             $this->db->where('data_entry_pict_no', $k);
@@ -867,8 +874,9 @@ Class Assessment extends CI_Model
     function update_validate_reject_picture($a)
     {
         foreach ($a as $k => $b) {
+			if(strlen($b['comment']) == 0) continue; //if no new comment, dont update (zul:12/1/2016)
             $data = array(
-                'pict_validate_comment' => $b
+                'pict_validate_comment' => $b['user'].$b['comment']
             );
 
             $this->db->where('data_entry_pict_no', $k);

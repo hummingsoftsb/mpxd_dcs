@@ -110,7 +110,7 @@ class Journaldataentry extends CI_Controller
 
 			//Load data entry owner for each journal
 			$data['pjdefreq'] = array ();
-			$cweek=Date('W');
+			$cweek=Date('W')+1;
 			foreach ( $data['records'] as $k => $freq )
 			{
 				$pjde="";

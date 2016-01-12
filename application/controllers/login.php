@@ -178,6 +178,7 @@ class Login extends CI_Controller
 									$sess_array = array(
 									'id' => $row->user_id,
 									'username' => $row->email_id,
+									'name' => $row->user_name,
 									'roleid' => $row->sec_role_id,
 									'datap' => $datap
 									);
@@ -280,6 +281,7 @@ class Login extends CI_Controller
 							$sess_array = array(
 							'id' => $row->user_id,
 							'username' => $row->email_id,
+							'name' => $row->user_name,
 							'roleid' => $row->sec_role_id,
 							'datap' => $datap
 							);

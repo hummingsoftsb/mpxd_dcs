@@ -142,7 +142,8 @@ class Journalvalidationview extends CI_Controller
                 foreach($this->input->post() as $k => $post){
                     if(substr($k,0,12) === 'pict-comment'){
                         $pic_id = substr($k,12);
-                        $pict_comment[$pic_id] = $this->input->post('pict-comment'.$pic_id);
+                        $pict_comment[$pic_id]['comment'] = $this->input->post('pict-comment'.$pic_id);
+                        $pict_comment[$pic_id]['user'] = $session_data['name'].': ';
                     }
                 }
 
@@ -160,6 +161,7 @@ class Journalvalidationview extends CI_Controller
 						$validatorname=$rows->validatorname;
 						$validatoremail=$rows->validatoremail;
 						$validatorid=$rows->validatorid;
+						$validateno=$rows->data_validate_no;
 					endforeach;
 					/*$this->email->from('test@hummingsoft.com.my', 'MPXD');
 					$this->email->to($validatoremail);
@@ -172,6 +174,13 @@ class Journalvalidationview extends CI_Controller
 					$data = array('alert_date' => date("Y-m-d"),'alert_user_id' => $validatorid,'data_entry_no' => $dataentryno,'alert_message' => 'Data Entry Published','alert_hide' => '0','email_send_option' => '1');
 					$this->assessment->add_user_alert($data);
                     $this->assessment->update_alert_on_save($dataentryno,$userid);
+					
+					$nextvalidator = $this->assessment->next_validator($validateno);
+					if($nextvalidator){ //If there is a next level validator, send email notification.
+						$this->load->model('mailermodel');
+						$this->mailermodel->insert_queue_published($nextvalidator->validate_user_id, 'progressive', $dataentryno);
+					}
+					
 				}
 				else
 				{
@@ -207,7 +216,8 @@ class Journalvalidationview extends CI_Controller
 				foreach($this->input->post() as $k => $post){
 					if(substr($k,0,12) === 'pict-comment'){
 						$pic_id = substr($k,12);
-						$pict_comment[$pic_id] = $this->input->post('pict-comment'.$pic_id);
+						$pict_comment[$pic_id]['comment'] = $this->input->post('pict-comment'.$pic_id);
+						$pict_comment[$pic_id]['user'] = $session_data['name'].': ';
 					}
 				}
                     $this->assessment->update_validate_reject_picture($pict_comment);
