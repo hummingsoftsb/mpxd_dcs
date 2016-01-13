@@ -175,5 +175,118 @@ class Mailer extends CI_Controller
 		return $status;
 	}
 
+    /*function to send reminder emails. done by jane*/
+    public function rm_run()
+    {
+        header("content-type: application/json");
+        $ids = $this->mailermodel->get_all_reminder_userid_queues();
+        if (sizeOf($ids) < 1) {
+            echo "No queue";
+            return;
+        }
+
+        set_time_limit(0);
+
+        $this->mailermodel->run_mailer_instance();
+        $sent_count = 0;
+        foreach($ids as $id):
+            $status = $this->reminder_send($id->reminder_user_id);
+            $this->mailermodel->update_mailer_instance('Email sent');
+            if ($status) $sent_count = $sent_count + sizeOf(array_keys(array_filter($status, function($a){ return $a == true; })));
+        endforeach;
+        $this->mailermodel->finish_mailer_instance();
+        echo "Successfully sent $sent_count emails.";
+    }
+
+    /*function to send reminder emails. done by jane*/
+    private function reminder_send($userid) {
+        $this->load->library('swiftmailer');
+        $statuses = array();
+        $rows = $this->mailermodel->get_all_reminders_for_userid($userid);
+
+        if (sizeOf($rows) < 1) return;
+        $all = array();
+        foreach($rows as $r):
+            if (!isset($all[$r->reminder_status_desc])) $all[$r->reminder_status_desc] = array();
+            array_push($all[$r->reminder_status_desc], $r);
+        endforeach;
+        $user_fullname = $rows[0]->user_full_name;
+        $user_email = $rows[0]->email_id;
+        $user_id = $rows[0]->user_id;
+        $role_id = $rows[0]->sec_role_id;
+        // Incomplete data intry
+        if (isset($all['Data entry incomplete'])) {
+            $statuses['Incomplete'] = $this->send_incomplete($user_id,$user_email,$user_fullname,$role_id,$all['Data entry incomplete']);
+        }
+
+        // Data entry awaiting validation
+        if (isset($all['Data entry awaiting validation'])) {
+            $statuses['waiting'] = $this->send_waiting($user_id,$user_email,$user_fullname,$role_id,$all['Data entry awaiting validation']);
+        }
+        return $statuses;
+    }
+
+    /*function to send incomplete data entry reminder emails. done by jane*/
+    private function send_incomplete($user_id,$user_email,$user_fullname,$role_id,$items) {
+        $status = false;
+        $sendables = array();
+        foreach($items as $item):
+            if(!empty($item->data_entry_no)){
+                /*progressive journal*/
+                $q = $this->mailermodel->get_progressive_incomplete_journals($item->data_entry_no);
+                $type = "progressive";
+            } else if (!empty($item->nonp_journal_id)){
+                /*nonprogressive journal*/
+                $q = $this->mailermodel->get_nonprogressive_incomplete_journals($item->nonp_journal_id);
+                $type = "nonprogressive";
+            }
+            if (sizeOf($q) < 1) continue;
+            $journalname = $q[0]->journal_name;
+            array_push($sendables, array(
+                'type' => $type,
+                'jid' => ($type == "progressive") ? $item->data_entry_no : $item->nonp_journal_id,
+                'journalname' => $journalname
+            ));
+        endforeach;
+        if (sizeOf($sendables) > 0) {
+            $sent_result = $this->swiftmailer->send_collective_reminder_incomplete($user_email,$user_fullname,$role_id,$sendables);
+            if ($sent_result['status'] > 0) {
+                $status = true;
+            }
+        }
+        return $status;
+    }
+
+    /*function to send validation waiting reminder emails. done by jane*/
+    private function send_waiting($user_id,$user_email,$user_fullname,$role_id,$items) {
+        $status = false;
+        $sendables = array();
+        foreach($items as $item):
+            if(!empty($item->data_entry_no)){
+                /*progressive journal*/
+                $q = $this->mailermodel->get_progressive_waiting_journals($item->data_entry_no);
+                $type = "progressive";
+            } else if (!empty($item->nonp_journal_id)){
+                /*nonprogressive journal*/
+                $q = $this->mailermodel->get_nonprogressive_waiting_journals($item->nonp_journal_id);
+                $type = "nonprogressive";
+            }
+            if (sizeOf($q) < 1) continue;
+            $journalname = $q[0]->journal_name;
+            array_push($sendables, array(
+                'type' => $type,
+                'jid' => ($type == "progressive") ? $item->data_entry_no : $item->nonp_journal_id,
+                'journalname' => $journalname
+            ));
+        endforeach;
+        if (sizeOf($sendables) > 0) {
+            $sent_result = $this->swiftmailer->send_collective_reminder_waiting($user_email,$user_fullname,$role_id,$sendables);
+            if ($sent_result['status'] > 0) {
+                $status = true;
+            }
+        }
+        return $status;
+    }
+
 }
 ?>

@@ -174,11 +174,49 @@ function notification_collective_rejected($logo, $user, $journals) {
 	return notification_base($logo, $user, $text);
 }
 
-/*function to set reminder mail body for pending journals. done by jane*/
+/*function to set notification mail body for pending journals. done by jane*/
 function notification_data_entry_pending($logo, $user, $journals) {
     $base_url_progressive = base_url()."journaldataentryadd?jid=";
     $base_url_nonprogressive = base_url()."index.php/ilyas?jid=";
     $text = "<p>The following data entries are pending:</p><ul>";
+    foreach($journals as $journal):
+        $url = ($journal['type'] == 'progressive') ? $base_url_progressive.$journal['jid'] : $base_url_nonprogressive.$journal['jid'];
+        $journalname = $journal['journalname'];
+        $text .= "<li><a href='$url'>$journalname</a></li>";
+    endforeach;
+    $text .= "</ul>";
+    return notification_base($logo, $user, $text);
+}
+
+/*function to set reminder mail body for incomplete data entry. done by jane*/
+function reminder_collective_incomplete($logo, $user, $role, $journals) {
+    if ($role == 3) {
+        $base_url_progressive = base_url() . "journaldataentryadd?jid=";
+        $base_url_nonprogressive = base_url() . "index.php/ilyas?jid=";
+    } else {
+        $base_url_progressive = base_url() . "journalvalidationview?jid=";
+        $base_url_nonprogressive = base_url() . "index.php/ilyasvalidate?jid=";
+    }
+    $text = "<p>The following data entries are incomplete:</p><ul>";
+    foreach($journals as $journal):
+        $url = ($journal['type'] == 'progressive') ? $base_url_progressive.$journal['jid'] : $base_url_nonprogressive.$journal['jid'];
+        $journalname = $journal['journalname'];
+        $text .= "<li><a href='$url'>$journalname</a></li>";
+    endforeach;
+    $text .= "</ul>";
+    return notification_base($logo, $user, $text);
+}
+
+/*function to set reminder mail body for waiting validation. done by jane*/
+function reminder_collective_waiting($logo, $user, $role, $journals) {
+    if ($role == 3) {
+        $base_url_progressive = base_url() . "journaldataentryadd?jid=";
+        $base_url_nonprogressive = base_url() . "index.php/ilyas?jid=";
+    } else {
+        $base_url_progressive = base_url() . "journalvalidationview?jid=";
+        $base_url_nonprogressive = base_url() . "index.php/ilyasvalidate?jid=";
+    }
+    $text = "<p>The following data entries had been published:</p><ul>";
     foreach($journals as $journal):
         $url = ($journal['type'] == 'progressive') ? $base_url_progressive.$journal['jid'] : $base_url_nonprogressive.$journal['jid'];
         $journalname = $journal['journalname'];

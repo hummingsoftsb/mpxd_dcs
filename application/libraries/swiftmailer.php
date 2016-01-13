@@ -191,7 +191,7 @@ class Swiftmailer {
 		);
 	}
 
-    /*function to send reminder mail for pending journals. done by jane*/
+    /*function to send notification  mail for pending journals. done by jane*/
     function send_collective_pending($email, $user, $journals) {
         $message = Swift_Message::newInstance("Notification - Data entry pending")
             ->setFrom(array($this->smtp_user => $this->sender_name))
@@ -200,6 +200,38 @@ class Swiftmailer {
 
         $logo = $message->embed(Swift_Image::fromPath($this->mpxd_logo));
         $body = notification_data_entry_pending($logo, $user, $journals);
+        $message->setBody($body);
+        $status = $this->send($message);
+        return array(
+            'status' => $status
+        );
+    }
+
+    /*function to send reminder mail for incomplete data entry. done by jane*/
+    function send_collective_reminder_incomplete($email, $user, $role, $journals) {
+        $message = Swift_Message::newInstance("Reminder - Incomplete data entry")
+            ->setFrom(array($this->smtp_user => $this->sender_name))
+            ->setTo(array($email => $user))
+            ->setContentType('text/html');
+
+        $logo = $message->embed(Swift_Image::fromPath($this->mpxd_logo));
+        $body = reminder_collective_incomplete($logo, $user, $role, $journals);
+        $message->setBody($body);
+        $status = $this->send($message);
+        return array(
+            'status' => $status
+        );
+    }
+
+    /*function to send reminder mail for waiting validation. done by jane*/
+    function send_collective_reminder_waiting($email, $user, $role, $journals) {
+        $message = Swift_Message::newInstance("Reminder - Waiting for validation")
+            ->setFrom(array($this->smtp_user => $this->sender_name))
+            ->setTo(array($email => $user))
+            ->setContentType('text/html');
+
+        $logo = $message->embed(Swift_Image::fromPath($this->mpxd_logo));
+        $body = reminder_collective_waiting($logo, $user, $role, $journals);
         $message->setBody($body);
         $status = $this->send($message);
         return array(
