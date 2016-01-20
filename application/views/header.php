@@ -471,7 +471,7 @@ $rlabelname = explode(",", $rlabelnames);
                                 <?php } elseif($record->reminder_status_id == 2 && (!empty($record->data_entry_no)) && (!empty($record->data_validate_no))) {?>
                                     <td><a href="<?php echo base_url(); ?>journalvalidationview?id=<?php echo $record->data_validate_no; ?>"><?php echo $record->reminder_message; ?></a></td>
                                 <?php } elseif($record->reminder_status_id == 1 && (!empty($record->nonp_journal_id))) {?>
-                                    <td><a href="<?php echo base_url(); ?>ilyas?jid=<?php echo $record->nonp_journal_id; ?>"><?php echo $record->reminder_message; ?></a></td>
+                                    <td><a href="<?php echo base_url(); ?>index.php/ilyas?jid=<?php echo $record->nonp_journal_id; ?>"><?php echo $record->reminder_message; ?></a></td>
                                 <?php } else { ?>
                                     <td><a href="<?php echo base_url(); ?>/index/ilyasvalidate?jid=<?php echo $record->nonp_journal_id; ?>"><?php echo $record->reminder_message; ?></a></td>
                                 <?php } ?>
