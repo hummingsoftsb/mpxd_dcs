@@ -2,14 +2,12 @@
 
 class Swiftmailer {
 
-
-
-    var	$smtp_host		= "smtp.gmail.com";		// SMTP Server.  Example: mail.earthlink.net
-    var	$smtp_user		= "jainrose90@gmail.com";		// SMTP Username
-    var	$smtp_pass		= "iamamadgirl90";		// SMTP Password
-    var	$smtp_port		= "465";		// SMTP Port
-    var $mpxd_logo 		= "img/logo_1.png";
-    var $sender_name 	= "MPXD DCS";
+	var	$smtp_host		= "aspmx.l.google.com";		// SMTP Server.  Example: mail.earthlink.net
+	var	$smtp_user		= "dcs@mymrt.com.my";		// SMTP Username
+	var	$smtp_pass		= "";		// SMTP Password
+	var	$smtp_port		= "25";		// SMTP Port
+	var $mpxd_logo 		= "img/logo_1.png";
+	var $sender_name 	= "MPXD DCS";
 	
 	function __construct() {
 		require_once 'application/third_party/Swift-4.1.1/lib/swift_required.php';
@@ -20,7 +18,7 @@ class Swiftmailer {
 	
 	function send($message){ 
 		//Create the Transport 
-		$transport = Swift_SmtpTransport::newInstance ($this->smtp_host, $this->smtp_port, 'ssl')
+		$transport = Swift_SmtpTransport::newInstance ($this->smtp_host, $this->smtp_port)
 		->setUsername($this->smtp_user)
 		->setPassword($this->smtp_pass); 
 
