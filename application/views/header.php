@@ -43,7 +43,7 @@
         var oldalert = window.alert;
         window.alert = function (a) {
             if (a.indexOf('DataTables warning') != -1) console.log(a); else oldalert(a)
-        }
+        };
 
         function showloader(timer) {
             $('body').loader('show');
@@ -314,6 +314,16 @@ $rlabelname = explode(",", $rlabelnames);
                             location.reload();
                         });
                     }
+                    function assign_attributes(id){
+                        if(confirm("Current Data Attributes will be assigned to this Week Journal?"))
+                        {
+                            showloader(25000);
+                            $.post( "<?php echo base_url(); ?>journaldataentry/dataentry",{id:id}, function( data ) {
+                                location.href="<?php echo base_url(); ?>journaldataentryadd?jid="+id;
+                            }).always(function(d){console.log(d);});
+
+                        }
+                    }
                 </script>
 
                 <style type="text/css">
@@ -444,6 +454,7 @@ $rlabelname = explode(",", $rlabelnames);
 
                         <tr>
                             <td><?php echo $sno; ?></td>
+                            <?php if($ses_data['roleid']==1){ ?>
                             <?php if($record->reminder_status_id == 1 && (!empty($record->data_entry_no))){ ?>
                                 <td><a href="<?php echo base_url(); ?>journaldataentry"><?php echo $record->reminder_message; ?></a></td>
                             <?php } elseif($record->reminder_status_id == 2 && (!empty($record->data_entry_no))) {?>
@@ -453,8 +464,17 @@ $rlabelname = explode(",", $rlabelnames);
                             <?php } else { ?>
                                 <td><a href="<?php echo base_url(); ?>journalvalidationnonp"><?php echo $record->reminder_message; ?></a></td>
                             <?php } ?>
-                            <?php if($ses_data['roleid']==1){ ?>
                             <td><?php echo $record->user_full_name.' ('.$record->sec_role_name.')'; ?></td>
+                            <?php } else { ?>
+                                <?php if($record->reminder_status_id == 1 && (!empty($record->data_entry_no))){ ?>
+                                    <td><a href="<?php echo base_url(); ?>journaldataentryadd?jid=<?php echo $record->data_entry_no; ?>" onclick="assign_attributes('<?php echo $record->data_entry_no;?>');"><?php echo $record->reminder_message; ?></a></td>
+                                <?php } elseif($record->reminder_status_id == 2 && (!empty($record->data_entry_no)) && (!empty($record->data_validate_no))) {?>
+                                    <td><a href="<?php echo base_url(); ?>journalvalidationview?id=<?php echo $record->data_validate_no; ?>"><?php echo $record->reminder_message; ?></a></td>
+                                <?php } elseif($record->reminder_status_id == 1 && (!empty($record->nonp_journal_id))) {?>
+                                    <td><a href="<?php echo base_url(); ?>ilyas?jid=<?php echo $record->nonp_journal_id; ?>"><?php echo $record->reminder_message; ?></a></td>
+                                <?php } else { ?>
+                                    <td><a href="<?php echo base_url(); ?>/index/ilyasvalidate?jid=<?php echo $record->nonp_journal_id; ?>"><?php echo $record->reminder_message; ?></a></td>
+                                <?php } ?>
                             <?php } ?>
                             <td><?php echo $record->reminder_date; ?></td>
                             <?php if(!empty($record->nonp_journal_id)) {?>
