@@ -235,7 +235,7 @@ class Ilyasvalidate extends CI_Controller
 					$this->assessment->update_alert_on_save_nonp($jid,$userid);
 
 					$this->load->model('mailermodel');
-					$this->mailermodel->insert_queue_rejected_nonprogressive($validator_id, $jid);
+					$this->mailermodel->insert_queue_rejected_nonprogressive($data_id, $jid);
 
 
 					//$this->swiftmailer->data_entry_rejected_nonprogressive($data_email, $data_name, $journalname, $jid);
