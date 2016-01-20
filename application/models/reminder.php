@@ -67,11 +67,14 @@ Class Reminder extends CI_Model
 // modified by jane
     function update_reminder(){
         $sql = "ALTER SEQUENCE user_reminder_reminder_no_seq RESTART WITH 1;TRUNCATE user_reminder;
-         INSERT INTO user_reminder ( SELECT nextval('user_reminder_reminder_no_seq') as reminder_no, now() as reminder_date, jdu.data_user_id as reminder_user_id,
-         jdem.data_entry_no as data_entry_no, 2 as reminder_status_id, 'Waiting for Validation: ' || jm.journal_name as reminder_message,
-         0 as reminder_hide, 1 as email_send_opt FROM journal_data_user jdu, journal_data_entry_master jdem, frequency_detail fd, journal_master jm
-         WHERE jdu.journal_no = jdem.journal_no AND jm.journal_no = jdem.journal_no AND (jdem.data_entry_status_id = 3 OR jdem.data_entry_status_id = 2)
-         AND jdem.frequency_detail_no = fd.frequency_detail_no AND fd.start_date < now() );
+         INSERT INTO user_reminder ( SELECT nextval('user_reminder_reminder_no_seq') as reminder_no, now() as reminder_date, jv.validate_user_id as reminder_user_id,
+         jdvm.data_entry_no as data_entry_no, 2 as reminder_status_id, 'Waiting for Validation: ' || jm.journal_name as reminder_message,
+         0 as reminder_hide, 1 as email_send_opt
+         FROM journal_data_validate_master jdvm,
+         journal_validator jv, journal_master jm, journal_data_entry_master jdem
+         WHERE jm.journal_no = jv.journal_no AND jdem.journal_no=jm.journal_no AND jdem.data_entry_no = jdvm.data_entry_no AND jdvm.validate_status = 1
+         group by jdvm.data_entry_no, jv.validate_user_id, jm.journal_name,
+         jdvm.validate_status, jdvm.validate_level_no,jv.journal_no order by min(jdvm.validate_level_no) desc,jv.journal_no limit 1 );
          INSERT INTO user_reminder ( SELECT nextval('user_reminder_reminder_no_seq') as reminder_no, now() as reminder_date, jdu.data_user_id as reminder_user_id,
          jdem.data_entry_no as data_entry_no, 1 as reminder_status_id, 'Incomplete Data Entry: ' || jm.journal_name as reminder_message, 0 as reminder_hide, 1 as email_send_opt
          FROM journal_data_user jdu, journal_data_entry_master jdem, frequency_detail fd, journal_master jm WHERE jdu.journal_no = jdem.journal_no

@@ -209,20 +209,21 @@ Class Alertreminder extends CI_Model
         $user_role_query = $this->db->query($user_role_query)->row();
         if ($user_role_query->sec_role_id == 1) {
             //$query = "select ur.reminder_status_id, ur.data_entry_no,ur.reminder_no,ur.reminder_date::timestamp(0),jm.journal_name,ur.reminder_message,fd.frequency_period,sc.user_full_name,sr.sec_role_name, max(url.TIMESTAMP) from user_reminder ur,journal_data_entry_master jdem,frequency_detail fd,journal_master jm,sec_user sc,sec_role sr,user_reminder_log url where ur.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no and jdem.journal_no=jm.journal_no and ur.reminder_user_id = sc.user_id and sc.sec_role_id = sr.sec_role_id and reminder_hide=0 and ur.data_entry_no = url.data_entry_no group by sc.user_full_name,ur.reminder_status_id,ur.data_entry_no,ur.reminder_no,jm.journal_name,fd.frequency_period,sr.sec_role_name order by reminder_no desc";
-            $query = "select a.journal_no,b.data_entry_no,a.journal_name,c.reminder_status_id,c.reminder_no,c.reminder_date::timestamp(0),c.reminder_message,d.frequency_period,e.user_full_name,f.sec_role_name,
+            $query = "select a.journal_no,b.data_entry_no,a.journal_name,c.reminder_status_id,c.reminder_no,c.reminder_date::timestamp(0),c.reminder_message,d.frequency_period,e.user_full_name,e.sec_role_id,f.sec_role_name,
                         max(g.timestamp)maxt
                         from journal_master a join journal_data_entry_master b on a.journal_no = b.journal_no
                         join user_reminder c on b.data_entry_no = c.data_entry_no and c.reminder_hide=0
                         join frequency_detail d on b.frequency_detail_no = d.frequency_detail_no
                         join sec_user e on c.reminder_user_id = e.user_id join sec_role f on e.sec_role_id = f.sec_role_id left join user_reminder_log g on b.data_entry_no = g.data_entry_no
-                        group by a.journal_no,b.data_entry_no,a.journal_name,c.reminder_status_id,c.reminder_no,c.reminder_date,d.frequency_period,e.user_full_name,f.sec_role_name";
+                        group by a.journal_no,b.data_entry_no,a.journal_name,c.reminder_status_id,c.reminder_no,c.reminder_date,d.frequency_period,e.user_full_name,f.sec_role_name,e.sec_role_id";
             $query = $this->db->query($query);
             $query_result = $query->result();
         } else {
-            $query = "select ur.reminder_status_id, ur.data_entry_no,ur.reminder_no,ur.reminder_date::timestamp(0),jm.journal_name,ur.reminder_message,fd.frequency_period, sc.user_full_name,sr.sec_role_name
+            $query = "select ur.reminder_status_id, ur.data_entry_no,ur.reminder_no,ur.reminder_date::timestamp(0),jm.journal_name,ur.reminder_message,fd.frequency_period, sc.user_full_name, sc.sec_role_id,sr.sec_role_name
                          from user_reminder ur,journal_data_entry_master jdem,frequency_detail fd,journal_master jm,sec_user sc,sec_role sr where ur.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no
                          and jdem.journal_no=jm.journal_no and ur.reminder_user_id = sc.user_id and sc.sec_role_id = sr.sec_role_id and ur.reminder_user_id=$id and reminder_hide=0
-                         group by sc.user_full_name,ur.data_entry_no, ur.reminder_status_id,ur.reminder_no,jm.journal_name,fd.frequency_period,sr.sec_role_name order by reminder_no desc";
+                         group by sc.user_full_name,ur.data_entry_no, ur.reminder_status_id,ur.reminder_no,jm.journal_name,fd.frequency_period,sc.sec_role_id,sr.sec_role_name order by reminder_no desc";
+
             $query = $this->db->query($query);
             $query_result = $query->result();
         }
