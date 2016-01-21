@@ -64,6 +64,10 @@ class Journaldataentryadd extends CI_Controller
                 redirect('/journaldataentry', 'refresh');
             }
 
+            if(!empty($id)) {
+                $loginid = $session_data['id'];
+                $this->assessment->add_journal_data_entry_detail($id, $loginid);
+            }
 
             //Load all record data
             $data['cpagename'] = 'journaldataentryadd';
