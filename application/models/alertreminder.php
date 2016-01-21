@@ -220,7 +220,7 @@ Class Alertreminder extends CI_Model
             $query_result = $query->result();
         } else {
             $query = "select ur.reminder_status_id, ur.data_entry_no,ur.reminder_no,ur.reminder_date::timestamp(0),jm.journal_name,ur.reminder_message,fd.frequency_period, sc.user_full_name, sc.sec_role_id,sr.sec_role_name,case sc.sec_role_id when '2' then (select data_validate_no from journal_data_validate_master jdvm where ur.data_entry_no=jdvm.data_entry_no and jdvm.validate_user_id = $id) end as data_validate_no
-                         from user_reminder ur,journal_data_entry_master jdem,frequency_detail fd,journal_master jm,sec_user sc,sec_role sr, journal_data_validate_master jdvm where ur.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no
+                         from user_reminder ur,journal_data_entry_master jdem,frequency_detail fd,journal_master jm,sec_user sc,sec_role sr where ur.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no
                          and jdem.journal_no=jm.journal_no and ur.reminder_user_id = sc.user_id and sc.sec_role_id = sr.sec_role_id and ur.reminder_user_id=$id and reminder_hide=0
                          group by sc.user_full_name,ur.data_entry_no, ur.reminder_status_id,ur.reminder_no,jm.journal_name,fd.frequency_period,sc.sec_role_id,sr.sec_role_name order by reminder_no desc";
 

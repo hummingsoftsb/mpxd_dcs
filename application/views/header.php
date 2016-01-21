@@ -314,15 +314,16 @@ $rlabelname = explode(",", $rlabelnames);
                             location.reload();
                         });
                     }
+                    /*function to assign data attributes to the data entry. done by jane*/
                     function assign_attributes(id){
-                        if(confirm("Current Data Attributes will be assigned to this Week Journal?"))
-                        {
+                        /*if(confirm("Current Data Attributes will be assigned to this Week Journal?"))
+                        {*/
                             showloader(25000);
                             $.post( "<?php echo base_url(); ?>journaldataentry/dataentry",{id:id}, function( data ) {
                                 location.href="<?php echo base_url(); ?>journaldataentryadd?jid="+id;
                             }).always(function(d){console.log(d);});
 
-                        }
+                        /*}*/
                     }
                 </script>
 
