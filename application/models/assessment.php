@@ -117,6 +117,11 @@ Class Assessment extends CI_Model
                 $this->db->query($query);
             endforeach;
 
+            /*added by jane, for avoiding duplication in validator details*/
+            $this->db->where('data_entry_no', $id);
+            $this->db->delete('journal_data_validate_master');
+            /*end*/
+
             $query = "select * from journal_validator where journal_no=$journalno";
             $res = $this->db->query($query);
             $rows = $res->result();
@@ -172,6 +177,11 @@ Class Assessment extends CI_Model
                 $this->db->query($query);
             endforeach;
 
+            /*added by jane, for avoiding duplication in validator details*/
+            $this->db->where('data_entry_no', $id);
+            $this->db->delete('journal_data_validate_master');
+            /*end*/
+
             $query = "select * from journal_validator where journal_no=$journalno";
             $res = $this->db->query($query);
             $rows = $res->result();
@@ -209,7 +219,7 @@ Class Assessment extends CI_Model
             endforeach;
         }
         // // AGAILE :END
-        else { // image journal
+        else if($q->num_rows() == 0 && $is_image == 1) { // image journal
             $query = "select journal_no from journal_data_entry_master where data_entry_no=$id";
             $res = $this->db->query($query);
             $row = $res->row();
@@ -219,6 +229,11 @@ Class Assessment extends CI_Model
             $query .= "(data_entry_no,data_attb_id,data_source,created_user_id,created_date)";
             $query .= " values('$id',0,1,'$loginid','" . date("Y-m-d") . "')";
             $this->db->query($query);
+
+            /*added by jane, for avoiding duplication in validator details*/
+            $this->db->where('data_entry_no', $id);
+            $this->db->delete('journal_data_validate_master');
+            /*end*/
 
             $query = "select * from journal_validator where journal_no=$journalno";
             $res = $this->db->query($query);
