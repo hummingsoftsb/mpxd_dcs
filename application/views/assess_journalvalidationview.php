@@ -374,6 +374,8 @@
 <?php
 	foreach($details as $row):
 		$week=$row->frequency_period;
+		$jdate=$row->start_date;
+		$jend=$row->end_date;
 		$pname=$row->project_name;
 		$jname=$row->journal_name;
 		$level=$row->validate_level_no ;
@@ -401,6 +403,9 @@
 	<div class="row" style="width: 70%; margin: auto;">
 		<div class="col-xs-4" style="text-align: right; margin-bottom: 8px;"><b>Data Entry For</b></div>
 		<div class="col-xs-8" style="color: blue; margin-bottom: 8px;">Week <?php echo $week; ?></div>
+		<div class="col-xs-4" style="text-align: right; margin-bottom: 8px;"><b>Journal Date</b></div>
+		<div class="col-xs-8" style="color: blue; margin-bottom: 8px;"><?php echo date("d-M-Y", strtotime($jdate)); ?>
+        to <?php echo date("d-M-Y", strtotime($jend)); ?></div>
 		<div class="col-xs-4" style="text-align: right; margin-bottom: 8px;"><b>Project Name</b></div>
 		<div class="col-xs-8" style="color: blue; margin-bottom: 8px;"><?php echo $pname; ?></div>
 		</br>

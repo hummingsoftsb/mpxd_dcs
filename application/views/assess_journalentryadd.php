@@ -451,7 +451,7 @@ foreach ($details as $row):
     $jname = $row->journal_name;
     $owner = $row->user_full_name;
     $jdate = $row->start_date;
-    $jend = $row->cut_off_date;
+    $jend = $row->end_date;
     $is_image = $row->is_image;
     $reject_note = $reject_note;
 endforeach;

@@ -279,7 +279,7 @@ Class Assessment extends CI_Model
     function show_journal_data_entry($id)
     {
 
-        $query = "select frequency_period,journal_name,cut_off_date,dependency,project_name,user_full_name,frequency_detail_name,fd.start_date,is_image from journal_data_entry_master jdem,journal_master jm,project_template pt,sec_user su,frequency_detail fd where jdem.data_entry_no=$id and jdem.journal_no=jm.journal_no and jm.project_no=pt.project_no and jm.user_id=su.user_id and fd.frequency_detail_no=jdem.frequency_detail_no";
+        $query = "select frequency_period,journal_name,fd.end_date,dependency,project_name,user_full_name,frequency_detail_name,fd.start_date,is_image from journal_data_entry_master jdem,journal_master jm,project_template pt,sec_user su,frequency_detail fd where jdem.data_entry_no=$id and jdem.journal_no=jm.journal_no and jm.project_no=pt.project_no and jm.user_id=su.user_id and fd.frequency_detail_no=jdem.frequency_detail_no";
         $q = $this->db->query($query);
         return $q->result();
     }
@@ -678,7 +678,7 @@ Class Assessment extends CI_Model
 
     function show_validation_journal_data_entry($id)
     {
-        $query = "select frequency_period,journal_name,project_name,user_full_name,frequency_detail_name,publish_date,(select user_full_name from sec_user where sec_user.user_id=jdem.publish_user_id) as publishname,validate_level_no,jdvm.data_entry_no,jm.is_image from journal_data_entry_master jdem,journal_master jm,project_template pt,sec_user su,frequency_detail fd,journal_data_validate_master jdvm where data_validate_no=$id and jdem.data_entry_no=jdvm.data_entry_no and jdem.journal_no=jm.journal_no and jm.project_no=pt.project_no and jm.user_id=su.user_id and fd.frequency_detail_no=jdem.frequency_detail_no";
+        $query = "select frequency_period,fd.start_date,fd.end_date,journal_name,project_name,user_full_name,frequency_detail_name,publish_date,(select user_full_name from sec_user where sec_user.user_id=jdem.publish_user_id) as publishname,validate_level_no,jdvm.data_entry_no,jm.is_image from journal_data_entry_master jdem,journal_master jm,project_template pt,sec_user su,frequency_detail fd,journal_data_validate_master jdvm where data_validate_no=$id and jdem.data_entry_no=jdvm.data_entry_no and jdem.journal_no=jm.journal_no and jm.project_no=pt.project_no and jm.user_id=su.user_id and fd.frequency_detail_no=jdem.frequency_detail_no";
         $q = $this->db->query($query);
         return $q->result();
     }
