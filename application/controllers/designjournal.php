@@ -472,7 +472,7 @@ class Designjournal extends CI_Controller
             $journalid = $this->input->post('editjournalno');
             $dependency = $this->input->post('dependency');
             $albumname = $this->input->post('albumname1');
-            $startdate = $this->input->post('startdate1');
+            $startdate = date("Y-m-d", strtotime($this->input->post('startdate1')));
             // Added start date in array for updation -Agaile 24/11/2015
 
             if (json_decode($dependency) && (json_last_error() != JSON_ERROR_NONE)) {
