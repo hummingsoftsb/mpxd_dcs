@@ -618,7 +618,7 @@ Class IlyasModel extends CI_Model
 			$query .=" and validate_user_id=$userid";
 		}
 		
-		if($data!=""  && $data!="project_name asc" && $data!="project_name desc" && $data!="journal_name asc" && $data!="journal_name desc" && $data!="user_full_name desc" && $data!="user_full_name asc" && $data!="publish_date asc" && $data!="publish_date desc")
+		/*if($data!=""  && $data!="project_name asc" && $data!="project_name desc" && $data!="journal_name asc" && $data!="journal_name desc" && $data!="user_full_name desc" && $data!="user_full_name asc" && $data!="publish_date asc" && $data!="publish_date desc")
 		{
 			$query .=" and( lower(j.project_name) like '%".$data."%' ";
 			$query .=" or lower(a.journal_name) like '%".$data."%' ";
@@ -626,12 +626,14 @@ Class IlyasModel extends CI_Model
 		    //$query .=" or lower(f.frequency_detail_name) like '%".$data."%' )";
 
 		}
-		if($data=="project_name asc" || $data=="project_name desc" || $data=="journal_name asc" || $data=="journal_name desc" /*|| $data=="user_full_name desc" || $data=="user_full_name asc" || $data=="publish_date asc" || $data=="publish_date desc"*/) {
+		if($data=="project_name asc" || $data=="project_name desc" || $data=="journal_name asc" || $data=="journal_name desc" /*|| $data=="user_full_name desc" || $data=="user_full_name asc" || $data=="publish_date asc" || $data=="publish_date desc") {
 		$query.=" Order By journal_no asc,".$data;
-		} else {
+		} else {*/
+
 		$query.=" Order By journal_no asc, project_name asc,journal_name asc";
-		}
-		$query .=" OFFSET ".$offset." LIMIT ".$perPage;
+
+       /* }*/
+		/*$query .=" OFFSET ".$offset." LIMIT ".$perPage;*/
 		$q = $this->db->query($query);
 		//var_dump($q);
 		//var_dump($this->db->last_query());

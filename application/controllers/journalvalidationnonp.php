@@ -94,15 +94,15 @@ class Journalvalidationnonp extends CI_Controller
              /* Start Agaile */
             // Re-configured the condition check Agaile 24/10/2015
             $total_row = $this->agailemodel->get_count($search,$offset,$config['per_page'],$userid,$roleid);
-            if($total_row > 10) {
+            /*if($total_row > 10) {
                 $config["num_links"] = 1;
             }
-            else{
-                $config["num_links"] = 0;
+            else{*/
+                $config["num_links"] = 1;
                 $config['display_pages'] = FALSE;
                 $config['last_link'] = FALSE;
                 $config['next_link'] = FALSE;
-            }
+            /*}*/
 
             /* End Agaile */
             // To initialize "$config" array and set to pagination library.
