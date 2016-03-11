@@ -658,7 +658,7 @@ Class Assessment extends CI_Model
         if ($userid != "1" && $roleid != "1") {
             $query .= " and validate_user_id=$userid";
         }
-        if ($data != "" && $data != "project_name asc" && $data != "project_name desc" && $data != "journal_name asc" && $data != "journal_name desc" && $data != "user_full_name desc" && $data != "user_full_name asc" && $data != "publish_date asc" && $data != "publish_date desc" && $data != "frequency_detail_name desc" && $data != "frequency_detail_name asc" && $data != "validate_level_no asc" && $data != "validate_level_no desc") {
+        /*if ($data != "" && $data != "project_name asc" && $data != "project_name desc" && $data != "journal_name asc" && $data != "journal_name desc" && $data != "user_full_name desc" && $data != "user_full_name asc" && $data != "publish_date asc" && $data != "publish_date desc" && $data != "frequency_detail_name desc" && $data != "frequency_detail_name asc" && $data != "validate_level_no asc" && $data != "validate_level_no desc") {
             $query .= " and( lower(a.project_name) like '%" . $data . "%' ";
             $query .= " or lower(b.journal_name) like '%" . $data . "%' ";
             $query .= " or lower(e.user_full_name) like '%" . $data . "%' ";
@@ -667,11 +667,10 @@ Class Assessment extends CI_Model
         }
         if ($data == "project_name asc" || $data == "project_name desc" || $data == "journal_name asc" || $data == "journal_name desc" || $data == "user_full_name desc" || $data == "user_full_name asc" || $data == "publish_date asc" || $data == "publish_date desc" || $data == "frequency_detail_name desc" || $data == "frequency_detail_name asc" || $data == "validate_level_no asc" || $data == "validate_level_no desc") {
             $query .= " Order By " . $data;
-        } else {
+        } else {*/
             $query .= " Order By project_name asc,journal_name asc";
-        }
-        $query .= " OFFSET " . $offset . "LIMIT " . $perPage;
-        //echo($query);
+       /* }*/
+        /*$query .= " OFFSET " . $offset . "LIMIT " . $perPage;*/
         $q = $this->db->query($query);
         return $q->result();
     }

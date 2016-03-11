@@ -72,72 +72,58 @@
 		<a href="<?php /*echo base_url(); */?><?php /*echo $cpagename; */?>" class="btn btn-danger btn-sm">Clear</a>
 	</div>-->
 <div class="row text-center text-success"><?php echo $message; ?> </div>
-<table class="table table-striped table-hover " id="status_table" name="status_table">
-    <thead>
+    <table class="table table-striped table-hover" id="nonp_val_table">
+        <thead>
         <tr>
             <th>No</th>
             <th>
-			<?php if ($searchrecord=="project_name asc")  { ?>
-			<a href="javascript:void(0)" data-rsort="project_name desc" class="recordsort"><span class="dropup"><?php echo $labelname[0]; ?><span class="caret"></span></span></a>
-			<?php } else { ?>
-			<a href="javascript:void(0)" data-rsort="project_name asc" class="recordsort"><?php echo $labelname[0]; ?><span class="caret"></span></a>
-			<?php } ?>
-			</th>
-			<th>
-			<?php if ($searchrecord=="journal_name asc")  { ?>
-			<a href="javascript:void(0)" data-rsort="journal_name desc" class="recordsort"><span class="dropup"><?php echo $labelname[1]; ?><span class="caret"></span></span></a>
-			<?php } else { ?>
-			<a href="javascript:void(0)" data-rsort="journal_name asc" class="recordsort"><?php echo $labelname[1]; ?><span class="caret"></span></a>
-			<?php } ?>
-	            </th>
-			<th>
-			<?php if ($searchrecord=="user_full_name asc")  { ?>
-			<a href="javascript:void(0)" data-rsort="user_full_name desc" class="recordsort"><span class="dropup"><?php echo $labelname[3]; ?><span class="caret"></span></span></a>
-			<?php } else { ?>
-			<a href="javascript:void(0)" data-rsort="user_full_name asc" class="recordsort"><?php echo $labelname[3]; ?><span class="caret"></span></a>
-			<?php } ?>
-	        </th>
-	        <th>
-			<?php if ($searchrecord=="publish_date asc")  { ?>
-			<a href="javascript:void(0)" data-rsort="publish_date desc" class="recordsort"><span class="dropup"><?php echo $labelname[4]; ?><span class="caret"></span></span></a>
-			<?php } else { ?>
-			<a href="javascript:void(0)" data-rsort="publish_date asc" class="recordsort"><?php echo $labelname[4]; ?><span class="caret"></span></a>
-			<?php } ?>
-	        </th>
-			<th><?php echo $labelname[6]; ?></th>
+                <?php echo $labelname[0]; ?>
+            </th>
+            <th>
+                <?php echo $labelname[1]; ?>
+            </th>
+            <th>
+                <?php echo $labelname[3]; ?>
+            </th>
+            <th>
+                <?php echo $labelname[4]; ?>
+            </th>
+            <th><?php echo $labelname[6]; ?>
+            </th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
 
         <?php
-						$sno=1;
-						
-						foreach ($records as $valde):
-						//var_dump($valde);
-						$publishdate=date("d-m-Y", strtotime($valde->timestamp));
-			?>
-			<tr>
-			            <td><?php echo $sno; ?></td>
-						<td><?php echo $valde->project_name; ?></td>
-			            <td><?php echo $valde->journal_name; ?></td>
-			            
-						<td><?php echo $valde->data_user_full_name; ?></td>
-			            <td><?php echo $publishdate; ?></td>
-			            
-			            <td><a href="<?php echo base_url(); ?>/index/ilyasvalidate?jid=<?php echo $valde->journal_no; ?>"><span class="glyphicon glyphicon-edit">&nbsp;</span></a></td>
+        $sno = 1;
+
+        foreach ($records as $valde):
+        //var_dump($valde);
+        $publishdate = date("d-m-Y", strtotime($valde->timestamp));
+        ?>
+        <tr>
+            <td><?php echo $sno; ?></td>
+            <td><?php echo $valde->project_name; ?></td>
+            <td><?php echo $valde->journal_name; ?></td>
+
+            <td><?php echo $valde->data_user_full_name; ?></td>
+            <td><?php echo $publishdate; ?></td>
+
+            <td><a href="<?php echo base_url(); ?>/index/ilyasvalidate?jid=<?php echo $valde->journal_no; ?>"><span
+                        class="glyphicon glyphicon-edit">&nbsp;</span></a></td>
         </tr>
         <?php
-						$sno=$sno+1;
-						endforeach;
-						/*if(sizeOf($records)==0)
-						{
-							echo '<tr><td class="row text-center text-danger" colspan="8"> No Record Found</td></tr></tbody></table>';
-						}
-						else
-						{*/
-			?>
-    </tbody>
-</table>
+        $sno = $sno+1;
+        endforeach;
+        /*if(sizeOf($records)==0)
+        {
+            echo '<tr><td class="row text-center text-danger" colspan="8"> No Record Found</td></tr></tbody></table>';
+        }
+        else
+        {*/
+        ?>
+        </tbody>
+    </table>
 
 <!--<div class="row">
 
@@ -171,11 +157,13 @@
 
 
 </div>
+
 <script>
+    //added by jane for pagination and search.
     $(document).ready(function () {
 
         // DataTable
-        var table = $('#status_table').DataTable({
+        var table = $('#nonp_val_table').DataTable({
 
         });
     });

@@ -11,7 +11,7 @@ class Journalvalidationnonp extends CI_Controller
    	   $this->load->model('securitys','',TRUE);
 	   $this->load->model('alertreminder','',TRUE);
 	   $this->load->model('ilyasmodel','',TRUE);
-        $this->load->model('agailemodel','',TRUE);
+       $this->load->model('agailemodel','',TRUE);
 	}
 
     /**
