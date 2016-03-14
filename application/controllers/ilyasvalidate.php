@@ -78,7 +78,6 @@ class Ilyasvalidate extends CI_Controller
 			$data['dataentryno']=$id;
 			
 			$data['details']=$this->assessment->show_journalnonp($id);
-            print_r($data['details']);
 			
 			if (sizeOf($data['details']) < 1) return;
 			$data['details'] = $data['details'][0];
@@ -87,10 +86,16 @@ class Ilyasvalidate extends CI_Controller
 			$data['hot_data'] = $this->ilyasmodel->get_data($id);
 			$data['hot_lock'] = $this->ilyasmodel->get_validationlock($id);
 			$data['data_date'] = $this->ilyasmodel->get_data_date($id);
-			
-			$this->load->view('header', $data1);
-			$this->load->view('ilyas_validate', $data);
-			$this->load->view('footer');
+
+            /*for validator shouldn't be able to open non-progressive journal not assigned to them*/
+            $validator = $this->ilyasmodel->get_validator_nonp($id);
+            if(!empty($validator['validate_user_id']) && $validator['validate_user_id']==$user_id) {
+                $this->load->view('header', $data1);
+                $this->load->view('ilyas_validate', $data);
+                $this->load->view('footer');
+            } else{
+                redirect('/journalvalidationnonp/index');
+            }
 		}
    		else
    		{

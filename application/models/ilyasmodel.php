@@ -1040,5 +1040,12 @@ Class IlyasModel extends CI_Model
 		}
 		return $out;
 	}
+
+    /*function to get validator id - journal non progressive*/
+    function get_validator_nonp($jid) {
+        $query = "SELECT validate_user_id FROM journal_validator_nonprogressive where journal_no = '$jid'";
+        $q = $this->db->query($query);
+        return $q->row_array();
+    }
 }
 ?>
