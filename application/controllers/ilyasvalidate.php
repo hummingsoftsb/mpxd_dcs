@@ -23,6 +23,11 @@ class Ilyasvalidate extends CI_Controller
      		$session_data = $this->session->userdata('logged_in');
 			$data['username'] = $session_data['username'];
 			$roleid=$session_data['roleid'];
+            /*for validator shouldn't be able to open non-progressive journal not assigned to them*/
+            $user_id = $session_data['id'];
+            $id=$this->input->get('jid');
+            $validator = $this->ilyasmodel->get_validator_nonp($id);
+            if(!empty($validator['validate_user_id']) && $validator['validate_user_id']==$user_id) {
 			$roleperms=$this->securitys->show_permission_object_data($roleid,"3");
 			foreach ($roleperms as $roleperm):
 				$viewperm=$roleperm->view_opt;
@@ -43,9 +48,7 @@ class Ilyasvalidate extends CI_Controller
 			{
 				$message='';
 			}
-			
-			$id=$this->input->get('jid');
-            $user_id = $session_data['id'];
+
             //function for updating user alert seen status. done by jane
             if($this->input->get('alert_id')!="") {
                 $alert_id = $this->input->get('alert_id');
@@ -87,9 +90,6 @@ class Ilyasvalidate extends CI_Controller
 			$data['hot_lock'] = $this->ilyasmodel->get_validationlock($id);
 			$data['data_date'] = $this->ilyasmodel->get_data_date($id);
 
-            /*for validator shouldn't be able to open non-progressive journal not assigned to them*/
-            $validator = $this->ilyasmodel->get_validator_nonp($id);
-            if(!empty($validator['validate_user_id']) && $validator['validate_user_id']==$user_id) {
                 $this->load->view('header', $data1);
                 $this->load->view('ilyas_validate', $data);
                 $this->load->view('footer');
