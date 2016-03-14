@@ -392,7 +392,7 @@ Class IlyasModel extends CI_Model
 		return $result;
 	}
 	
-	function get_journals_nonp($data,$offset=0,$perPage,$userid,$emptyAllowed=false,$roleid) {
+	function get_journals_nonp($data,$offset=0,$perPage,$userid,$roleid) {
 		
 		/* Get all journals for the current user */
 		$data=strtolower($data);

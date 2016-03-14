@@ -26,7 +26,8 @@ class Journaldataentrynonp_ilyas extends CI_Controller
 			$session_data = $this->session->userdata('logged_in');
 		    $data['username'] = $session_data['username'];
 		    $userid=$session_data['id'];
-		    
+		    $roleid=$session_data['roleid'];
+
 		    $roleid=$session_data['roleid'];
 			$roleperms=$this->securitys->show_permission_object_data($roleid,"21");
  			foreach ($roleperms as $roleperm):
@@ -67,7 +68,7 @@ class Journaldataentrynonp_ilyas extends CI_Controller
 			//var_dump($search);
  			// Config setup for Pagination
  			$config['base_url'] = base_url().'index.php/journaldataentrynonp_ilyas/index';
- 			$config['total_rows'] = sizeOf($this->ilyasmodel->get_journals_nonp($search,0,null,$userid));
+ 			$config['total_rows'] = sizeOf($this->ilyasmodel->get_journals_nonp($search,0,null,$userid,$roleid));
  			if($this->session->userdata('selectrecord'))
  			{
  				$selectrecord=$this->session->userdata('selectrecord');
@@ -86,7 +87,7 @@ class Journaldataentrynonp_ilyas extends CI_Controller
 
 
  			//Load all record data
- 			$data['records'] = $this->ilyasmodel->get_journals_nonp($search,$offset,$config['per_page'],$userid);
+ 			$data['records'] = $this->ilyasmodel->get_journals_nonp($search,$offset,$config['per_page'],$userid,$roleid);
  			$data['totalrows'] = $config['total_rows'];
  			$data['mpage'] = $config['per_page'];
  			$data['page']= $page+1;
