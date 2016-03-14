@@ -78,6 +78,7 @@ class Ilyasvalidate extends CI_Controller
 			$data['dataentryno']=$id;
 			
 			$data['details']=$this->assessment->show_journalnonp($id);
+            print_r($data['details']);
 			
 			if (sizeOf($data['details']) < 1) return;
 			$data['details'] = $data['details'][0];

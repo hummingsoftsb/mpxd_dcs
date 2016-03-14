@@ -95,7 +95,7 @@ Class Reminder extends CI_Model
                 $query_data_entry = "INSERT INTO user_reminder (SELECT nextval('user_reminder_reminder_no_seq') as reminder_no, now() as reminder_date, jdunp.data_user_id as reminder_user_id,
                            NULL as data_entry_no , 1 as reminder_status_id, 'Incomplete Data Entry: ' || jmnp.journal_name as reminder_message, 0 as reminder_hide,
                            1 as email_send_opt, jmnp.journal_no as nonp_journal_id FROM journal_data_user_nonprogressive jdunp, journal_master_nonprogressive jmnp,  ilyas_config as ic, ilyas as i
-                           WHERE jdunp.journal_no = jmnp.journal_no  AND ic.journal_no = jmnp.journal_no AND i.validate_status = 2 AND ic.config_no = i.config_no
+                           WHERE jdunp.journal_no = jmnp.journal_no  AND ic.journal_no = jmnp.journal_no AND i.validate_status = 2 AND ic.config_no = i.config_no AND jmnp.reminder_frequency<>NULL
                            GROUP BY jdunp.data_user_id, jmnp.journal_no, nonp_journal_id)";
                 $this->db->query($query_data_entry);
             }
@@ -104,7 +104,7 @@ Class Reminder extends CI_Model
         $query_validator = "INSERT INTO user_reminder (SELECT nextval('user_reminder_reminder_no_seq') as reminder_no, now() as reminder_date, jvn.validate_user_id as reminder_user_id,
                                NULL as data_entry_no, 2 as reminder_status_id, 'Waiting for Validation: ' || jmnp.journal_name as reminder_message, 0 as reminder_hide,
                                1 as email_send_opt, ic.journal_no as nonp_journal_id  FROM journal_validator_nonprogressive jvn, journal_master_nonprogressive jmnp, ilyas_config as ic, ilyas as i
-                               WHERE jvn.journal_no = jmnp.journal_no AND ic.journal_no = jmnp.journal_no AND i.validate_status = 1 AND ic.config_no = i.config_no GROUP BY jvn.validate_user_id,
+                               WHERE jvn.journal_no = jmnp.journal_no AND ic.journal_no = jmnp.journal_no AND i.validate_status = 1 AND ic.config_no = i.config_no AND jmnp.reminder_frequency<>NULL GROUP BY jvn.validate_user_id,
                                ic.journal_no, jmnp.journal_no)";
         $this->db->query($query_validator);
     }
