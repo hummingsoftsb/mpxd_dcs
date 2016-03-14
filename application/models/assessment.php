@@ -254,7 +254,7 @@ Class Assessment extends CI_Model
     function show_journalnonp($id)
     {
         if (!is_numeric($id)) return false;
-        $query = "select jm.journal_no,journal_name,project_name,user_full_name from journal_master_nonprogressive jm,project_template pt,sec_user su where jm.journal_no='$id' and jm.project_no=pt.project_no and jm.user_id=su.user_id";
+        $query = "select jm.journal_no,jm.reminder_frequency,journal_name,project_name,user_full_name from journal_master_nonprogressive jm,project_template pt,sec_user su where jm.journal_no='$id' and jm.project_no=pt.project_no and jm.user_id=su.user_id";
         $q = $this->db->query($query);
         //var_dump($this->db->last_query());
         return $q->result();

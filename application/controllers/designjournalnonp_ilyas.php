@@ -162,7 +162,7 @@ class Designjournalnonp_ilyas extends CI_Controller
 		$this->form_validation->set_rules('journalname', $label1, 'trim|required|alpha_numeric_spaces_special|xss_clean');
 		$this->form_validation->set_rules('user', $label2, 'trim|required|xss_clean');
 		$this->form_validation->set_rules('reminder_frequency', 'Reminder frequency', 'trim|alpha|xss_clean');
-		
+
 		if($this->form_validation->run() == FALSE)
 		{
 			echo json_encode(array('st'=>0, 'msg' => form_error('projectname').form_error('journalname').form_error('user').form_error('reminder_frequency')));
@@ -192,9 +192,12 @@ class Designjournalnonp_ilyas extends CI_Controller
 				$this->design->add_journal_data_entrynonp($dataentrydata);
 
                 /*call reminder update function*/
+                $reminder_frequency = $this->input->post('reminder_frequency');
+                if($reminder_frequency!=""){
                 $this->reminder_update();
                 /*$reminders_controller = new Reminders();
                 $reminders_controller->update();*/
+                }
 
 				$sess_array = array('message' => $this->securitys->get_label_object(20)." Added Successfully","type" => 1);
 				$this->session->set_userdata('message', $sess_array);

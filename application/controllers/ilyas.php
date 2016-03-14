@@ -169,10 +169,13 @@ class Ilyas extends CI_Controller
 						//$this->email->message($message);
 						//$this->email->send();
 
-						/*call reminder update function*/
-                        $this->update();
-                        /*$reminders_controller = new Reminders();
-                        $reminders_controller->update();*/
+						/*call reminder update function if reminder frequency not none*/
+                        $reminder_frequency = $jdetails[0]->reminder_frequency;
+                        if(!empty($reminder_frequency)) {
+                            $this->update();
+                            /*$reminders_controller = new Reminders();
+                            $reminders_controller->update();*/
+                        }
 
 						$sess_array = array('message' => "Journal Published Successfully","type" => 1);
 						$this->session->set_userdata('message', $sess_array);

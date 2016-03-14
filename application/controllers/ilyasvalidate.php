@@ -275,10 +275,11 @@ class Ilyasvalidate extends CI_Controller
 				/*$this->assessment->update_validate_close($validatorno,$dataentryno);*/
 			}
 
-            /*call reminder update function*/
+            /*call reminder update function if reminder frequency not none*/
+            $reminder_frequency = $jdetails[0]->reminder_frequency;
+            if(!empty($reminder_frequency)) {
             $this->update();
-            /*$reminders_controller = new Reminders();
-            $reminders_controller->update();*/
+            }
 
 			$sess_array = array('message' => "Journal Validation Updated Successfully", 'type' => 1);
 			$this->session->set_userdata('message', $sess_array);
