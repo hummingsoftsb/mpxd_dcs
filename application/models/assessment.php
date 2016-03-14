@@ -1041,7 +1041,7 @@ Class Assessment extends CI_Model
 
     function get_current_freq()
     {
-        $query = "SELECT * FROM frequency_detail where end_date < now() order by end_date desc";
+        $query = "SELECT * FROM frequency_detail where end_date < (current_timestamp + 7 * interval '1 day') order by end_date desc";
         $q = $this->db->query($query);
         return $q->result();
     }
