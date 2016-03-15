@@ -121,7 +121,8 @@ class Journalstatus extends CI_Controller
 			$data['message']=$message;
 			$data1['username'] = $session_data['username'];
 			$data1['alerts']=$this->alertreminder->show_alert($session_data['id']);
-			$data1['alertcount']=$this->alertreminder->count_alert($session_data['id']);
+			/*$data1['alertcount']=$this->alertreminder->count_alert($session_data['id']);*/
+            $data1['alertcount']=count($data1['alerts']);
 			$data1['reminders']=$this->alertreminder->show_reminder($session_data['id']);
 			$data1['remindercount']=$this->alertreminder->count_reminder($session_data['id']);
 			$data1['alabels']=$this->securitys->get_label(22);
@@ -203,7 +204,8 @@ class Journalstatus extends CI_Controller
             $data['labelobject'] = $this->securitys->get_label_object(2);
             $data1['username'] = $session_data['username'];
             $data1['alerts'] = $this->alertreminder->show_alert($session_data['id']);
-            $data1['alertcount'] = $this->alertreminder->count_alert($session_data['id']);
+            /*$data1['alertcount'] = $this->alertreminder->count_alert($session_data['id']);*/
+            $data1['alertcount']=count($data1['alerts']);
             $data1['reminders'] = $this->alertreminder->show_reminder($session_data['id']);
             $data1['remindercount'] = $this->alertreminder->count_reminder($session_data['id']);
             $data1['alabels'] = $this->securitys->get_label(22);

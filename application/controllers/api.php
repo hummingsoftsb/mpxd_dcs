@@ -35,7 +35,8 @@ class Api extends CI_Controller
      		$session_data = $this->session->userdata('logged_in');
 			$data['username'] = $session_data['username'];
 			$data1['alerts']=$this->alertreminder->show_alert($session_data['id']);
-			$data1['alertcount']=$this->alertreminder->count_alert($session_data['id']);
+			/*$data1['alertcount']=$this->alertreminder->count_alert($session_data['id']);*/
+            $data1['alertcount']=count($data1['alerts']);
 			$data1['reminders']=$this->alertreminder->show_reminder($session_data['id']);
 			$data1['remindercount']=$this->alertreminder->count_reminder($session_data['id']);
 			
@@ -52,7 +53,8 @@ class Api extends CI_Controller
      		$session_data = $this->session->userdata('logged_in');
 			// $data_username = $session_data['username'];
 			$alerts = $this->alertreminder->show_alert($session_data['id']);
-			$alert_count = $this->alertreminder->count_alert($session_data['id']);
+			/*$alert_count = $this->alertreminder->count_alert($session_data['id']);*/
+            $alert_count=count($alerts);
 			// $data1_alertcount = $this->alertreminder->count_alert($session_data['id']);
 			// $data1_reminders = $this->alertreminder->show_reminder($session_data['id']);
 			// $data1_remindercount = $this->alertreminder->count_reminder($session_data['id']);
