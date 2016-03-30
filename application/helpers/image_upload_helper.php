@@ -132,11 +132,12 @@ else {
     $ci->load->library("imageresize", array($actual_file_pathname));
     $ci->imageresize->crop(800, 600);
     $ci->imageresize->save($actual_file_pathname);
-    //
+    // edited Agaile Victor on 23/03/2016
+    // added a new column "is_moved" to table journal_data_entry_picture and updating it to zero while inserting and updating for image moving purpose
     if (!empty($pic_vali_comment)) {
-        $data = array('data_entry_no' => $id, 'pict_seq_no' => $seq_no, 'pict_file_name' => $actual_filename, 'pict_file_path' => $file_path, 'pict_definition' => $description, 'pict_user_id' => $userid, 'data_source' => '1', 'pict_validate_comment' => $pic_vali_comment);
+        $data = array('data_entry_no' => $id, 'pict_seq_no' => $seq_no, 'pict_file_name' => $actual_filename, 'pict_file_path' => $file_path, 'pict_definition' => $description, 'pict_user_id' => $userid, 'data_source' => '1', 'pict_validate_comment' => $pic_vali_comment,'is_moved' => '0');
     } else {
-        $data = array('data_entry_no' => $id, 'pict_seq_no' => $seq_no, 'pict_file_name' => $actual_filename, 'pict_file_path' => $file_path, 'pict_definition' => $description, 'pict_user_id' => $userid, 'data_source' => '1');
+        $data = array('data_entry_no' => $id, 'pict_seq_no' => $seq_no, 'pict_file_name' => $actual_filename, 'pict_file_path' => $file_path, 'pict_definition' => $description, 'pict_user_id' => $userid, 'data_source' => '1','is_moved' => '0');
     }
     if ($is_mobile) $data['unique_id_mobile'] = $filename;
     if (!empty($data['pict_seq_no'])) {
