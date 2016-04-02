@@ -2,6 +2,8 @@
 <script src="<?php echo base_url(); ?>ilyas/moment.js"></script>
 <script src="<?php echo base_url(); ?>ilyas/pikaday.js"></script>
 <script src="<?php echo base_url(); ?>ilyas/jquery.json.js"></script>
+<script src="<?php echo base_url(); ?>ilyas/ruleJS.all.full.min.js"></script>
+<script src="<?php echo base_url(); ?>ilyas/handsontable.formula.js"></script>
 <script src="<?php echo base_url(); ?>ilyas/ilyas.js"></script>
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/handsontable.full.min.css"></link>
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/css/pikaday.css"></link>
@@ -109,6 +111,7 @@ $owner=$details->user_full_name;
 												<option value="lookup">Lookup</option>
 												<option value="progressive_link">Progressive Link</option>
 												<option value="non_progressive_link">Non-Progressive Link</option>
+												<option value="formula">Formula</option>
 												<!--<option value="checkbox" disabled=true>Checkbox</option>-->
 									</select>
 						        </div>
@@ -118,6 +121,7 @@ $owner=$details->user_full_name;
 						<div id="lookup_container"></div>
 						<div id="link_container"></div>
 						<div id="nonp_link_container"></div>
+						<div id="formula_container"></div>
 						
 						
 						<div class="row" style="margin-bottom:15px">
@@ -195,6 +199,17 @@ $owner=$details->user_full_name;
 									</div>
 								</div>
 							</div>
+							
+							<div id="formula_content" class="row" style="margin-bottom:15px">
+								<div class="form-group">
+									<label for="column_type" class="col-sm-4 control-label">Formula <red>*</red></label>
+									<div class="col-sm-5">
+										<input class="form-control" id="formula" name="formula" type="text">											
+									</div>
+								</div>
+							</div>
+							
+							
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -326,6 +341,7 @@ function edit_column_click() {
 	if (type == "lookup") { extra["lookup_id"] = $edit_modal.find("#lookup_edit").val() }
 	if (type == "progressive_link") { extra["progressive_link"] = $edit_modal.find("#link_jid_edit").val() }
 	if (type == "non_progressive_link") { console.log("NONPROG@!!", $edit_modal.find("#nonp_link_jid_edit").val() + "|" + $edit_modal.find("#nonp_link_column_edit").val()); extra["non_progressive_link"] = $edit_modal.find("#nonp_link_jid_edit").val() + "|" + $edit_modal.find("#nonp_link_column_edit").val() }
+	if (type == "formula") { extra["formula"] = $edit_modal.find("#formula_edit").val(); console.log(extra); }
 	extra["readonly"] = $edit_modal.find('#readonly_edit').prop('checked');
 	
 	hot_object.edit_column(originaltitle,title,type,uom,extra);
@@ -345,6 +361,7 @@ function edit_callback(object) {
 	$edit_modal.find('#column_title_edit').val(object.header);
 	$edit_modal.find('#column_type_edit').val(object.type);
 	$edit_modal.find('#uom_edit').val(object.uom);
+	$edit_modal.find('#formula_edit').val(object.formula);
 	
 	$edit_modal.children('#original_title').val(object.header);
 	
@@ -393,6 +410,12 @@ function edit_callback(object) {
 		$edit_modal.find('#readonly_edit').removeAttr('disabled');
 	}
 	
+	if ((object.type == 'formula')) {
+		$edit_modal.find('#formula_content_edit').appendTo($edit_modal.find('#formula_container_edit'));
+	} else {
+		$edit_modal.find('#formula_content_edit').appendTo($('#hiddenstuff_edit'));
+	}
+	
 	$edit_modal.find('#readonly_edit').prop('checked',object.readonly);
 }
 
@@ -420,9 +443,15 @@ function generate_edit_modal() {
 		if (val != "non_progressive_link") {
 			$edit_modal.find('#nonp_link_content_edit').appendTo($('#hiddenstuff_edit'));
 			$edit_modal.find('#uom_edit').removeAttr('disabled');
-			
 			$edit_modal.find('#readonly_edit').removeAttr('disabled').attr('checked',false);
 		}
+		if (val != "formula") {
+			$edit_modal.find('#formula_content_edit').appendTo($('#hiddenstuff_edit'));
+			//$edit_modal.find('#uom_edit').removeAttr('disabled');
+			//$edit_modal.find('#readonly_edit').removeAttr('disabled').attr('checked',false);
+		}
+		
+		
 		
 		switch(val) {
 			case "date":
@@ -441,6 +470,12 @@ function generate_edit_modal() {
 				$edit_modal.find('#uom_edit').attr('disabled','disabled');
 				$edit_modal.find('#readonly_edit').attr('disabled','disabled').attr('checked',true);
 				break;
+			case "formula":
+				$edit_modal.find('#formula_content_edit').appendTo($('#formula_container_edit'));
+				//$edit_modal.find('#uom_edit').attr('disabled','disabled');
+				//$edit_modal.find('#readonly_edit').attr('disabled','disabled').attr('checked',true);
+				break;
+				
 		}
 		
 		/*
@@ -483,6 +518,10 @@ function generate_edit_modal() {
 	$edit_modal.find('#nonp_link_content').attr('id','nonp_link_content_edit').attr('name','nonp_link_content_edit');
 	$edit_modal.find('#nonp_link_container').attr('id','nonp_link_container_edit').attr('name','nonp_link_container_edit');
 	$edit_modal.find('#nonp_link_column').attr('id','nonp_link_column_edit').attr('name','nonp_link_column_edit');
+	
+	$edit_modal.find('#formula_content').attr('id','formula_content_edit').attr('name','formula_content_edit');
+	$edit_modal.find('#formula_container').attr('id','formula_container_edit').attr('name','formula_container_edit');
+	$edit_modal.find('#formula').attr('id','formula_edit').attr('name','formula_edit');
 	
 	
 	$edit_modal.find('.modal-title').text('Edit Column');
@@ -543,7 +582,10 @@ $(function(){
 		if (type == "lookup") { extra["lookup_id"] = $("#lookup").val()}
 		if (type == "progressive_link") { extra["progressive_link"] = $("#link_jid").val() }
 		if (type == "non_progressive_link") { extra["non_progressive_link"] = $("#nonp_link_jid").val() +"|"+$("#nonp_link_column").val() }
+		if (type == "formula") { extra["formula"] = $("#formula").val() }
+		
 		if (readonly != "undefined") { extra["readonly"] = readonly; }
+		
 		console.log(extra);
 		add_new_column(title,type,uom,extra);
 		$('#myModal').modal('toggle');
@@ -589,6 +631,12 @@ $(function(){
 			$myModal.find('#readonly').removeAttr('disabled').attr('checked',false);
 		}
 		
+		if (val != 'formula') {
+			$myModal.find('#formula_content').appendTo($('#hiddenstuff'));
+			//$myModal.find('#uom').removeAttr('disabled');
+			//$myModal.find('#readonly').removeAttr('disabled').attr('checked',false);
+		}
+		
 		switch (val) {
 			case "date":
 				$myModal.find('#uom').val('3').attr('disabled','true');
@@ -605,6 +653,11 @@ $(function(){
 				$myModal.find('#nonp_link_content').appendTo($('#nonp_link_container'));
 				$myModal.find('#uom').attr('disabled','disabled');
 				$myModal.find('#readonly').attr('disabled','disabled').attr('checked',true);
+				break;
+			case "formula":
+				$myModal.find('#formula_content').appendTo($('#formula_container'));
+				//$myModal.find('#uom').attr('disabled','disabled');
+				//$myModal.find('#readonly').attr('disabled','disabled').attr('checked',true);
 				break;
 		}
 		
@@ -639,6 +692,7 @@ $(function(){
 	
 	
 	raw_config = <?php echo json_encode($hot_config); ?>;
+	///kikiki = _.cloneDeep(raw_config);
 	data = <?php echo json_encode($hot_data); ?>;
 	lookupdata = <?php echo json_encode($lookups); ?>;
 	hot_lock = <?php echo (($hot_lock == 1) ? "true" : "false" ); ?>;

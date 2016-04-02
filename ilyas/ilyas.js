@@ -27,6 +27,7 @@ var columns_meta = {
 	price_myr: {type: 'numeric', format: '$ 0,0.00', language:'my'},
 	numeric: {type: 'numeric', format: '0,0', renderer: 'customNumericRightAlignRenderer'},
 	decimal2: {type: 'numeric', format: '0,0.00', renderer: 'customDecimalRightAlignRenderer2'},
+	formula: {type: 'formula'},
 	//checkbox: {data:'checkbox', type: 'checkbox'},
 	lookup: {}, // This has to be built dynamically during page load
 	progressive_link: {renderer: 'disabledRenderer', designReadOnly: true},
@@ -36,7 +37,6 @@ var columns_meta = {
 
 
 // Helper functions
-
 function cols_to_config_no(raw_config) {
 	var r = {};
 	for (var i = 0; i < raw_config.length; i++) {
@@ -328,6 +328,52 @@ function HOT(Handsontable, raw_config, data,  type) {
 		//container.parentElement.style.height = (screen.height - (parseInt($('.page-header').css('height')) + parseInt($('.navbar').css('height')) + parseInt($('#after_header > .row:first').css('height')) + 50 )) + "px";
 		
 		//console.log(container.parentElement.style.height);
+		c['formulas'] = true;
+		
+		c['afterChange'] = function(changes, source) {
+			if (changes != null) {
+				// Refresh the formula at the rows
+				//console.log('Change',changes,source);
+				for (var i = 0; i < changes.length; i++) {
+					var row = changes[i][0];
+					var col_changed = changes[i][1];
+					if (_thisproxy.raw_config[col_changed].type == 'formula') {
+						//console.log('Change called by formula, skipping');
+						return;
+					}
+					if (!_thisproxy.hot_instance.isEmptyRow(row)) {
+						// Row not empty, check for formulas existance
+						$.each(_thisproxy.raw_config, function(col, j){
+							if (j.type == 'formula') {
+								if (_thisproxy.hot_instance.getDataAtCell(row,col) == null) {
+									
+									// Update formula to reflect the new row
+									var newFormula = _thisproxy.hot_instance.plugin.utils.updateFormula(j.formula,'down',row);
+									_thisproxy.hot_instance.setDataAtCell(row,col,newFormula);
+								}
+							}
+						});
+					}
+				}
+				
+			}
+		};
+		
+		c['afterCreateRow'] = function(index, amount, auto){
+			//_thisproxy.refresh_formulae();
+		}
+		
+		
+		c['afterRemoveRow'] = function(index, amount, auto){
+			_thisproxy.refresh_formulae();
+		}
+		
+		
+		c['afterRemoveCol'] = function(){
+			_thisproxy.refresh_formulae();
+		}
+		
+		
 		this.hot_instance = new this.Handsontable(container, c);
 		//this.hot_instance.forceFullRender = true;
 		this.hot_initialized = true;
@@ -340,9 +386,35 @@ function HOT(Handsontable, raw_config, data,  type) {
 		}
 		this.hot_instance.forceFullRender = true;
 		this.hot_instance.render();
-		
+		this.refresh_formulae();
 		//console.log($(".ht_master > .wtHolder > .wtHider").css('height'));
 		return this;
+	}
+	
+	this.refresh_formulae = function() {
+		// If HOT is not initialized, no need to refresh.
+		
+		var _thisproxy = this;
+		console.log('Refreshing',_thisproxy.hot_initialized);
+		//console.log('refreshing', _thisproxy.hot_initialized);
+		if (!_thisproxy.hot_initialized) return;
+		//console.log('refreshing formulae');
+		for (var i = 0; i < _thisproxy.data.length; i++) {
+			var row = i;
+			if (!_thisproxy.hot_instance.isEmptyRow(row)) {
+				// Row not empty, check for formulas existance
+				$.each(_thisproxy.raw_config, function(col, j){
+					if (j.type == 'formula') {
+						// Update formula to reflect the new row
+						var newFormula = _thisproxy.hot_instance.plugin.utils.updateFormula(j.formula,'down',row);
+						//console.log('Changing for row',row,newFormula);
+						_thisproxy.hot_instance.setDataAtCell(row,col,newFormula);
+					}
+				});
+			} else {
+				//console.log('row is empty',row);
+			}
+		}
 	}
 	
 	this.hot_parse_data = function(data) {
@@ -382,12 +454,12 @@ function HOT(Handsontable, raw_config, data,  type) {
 	this.hot_load_data = function(data) {
 		this.hot_parse_data(data);
 		this.hot_instance.loadData(this.data);
+		this.hot_instance.refresh_formulae();
 	}
 	
 	
 	// Standardize raw config & fill in default values
 	this.hot_set_raw_config = function(config) {
-		
 		for (var i = 0; i < config.length; i++) {
 			if (typeof config[i]["readonly"] == "undefined") config[i]["readonly"] = false;
 			else if (config[i]["readonly"] == "0") config[i]["readonly"] = false;
@@ -397,10 +469,10 @@ function HOT(Handsontable, raw_config, data,  type) {
 		}
 		
 		// Reset orders so that it does not skip any value
-		
 		config.sort(function(a,b){
-			return a['order'] > b['order'];
+			return a['order'] - b['order'];
 		});
+		
 		
 		for (var i = 0; i < config.length; i++) {
 			config[i]["order"] = i;
@@ -496,7 +568,7 @@ function HOT(Handsontable, raw_config, data,  type) {
 	
 	this.hot_rebuild_columns = function() {
 		this.raw_config.sort(function(a,b){
-			return a['order'] > b['order'];
+			return a['order'] - b['order'];
 		});
 		
 		
@@ -545,12 +617,14 @@ function HOT(Handsontable, raw_config, data,  type) {
 				if ((type == "lookup") && (typeof extra["lookup_id"] != "undefined")) {d["lookup_id"] = extra["lookup_id"]}
 				if ((type == "progressive_link") && (typeof extra["progressive_link"] != "undefined")) {d["progressive_link"] = extra["progressive_link"]}
 				if ((type == "non_progressive_link") && (typeof extra["non_progressive_link"] != "undefined")) {d["non_progressive_link"] = extra["non_progressive_link"]}
+				if ((type == "formula") && (typeof extra["formula"] != "undefined")) {d["formula"] = extra["formula"]}
 				d["readonly"] = ((typeof extra["readonly"] != "undefined") && (extra["readonly"] == "1"));
 			}
 			this.raw_config.push(d);
 			this.araw_config[title] = this.raw_config[this.raw_config.length-1];
 		}
 		this.hot_rebuild_columns();
+		this.refresh_formulae();
 	}
 	
 	this.edit_column = function(originaltitle,title,type,uom,extra) {
@@ -572,6 +646,7 @@ function HOT(Handsontable, raw_config, data,  type) {
 				if ((type == "lookup") && (typeof extra["lookup_id"] != "undefined")) {obj["lookup_id"] = extra["lookup_id"]}
 				if ((type == "progressive_link") && (typeof extra["progressive_link"] != "undefined")) {obj["progressive_link"] = extra["progressive_link"]}
 				if ((type == "non_progressive_link") && (typeof extra["non_progressive_link"] != "undefined")) {obj["non_progressive_link"] = extra["non_progressive_link"]}
+				if ((type == "formula") && (typeof extra["formula"] != "undefined")) {obj["formula"] = extra["formula"]}
 				obj["readonly"] = ((typeof extra["readonly"] != "undefined") && (extra["readonly"] == "1"));
 			}
 			if (originaltitle == title) {
@@ -586,6 +661,9 @@ function HOT(Handsontable, raw_config, data,  type) {
 				delete this.araw_config[originaltitle];
 			}
 			this.hot_rebuild_columns();
+			if (type == 'formula') {
+				this.refresh_formulae();
+			}
 		}
 	}
 	
@@ -635,6 +713,15 @@ function HOT(Handsontable, raw_config, data,  type) {
 				//console.log("WOO",d[i]);
 				d[i] = (bulkLookupDV(this.raw_config[i]["lookup_id"], d[i]));
 				console.log(this.raw_config[i]["lookup_id"],d[i]);
+			}
+			
+			// Parse formula so it is saved as data
+			for (var j = 0; j < d[i].length; j++) {
+				if (typeof d[i][j] == 'string') {
+					if (d[i][j].indexOf('=') > -1) {
+						d[i][j] = this.hot_instance.plugin.parse(d[i][j].replace('=',''),{}).result;
+					}
+				}
 			}
 		}
 		

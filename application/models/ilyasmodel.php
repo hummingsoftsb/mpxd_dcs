@@ -5,7 +5,7 @@ Class IlyasModel extends CI_Model
 {
 	
 	function get_config($jid, $all = FALSE) {
-		$this->db->select('config_no,col_header,col_width,uom_id,type,col_order,validate_pending,validate_revision,lookup_id,read_only,progressive_link,non_progressive_link');
+		$this->db->select('config_no,col_header,col_width,uom_id,type,col_order,validate_pending,validate_revision,lookup_id,read_only,progressive_link,non_progressive_link,formula');
 		$this->db->from('ilyas_config');
 		$this->db->where('journal_no', $jid);
 		$this->db->order_by('col_order', 'asc');
@@ -23,7 +23,8 @@ Class IlyasModel extends CI_Model
 				'readonly' => $i['read_only'],
 				'lookup_id' => $i['lookup_id'],
 				'progressive_link' => $i['progressive_link'],
-				'non_progressive_link' => $i['non_progressive_link']]);
+				'non_progressive_link' => $i['non_progressive_link'],
+				'formula' => $i['formula']]);
 		endforeach;
 		}
 		else {
@@ -41,7 +42,8 @@ Class IlyasModel extends CI_Model
 				'readonly' => $i['read_only'],
 				'lookup_id' => $i['lookup_id'],
 				'progressive_link' => $i['progressive_link'],
-				'non_progressive_link' => $i['non_progressive_link']]);
+				'non_progressive_link' => $i['non_progressive_link'],
+				'formula' => $i['formula']]);
 		endforeach;
 		}
 		return $result;
@@ -72,6 +74,7 @@ Class IlyasModel extends CI_Model
 				if (!(($c['type'] == "lookup") && isset($c['lookup_id']))) $c['lookup_id'] = null;
 				if (!(($c['type'] == "progressive_link") && isset($c['progressive_link']))) $c['progressive_link'] = null;
 				if (!(($c['type'] == "non_progressive_link") && isset($c['non_progressive_link']))) $c['non_progressive_link'] = null;
+				if (!(($c['type'] == "formula") && isset($c['formula']))) $c['formula'] = null;
 				array_push($confignos_hot, $c['config_no']);
 				$confighot_assoc[$c['config_no']] = $c;
 			}
@@ -113,7 +116,8 @@ Class IlyasModel extends CI_Model
 				'lookup_id' => $c['lookup_id'],
 				'read_only' => $c['readonly'],
 				'progressive_link' => $c['progressive_link'],
-				'non_progressive_link' => $c['non_progressive_link']
+				'non_progressive_link' => $c['non_progressive_link'],
+				'formula' => $c['formula']
 			);
 			$this->db->update('ilyas_config', $d, array('config_no' => $c['config_no']));
 			$updated++;
@@ -133,7 +137,7 @@ Class IlyasModel extends CI_Model
 			for ($i = 0; $i < sizeOf($configs_tocreate); $i++) {
 				$d = $configs_tocreate[$i];
 				
-				array_push($insertdata, array($jid, $d['uom'], $d['header'], $d['width'], $d['type'], $d['order'], $d['lookup_id'], $d['readonly'], $d['progressive_link'], $d['non_progressive_link']));
+				array_push($insertdata, array($jid, $d['uom'], $d['header'], $d['width'], $d['type'], $d['order'], $d['lookup_id'], $d['readonly'], $d['progressive_link'], $d['non_progressive_link'], $d['formula']));
 			}
 			
 			function fixnullvalue(& $a) {
@@ -150,7 +154,7 @@ Class IlyasModel extends CI_Model
 			/* Stringify rows */
 			for($i = 0; $i < sizeOf($insertdata); $i++) $insertdata[$i] = implode(',', $insertdata[$i]);
 			$query = "insert into ilyas_config ";
-			$query .= "(journal_no,uom_id,col_header,col_width,type,col_order,lookup_id,read_only,progressive_link,non_progressive_link) ";
+			$query .= "(journal_no,uom_id,col_header,col_width,type,col_order,lookup_id,read_only,progressive_link,non_progressive_link,formula) ";
 			
 			
 			$query .= "values (" . implode( '),(', $insertdata ) . ")";
