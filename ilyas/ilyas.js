@@ -27,7 +27,7 @@ var columns_meta = {
 	price_myr: {type: 'numeric', format: '$ 0,0.00', language:'my'},
 	numeric: {type: 'numeric', format: '0,0', renderer: 'customNumericRightAlignRenderer'},
 	decimal2: {type: 'numeric', format: '0,0.00', renderer: 'customDecimalRightAlignRenderer2'},
-	formula: {type: 'formula'},
+	formula: {type: 'formula', renderer: 'customFormulaRenderer'},
 	//checkbox: {data:'checkbox', type: 'checkbox'},
 	lookup: {}, // This has to be built dynamically during page load
 	progressive_link: {renderer: 'disabledRenderer', designReadOnly: true},
@@ -116,6 +116,117 @@ customDecimalRightAlignRenderer2 = function(instance, td, row, col, prop, value,
   td.style.textAlign = "right";
   if (isNaN(value)) return;
   return td;
+}
+
+customFormulaRenderer = function(instance, TD, row, col, prop, value, cellProperties) {
+
+	if (true) {
+	// translate coordinates into cellId
+	var cellId = instance.plugin.utils.translateCellCoords({
+		  row: row,
+		  col: col
+		}),
+		prevFormula = null,
+		formula = null,
+		needUpdate = false,
+		error, result;
+
+	if (!cellId) {
+	  return;
+	}
+
+	// get cell data
+	var item = instance.plugin.matrix.getItem(cellId);
+
+	if (item) {
+
+	  needUpdate = !! item.needUpdate;
+
+	  if (item.error) {
+		prevFormula = item.formula;
+		error = item.error;
+
+		if (needUpdate) {
+		  error = null;
+		}
+	  }
+	}
+
+	// check if typed formula or cell value should be recalculated
+	if ((value && value[0] === '=') || needUpdate) {
+
+	  formula = value.substr(1).toUpperCase();
+
+	  if (!error || formula !== prevFormula) {
+
+		var currentItem = item;
+
+		if (!currentItem) {
+
+		  // define item to rulesJS matrix if not exists
+		  item = {
+			id: cellId,
+			formula: formula
+		  };
+
+		  // add item to matrix
+		  currentItem = instance.plugin.matrix.addItem(item);
+		}
+
+		// parse formula
+		var newValue = instance.plugin.parse(formula, {
+		  row: row,
+		  col: col,
+		  id: cellId
+		});
+
+		// check if update needed
+		needUpdate = (newValue.error === '#NEED_UPDATE');
+
+		// update item value and error
+		instance.plugin.matrix.updateItem(currentItem, {
+		  formula: formula,
+		  value: newValue.result,
+		  error: newValue.error,
+		  needUpdate: needUpdate
+		});
+
+		error = newValue.error;
+		result = newValue.result;
+
+		// update cell value in hot
+		value = error || result;
+	  }
+	}
+
+	if (error) {
+	  // clear cell value
+	  if (!value) {
+		// reset error
+		error = null;
+	  } else {
+		// show error
+		value = error;
+	  }
+	}
+
+	// change background color
+	if (instance.plugin.utils.isSet(error)) {
+	  Handsontable.Dom.addClass(TD, 'formula-error');
+	} else if (instance.plugin.utils.isSet(result)) {
+	  Handsontable.Dom.removeClass(TD, 'formula-error');
+	  Handsontable.Dom.addClass(TD, 'formula');
+	}
+	}
+
+	// apply changes
+	//console.log(typeof value);
+	//if (cellProperties.type === 'numeric') {
+	if (typeof value == 'number') {
+		customDecimalRightAlignRenderer2.apply(this, [instance, TD, row, col, prop, value, cellProperties]);
+	} else {
+		Handsontable.renderers.TextRenderer.apply(this, [instance, TD, row, col, prop, value, cellProperties]);
+	}
 }
 
 disabledRenderer = function(instance, td, row, col, prop, value, cellProperties) {
@@ -331,6 +442,22 @@ function HOT(Handsontable, raw_config, data,  type) {
 		c['formulas'] = true;
 		
 		c['afterChange'] = function(changes, source) {
+			
+			var rerender = false;
+			if (source == 'paste') {
+				rerender = true;
+				/*var rows = [];
+				for (var i = 0; i < changes.length; i++) {
+					if (rows.indexOf(changes[i][0]) == -1) {
+						rows.push(changes[i][0]);
+					}
+				}
+				*/
+				//this.count = 0;
+			}
+			
+			
+			//console.log('count',this.count++);
 			if (changes != null) {
 				// Refresh the formula at the rows
 				//console.log('Change',changes,source);
@@ -346,7 +473,7 @@ function HOT(Handsontable, raw_config, data,  type) {
 						$.each(_thisproxy.raw_config, function(col, j){
 							if (j.type == 'formula') {
 								if (_thisproxy.hot_instance.getDataAtCell(row,col) == null) {
-									
+									//console.log('Updating formula at',row,col);
 									// Update formula to reflect the new row
 									var newFormula = _thisproxy.hot_instance.plugin.utils.updateFormula(j.formula,'down',row);
 									_thisproxy.hot_instance.setDataAtCell(row,col,newFormula);
@@ -355,7 +482,10 @@ function HOT(Handsontable, raw_config, data,  type) {
 						});
 					}
 				}
-				
+			}
+			
+			if (rerender) {
+				this.render();
 			}
 		};
 		
@@ -365,12 +495,22 @@ function HOT(Handsontable, raw_config, data,  type) {
 		
 		
 		c['afterRemoveRow'] = function(index, amount, auto){
-			_thisproxy.refresh_formulae();
+			_thisproxy.refresh_formulae(index);
 		}
 		
+		//c['columnSorting'] = false;
 		
-		c['afterRemoveCol'] = function(){
-			_thisproxy.refresh_formulae();
+		c['afterRemoveCol'] = function(index, amount){
+			_thisproxy.refresh_formulae(0,index);
+		}
+		
+		c['beforeRender'] = function(){
+			//window.renderstart = new Date().getTime();
+			//console.log('Before render');
+		}
+		
+		c['afterRender'] = function(){
+			//console.log('After render', new Date().getTime() - window.renderstart);
 		}
 		
 		
@@ -391,19 +531,24 @@ function HOT(Handsontable, raw_config, data,  type) {
 		return this;
 	}
 	
-	this.refresh_formulae = function() {
+	this.refresh_formulae = function(startRow, startCol) {
 		// If HOT is not initialized, no need to refresh.
-		
+		if (typeof startRow == 'undefined') startRow = 0;
+		if (typeof startCol == 'undefined') startCol = 0;
 		var _thisproxy = this;
 		console.log('Refreshing',_thisproxy.hot_initialized);
+		window.dontRenderYet = true;
+		
+		var start = new Date().getTime();
 		//console.log('refreshing', _thisproxy.hot_initialized);
 		if (!_thisproxy.hot_initialized) return;
 		//console.log('refreshing formulae');
-		for (var i = 0; i < _thisproxy.data.length; i++) {
+		for (var i = startRow; i < _thisproxy.data.length; i++) {
 			var row = i;
 			if (!_thisproxy.hot_instance.isEmptyRow(row)) {
 				// Row not empty, check for formulas existance
 				$.each(_thisproxy.raw_config, function(col, j){
+					if (col < startCol) return;
 					if (j.type == 'formula') {
 						// Update formula to reflect the new row
 						var newFormula = _thisproxy.hot_instance.plugin.utils.updateFormula(j.formula,'down',row);
@@ -415,6 +560,10 @@ function HOT(Handsontable, raw_config, data,  type) {
 				//console.log('row is empty',row);
 			}
 		}
+		  var end = new Date().getTime();
+		var time = end - start;
+		window.dontRenderYet = false;
+		console.log('FINISH REFRESH, Execution time: ' + time);
 	}
 	
 	this.hot_parse_data = function(data) {
@@ -716,10 +865,12 @@ function HOT(Handsontable, raw_config, data,  type) {
 			}
 			
 			// Parse formula so it is saved as data
-			for (var j = 0; j < d[i].length; j++) {
-				if (typeof d[i][j] == 'string') {
-					if (d[i][j].indexOf('=') > -1) {
-						d[i][j] = this.hot_instance.plugin.parse(d[i][j].replace('=',''),{}).result;
+			if (typeof d[i] != 'undefined') {
+				for (var j = 0; j < d[i].length; j++) {
+					if (typeof d[i][j] == 'string') {
+						if (d[i][j].indexOf('=') > -1) {
+							d[i][j] = this.hot_instance.plugin.parse(d[i][j].replace('=',''),{}).result;
+						}
 					}
 				}
 			}
@@ -826,6 +977,7 @@ function HOT(Handsontable, raw_config, data,  type) {
 	this.Handsontable.renderers.registerRenderer("disabledRenderer",disabledRenderer);
 	this.Handsontable.renderers.registerRenderer("customNumericRightAlignRenderer",customNumericRightAlignRenderer);
 	this.Handsontable.renderers.registerRenderer("customDecimalRightAlignRenderer2",customDecimalRightAlignRenderer2);
+	this.Handsontable.renderers.registerRenderer("customFormulaRenderer",customFormulaRenderer);
 	
 	this.initialize(raw_config, data, type);
 	this.initialized = true;

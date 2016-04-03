@@ -19180,15 +19180,49 @@ jStat.extend(jStat.fn, {
       for (var i = 0; i < numbers.length; i++) {
         if (numbers[i] instanceof Array) {
           for (var j = 0; j < numbers[i].length; j++) {
+			console.log(result);
             result += (Formula.ISNUMBER(numbers[i][j])) ? numbers[i][j] : 0;
           }
         } else {
+		  console.log(result);
           result += (Formula.ISNUMBER(numbers[i])) ? numbers[i] : 0;
         }
       }
 
       return result;
     };
+	
+	/* Added by ilyas to bypass error during jison parse */
+    Formula.SUBTRACT = function () {
+      var numbers = Formula.FLATTEN(arguments);
+	  var a = parseFloat(numbers[0]);
+	  var b = parseFloat(numbers[1]);
+	  if (isNaN(a)) a = 0;
+	  if (isNaN(b)) b = 0;
+      var result = a - b;
+
+      return result;
+    };
+	
+	// Return empty string if not a number
+	Formula.MUL = function () {
+	  var numbers = Formula.FLATTEN(arguments);
+      var result = 1;
+      for (var i = 0; i < numbers.length; i++) {
+        if (numbers[i] instanceof Array) {
+          for (var j = 0; j < numbers[i].length; j++) {
+			if (!Formula.ISNUMBER(numbers[i][j])) { return ''; }
+            result *= (Formula.ISNUMBER(numbers[i][j])) ? numbers[i][j] : 0;
+          }
+        } else {
+			if (!Formula.ISNUMBER(numbers[i])) { return ''; }
+          result *= (Formula.ISNUMBER(numbers[i])) ? numbers[i] : 0;
+        }
+      }
+
+      return result;
+	}
+	/* End */
 
     Formula.SUMIF = function (range, criteria) {
       range = Formula.FLATTEN(range);
@@ -22500,7 +22534,7 @@ var ruleJS = (function (root) {
       'DATE', 'DATEVALUE', 'DAY', 'DAYS', 'DAYS360', 'DB', 'DDB', 'DEC2BIN', 'DEC2HEX', 'DEC2OCT', 'DECIMAL', 'DEGREES', 'DELTA', 'DEVSQ', 'DOLLAR', 'DOLLARDE', 'DOLLARFR',
       'E', 'EDATE', 'EFFECT', 'EOMONTH', 'ERF', 'ERFC', 'EVEN', 'EXACT', 'EXPONDIST',
       'FALSE', 'FDIST', 'FINV', 'FISHER', 'FISHERINV',
-      'IF', 'INT', 'ISEVEN', 'ISODD',
+      'IF', 'INT', 'ISEVEN', 'ISODD','ISNUMBER','ISERROR','SUBTRACT','MUL',
       'LN', 'LOG', 'LOG10',
       'MAX', 'MAXA', 'MEDIAN', 'MIN', 'MINA', 'MOD',
       'NOT',
@@ -22827,8 +22861,16 @@ var ruleJS = (function (root) {
     try {
 
       parser.setObj(element);
+	  
+	  //var start = new Date().getTime();
+		//alert();
+		
       result = parser.parse(formula);
-
+	  
+	  /*var end = new Date().getTime();
+		var time = end - start;
+		console.log('Execution time: ' + time, formula);*/
+		
       var id;
 
       if (element instanceof HTMLElement) {
@@ -22852,6 +22894,8 @@ var ruleJS = (function (root) {
     } catch (ex) {
 
       var message = Exception.get(ex.message);
+	  //console.log("GOT THE ERR!",ex.message,formula,error,result);
+	  //console.log("GOT THE ERR!",parser.parse(formula));
 
       if (message) {
         error = message;

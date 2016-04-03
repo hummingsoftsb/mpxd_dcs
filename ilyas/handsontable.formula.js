@@ -1,3 +1,4 @@
+// Formula functions. This is edited too, dont replace with original version
 (function(Handsontable) {
   'use strict';
 
@@ -14,6 +15,7 @@
     };
 
     var formulaRenderer = function(instance, TD, row, col, prop, value, cellProperties) {
+
       if (instance.formulasEnabled && isFormula(value)) {
         // translate coordinates into cellId
         var cellId = instance.plugin.utils.translateCellCoords({
@@ -114,7 +116,9 @@
       }
 
       // apply changes
-      if (cellProperties.type === 'numeric') {
+	  //console.log(typeof value);
+      //if (cellProperties.type === 'numeric') {
+      if (typeof value == 'number') {
         numericCell.renderer.apply(this, [instance, TD, row, col, prop, value, cellProperties]);
       } else {
         textCell.renderer.apply(this, [instance, TD, row, col, prop, value, cellProperties]);
@@ -123,7 +127,6 @@
 
     var afterChange = function(changes, source) {
       var instance = this;
-
       if (!instance.formulasEnabled) {
         return;
       }
@@ -160,11 +163,14 @@
 
             rerender = true;
           }
+		  
+		  
         });
 
         if (rerender) {
           instance.render();
         }
+		
       }
     };
 
@@ -414,6 +420,7 @@
         instance.removeHook('afterCreateCol', afterCreateCol);
       }
     };
+	Handsontable.renderers.registerRenderer('formulaRenderer',formulaRenderer);
   }
 
   var htFormula = new HandsontableFormula();
@@ -423,5 +430,6 @@
   Handsontable.hooks.add('afterUpdateSettings', function() {
     htFormula.init.call(this, 'afterUpdateSettings')
   });
+  
 
 })(Handsontable);
