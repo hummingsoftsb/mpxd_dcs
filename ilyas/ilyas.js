@@ -27,6 +27,7 @@ var columns_meta = {
 	price_myr: {type: 'numeric', format: '$ 0,0.00', language:'my'},
 	numeric: {type: 'numeric', format: '0,0', renderer: 'customNumericRightAlignRenderer'},
 	decimal2: {type: 'numeric', format: '0,0.00', renderer: 'customDecimalRightAlignRenderer2'},
+	formula: {type: 'formula', renderer: 'customFormulaRenderer'},
 	//checkbox: {data:'checkbox', type: 'checkbox'},
 	lookup: {}, // This has to be built dynamically during page load
 	progressive_link: {renderer: 'disabledRenderer', designReadOnly: true},
@@ -36,7 +37,6 @@ var columns_meta = {
 
 
 // Helper functions
-
 function cols_to_config_no(raw_config) {
 	var r = {};
 	for (var i = 0; i < raw_config.length; i++) {
@@ -116,6 +116,117 @@ customDecimalRightAlignRenderer2 = function(instance, td, row, col, prop, value,
   td.style.textAlign = "right";
   if (isNaN(value)) return;
   return td;
+}
+
+customFormulaRenderer = function(instance, TD, row, col, prop, value, cellProperties) {
+
+	if (true) {
+	// translate coordinates into cellId
+	var cellId = instance.plugin.utils.translateCellCoords({
+		  row: row,
+		  col: col
+		}),
+		prevFormula = null,
+		formula = null,
+		needUpdate = false,
+		error, result;
+
+	if (!cellId) {
+	  return;
+	}
+
+	// get cell data
+	var item = instance.plugin.matrix.getItem(cellId);
+
+	if (item) {
+
+	  needUpdate = !! item.needUpdate;
+
+	  if (item.error) {
+		prevFormula = item.formula;
+		error = item.error;
+
+		if (needUpdate) {
+		  error = null;
+		}
+	  }
+	}
+
+	// check if typed formula or cell value should be recalculated
+	if ((value && value[0] === '=') || needUpdate) {
+
+	  formula = value.substr(1).toUpperCase();
+
+	  if (!error || formula !== prevFormula) {
+
+		var currentItem = item;
+
+		if (!currentItem) {
+
+		  // define item to rulesJS matrix if not exists
+		  item = {
+			id: cellId,
+			formula: formula
+		  };
+
+		  // add item to matrix
+		  currentItem = instance.plugin.matrix.addItem(item);
+		}
+
+		// parse formula
+		var newValue = instance.plugin.parse(formula, {
+		  row: row,
+		  col: col,
+		  id: cellId
+		});
+
+		// check if update needed
+		needUpdate = (newValue.error === '#NEED_UPDATE');
+
+		// update item value and error
+		instance.plugin.matrix.updateItem(currentItem, {
+		  formula: formula,
+		  value: newValue.result,
+		  error: newValue.error,
+		  needUpdate: needUpdate
+		});
+
+		error = newValue.error;
+		result = newValue.result;
+
+		// update cell value in hot
+		value = error || result;
+	  }
+	}
+
+	if (error) {
+	  // clear cell value
+	  if (!value) {
+		// reset error
+		error = null;
+	  } else {
+		// show error
+		value = error;
+	  }
+	}
+
+	// change background color
+	if (instance.plugin.utils.isSet(error)) {
+	  Handsontable.Dom.addClass(TD, 'formula-error');
+	} else if (instance.plugin.utils.isSet(result)) {
+	  Handsontable.Dom.removeClass(TD, 'formula-error');
+	  Handsontable.Dom.addClass(TD, 'formula');
+	}
+	}
+
+	// apply changes
+	//console.log(typeof value);
+	//if (cellProperties.type === 'numeric') {
+	if (typeof value == 'number') {
+		customDecimalRightAlignRenderer2.apply(this, [instance, TD, row, col, prop, value, cellProperties]);
+	} else {
+		Handsontable.renderers.TextRenderer.apply(this, [instance, TD, row, col, prop, value, cellProperties]);
+	}
 }
 
 disabledRenderer = function(instance, td, row, col, prop, value, cellProperties) {
@@ -328,6 +439,81 @@ function HOT(Handsontable, raw_config, data,  type) {
 		//container.parentElement.style.height = (screen.height - (parseInt($('.page-header').css('height')) + parseInt($('.navbar').css('height')) + parseInt($('#after_header > .row:first').css('height')) + 50 )) + "px";
 		
 		//console.log(container.parentElement.style.height);
+		c['formulas'] = true;
+		
+		c['afterChange'] = function(changes, source) {
+			
+			var rerender = false;
+			if (source == 'paste') {
+				rerender = true;
+				/*var rows = [];
+				for (var i = 0; i < changes.length; i++) {
+					if (rows.indexOf(changes[i][0]) == -1) {
+						rows.push(changes[i][0]);
+					}
+				}
+				*/
+				//this.count = 0;
+			}
+			
+			
+			//console.log('count',this.count++);
+			if (changes != null) {
+				// Refresh the formula at the rows
+				//console.log('Change',changes,source);
+				for (var i = 0; i < changes.length; i++) {
+					var row = changes[i][0];
+					var col_changed = changes[i][1];
+					if (_thisproxy.raw_config[col_changed].type == 'formula') {
+						//console.log('Change called by formula, skipping');
+						return;
+					}
+					if (!_thisproxy.hot_instance.isEmptyRow(row)) {
+						// Row not empty, check for formulas existance
+						$.each(_thisproxy.raw_config, function(col, j){
+							if (j.type == 'formula') {
+								if (_thisproxy.hot_instance.getDataAtCell(row,col) == null) {
+									//console.log('Updating formula at',row,col);
+									// Update formula to reflect the new row
+									var newFormula = _thisproxy.hot_instance.plugin.utils.updateFormula(j.formula,'down',row);
+									_thisproxy.hot_instance.setDataAtCell(row,col,newFormula);
+								}
+							}
+						});
+					}
+				}
+			}
+			
+			if (rerender) {
+				this.render();
+			}
+		};
+		
+		c['afterCreateRow'] = function(index, amount, auto){
+			//_thisproxy.refresh_formulae();
+		}
+		
+		
+		c['afterRemoveRow'] = function(index, amount, auto){
+			_thisproxy.refresh_formulae(index);
+		}
+		
+		//c['columnSorting'] = false;
+		
+		c['afterRemoveCol'] = function(index, amount){
+			_thisproxy.refresh_formulae(0,index);
+		}
+		
+		c['beforeRender'] = function(){
+			//window.renderstart = new Date().getTime();
+			//console.log('Before render');
+		}
+		
+		c['afterRender'] = function(){
+			//console.log('After render', new Date().getTime() - window.renderstart);
+		}
+		
+		
 		this.hot_instance = new this.Handsontable(container, c);
 		//this.hot_instance.forceFullRender = true;
 		this.hot_initialized = true;
@@ -340,9 +526,44 @@ function HOT(Handsontable, raw_config, data,  type) {
 		}
 		this.hot_instance.forceFullRender = true;
 		this.hot_instance.render();
-		
+		this.refresh_formulae();
 		//console.log($(".ht_master > .wtHolder > .wtHider").css('height'));
 		return this;
+	}
+	
+	this.refresh_formulae = function(startRow, startCol) {
+		// If HOT is not initialized, no need to refresh.
+		if (typeof startRow == 'undefined') startRow = 0;
+		if (typeof startCol == 'undefined') startCol = 0;
+		var _thisproxy = this;
+		console.log('Refreshing',_thisproxy.hot_initialized);
+		window.dontRenderYet = true;
+		
+		var start = new Date().getTime();
+		//console.log('refreshing', _thisproxy.hot_initialized);
+		if (!_thisproxy.hot_initialized) return;
+		//console.log('refreshing formulae');
+		for (var i = startRow; i < _thisproxy.data.length; i++) {
+			var row = i;
+			if (!_thisproxy.hot_instance.isEmptyRow(row)) {
+				// Row not empty, check for formulas existance
+				$.each(_thisproxy.raw_config, function(col, j){
+					if (col < startCol) return;
+					if (j.type == 'formula') {
+						// Update formula to reflect the new row
+						var newFormula = _thisproxy.hot_instance.plugin.utils.updateFormula(j.formula,'down',row);
+						//console.log('Changing for row',row,newFormula);
+						_thisproxy.hot_instance.setDataAtCell(row,col,newFormula);
+					}
+				});
+			} else {
+				//console.log('row is empty',row);
+			}
+		}
+		  var end = new Date().getTime();
+		var time = end - start;
+		window.dontRenderYet = false;
+		console.log('FINISH REFRESH, Execution time: ' + time);
 	}
 	
 	this.hot_parse_data = function(data) {
@@ -382,12 +603,12 @@ function HOT(Handsontable, raw_config, data,  type) {
 	this.hot_load_data = function(data) {
 		this.hot_parse_data(data);
 		this.hot_instance.loadData(this.data);
+		this.hot_instance.refresh_formulae();
 	}
 	
 	
 	// Standardize raw config & fill in default values
 	this.hot_set_raw_config = function(config) {
-		
 		for (var i = 0; i < config.length; i++) {
 			if (typeof config[i]["readonly"] == "undefined") config[i]["readonly"] = false;
 			else if (config[i]["readonly"] == "0") config[i]["readonly"] = false;
@@ -397,10 +618,10 @@ function HOT(Handsontable, raw_config, data,  type) {
 		}
 		
 		// Reset orders so that it does not skip any value
-		
 		config.sort(function(a,b){
-			return a['order'] > b['order'];
+			return a['order'] - b['order'];
 		});
+		
 		
 		for (var i = 0; i < config.length; i++) {
 			config[i]["order"] = i;
@@ -496,7 +717,7 @@ function HOT(Handsontable, raw_config, data,  type) {
 	
 	this.hot_rebuild_columns = function() {
 		this.raw_config.sort(function(a,b){
-			return a['order'] > b['order'];
+			return a['order'] - b['order'];
 		});
 		
 		
@@ -545,12 +766,14 @@ function HOT(Handsontable, raw_config, data,  type) {
 				if ((type == "lookup") && (typeof extra["lookup_id"] != "undefined")) {d["lookup_id"] = extra["lookup_id"]}
 				if ((type == "progressive_link") && (typeof extra["progressive_link"] != "undefined")) {d["progressive_link"] = extra["progressive_link"]}
 				if ((type == "non_progressive_link") && (typeof extra["non_progressive_link"] != "undefined")) {d["non_progressive_link"] = extra["non_progressive_link"]}
+				if ((type == "formula") && (typeof extra["formula"] != "undefined")) {d["formula"] = extra["formula"]}
 				d["readonly"] = ((typeof extra["readonly"] != "undefined") && (extra["readonly"] == "1"));
 			}
 			this.raw_config.push(d);
 			this.araw_config[title] = this.raw_config[this.raw_config.length-1];
 		}
 		this.hot_rebuild_columns();
+		this.refresh_formulae();
 	}
 	
 	this.edit_column = function(originaltitle,title,type,uom,extra) {
@@ -572,6 +795,7 @@ function HOT(Handsontable, raw_config, data,  type) {
 				if ((type == "lookup") && (typeof extra["lookup_id"] != "undefined")) {obj["lookup_id"] = extra["lookup_id"]}
 				if ((type == "progressive_link") && (typeof extra["progressive_link"] != "undefined")) {obj["progressive_link"] = extra["progressive_link"]}
 				if ((type == "non_progressive_link") && (typeof extra["non_progressive_link"] != "undefined")) {obj["non_progressive_link"] = extra["non_progressive_link"]}
+				if ((type == "formula") && (typeof extra["formula"] != "undefined")) {obj["formula"] = extra["formula"]}
 				obj["readonly"] = ((typeof extra["readonly"] != "undefined") && (extra["readonly"] == "1"));
 			}
 			if (originaltitle == title) {
@@ -586,6 +810,9 @@ function HOT(Handsontable, raw_config, data,  type) {
 				delete this.araw_config[originaltitle];
 			}
 			this.hot_rebuild_columns();
+			if (type == 'formula') {
+				this.refresh_formulae();
+			}
 		}
 	}
 	
@@ -635,6 +862,17 @@ function HOT(Handsontable, raw_config, data,  type) {
 				//console.log("WOO",d[i]);
 				d[i] = (bulkLookupDV(this.raw_config[i]["lookup_id"], d[i]));
 				console.log(this.raw_config[i]["lookup_id"],d[i]);
+			}
+			
+			// Parse formula so it is saved as data
+			if (typeof d[i] != 'undefined') {
+				for (var j = 0; j < d[i].length; j++) {
+					if (typeof d[i][j] == 'string') {
+						if (d[i][j].indexOf('=') > -1) {
+							d[i][j] = this.hot_instance.plugin.parse(d[i][j].replace('=',''),{}).result;
+						}
+					}
+				}
 			}
 		}
 		
@@ -739,6 +977,7 @@ function HOT(Handsontable, raw_config, data,  type) {
 	this.Handsontable.renderers.registerRenderer("disabledRenderer",disabledRenderer);
 	this.Handsontable.renderers.registerRenderer("customNumericRightAlignRenderer",customNumericRightAlignRenderer);
 	this.Handsontable.renderers.registerRenderer("customDecimalRightAlignRenderer2",customDecimalRightAlignRenderer2);
+	this.Handsontable.renderers.registerRenderer("customFormulaRenderer",customFormulaRenderer);
 	
 	this.initialize(raw_config, data, type);
 	this.initialized = true;

@@ -498,7 +498,7 @@
 								//echo '<td>'.intval($dataentryattb->frequency_max_opt).'</td>';
 								
 								echo '<td>'.$dataentryattb->uom_name.'</td>';
-								echo '<td><input type="text" id="comment'.$sno.'" name="comment'.$sno.'" value="" class="commentValue" onkeyup="'.$is_image.' == 2 ? eitherCommentCheck(); : checkTextField();checkRbReject();"/></td>';
+								echo '<td><input type="text" id="comment'.$sno.'" name="comment'.$sno.'"   class="commentValue" onkeydown="enbRjct()" onkeyup="'.$is_image.' == 2 ? eitherCommentCheck(); : checkTextField();checkRbReject();"/></td>';
 								echo "</tr>";
 								$sno++;
 							endforeach;
@@ -624,6 +624,21 @@
 			</fieldset>
 			
 			<script type="text/javascript">
+                function enbRjct(){
+
+
+                    var options = document.getElementsByName('optradio');
+                    for(i = 0; i < options.length; i++)
+                    {
+                        var opt = options[i];
+                       if(opt.value=="Reject")
+                           opt.checked="checked";
+                    }
+
+
+
+
+                }
 				function verifySave() {
 					
 					if ($('input[value="Approve"]:checked').length > 0){
@@ -791,7 +806,7 @@
                 }
 			</script>
 			<div class="row" style="width:70%; margin:auto">
-						
+
 					</div>
 		<div class="form-group" style="">
 			<input id="save" disabled type="button" class="btn btn-primary btn-sm" value="Save" onclick="<?php echo $is_image == 1 ? '' : 'checkTextField();' ?>verifySave();" onmouseover="setTemp();"/>
@@ -812,7 +827,7 @@
 				<form method="post" id="addimage" enctype="multipart/form-data" onSubmit="return checkAndSendAllImages();">
 					<div class="modal-body">
 					<input type="hidden" id="dataentryno1" name="dataentryno1" value="<?php echo $dataentryno; ?>"/>
-									
+
 									<div style="text-align:center">
 									<button class="btn btn-success fileinput-button">
 										<i class="glyphicon glyphicon-plus"></i>
