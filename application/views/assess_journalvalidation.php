@@ -133,6 +133,7 @@
         </tr>
         <?php
         $sno = $sno+1;
+
         endforeach;
         /*if($totalrows==0)
         {

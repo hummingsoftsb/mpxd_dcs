@@ -15,9 +15,23 @@ Class Alertreminder extends CI_Model
             $query = "select jdvm.data_validate_no,jdvm.validate_status,jdem.data_entry_status_id,ua.data_entry_no,ua.alert_no,ua.alert_date,ua.alert_seen_status,ua.alert_user_id,jm.journal_name,ua.alert_message,fd.frequency_period from user_alert ua,journal_data_entry_master jdem,frequency_detail fd,journal_master jm, journal_data_validate_master jdvm where ua.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no and jdem.journal_no=jm.journal_no and jdem.data_entry_no=jdvm.data_entry_no and alert_hide=0 order by alert_no desc";
             $query = $this->db->query($query);
             $query_result = $query->result();
-            foreach($query_result as $subKey => $subArray){
-                if($subArray->alert_message == 'Date Entry Accepted' && ($subArray->alert_user_id !=$id)){
-                    unset($query_result[$subKey]);
+            if (!empty($query_result)) {
+                foreach ($query_result as $subKey => $subArray) {
+                    //coded by ANCY MATHEW
+                    //ANCY :START
+                    if($subArray->alert_message == 'Data Entry Published' && ($subArray->alert_user_id != $id))
+                    {
+                    $intDataEntryNo=$subArray->data_entry_no;
+                        $get_dataEntry_query = "select validate_status from journal_data_validate_master where data_entry_no=$intDataEntryNo";
+                        $get_dataEntry_query = $this->db->query($get_dataEntry_query)->row();
+                        if($get_dataEntry_query->validate_status==2){
+                            unset($query_result[$subKey]);
+                        }
+                    }
+                    //ANCY :END
+                    if ($subArray->alert_message == 'Date Entry Accepted' && ($subArray->alert_user_id != $id)) {
+                        unset($query_result[$subKey]);
+                    }
                 }
             }
         } else {
@@ -43,9 +57,11 @@ Class Alertreminder extends CI_Model
             $query = "select ua.data_entry_no,ua.alert_no,ua.alert_date,ua.alert_message,ua.alert_seen_status,ua.alert_user_id,ua.nonp_journal_id,jmn.journal_name from user_alert ua, journal_master_nonprogressive jmn where ua.alert_hide=0 AND ua.data_entry_no IS NULL AND jmn.journal_no=ua.nonp_journal_id order by alert_no desc";
             $query = $this->db->query($query);
             $query_result2 = $query->result();
-            foreach($query_result2 as $subKey => $subArray){
-                if($subArray->alert_message == $subArray->journal_name." ". 'Data Entry Accepted' && ($subArray->alert_user_id !=$id)){
-                    unset($query_result2[$subKey]);
+            if (!empty($query_result2)) {
+                foreach ($query_result2 as $subKey => $subArray) {
+                    if ($subArray->alert_message == $subArray->journal_name . " " . 'Data Entry Accepted' && ($subArray->alert_user_id != $id)) {
+                        unset($query_result2[$subKey]);
+                    }
                 }
             }
         } else {
@@ -53,11 +69,13 @@ Class Alertreminder extends CI_Model
             $query = $this->db->query($query);
             $query_result2 = $query->result();
         }
-        foreach ($query_result2 as $qr2):
-            $qr2->journal_name = "";
-            $qr2->frequency_period = "";
-            $qr2->data_validate_no = FALSE;
-        endforeach;
+        if (!empty($query_result2)) {
+            foreach ($query_result2 as $qr2):
+                $qr2->journal_name = "";
+                $qr2->frequency_period = "";
+                $qr2->data_validate_no = FALSE;
+            endforeach;
+        }
         /*$query_result2_filtered = array();
         foreach($query_result2 as $r){
             if(isset($check_dup[$r->nonp_journal_id])){
@@ -73,23 +91,26 @@ Class Alertreminder extends CI_Model
         $temp_array = array();
         $i = 0;
         $key_array = array();
-        foreach ($query_result as $val) {
-            if (!in_array($val->data_entry_no, $key_array)) {
-                $key_array[$i] = $val->data_entry_no;
-                $temp_array[$i] = $val;
+        if (!empty($query_result)) {
+            foreach ($query_result as $val) {
+                if (!in_array($val->data_entry_no, $key_array)) {
+                    $key_array[$i] = $val->data_entry_no;
+                    $temp_array[$i] = $val;
+                }
+                $i++;
             }
-            $i++;
         }
-
         $temp_array_nonp = array();
         $i = 0;
         $key_array_nonp = array();
-        foreach ($query_result2 as $val) {
-            if (!in_array($val->nonp_journal_id, $key_array_nonp)) {
-                $key_array_nonp[$i] = $val->nonp_journal_id;
-                $temp_array_nonp[$i] = $val;
+        if (!empty($query_result2)) {
+            foreach ($query_result2 as $val) {
+                if (!in_array($val->nonp_journal_id, $key_array_nonp)) {
+                    $key_array_nonp[$i] = $val->nonp_journal_id;
+                    $temp_array_nonp[$i] = $val;
+                }
+                $i++;
             }
-            $i++;
         }
         $merged = array_merge($temp_array, $temp_array_nonp);
         foreach ($merged as $k => $m) {

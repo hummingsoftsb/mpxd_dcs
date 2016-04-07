@@ -207,7 +207,7 @@ class Journalvalidationview extends CI_Controller
 					$this->assessment->add_user_alert($data);
 					$this->assessment->update_alert_on_save($dataentryno,$userid);
 					$this->parseplugin->sendMessageByUserId($userid,'Please sync your mpxd app.', array("sync" => true, "silentforeground" => true));
-					
+
 				}
 
 			}
