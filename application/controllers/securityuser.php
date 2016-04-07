@@ -173,9 +173,16 @@ class Securityuser extends CI_Controller
 				{
 					$lockcount="0";
 				}
-				//$pass=strtotime("now");
-				$pass=$this->generateRandomString();
-				$pass1=md5($pass);
+				//$pass=strtotime("now").
+                //Check the Config value "use_Idap" and if TRUE then $pass="(Your active directory password)" else the other.
+                //Modified by Sebin
+                if($this->config->item('use_ldap')==1){
+                    $pass="Your active directory password";
+                    $pass1='';
+                }else{
+                    $pass=$this->generateRandomString();
+                    $pass1=md5($pass);
+                }
 				$fullname=$this->input->post('name');
 				$data = array('user_name' => $username,'user_full_name' => $fullname,'user_type' => '2','sec_role_id' => $this->input->post('role'),'email_id' => $email,'dept_name' => $this->input->post('development'),'change_pwd_opt' => $chkpass,'lock_by_pwd' => $lockcount,'user_status'=>'1','pwd_txt'=>$pass1);
 

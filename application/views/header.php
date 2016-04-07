@@ -86,29 +86,32 @@
     <script>
         function sdelete() {
             // get the count of checked checkbox just to show alert
+            //Modified By Sebin
             var count = document.querySelectorAll('input[type="checkbox"]:checked').length;
             if (count > 0) {
-                if (document.getElementById('chk_chk[]').checked) {
-                    var val = [];
-                    $(':checkbox:checked').each(function (i) {
-                        // insert the values to array
-                        val[i] = $(this).val();
-                    });
-                    // loop to get the value and pass to the function to update the status
-                    var i;
-                    for (i = 0; i < val.length; i++) {
-                        //alert('double inside');
-                        if (confirm("Do you want to delete?")) {
+                if(confirm("Do you want to delete selected entry(s)?")){
+                    if (document.getElementById('chk_chk[]').checked) {
+                        var val = [];
+                        $(':checkbox:checked').each(function (i) {
+                            // insert the values to array
+                            val[i] = $(this).val();
+                        });
+                        // loop to get the value and pass to the function to update the status
+                        var i;
+                        for (i = 0; i < val.length; i++) {
+                            //alert('double inside');
+    //                        if (confirm("Do you want to delete?")) {
                             var id = val[i];
                             $.post("<?php echo base_url(); ?>home/hidealert", {id: id}, function (data) {
                                 // reload the page to show the updated data
                                 location.reload();
                             });
+    //                        }
                         }
                     }
-                }
-                else {
-                    alert('Select atleast One Journal to Delete!');
+                    else {
+                        alert('Select atleast One Journal to Delete!');
+                    }
                 }
             }
             else {
