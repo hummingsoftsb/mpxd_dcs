@@ -551,7 +551,7 @@ class Designjournal extends CI_Controller
 
                 // CREATE A MODEL QUERY FOR CURRENT DE, THEN COMPARE, THEN EMAIL IF NECESSARY
 
-                // GET CHECKBOX VALUE:BEGIN Author: Sebin
+                // modified By: Sebin on 06-04-2016
                 $checked=$this->input->post('dataupdatecj');
                 $data_entry_no=$this->design->select_journal_entry_no($journalid);
                 $this->design->delete_journal_detail($journalid);
