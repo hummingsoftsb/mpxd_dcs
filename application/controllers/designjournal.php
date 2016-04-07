@@ -551,6 +551,9 @@ class Designjournal extends CI_Controller
 
                 // CREATE A MODEL QUERY FOR CURRENT DE, THEN COMPARE, THEN EMAIL IF NECESSARY
 
+                // GET CHECKBOX VALUE:BEGIN Author: Sebin
+                $checked=$this->input->post('dataupdatecj');
+                $data_entry_no=$this->design->select_journal_entry_no($journalid);
                 $this->design->delete_journal_detail($journalid);
                 //Data Attribute
                 $dataattbcount = $this->input->post('dataattbcount1');
@@ -565,8 +568,20 @@ class Designjournal extends CI_Controller
                         if (($this->input->post($attbid)) != FALSE) {
                             $dataattbdata = array('journal_no' => $journalid, 'data_attb_id' => $this->input->post($attbid), 'start_value' => $this->input->post($start), 'end_value' => $this->input->post($end), 'frequency_max_value' => $this->input->post($week), 'display_seq_no' => $this->input->post($order));
                             $this->design->update_journal_detail($journalid, $this->input->post($attbid), $this->input->post($start), $this->input->post($end), $this->input->post($week), $this->input->post($order));
+                            //check box value is checked
+                            if(!empty($checked)){
+                            //Modified By Sebin on 06-04-2016. Usage: if Attribute ID exists Update Else Insert.
+                                if($this->design->count_data_attb_id($this->input->post($attbid),$data_entry_no[0]['data_entry_no'])>0) {
+                                    $this->design->update_journal_data_entry_detail($this->input->post($attbid), $this->input->post($start), $this->input->post($end), $this->input->post($week),$journalid,$data_entry_no[0]['data_entry_no']);
+                                }else{
+                                    $this->design->add_journal_data_entry_detail($data_entry_no[0]['data_entry_no'],$dataattbdata);
+                                }
+                            }
                         }
                     }
+                }
+                if(!empty($checked)){
+                    $this->design->chk_att_id($journalid);
                 }
 
                 $sess_array = array('message' => $this->securitys->get_label_object(7) . " Updated Successfully", "type" => 1);

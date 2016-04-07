@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <title>MPXD Data Capture System</title>
+    <link rel="shortcut icon" type="image/ico" href="<?php echo base_url(); ?>/img/fav.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?php echo base_url(); ?>/bootstrap/bootstrap.css" media="screen">
     <link rel="stylesheet" href="<?php echo base_url(); ?>/bootstrap/style.css">
