@@ -341,7 +341,45 @@ Class Design extends CI_Model
         return $this->db->insert('journal_detail', $data);
 
 	}
-
+    //Function to update journal_data_entry_detail based on "data_attb_id". Done by Sebin
+     function update_journal_data_entry_detail($attbid,$start, $end, $week){
+             $this->db->query("UPDATE journal_data_entry_detail SET actual_value = '".intval($start)."',start_value = $start, end_value = $end, frequency_max_value = $week WHERE data_attb_id = $attbid");
+    }
+    //Function to select data_entry_no from journal_data_entry_master. Done by Sebin
+    function select_journal_entry_no($journalid){
+        $query=$this->db->query("SELECT data_entry_no FROM journal_data_entry_master WHERE journal_no = $journalid");
+        return $query->result_array();
+    }
+    //Function to select data_entry_no from journal_data_entry_master. Done by Sebin
+    function count_data_attb_id($attbid,$data_entry_no){
+        $query=$this->db->query("SELECT data_attb_id FROM journal_data_entry_detail WHERE data_attb_id = $attbid AND data_entry_no=$data_entry_no");
+        return $query->num_rows();
+    }
+    //Function to add new journal_data_entry_detail
+    function add_journal_data_entry_detail($data_entry_no,$dataattbdata){
+            $this->db->query("INSERT INTO journal_data_entry_detail(data_entry_no,data_attb_id,actual_value,start_value,end_value,frequency_max_value,display_seq_no,data_source,created_user_id,created_date)VALUES ($data_entry_no,'" . $dataattbdata['data_attb_id'] . "','" . intval($dataattbdata['start_value']) . "','" . $dataattbdata['start_value'] . "','" . $dataattbdata['end_value'] . "','" . $dataattbdata['frequency_max_value'] . "','" . $dataattbdata['display_seq_no'] . "',1,(SELECT data_user_id FROM journal_data_user WHERE journal_no = '" . $dataattbdata['journal_no'] . "' AND default_owner_opt=1),'" . date("Y-m-d") . "')");
+    }
+    function chk_att_id($journal_no){
+        $query=$this->db->query("SELECT data_attb_id FROM journal_data_entry_detail WHERE data_entry_no = (SELECT data_entry_no FROM journal_data_entry_master WHERE journal_no=$journal_no)");
+        $query_1=$this->db->query("SELECT data_attb_id FROM journal_detail WHERE journal_no =$journal_no");
+        $result=$query->result_array();
+        $result_1=$query_1->result_array();
+        if(count($result)>0) {
+            foreach ($result as $val) {
+                if (!($this->in_array_r($val['data_attb_id'], $result_1))) {
+                     $this->db->query("DELETE FROM journal_data_entry_detail WHERE data_attb_id='".$val['data_attb_id']."' AND data_entry_no=(SELECT data_entry_no FROM journal_data_entry_master WHERE journal_no=$journal_no)");
+                   }
+            }
+        }
+    }
+    function in_array_r($item , $array){
+        return preg_match('/"'.$item.'"/i' , json_encode($array));
+    }
+    //Function to select journal data entry owner
+    function select_journal_owner($journalid){
+        $query=$this->db->query("SELECT data_user_id FROM journal_data_user WHERE journal_no = $journalid AND default_owner_opt=1");
+        return $query->result_array();
+    }
 	//Function to update record. Done by jane
 	function update_journal_detail($journalid, $attbid, $start, $end, $week, $order)
 	{
