@@ -49,6 +49,7 @@ class Reportphoto extends CI_Controller {
             //$curr =0;
             foreach ($projects as $k => $project) {
                 $chkCount=0;
+                $chk=0;
                 $this->phpppt->newslide();
 				$this->phpppt->generatelogo();
                 //start:mod by Smijith for Construction change to project
