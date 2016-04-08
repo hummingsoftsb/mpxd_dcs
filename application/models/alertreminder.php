@@ -2,9 +2,31 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 Class Alertreminder extends CI_Model
 {
+    //by smijith for status read progressive
+    function pg_read_upd()
+    {
+        $qrypg = "select data_entry_no from journal_data_entry_master where data_entry_status_id=4";
+        $qrypg = $this->db->query($qrypg)->result();
+        foreach ($qrypg as $qr) {
+            $did = $qr->data_entry_no;
+            //echo("update user_alert set alert_seen_status=1 where data_entry_no=" . $did);
+            $this->db->query("update user_alert set alert_seen_status=1 where data_entry_no=" . $did);
+        }
+    }
+    //by smijith for status read non-progressive
+    function nonpg_read_upd(){
+        $qrynonpg = "select distinct journal_no from ilyas_config where config_no in (select distinct config_no from ilyas where validate_status=2)";
+        $qrynonpg = $this->db->query($qrynonpg)->result();
+        foreach ($qrynonpg as $qr){
+            $did=$qr->journal_no;
+            //echo("update user_alert set alert_seen_status=1 where nonp_journal_id=" . $did);
+            $this->db->query("update user_alert set alert_seen_status=1 where nonp_journal_id=".$did);
+        }
+    }
 
     function show_alert($id)
     {
+
         //$query ="select jdvm.data_validate_no,jdvm.validate_status,jdem.data_entry_status_id,ua.data_entry_no,ua.alert_no,ua.alert_date,jm.journal_name,ua.alert_message,fd.frequency_period,alert_hide from user_alert ua,journal_data_entry_master jdem,frequency_detail fd,journal_master jm, journal_data_validate_master jdvm where ua.data_entry_no=jdem.data_entry_no and jdem.frequency_detail_no=fd.frequency_detail_no and jdem.journal_no=jm.journal_no and ua.alert_user_id=$id and jdem.data_entry_no=jdvm.data_entry_no order by alert_no desc";
 
         //Modified by Jane. For getting all notifications to admin user - progressive

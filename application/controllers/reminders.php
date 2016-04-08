@@ -8,6 +8,7 @@ class Reminders extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('reminder','',TRUE);
+		$this->load->model('alertreminder','',TRUE);
 		 $this->load->library('email');
 	}
 
@@ -71,5 +72,14 @@ class Reminders extends CI_Controller
         $reminder_no = $this->input->post('reminder_no');
         $this->reminder->resend_reminder($reminder_no);
     }
+//for status read progressive/non-progressive
+    function alert_st_updt(){
+        //echo("hhhhhhhhhhhhhhhh");
+        //by smijith for status read progressive
+        $this->alertreminder->pg_read_upd();
+        //by smijith for status read non-progressive
+        $this->alertreminder->nonpg_read_upd();
+    }
+
 }
 ?>
