@@ -51,7 +51,10 @@ class Reportphoto extends CI_Controller {
                 $chkCount=0;
                 $this->phpppt->newslide();
 				$this->phpppt->generatelogo();
-                $this->phpppt->generateTitle($project['project_name'], date("dS M Y", strtotime($project['as_at'])));
+                //start:mod by Smijith for Construction change to project
+               $pjct_nm= str_replace("Construction","Project",$project['project_name']);
+                $this->phpppt->generateTitle($pjct_nm, date("dS M Y", strtotime($project['as_at'])));
+                //end:mod by Smijith for Construction change to project
                 $this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])),$pageno);
                     //foreach ($imgs as $img) {
                     //$chkCount++;
