@@ -6,7 +6,7 @@
 		<title>MPXD Data Capture System</title>
         <link rel="shortcut icon" type="image/ico" href="<?php echo base_url(); ?>/img/fav.ico"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="refresh" content="180; url=<?php echo base_url(); ?>login" />
+        <meta http-equiv="refresh" content="600; url=<?php echo base_url(); ?>login" />
 		<link rel="stylesheet" href="<?php echo base_url(); ?>/bootstrap/bootstrap.css" media="screen">
 		<link rel="stylesheet" href="<?php echo base_url(); ?>/bootstrap/style.css">
 		<link rel="stylesheet" href="<?php echo base_url(); ?>/bootstrap/bootswatch.min.css">
