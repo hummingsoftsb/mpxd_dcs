@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>MPXD Data Capture System</title>
     <link rel="shortcut icon" type="image/ico" href="<?php echo base_url(); ?>/img/fav.ico"/>
+    <meta http-equiv="refresh" content="180; url=<?php echo base_url(); ?>login" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?php echo base_url(); ?>/bootstrap/bootstrap.css" media="screen">
     <link rel="stylesheet" href="<?php echo base_url(); ?>/bootstrap/style.css">
@@ -31,7 +32,6 @@
     <script src="<?php echo base_url(); ?>/ilyas/numeral.js"></script>
     <link rel="stylesheet" href="<?php echo base_url(); ?>/ilyas/loader.css"/>
     <link rel="stylesheet" href="<?php echo base_url(); ?>/bootstrap/jquery-ui.css">
-
 
     <script src="<?php echo base_url(); ?>/ilyas/datatables/jquery.dataTables.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
