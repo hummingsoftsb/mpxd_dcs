@@ -1,6 +1,5 @@
 <script src="<?php echo base_url(); ?>ilyas/fancybox/jquery.fancybox.pack.js"></script>
 <script src="<?php echo base_url(); ?>ilyas/multiupload.js"></script>
-<script src="<?php echo base_url(); ?>agaile/jquery.fileupload.js"></script>
 <script>var uploadUrl = '<?php echo base_url(); ?><?php echo $cpagename; ?>/addimage/'</script>
 <script>var uploadUrl2 = '<?php echo base_url(); ?><?php echo $cpagename; ?>/replaceimage/'</script>
 <script src="<?php echo base_url(); ?>ilyas/multiupload/custom.js"></script>
