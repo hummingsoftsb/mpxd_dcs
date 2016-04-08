@@ -14,3 +14,8 @@ Feb 25, 2005 at 10:00 AST by PM
 + Recommend using simpler Error.php instead of JAMA_Error.php but 
   can be persuaded otherwise.
 
+Apr 08, 2016 at 2:51 IST by PM
+
++ Recommend using
+    $config['sess_expiration'] = 600;
+    Manually change it in config.php file.
