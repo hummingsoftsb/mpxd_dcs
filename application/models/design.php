@@ -268,7 +268,13 @@ Class Design extends CI_Model
 		$this->db->query($delete_query2);
 		
 		$data_entry_no_q = "SELECT a.data_entry_no FROM journal_data_entry_master a WHERE a.journal_no = '$jid' AND data_entry_status_id = 1";
-		$data_entry_no = $this->db->query($data_entry_no_q)->result()[0]->data_entry_no;
+        //Modified by Sebin
+        //$data_entry_no = $this->db->query($data_entry_no_q)->result()[0]->data_entry_no;
+		$res = $this->db->query($data_entry_no_q)->result();
+        $data_entry_no='';
+        if(sizeOf($res) > 0){
+            $data_entry_no=$res[0]->data_entry_no;
+        }
 		
 		// Update level if there is a similar validator ids
 		$existing_validator_query = "SELECT b.data_entry_no FROM journal_data_entry_master a, journal_data_validate_master b WHERE a.journal_no = '$jid' AND data_entry_status_id = 1 AND b.data_entry_no = a.data_entry_no AND b.validate_user_id IN ($validator_ids)";
@@ -297,7 +303,9 @@ Class Design extends CI_Model
 			$validate_level_no = $validators[$validate_user_id];
 			array_push($values, "('$data_entry_no', '$validate_user_id', '$validate_level_no', 0)");
 		endforeach;
-		if (sizeOf($values) > 0) {	
+        //Modified By Sebin
+		//if (sizeOf($values) > 0) {
+        if (sizeOf($values) > 0 && !empty($data_entry_no)) {
 			$values = implode($values, ",");
 			$insert_query = "INSERT INTO journal_data_validate_master (data_entry_no,validate_user_id,validate_level_no,validate_status) VALUES $values RETURNING data_validate_no";
 			$query = $this->db->query($insert_query);
@@ -341,24 +349,30 @@ Class Design extends CI_Model
         return $this->db->insert('journal_detail', $data);
 
 	}
-    //Function to update journal_data_entry_detail based on "data_attb_id". Done by Sebin
+/*    Usage : Function to update journal_data_entry_detail based on "data_attb_id".
+    Author: Sebin*/
      function update_journal_data_entry_detail($attbid,$start, $end, $week){
              $this->db->query("UPDATE journal_data_entry_detail SET actual_value = '".intval($start)."',start_value = $start, end_value = $end, frequency_max_value = $week WHERE data_attb_id = $attbid");
     }
-    //Function to select data_entry_no from journal_data_entry_master. Done by Sebin
+/*    Usage : Function to select data_entry_no from journal_data_entry_master.
+    Author :Sebin*/
     function select_journal_entry_no($journalid){
         $query=$this->db->query("SELECT data_entry_no FROM journal_data_entry_master WHERE journal_no = $journalid");
         return $query->result_array();
     }
-    //Function to select data_entry_no from journal_data_entry_master. Done by Sebin
+/*    Usage Function to select data_entry_no from journal_data_entry_master
+    Author: Sebin*/
     function count_data_attb_id($attbid,$data_entry_no){
         $query=$this->db->query("SELECT data_attb_id FROM journal_data_entry_detail WHERE data_attb_id = $attbid AND data_entry_no=$data_entry_no");
         return $query->num_rows();
     }
-    //Function to add new journal_data_entry_detail
+    /*Usage: Function to add new journal_data_entry_detail
+      Author: Sebin */
     function add_journal_data_entry_detail($data_entry_no,$dataattbdata){
             $this->db->query("INSERT INTO journal_data_entry_detail(data_entry_no,data_attb_id,actual_value,start_value,end_value,frequency_max_value,display_seq_no,data_source,created_user_id,created_date)VALUES ($data_entry_no,'" . $dataattbdata['data_attb_id'] . "','" . intval($dataattbdata['start_value']) . "','" . $dataattbdata['start_value'] . "','" . $dataattbdata['end_value'] . "','" . $dataattbdata['frequency_max_value'] . "','" . $dataattbdata['display_seq_no'] . "',1,(SELECT data_user_id FROM journal_data_user WHERE journal_no = '" . $dataattbdata['journal_no'] . "' AND default_owner_opt=1),'" . date("Y-m-d") . "')");
     }
+    /*  Usage: Function to modify tables journal_data_entry_detail based on journal_detail table
+        Author: Sebin*/
     function chk_att_id($journal_no){
         $query=$this->db->query("SELECT data_attb_id FROM journal_data_entry_detail WHERE data_entry_no = (SELECT data_entry_no FROM journal_data_entry_master WHERE journal_no=$journal_no)");
         $query_1=$this->db->query("SELECT data_attb_id FROM journal_detail WHERE journal_no =$journal_no");
@@ -372,8 +386,43 @@ Class Design extends CI_Model
             }
         }
     }
+/*    Usage : Function to check element exits in a multidimentional array(Not possible with in_array())
+      Author :Sebin*/
     function in_array_r($item , $array){
         return preg_match('/"'.$item.'"/i' , json_encode($array));
+    }
+/*    Usage : Function to check whether the data entry initiated the process:
+    Author: Sebin*/
+    function fn_validate_journal_data_entry_detail($data_entry_no){
+        $var_res=$this->db->query("SELECT data_entry_no FROM journal_data_entry_detail WHERE data_entry_no=$data_entry_no");
+        return $var_res->num_rows();
+    }
+    function fn_journal_status($journal_id){
+        $flag=0;
+        $var_res=$this->db->query("SELECT data_entry_status_id FROM journal_data_entry_master WHERE journal_no=$journal_id");
+        foreach($var_res->result() as $val){
+            if($val->data_entry_status_id>=2 && $val->data_entry_status_id<=3){
+                $flag=1;
+            }else{
+                $flag=0;
+                break;
+            }
+        }
+        if($flag==1){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+    function fn_update_journal_status($journal_id){
+        $this->db->query("UPDATE journal_data_entry_master SET data_entry_status_id=1 WHERE journal_no=$journal_id");
+    }
+    function fn_update_journal_validate_status($data_entry_no){
+        $this->db->query("UPDATE journal_data_validate_master SET validate_status=3 WHERE data_entry_no=$data_entry_no");
+    }
+    function fn_delete_other_alerts($data_entry_no){
+        $this->db->query("DELETE FROM user_alert WHERE data_entry_no=$data_entry_no");
     }
     //Function to select journal data entry owner
     function select_journal_owner($journalid){

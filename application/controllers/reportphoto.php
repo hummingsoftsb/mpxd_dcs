@@ -97,6 +97,7 @@ class Reportphoto extends CI_Controller {
 
 		//Get project template
 		$project_arr = array(
+
 			array( 'name' => 'V1 Construction Progress' , 'indent' => 0),
 			array( 'name' =>'Sungai Buloh Construction Progress' , 'indent' => 1),
 			array( 'name' =>'Kampung Selamat Construction Progress' , 'indent' => 1),
@@ -134,30 +135,7 @@ class Reportphoto extends CI_Controller {
             array( 'name' =>'Taman Connaught Construction Progress' , 'indent' => 1),
             array( 'name' =>'Taman Pertama Construction Progress' , 'indent' => 1),
             array( 'name' =>'Taman Midah Construction Progress' , 'indent' => 1),
-			
-			array( 'name' =>'V6 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'Banda Tun Hussein Onn Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Sri Raya Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Taman Suntex Construction Progress' , 'indent' => 1),
-			
-			array( 'name' =>'V7 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'Taman Koperasi Cuepacs Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Bukit Dukung Construction Progress' , 'indent' => 1),
-			
-			array( 'name' =>'V8 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'Sungai Kantan Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Bandar Kajang Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Kajang Construction Progress' , 'indent' => 1),
-			
-			array( 'name' =>'Depot 2 Construction Progress' , 'indent' => 0),
-			
-			array( 'name' =>'MSPR 1 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'MSPR 4 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'MSPR 6 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'MSPR 8 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'MSPR 9 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'MSPR 11 Construction Progress' , 'indent' => 0),
-						
+
 		);
 		
 		$projects = array();
