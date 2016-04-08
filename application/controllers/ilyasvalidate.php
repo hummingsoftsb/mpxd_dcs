@@ -27,6 +27,7 @@ class Ilyasvalidate extends CI_Controller
             $user_id = $session_data['id'];
             $id=$this->input->get('jid');
             $validator = $this->ilyasmodel->get_validator_nonp($id);
+            echo $validator['validate_user_id'];
             if(!empty($validator['validate_user_id']) && $validator['validate_user_id']==$user_id) {
 			$roleperms=$this->securitys->show_permission_object_data($roleid,"3");
 			foreach ($roleperms as $roleperm):

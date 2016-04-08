@@ -37,43 +37,56 @@ class Reportphoto extends CI_Controller {
 
 		//Requests for ppt
         if ($freq_id && $projects) {
-			
 			$pjcts_no = implode(",",$projects);
-			
             $this->phpppt->removefirstslide();
-
             $imgs = $this->assessment->get_image_by_date($pdate,$pjcts_no);
             $projects = array();
             foreach ($imgs as $img) {
                 $projects[$img->project_no] = array('project_no' => $img->project_no, 'project_name' => $img->project_name, 'as_at' => $img->cut_off_date);
             }
-
-            //var_dump($projects);	
+            //var_dump($projects);
 			$pageno = 1;
+            //$curr =0;
             foreach ($projects as $k => $project) {
-				
+                $chkCount=0;
                 $this->phpppt->newslide();
 				$this->phpppt->generatelogo();
-                $this->phpppt->generateTitle($project['project_name'], date("dS M Y", strtotime($project['as_at'])));
+                //start:mod by Smijith for Construction change to project
+               $pjct_nm= str_replace("Construction","Project",$project['project_name']);
+                $this->phpppt->generateTitle($pjct_nm, date("dS M Y", strtotime($project['as_at'])));
+                //end:mod by Smijith for Construction change to project
                 $this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])),$pageno);
-                foreach ($imgs as $img) {
-                    //var_dump($img);
-                    if ($img->project_no == $project['project_no']) {
-                        $this->phpppt->generatepicture('./' . $img->pict_file_path . $img->pict_file_name, $img->pict_definition, $settings[$curr][0], $settings[$curr][1], $settings[$curr][2], $settings[$curr][3]);
-						$curr++;
-						if($curr == 6){
-							$curr = 0;
-							$this->phpppt->newslide();$this->phpppt->generatelogo();
-							$this->phpppt->generateTitle($project['project_name'], date("dS M Y", strtotime($project['as_at'])));
-							$this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])),++$pageno);
-						}
+                    //foreach ($imgs as $img) {
+                    //$chkCount++;
+                    //start:mod by ANCY MATHEW for PPT correction
+                        $chkCount=$this->assessment->get_chk_count( $project['project_no']);
+                    //end: mod by ANCY MATHEW for PPT correction
+                   // }
+                        foreach ($imgs as $img) {
+                        if ($img->project_no == $project['project_no']) {
+
+                                $this->phpppt->generatepicture('./' . $img->pict_file_path . $img->pict_file_name, $img->pict_definition, $settings[$curr][0], $settings[$curr][1], $settings[$curr][2], $settings[$curr][3]);
+                                $curr++;
+                                $chk++;
+                            //start:mod by ANCY MATHEW for PPT correction
+                                if ($curr == 6 && $chk<$chkCount[0]->count ) {
+                             //end:mod by ANCY MATHEW for PPT correction
+                                    $curr = 0;
+                                    $this->phpppt->newslide();
+                                    $this->phpppt->generatelogo();
+                                    $this->phpppt->generateTitle($project['project_name'], date("dS M Y", strtotime($project['as_at'])));
+                                    $this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])), ++$pageno);
+
+                               //}
+                            }
+                        }
+
                     }
-					
-                }
-				$curr = 0;
+				$curr =0;
 				$pageno++;
             }
             $this->phpppt->gowrite(base_url());
+
         }
 
         $session_data = $this->session->userdata('logged_in');
@@ -83,26 +96,27 @@ class Reportphoto extends CI_Controller {
 
 		//Get project template
 		$project_arr = array(
+
 			array( 'name' => 'V1 Construction Progress' , 'indent' => 0),
 			array( 'name' =>'Sungai Buloh Construction Progress' , 'indent' => 1),
 			array( 'name' =>'Kampung Selamat Construction Progress' , 'indent' => 1),
 			array( 'name' =>'Kwasa Damansara Construction Progress' , 'indent' => 1),
-			
+
 			array( 'name' =>'V2 Construction Progress' , 'indent' => 0),
 			array( 'name' =>'Kwasa Sentral Construction Progress' , 'indent' => 1),
 			array( 'name' =>'Kota Damansara Construction Progress' , 'indent' => 1),
 			array( 'name' =>'Surian Construction Progress' , 'indent' => 1),
-			
+
 			array( 'name' =>'V3 Construction Progress' , 'indent' => 0),
 			array( 'name' =>'Bandar Utama Construction Progress' , 'indent' => 1),
 			array( 'name' =>'TTDI Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Mutiara Damansara Construction Progress' , 'indent' => 1),	
-			
+			array( 'name' =>'Mutiara Damansara Construction Progress' , 'indent' => 1),
+
 			array( 'name' =>'V4 Construction Progress' , 'indent' => 0),
 			array( 'name' =>'Phileo Damansara Construction Progress' , 'indent' => 1),
 			array( 'name' =>'Pusat Bandar Damansara Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Semantan Construction Progress' , 'indent' => 1),	
-			
+			array( 'name' =>'Semantan Construction Progress' , 'indent' => 1),
+
 			array( 'name' =>'Depot 1 Construction Progress' , 'indent' => 0),
 
             array( 'name' =>'Underground Construction Progress' , 'indent' => 0),
@@ -120,30 +134,7 @@ class Reportphoto extends CI_Controller {
             array( 'name' =>'Taman Connaught Construction Progress' , 'indent' => 1),
             array( 'name' =>'Taman Pertama Construction Progress' , 'indent' => 1),
             array( 'name' =>'Taman Midah Construction Progress' , 'indent' => 1),
-			
-			array( 'name' =>'V6 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'Banda Tun Hussein Onn Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Sri Raya Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Taman Suntex Construction Progress' , 'indent' => 1),	
-			
-			array( 'name' =>'V7 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'Taman Koperasi Cuepacs Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Bukit Dukung Construction Progress' , 'indent' => 1),	
-			
-			array( 'name' =>'V8 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'Sungai Kantan Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Bandar Kajang Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Kajang Construction Progress' , 'indent' => 1),
-			
-			array( 'name' =>'Depot 2 Construction Progress' , 'indent' => 0),
-			
-			array( 'name' =>'MSPR 1 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'MSPR 4 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'MSPR 6 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'MSPR 8 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'MSPR 9 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'MSPR 11 Construction Progress' , 'indent' => 0),
-						
+
 		);
 		
 		$projects = array();
