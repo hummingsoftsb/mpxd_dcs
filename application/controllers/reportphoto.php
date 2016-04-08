@@ -75,7 +75,7 @@ class Reportphoto extends CI_Controller {
                                     $curr = 0;
                                     $this->phpppt->newslide();
                                     $this->phpppt->generatelogo();
-                                    $this->phpppt->generateTitle($project['project_name'], date("dS M Y", strtotime($project['as_at'])));
+                                    $this->phpppt->generateTitle($pjct_nm, date("dS M Y", strtotime($project['as_at'])));
                                     $this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])), ++$pageno);
 
                                //}
