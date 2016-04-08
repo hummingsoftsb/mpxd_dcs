@@ -93,7 +93,7 @@ class Reportphoto extends CI_Controller {
 
 		//Get project template
 		$project_arr = array(
-			array( 'name' => 'V1 Project Progress' , 'indent' => 0),
+			array( 'name' =>'V1 Project Progress' , 'indent' => 0),
 			array( 'name' =>'Sungai Buloh Project Progress' , 'indent' => 1),
 			array( 'name' =>'Kampung Selamat Project Progress' , 'indent' => 1),
 			array( 'name' =>'Kwasa Damansara Project Progress' , 'indent' => 1),
