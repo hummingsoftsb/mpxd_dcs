@@ -3,11 +3,11 @@
     deny from all
 </FilesMatch>
 <FilesMatch "(?i)\.(gif|jpe?g|png)$">
-	order allow,deny
-	allow from all
-	ForceType application/octet-stream
-	Header set Content-Disposition attachment
+order allow,deny
+allow from all
+ForceType application/octet-stream
+Header set Content-Disposition attachment
     ForceType none
     Header unset Content-Disposition
-	Header set X-Content-Type-Options nosniff
+Header set X-Content-Type-Options nosniff
 </FilesMatch>

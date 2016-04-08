@@ -8,6 +8,7 @@ class Designjournal extends CI_Controller
     {
         parent::__construct();
         $this->load->model('design','',TRUE);
+        $this->load->model('assessment','',TRUE);
         $this->load->model('securitys','',TRUE);
         $this->load->model('admin','',TRUE);
         $this->load->model('alertreminder','',TRUE);
@@ -570,18 +571,32 @@ class Designjournal extends CI_Controller
                             $this->design->update_journal_detail($journalid, $this->input->post($attbid), $this->input->post($start), $this->input->post($end), $this->input->post($week), $this->input->post($order));
                             //check box value is checked
                             if(!empty($checked)){
-                            //Modified By Sebin on 06-04-2016. Usage: if Attribute ID exists Update Else Insert.
-                                if($this->design->count_data_attb_id($this->input->post($attbid),$data_entry_no[0]['data_entry_no'])>0) {
-                                    $this->design->update_journal_data_entry_detail($this->input->post($attbid), $this->input->post($start), $this->input->post($end), $this->input->post($week),$journalid,$data_entry_no[0]['data_entry_no']);
-                                }else{
-                                    $this->design->add_journal_data_entry_detail($data_entry_no[0]['data_entry_no'],$dataattbdata);
+                                if($this->design->fn_validate_journal_data_entry_detail($data_entry_no[0]['data_entry_no'])>0) {
+                                    //Modified By Sebin on 06-04-2016. Usage: if Attribute ID exists Update Else Insert.
+                                    if ($this->design->count_data_attb_id($this->input->post($attbid), $data_entry_no[0]['data_entry_no']) > 0) {
+                                        $this->design->update_journal_data_entry_detail($this->input->post($attbid), $this->input->post($start), $this->input->post($end), $this->input->post($week), $journalid, $data_entry_no[0]['data_entry_no']);
+                                    } else {
+                                        $this->design->add_journal_data_entry_detail($data_entry_no[0]['data_entry_no'], $dataattbdata);
+                                    }
+
                                 }
                             }
                         }
                     }
                 }
                 if(!empty($checked)){
-                    $this->design->chk_att_id($journalid);
+                    if($this->design->fn_validate_journal_data_entry_detail($data_entry_no[0]['data_entry_no'])>0) {
+                        $this->design->chk_att_id($journalid);
+                        if($this->design->fn_journal_status($journalid)){
+                            $this->design->fn_update_journal_status($journalid);
+                            $this->design->fn_update_journal_validate_status($data_entry_no[0]['data_entry_no']);
+                            $arr_data_user_id=$this->design->select_journal_owner($journalid);
+                            $this->design->fn_delete_other_alerts($data_entry_no[0]['data_entry_no']);
+                            $data_alert = array('alert_date' => date("Y-m-d"),'alert_user_id' => $arr_data_user_id[0]['data_user_id'],'data_entry_no' => $data_entry_no[0]['data_entry_no'],'alert_message' => 'Data Entry Rejected Due to Journal Modification','alert_hide' => '0','email_send_option' => '1');
+                            $this->assessment->add_user_alert($data_alert);
+                        }
+
+                    }
                 }
 
                 $sess_array = array('message' => $this->securitys->get_label_object(7) . " Updated Successfully", "type" => 1);
