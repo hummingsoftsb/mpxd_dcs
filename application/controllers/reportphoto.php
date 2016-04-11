@@ -1,3 +1,4 @@
+
 <?php
 
 if (!defined('BASEPATH'))
@@ -49,6 +50,7 @@ class Reportphoto extends CI_Controller {
             //$curr =0;
             foreach ($projects as $k => $project) {
                 $chkCount=0;
+                $chk=0;
                 $this->phpppt->newslide();
 				$this->phpppt->generatelogo();
                 //start:mod by Smijith for Construction change to project
@@ -74,7 +76,7 @@ class Reportphoto extends CI_Controller {
                                     $curr = 0;
                                     $this->phpppt->newslide();
                                     $this->phpppt->generatelogo();
-                                    $this->phpppt->generateTitle($project['project_name'], date("dS M Y", strtotime($project['as_at'])));
+                                    $this->phpppt->generateTitle($pjct_nm, date("dS M Y", strtotime($project['as_at'])));
                                     $this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])), ++$pageno);
 
                                //}
@@ -95,29 +97,28 @@ class Reportphoto extends CI_Controller {
         $roleid = $session_data['roleid'];
 
 		//Get project template
-		$project_arr = array(
+        $project_arr = array(
+            array( 'name' => 'V1 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'Sungai Buloh Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Kampung Selamat Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Kwasa Damansara Construction Progress' , 'indent' => 1),
 
-			array( 'name' => 'V1 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'Sungai Buloh Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Kampung Selamat Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Kwasa Damansara Construction Progress' , 'indent' => 1),
+            array( 'name' =>'V2 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'Kwasa Sentral Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Kota Damansara Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Surian Construction Progress' , 'indent' => 1),
 
-			array( 'name' =>'V2 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'Kwasa Sentral Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Kota Damansara Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Surian Construction Progress' , 'indent' => 1),
+            array( 'name' =>'V3 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'Bandar Utama Construction Progress' , 'indent' => 1),
+            array( 'name' =>'TTDI Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Mutiara Damansara Construction Progress' , 'indent' => 1),
 
-			array( 'name' =>'V3 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'Bandar Utama Construction Progress' , 'indent' => 1),
-			array( 'name' =>'TTDI Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Mutiara Damansara Construction Progress' , 'indent' => 1),
+            array( 'name' =>'V4 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'Phileo Damansara Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Pusat Bandar Damansara Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Semantan Construction Progress' , 'indent' => 1),
 
-			array( 'name' =>'V4 Construction Progress' , 'indent' => 0),
-			array( 'name' =>'Phileo Damansara Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Pusat Bandar Damansara Construction Progress' , 'indent' => 1),
-			array( 'name' =>'Semantan Construction Progress' , 'indent' => 1),
-
-			array( 'name' =>'Depot 1 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'Depot 1 Construction Progress' , 'indent' => 0),
 
             array( 'name' =>'Underground Construction Progress' , 'indent' => 0),
             array( 'name' =>'Underground Tunnel Construction Progress' , 'indent' => 1),
@@ -135,7 +136,31 @@ class Reportphoto extends CI_Controller {
             array( 'name' =>'Taman Pertama Construction Progress' , 'indent' => 1),
             array( 'name' =>'Taman Midah Construction Progress' , 'indent' => 1),
 
-		);
+            array( 'name' =>'V6 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'Banda Tun Hussein Onn Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Sri Raya Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Taman Suntex Construction Progress' , 'indent' => 1),
+
+            array( 'name' =>'V7 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'Taman Koperasi Cuepacs Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Bukit Dukung Construction Progress' , 'indent' => 1),
+
+            array( 'name' =>'V8 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'Sungai Kantan Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Bandar Kajang Construction Progress' , 'indent' => 1),
+            array( 'name' =>'Kajang Construction Progress' , 'indent' => 1),
+
+            array( 'name' =>'Depot 2 Construction Progress' , 'indent' => 0),
+
+            array( 'name' =>'MSPR 1 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'MSPR 4 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'MSPR 6 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'MSPR 8 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'MSPR 9 Construction Progress' , 'indent' => 0),
+            array( 'name' =>'MSPR 11 Construction Progress' , 'indent' => 0),
+
+
+        );
 		
 		$projects = array();
 		$projects_data = $this->design->show_projtmps();

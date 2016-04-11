@@ -10,7 +10,7 @@ Class Alertreminder extends CI_Model
         foreach ($qrypg as $qr) {
             $did = $qr->data_entry_no;
             //echo("update user_alert set alert_seen_status=1 where data_entry_no=" . $did);
-            $this->db->query("update user_alert set alert_seen_status=1 where data_entry_no=" . $did);
+            $this->db->query("update user_alert set alert_hide=1 where data_entry_no=" . $did);
         }
     }
     //by smijith for status read non-progressive
@@ -20,7 +20,7 @@ Class Alertreminder extends CI_Model
         foreach ($qrynonpg as $qr){
             $did=$qr->journal_no;
             //echo("update user_alert set alert_seen_status=1 where nonp_journal_id=" . $did);
-            $this->db->query("update user_alert set alert_seen_status=1 where nonp_journal_id=".$did);
+            $this->db->query("update user_alert set alert_hide=1 where nonp_journal_id=".$did);
         }
     }
 
