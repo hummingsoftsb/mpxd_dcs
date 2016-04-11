@@ -594,6 +594,13 @@ class Designjournal extends CI_Controller
                             $this->design->fn_delete_other_alerts($data_entry_no[0]['data_entry_no']);
                             $data_alert = array('alert_date' => date("Y-m-d"),'alert_user_id' => $arr_data_user_id[0]['data_user_id'],'data_entry_no' => $data_entry_no[0]['data_entry_no'],'alert_message' => 'Data Entry Rejected Due to Journal Modification','alert_hide' => '0','email_send_option' => '1');
                             $this->assessment->add_user_alert($data_alert);
+                            $obj_validator_list=$this->design->fn_alert_check_validator($data_entry_no[0]['data_entry_no']);
+                            foreach($obj_validator_list as $val){
+                                if($val->validate_status>1){
+                                    $data_alert = array('alert_date' => date("Y-m-d"),'alert_user_id' => $val->validate_user_id,'data_entry_no' => $data_entry_no[0]['data_entry_no'],'alert_message' => 'Data Entry Rejected Due to Journal Modification','alert_hide' => '0','email_send_option' => '1');
+                                    $this->assessment->add_user_alert($data_alert);
+                                }
+                            }
                         }
 
                     }

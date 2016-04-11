@@ -374,7 +374,7 @@ Class Design extends CI_Model
     /*  Usage: Function to modify tables journal_data_entry_detail based on journal_detail table
         Author: Sebin*/
     function chk_att_id($journal_no){
-        $query=$this->db->query("SELECT data_attb_id FROM journal_data_entry_detail WHERE data_entry_no = (SELECT data_entry_no FROM journal_data_entry_master WHERE journal_no=$journal_no)");
+        $query=$this->db->query("SELECT data_attb_id FROM journal_data_entry_detail WHERE data_entry_no IN (SELECT data_entry_no FROM journal_data_entry_master WHERE journal_no=$journal_no)");
         $query_1=$this->db->query("SELECT data_attb_id FROM journal_detail WHERE journal_no =$journal_no");
         $result=$query->result_array();
         $result_1=$query_1->result_array();
@@ -423,6 +423,10 @@ Class Design extends CI_Model
     }
     function fn_delete_other_alerts($data_entry_no){
         $this->db->query("DELETE FROM user_alert WHERE data_entry_no=$data_entry_no");
+    }
+    function fn_alert_check_validator($data_entry_no){
+        $res=$this->db->query("SELECT validate_status,validate_user_id FROM journal_data_validate_master WHERE data_entry_no=$data_entry_no");
+        return $res->result();
     }
     //Function to select journal data entry owner
     function select_journal_owner($journalid){
