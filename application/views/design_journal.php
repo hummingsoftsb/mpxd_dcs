@@ -1675,14 +1675,6 @@ function drawAttributeTable(dataattbcount, id, label, desc, start, end, weekly, 
 									<input type="hidden" name="editjournalno" id="editjournalno"  />
 								</div>
 							</div>
-                            <div class="form-group">
-<!--                                <label for="checkbox" class="col-lg-2 control-label"></label>-->
-                                <div class="col-lg-12" style="border: 1px solid; margin-bottom: 20px;">
-                                     <input type="checkbox" style="margin-bottom: 10px; margin-top: 10px;" name="dataupdatecj" id="dataupdatecj" value="true">
-                                     <span> Update current running Journal</span>
-                                </div>
-                            </div>
-
 							<div class="form-group">
 								<label for="select" class="col-lg-2 control-label"><?php echo $labelname[0]; ?><red>*</red></label>
 								<div class="col-lg-10">
@@ -1876,6 +1868,14 @@ function drawAttributeTable(dataattbcount, id, label, desc, start, end, weekly, 
 									</div>
 								</div>
 							</div>
+                            <div class="form-group">
+                                <div class="col-lg-2"></div>
+                                <!--                                <label for="checkbox" class="col-lg-2 control-label"></label>-->
+                                <div class="col-lg-10" style="border: 1px solid; margin-bottom: 20px;">
+                                    <input type="checkbox" style="margin-bottom: 10px; margin-top: 10px;" name="dataupdatecj" id="dataupdatecj" value="true">
+                                    <span> Update current running Journal</span>
+                                </div>
+                            </div>
 						</div>
 						<div class="modal-footer" style="text-align:center;border:0;">
 							<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>

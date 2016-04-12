@@ -578,7 +578,6 @@ class Designjournal extends CI_Controller
                                     } else {
                                         $this->design->add_journal_data_entry_detail($data_entry_no[0]['data_entry_no'], $dataattbdata);
                                     }
-
                                 }
                             }
                         }
@@ -589,7 +588,6 @@ class Designjournal extends CI_Controller
                         $this->design->chk_att_id($journalid);
                         if($this->design->fn_journal_status($journalid)){
                             $this->design->fn_update_journal_status($journalid);
-                            $this->design->fn_update_journal_validate_status($data_entry_no[0]['data_entry_no']);
                             $arr_data_user_id=$this->design->select_journal_owner($journalid);
                             $this->design->fn_delete_other_alerts($data_entry_no[0]['data_entry_no']);
                             $data_alert = array('alert_date' => date("Y-m-d"),'alert_user_id' => $arr_data_user_id[0]['data_user_id'],'data_entry_no' => $data_entry_no[0]['data_entry_no'],'alert_message' => 'Data Entry Rejected Due to Journal Modification','alert_hide' => '0','email_send_option' => '1');
@@ -601,8 +599,8 @@ class Designjournal extends CI_Controller
                                     $this->assessment->add_user_alert($data_alert);
                                 }
                             }
+                            $this->design->fn_update_journal_validate_status($data_entry_no[0]['data_entry_no']);
                         }
-
                     }
                 }
 

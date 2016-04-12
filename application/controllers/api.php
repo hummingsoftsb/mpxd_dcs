@@ -79,6 +79,11 @@ class Api extends CI_Controller
 				else if(!is_null($alert->data_entry_no) && substr($alert->alert_message,-8,8) === 'Rejected' ){ //progressive journal
 					$href = base_url()."journaldataentryadd?jid=".$alert->data_entry_no."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;;
 				}
+                /* Usage : Redirection to journal info page for modified journal
+                Author : Sebin */
+                else if(!is_null($alert->data_entry_no) && substr($alert->alert_message,-12,12) === 'Modification' ){ //progressive journal
+                    $href = base_url()."journaldataentryadd?jid=".$alert->data_entry_no."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;;
+                }
 				if(substr($alert->alert_message,-8,8) === 'Accepted') :
                     //$alert_d0 ="<input type='checkbox' name='chk_chk' id='chk_chk[]'  value='$alert->alert_no' onclick='test()'>" ;
                     $alert_d0 ="<input type='checkbox' class='cboxes $class' name='chk_chk' id='chk_chk[]' checked='checked' value='$alert->alert_no'>" ;
@@ -88,6 +93,25 @@ class Api extends CI_Controller
 					$alert_d4 = "<a href='$href' data-toggle='modal' class='alerthide' data-id='$alert->alert_no'><span title='Delete' class='glyphicon glyphicon-trash'></span></a>";
 					$href = $alert_d1;
 					// echo json_encode($data);
+                /* Usage : Alerting Validator with Delete option ::: Alerting Data Entry and Admin with Edit option
+                   Author : Sebin */
+/*                elseif(substr($alert->alert_message,-12,12) === 'Modification') :
+                    $sec_role=$this->alertreminder->fn_chk_user_role($session_data['id']);
+                    if($sec_role[0]->sec_role_id == 2) :
+                        $alert_d0 = "<input type='checkbox' class='cboxes $class' name='chk_chk' id='chk_chk[]' checked='checked' value='$alert->alert_no'>";
+                        $alert_d1 = $alert->journal_name . " " . $alert->alert_message;
+                        $alert_d2 = date("d-M-y", strtotime($alert->alert_date));
+                        $alert_d3 = $alert->frequency_period != "" ? $alert->frequency_period : '-';
+                        $alert_d4 = "<a href='$href' data-toggle='modal' class='alerthide' data-id='$alert->alert_no'><span title='Delete' class='glyphicon glyphicon-trash'></span></a>";
+                        $href = $alert_d1;
+                    else:
+                        $alert_d0 ="<input type='checkbox' class='cboxes $class' id='dis_chk' name='dis_chk'  disabled='disabled'>" ;
+                        $alert_d1 = $alert->journal_name." ".$alert->alert_message;
+                        $alert_d2 = date("d-M-y", strtotime($alert->alert_date));
+                        $alert_d3 = $alert->frequency_period != "" ? $alert->frequency_period : '-' ;
+                        $alert_d4 = "<a href='$href'><span title='Update' class='glyphicon glyphicon-edit'></span></a>";
+                        $href = "<a href='$href'>$alert_d1</a>";
+                    endif;*/
 				else:
                     $alert_d0 ="<input type='checkbox' class='cboxes $class' id='dis_chk' name='dis_chk'  disabled='disabled'>" ;
 					$alert_d1 = $alert->journal_name." ".$alert->alert_message;

@@ -331,6 +331,13 @@ Class Alertreminder extends CI_Model
     function update_reminder_status($alert_id,$alert_user_id){
         $this->db->query("update user_alert set alert_seen_status=1 where alert_no=$alert_id AND alert_user_id=$alert_user_id");
     }
+
+ /* Usage : Function to get the Role of the user in active(Session)
+    Author : Sebin */
+    function fn_chk_user_role($alert_user_id){
+        $query=$this->db->query("SELECT sec_role_id FROM sec_user WHERE user_id=$alert_user_id");
+        return $query->result();
+    }
 }
 
 
