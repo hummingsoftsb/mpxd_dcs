@@ -71,18 +71,25 @@ class Api extends CI_Controller
 					$href = base_url()."/index/ilyasvalidate?jid=".$alert->nonp_journal_id."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;
 				}
 				else if(is_null($alert->data_entry_no) && substr($alert->alert_message,-8,8) === 'Rejected'){ //non-progressive journal
-					$href = base_url()."index.php/ilyas?jid=".$alert->nonp_journal_id."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;;
+					$href = base_url()."index.php/ilyas?jid=".$alert->nonp_journal_id."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;
 				}
 				else if(!is_null($alert->data_entry_no) && substr($alert->alert_message,-9,9) === 'Published'){ //progressive journal
-					$href = base_url()."journalvalidationview?id=".$alert->data_validate_no."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;;
+					$href = base_url()."journalvalidationview?id=".$alert->data_validate_no."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;
 				}
 				else if(!is_null($alert->data_entry_no) && substr($alert->alert_message,-8,8) === 'Rejected' ){ //progressive journal
-					$href = base_url()."journaldataentryadd?jid=".$alert->data_entry_no."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;;
+					$href = base_url()."journaldataentryadd?jid=".$alert->data_entry_no."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;
 				}
                 /* Usage : Redirection to journal info page for modified journal
                 Author : Sebin */
                 else if(!is_null($alert->data_entry_no) && substr($alert->alert_message,-12,12) === 'Modification' ){ //progressive journal
-                    $href = base_url()."journaldataentryadd?jid=".$alert->data_entry_no."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;;
+                    $sec_role=$this->alertreminder->fn_chk_user_role($session_data['id']);
+                    if($sec_role[0]->sec_role_id == 2) :
+                        $href = base_url()."journalvalidationview?id=".$alert->data_validate_no."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;
+                    elseif($sec_role[0]->sec_role_id == 3):
+                        $href = base_url()."journaldataentryadd?jid=".$alert->data_entry_no."&alert_id=".$alert->alert_no."&alert_user_id=".$alert->alert_user_id;;
+                    else:
+                    endif;
+
                 }
 				if(substr($alert->alert_message,-8,8) === 'Accepted') :
                     //$alert_d0 ="<input type='checkbox' name='chk_chk' id='chk_chk[]'  value='$alert->alert_no' onclick='test()'>" ;
