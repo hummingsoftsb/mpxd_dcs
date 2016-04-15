@@ -14,7 +14,11 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '';
+if($_SERVER['HTTP_HOST'] == 'mpxd.mymrt.net')
+	$config['base_url']	= 'https://mpxd.mymrt.net/dcs_pilot/';
+else
+	$config['base_url']	= 'https://mpxd.mymrt.com.my/dcs_pilot/';
+	
 $config['base_url2']	= 'http://uoa.hummingsoft.com.my:8080';
 
 /*
