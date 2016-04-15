@@ -71,7 +71,7 @@ class Reportphoto extends CI_Controller {
                                 $curr++;
                                 $chk++;
                             //start:mod by ANCY MATHEW for PPT correction
-                                if ($curr == 6 && $chk<$chkCount[0]->count ) {
+                                if ($curr == 6 && $chk<$chkCount[0]->count && sizeof($imgs) != 6) {
                              //end:mod by ANCY MATHEW for PPT correction
                                     $curr = 0;
                                     $this->phpppt->newslide();
