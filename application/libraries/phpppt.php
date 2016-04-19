@@ -139,7 +139,6 @@ class Phpppt {
                 ->setSize(11)
                 ->setColor(new Color('000000'));
     }
-	
 	function generatelogo() {
         $shape = new Drawing();
         $shape->setName('')
