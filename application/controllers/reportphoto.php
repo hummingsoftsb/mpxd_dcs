@@ -64,7 +64,76 @@ class Reportphoto extends CI_Controller {
                         $chkCount=$this->assessment->get_chk_count( $project['project_no']);
                     //end: mod by ANCY MATHEW for PPT correction
                    // }
-                        foreach ($imgs as $img) {
+                //start:mod by ANCY MATHEW for reduce the image size
+                $root_f = $_SERVER['DOCUMENT_ROOT'];
+               // $folder = '/journalimage';
+                $tfolder = '/mpxd_dcs1/journalimagetemp';
+                $from_folder = $root_f.'/mpxd_dcs1';
+                $to_folder = $root_f.$tfolder;
+                $indexno=0;
+                $v = '';
+
+                foreach ($imgs as $infile_name) {
+                    if ($infile_name->project_no == $project['project_no']) {
+                        /*if (!is_dir($to_folder))
+                        {
+                            mkdir($to_folder, 0777, true);
+                        }*/
+                        $fullpath = $from_folder . '/' . $infile_name->pict_file_path . $infile_name->pict_file_name;
+                        $destination = $root_f . $to_folder;
+                        $filename = $fullpath;
+                        $percent = 0.35;
+                        list($width, $height) = getimagesize($filename);
+                        $newwidth = $width * $percent;
+                        if($newwidth >=200)
+                        {
+                            $newwidth=200;
+                        }
+                        $newheight = $height * $percent;
+                        $var = explode(".", $filename);
+                        if (($var[1] == 'jpeg')||($var[1] == 'jpg')) {
+                            $v = "bingo$indexno.jpeg";
+                            $thumb = imagecreatetruecolor($newwidth, $newheight);
+                            $source = imagecreatefromjpeg($filename);
+                            imagecopyresized($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+                            imagejpeg($thumb, $v, 100);
+                            copy($from_folder.'/'.$v,$to_folder.'/'.$v);
+                            $this->phpppt->generatepicture($to_folder.'/'.$v, $infile_name->pict_definition, $settings[$curr][0], $settings[$curr][1], $settings[$curr][2], $settings[$curr][3]);
+                            $curr++;
+                            $chk++;
+                            unlink($from_folder.'/'.$v);
+                        }
+                       if($var[1] == 'png'){
+                            $v = "bingo$indexno.jpeg";
+                         /*  echo
+                            $thumb = imagecreatetruecolor($newwidth-10,$newheight);
+                           //$thumb = imagecreatetruecolor($newwidth,$newheight);
+                            $source = imagecreatefrompng($filename);
+                            imagecopyresized($thumb, $source, 0, 0, 0, 0, $newwidth-5,$newheight, $width, $height);
+                           //imagecopyresized($thumb, $source, 0, 0, 0, 0, $newwidth,$newheight, $width, $height);
+                            imagejpeg($thumb, $v, 100);
+                            copy($from_folder.'/'.$v,$to_folder.'/'.$v);*/
+                            $this->phpppt->generatepicture($fullpath, $infile_name->pict_definition, $settings[$curr][0], $settings[$curr][1], $settings[$curr][2], $settings[$curr][3]);
+                            $curr++;
+                            $chk++;
+                           // unlink($from_folder.'/'.$v);
+                        }
+                        if ($curr == 6 && $chk<$chkCount[0]->count && sizeof($imgs) != 6) {
+                            //end:mod by ANCY MATHEW for PPT correction
+                            $curr = 0;
+                            $this->phpppt->newslide();
+                            $this->phpppt->generatelogo();
+                            $this->phpppt->generateTitle($pjct_nm, date("dS M Y", strtotime($project['as_at'])));
+                            $this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])), ++$pageno);
+
+                            //}
+                        }
+                        $indexno++;
+                    }
+
+                }
+                //end:mod by ANCY MATHEW for reduce the image size
+                     /*  foreach ($imgs as $img) {
                         if ($img->project_no == $project['project_no']) {
 
                                 $this->phpppt->generatepicture('./' . $img->pict_file_path . $img->pict_file_name, $img->pict_definition, $settings[$curr][0], $settings[$curr][1], $settings[$curr][2], $settings[$curr][3]);
@@ -83,12 +152,18 @@ class Reportphoto extends CI_Controller {
                             }
                         }
 
-                    }
+                    }*/
 				$curr =0;
 				$pageno++;
             }
-            $this->phpppt->gowrite(base_url());
 
+            $this->phpppt->gowrite(base_url());
+            //start:mod by ANCY MATHEW for clear the jounalimagetemp directory
+            $files = array_diff(scandir($to_folder,1), array('..', '.'));
+            foreach($files as $file) {
+                unlink($to_folder.'/'.$file);
+            }
+            //end:mod by ANCY MATHEW clear the jounalimagetemp directory
         }
 
         $session_data = $this->session->userdata('logged_in');
