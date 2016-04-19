@@ -46,8 +46,14 @@ class Reportphoto extends CI_Controller {
                 $projects[$img->project_no] = array('project_no' => $img->project_no, 'project_name' => $img->project_name, 'as_at' => $img->cut_off_date);
             }
             //var_dump($projects);
+
+            $session_data = $this->session->userdata('logged_in');
+            $userid=$session_data['id'];
+
+            $tfolder = FCPATH.'/journalimagetemp';
+            $from_folder = FCPATH ;
+            $to_folder = $tfolder;
 			$pageno = 1;
-            //$curr =0;
             foreach ($projects as $k => $project) {
                 $chkCount=0;
                 $chk=0;
@@ -58,29 +64,17 @@ class Reportphoto extends CI_Controller {
                 $this->phpppt->generateTitle($pjct_nm, date("dS M Y", strtotime($project['as_at'])));
                 //end:mod by Smijith for Construction change to project
                 $this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])),$pageno);
-                    //foreach ($imgs as $img) {
-                    //$chkCount++;
                     //start:mod by ANCY MATHEW for PPT correction
                         $chkCount=$this->assessment->get_chk_count( $project['project_no']);
                     //end: mod by ANCY MATHEW for PPT correction
                    // }
                 //start:mod by ANCY MATHEW for reduce the image size
-                $root_f = $_SERVER['DOCUMENT_ROOT'];
-               // $folder = '/journalimage';
-                $tfolder = '/mpxd_dcs1/journalimagetemp';
-                $from_folder = $root_f.'/mpxd_dcs1';
-                $to_folder = $root_f.$tfolder;
                 $indexno=0;
                 $v = '';
-
                 foreach ($imgs as $infile_name) {
                     if ($infile_name->project_no == $project['project_no']) {
-                        /*if (!is_dir($to_folder))
-                        {
-                            mkdir($to_folder, 0777, true);
-                        }*/
                         $fullpath = $from_folder . '/' . $infile_name->pict_file_path . $infile_name->pict_file_name;
-                        $destination = $root_f . $to_folder;
+                        $destination =$to_folder;
                         $filename = $fullpath;
                         $percent = 0.35;
                         list($width, $height) = getimagesize($filename);
@@ -92,7 +86,7 @@ class Reportphoto extends CI_Controller {
                         $newheight = $height * $percent;
                         $var = explode(".", $filename);
                         if (($var[1] == 'jpeg')||($var[1] == 'jpg')) {
-                            $v = "bingo$indexno.jpeg";
+                            $v = $userid."-bingo$indexno.jpeg";
                             $thumb = imagecreatetruecolor($newwidth, $newheight);
                             $source = imagecreatefromjpeg($filename);
                             imagecopyresized($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
@@ -104,7 +98,7 @@ class Reportphoto extends CI_Controller {
                             unlink($from_folder.'/'.$v);
                         }
                        if($var[1] == 'png'){
-                            $v = "bingo$indexno.jpeg";
+                          //  $v = $userid."-bingo$indexno.jpeg";
                          /*  echo
                             $thumb = imagecreatetruecolor($newwidth-10,$newheight);
                            //$thumb = imagecreatetruecolor($newwidth,$newheight);
@@ -116,7 +110,6 @@ class Reportphoto extends CI_Controller {
                             $this->phpppt->generatepicture($fullpath, $infile_name->pict_definition, $settings[$curr][0], $settings[$curr][1], $settings[$curr][2], $settings[$curr][3]);
                             $curr++;
                             $chk++;
-                           // unlink($from_folder.'/'.$v);
                         }
                         if ($curr == 6 && $chk<$chkCount[0]->count && sizeof($imgs) != 6) {
                             //end:mod by ANCY MATHEW for PPT correction
@@ -161,7 +154,10 @@ class Reportphoto extends CI_Controller {
             //start:mod by ANCY MATHEW for clear the jounalimagetemp directory
             $files = array_diff(scandir($to_folder,1), array('..', '.'));
             foreach($files as $file) {
-                unlink($to_folder.'/'.$file);
+                $uid = explode("-",$file);
+                if(trim($uid[0])==$userid) {
+                    unlink($to_folder . '/' . $file);
+                }
             }
             //end:mod by ANCY MATHEW clear the jounalimagetemp directory
         }
