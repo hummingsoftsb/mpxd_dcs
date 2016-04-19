@@ -15,12 +15,13 @@ Class Alertreminder extends CI_Model
     }
     //by smijith for status read non-progressive
     function nonpg_read_upd(){
-        $qrynonpg = "select distinct journal_no from ilyas_config where config_no in (select distinct config_no from ilyas where validate_status=2)";
+        $qrynonpg = "select journal_master_nonprogressive.journal_no,validate_user_id from journal_validator_nonprogressive join journal_master_nonprogressive on journal_master_nonprogressive.journal_no = journal_validator_nonprogressive.journal_no join ilyas_config on ilyas_config.journal_no = journal_master_nonprogressive.journal_no where validate_pending != 1 group by journal_master_nonprogressive.journal_no,validate_user_id";
         $qrynonpg = $this->db->query($qrynonpg)->result();
         foreach ($qrynonpg as $qr){
             $did=$qr->journal_no;
+            $user_id=$qr->validate_user_id;
             //echo("update user_alert set alert_seen_status=1 where nonp_journal_id=" . $did);
-            $this->db->query("update user_alert set alert_hide=1 where nonp_journal_id=".$did);
+            $this->db->query("update user_alert set alert_hide=1 where nonp_journal_id={$did} and alert_user_id={$user_id}");
         }
     }
 
