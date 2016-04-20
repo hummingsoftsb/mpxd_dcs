@@ -96,7 +96,7 @@ class Reportphoto extends CI_Controller {
                             $thumb = imagecreatetruecolor($newwidth, $newheight);
                             $source = imagecreatefromjpeg($filename);
                             imagecopyresized($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-                            imagejpeg($thumb, $v, 70);
+                            imagejpeg($thumb, $v, 50);
                             copy($from_folder.'/'.$v,$to_folder.'/'.$v);
                             $this->phpppt->generatepicture($to_folder.'/'.$v, $infile_name->pict_definition, $settings[$curr][0], $settings[$curr][1], $settings[$curr][2], $settings[$curr][3]);
                             $curr++;
