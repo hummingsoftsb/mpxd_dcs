@@ -46,13 +46,13 @@ class Reportphoto extends CI_Controller {
                 $projects[$img->project_no] = array('project_no' => $img->project_no, 'project_name' => $img->project_name, 'as_at' => $img->cut_off_date);
             }
             //var_dump($projects);
-
+            //start:mod by ANCY MATHEW for redusing the size of ppt
             $session_data = $this->session->userdata('logged_in');
             $userid=$session_data['id'];
-
             $tfolder = FCPATH.'/journalimagetemp';
             $from_folder = FCPATH ;
             $to_folder = $tfolder;
+            //end:mod by ANCY MATHEW for redusing the size of ppt
 			$pageno = 1;
             foreach ($projects as $k => $project) {
                 $chkCount=0;
