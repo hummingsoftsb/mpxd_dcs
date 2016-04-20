@@ -73,6 +73,10 @@ class Reportphoto extends CI_Controller {
                 $v = '';
                 foreach ($imgs as $infile_name) {
                     if ($infile_name->project_no == $project['project_no']) {
+                        if (!is_dir($to_folder))
+                        {
+                            mkdir($to_folder, 0777, true);
+                        }
                         $fullpath = $from_folder . '/' . $infile_name->pict_file_path . $infile_name->pict_file_name;
                         $destination =$to_folder;
                         $filename = $fullpath;
