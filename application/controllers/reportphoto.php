@@ -83,11 +83,14 @@ class Reportphoto extends CI_Controller {
                         $percent = 0.35;
                         list($width, $height) = getimagesize($filename);
                         $newwidth = $width * $percent;
-                        if($newwidth >=200)
-                        {
-                            $newwidth=200;
-                        }
                         $newheight = $height * $percent;
+                        if($newwidth<=100.916){
+                            $newwidth=100.916;
+                        }
+                        if ($newheight <=80.564){
+                            $newheight = 80.564;
+                        }
+
                         $var = explode(".", $filename);
                         if (($var[1] == 'jpeg')||($var[1] == 'jpg')) {
                             $v = $userid."-bingo$indexno.jpeg";
