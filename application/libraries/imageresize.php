@@ -60,7 +60,7 @@ class ImageResize
      * @return ImageResize
      * @throws \Exception
      */
-    public function __construct($filename)
+    public function __construct($filename=null)
     {
 		$filename = $filename[0];
         $image_info = @getimagesize($filename);
