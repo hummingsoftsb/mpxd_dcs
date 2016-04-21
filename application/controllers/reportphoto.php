@@ -16,6 +16,9 @@ class Reportphoto extends CI_Controller {
         $this->load->model('design', '', TRUE);
         $this->load->library(array('phpppt'));
         $this->load->helper(array('url'));
+        //smijith 18/04/2016
+        //$this->load->library(array('imageresize'));
+
     }
 
     function index($offset = 0) {
