@@ -34,8 +34,8 @@ class ImageResize
     protected $source_x;
     protected $source_y;
 
-    protected $dest_w;
-    protected $dest_h;
+    public  $dest_w;
+    public  $dest_h;
 
     protected $source_w;
     protected $source_h;
@@ -107,6 +107,8 @@ class ImageResize
      */
     public function save($filename, $image_type = null, $quality = null, $permissions = null)
     {
+        //echo $filename;
+
         $image_type = $image_type ?: $this->source_type;
 
         $dest_image = imagecreatetruecolor($this->getDestWidth(), $this->getDestHeight());
@@ -167,9 +169,9 @@ class ImageResize
                 break;
         }
 
-        if ($permissions) {
+        /*if ($permissions) {
             chmod($filename, $permissions);
-        }
+        }*/
 
         return $this;
     }
@@ -338,6 +340,7 @@ class ImageResize
      */
     public function crop($width, $height, $allow_enlarge = false, $position = self::CROPCENTER)
     {
+
         if (!$allow_enlarge) {
             // this logic is slightly different to resize(),
             // it will only reset dimensions to the original
