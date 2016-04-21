@@ -13,8 +13,9 @@ class Reportphoto extends CI_Controller {
         $this->load->model('alertreminder', '', TRUE);
         $this->load->model('assessment', '', TRUE);
         $this->load->model('design', '', TRUE);
-        $this->load->library(array('phpppt'));
-        $this->load->helper(array('url'));
+        $this->load->library('phpppt');
+        $this->load->helper('url');
+		
         //smijith 18/04/2016
         //$this->load->library(array('imageresize'));
 
@@ -50,6 +51,7 @@ class Reportphoto extends CI_Controller {
             $from_folder = FCPATH ;*/
             //end:mod by ANCY MATHEW for redusing the size of ppt
             $pageno = 1;
+			$temp_image = array();
             foreach ($projects as $k => $project) {
                 $chkCount = 0;
                 $chk = 0;
@@ -69,7 +71,14 @@ class Reportphoto extends CI_Controller {
                 $v = '';
                 foreach ($imgs as $img) {
                     if ($img->project_no == $project['project_no']) {
-                        $this->phpppt->generatepicture('./' . $img->pict_file_path . $img->pict_file_name, $img->pict_definition, $settings[$curr][0], $settings[$curr][1], $settings[$curr][2], $settings[$curr][3]);
+						/** resize photo for powerpoint **/
+						//$real_image = './' . $img->pict_file_path . $img->pict_file_name;
+						
+						$ppt_image = $this->resize_image($img->pict_file_path, $img->pict_file_name);
+						$temp_image[] = $ppt_image;
+						
+                        $this->phpppt->generatepicture($ppt_image, $img->pict_definition, $settings[$curr][0], $settings[$curr][1], $settings[$curr][2], $settings[$curr][3]);
+						
                         $curr++;
                         $chk++;
                         //start:mod by ANCY MATHEW for PPT correction
@@ -86,8 +95,12 @@ class Reportphoto extends CI_Controller {
                 $curr = 0;
                 $pageno++;
             }
-
+			
             $this->phpppt->gowrite(base_url());
+			//now delete the temp image
+			foreach($temp_image as $img){
+				unlink($img);
+			}
             //start:mod by ANCY MATHEW for clear the jounalimagetemp directory
             /* $files = array_diff(scandir($to_folder,1), array('..', '.'));
              foreach($files as $file) {
@@ -228,5 +241,16 @@ class Reportphoto extends CI_Controller {
         $this->load->view('report_photo', $data);
         $this->load->view('footer');
     }
+	
+	public function resize_image($path,$image){
+		//$this->load->library('imageresize');
+		$this->load->library("imageresize",array('./' . $path . $image)); //var_dump($this->imageresize); die();
+		$resizer = new ImageResize(array('./' . $path . $image));
+		
+		$resizer->crop(341, 256);
+		$ppt_image = './' . $path .'ppt_'. $image;
+		$resizer->save($ppt_image);
+		return $ppt_image;
+	}
 }
 ?>

@@ -120,7 +120,7 @@ class Phpppt {
                 ->setDescription('')
                 ->setPath($pic)
                 ->setHeight(255)
-				//->setWidth(400)
+				->setWidth(338)
                 ->setOffsetX($offsetx)
                 ->setOffsetY($offsety)->getBorder()
         ->setLineStyle(Border::LINE_SINGLE)
