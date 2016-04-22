@@ -247,7 +247,7 @@ class Reportphoto extends CI_Controller {
 		$this->load->library("imageresize",array('./' . $path . $image)); //var_dump($this->imageresize); die();
 		$resizer = new ImageResize(array('./' . $path . $image));
 		
-		$resizer->crop(341, 256);
+		$resizer->crop(338, 256);
 		$ppt_image = './' . $path .'ppt_'. $image;
 		$resizer->save($ppt_image);
 		return $ppt_image;
