@@ -689,6 +689,14 @@ Class Assessment extends CI_Model
         //var_dump($this->db->last_query());
         return $q->result();
     }
+	
+	function show_validation_status_np($id)
+    {
+        $query = "select validate_pending from ilyas_config where journal_no = {$id} group by validate_pending";
+        $q = $this->db->query($query);
+        //var_dump($this->db->last_query());
+        return $q->row();
+    }
 
     function show_validation_journal_validator($id)
     {

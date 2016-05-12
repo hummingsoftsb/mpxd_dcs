@@ -27,70 +27,75 @@ class Ilyasvalidate extends CI_Controller
             $user_id = $session_data['id'];
             $id=$this->input->get('jid');
             $validator = $this->ilyasmodel->get_validator_nonp($id);
-            echo $validator['validate_user_id'];
-            if(!empty($validator['validate_user_id']) && $validator['validate_user_id']==$user_id) {
-			$roleperms=$this->securitys->show_permission_object_data($roleid,"3");
-			foreach ($roleperms as $roleperm):
-				$viewperm=$roleperm->view_opt;
-				$addperm=$roleperm->add_opt;
-				$editperm=$roleperm->edit_opt;
-				$delperm=$roleperm->del_opt;
-			endforeach;
-			if($viewperm==0)
-				redirect('/home','refresh');
+            //echo $validator['validate_user_id'];
+            if((!empty($validator['validate_user_id']) && $validator['validate_user_id']==$user_id) || $roleid == 1) {
+				//check whether journal is in validation status
+				$journal_status =  $this->assessment->show_validation_status_np($id);
+				if($journal_status->validate_pending != 1) //If journal is not pending for validate then redirect user to the main page.
+					return redirect('/journalvalidationnonp','refresh');
 				
-			if($this->session->userdata('message'))
-			{
-				$messagehrecord=$this->session->userdata('message');
-				$message=$messagehrecord['message'];
-				$this->session->unset_userdata('message');
-			}
-			else
-			{
-				$message='';
-			}
+				$roleperms=$this->securitys->show_permission_object_data($roleid,"3");
+				foreach ($roleperms as $roleperm):
+					$viewperm=$roleperm->view_opt;
+					$addperm=$roleperm->add_opt;
+					$editperm=$roleperm->edit_opt;
+					$delperm=$roleperm->del_opt;
+				endforeach;
+				if($viewperm==0)
+					redirect('/journalvalidationnonp','refresh');
+					
+				if($this->session->userdata('message'))
+				{
+					$messagehrecord=$this->session->userdata('message');
+					$message=$messagehrecord['message'];
+					$this->session->unset_userdata('message');
+				}
+				else
+				{
+					$message='';
+				}
 
-            //function for updating user alert seen status. done by jane
-            if($this->input->get('alert_id')!="") {
-                $alert_id = $this->input->get('alert_id');
-            }
-            if($this->input->get('alert_user_id')!="") {
-                $alert_user_id = $this->input->get('alert_user_id');
-            }
-            if(!empty($alert_id) && (!empty($alert_user_id))&& ($user_id==$alert_user_id)){
-                $this->alertreminder->update_reminder_status($alert_id, $alert_user_id);
-            }
-            //end
-			$data1['username'] = $session_data['username'];
-			$data1['alerts']=$this->alertreminder->show_alert($session_data['id']);
-			/*$data1['alertcount']=$this->alertreminder->count_alert($session_data['id']);*/
-            $data1['alertcount']=count($data1['alerts']);
-			$data1['reminders']=$this->alertreminder->show_reminder($session_data['id']);
-			$data1['remindercount']=$this->alertreminder->count_reminder($session_data['id']);
-			$data1['alabels']=$this->securitys->get_label(22);
-			$data1['alabelobject']=$this->securitys->get_label_object(22);
-			$data1['rlabels']=$this->securitys->get_label(23);
-			$data1['rlabelobject']=$this->securitys->get_label_object(23);
-			
-			$data['cpagename']='Ilyasvalidate';
-			$data['labels']=$this->securitys->get_label(21);
-			$data['labelgroup']=$this->securitys->get_label_group(21);
-			$data['labelobject']=$this->securitys->get_label_object(21);
-			$data['message']=$message;
-			
-			$data['dataentryattbs']=$this->assessment->show_journal_data_entry_detailnonp($id);
-			$data['dataimages']=$this->assessment->show_journal_data_entry_picturenonp($id);
-			$data['dataentryno']=$id;
-			
-			$data['details']=$this->assessment->show_journalnonp($id);
-			
-			if (sizeOf($data['details']) < 1) return;
-			$data['details'] = $data['details'][0];
-			$data['lookups'] = $this->ilyasmodel->get_lookup_data();
-			$data['hot_config'] = $this->ilyasmodel->get_config($id, true);
-			$data['hot_data'] = $this->ilyasmodel->get_data($id);
-			$data['hot_lock'] = $this->ilyasmodel->get_validationlock($id);
-			$data['data_date'] = $this->ilyasmodel->get_data_date($id);
+				//function for updating user alert seen status. done by jane
+				if($this->input->get('alert_id')!="") {
+					$alert_id = $this->input->get('alert_id');
+				}
+				if($this->input->get('alert_user_id')!="") {
+					$alert_user_id = $this->input->get('alert_user_id');
+				}
+				if(!empty($alert_id) && (!empty($alert_user_id))&& ($user_id==$alert_user_id)){
+					$this->alertreminder->update_reminder_status($alert_id, $alert_user_id);
+				}
+				//end
+				$data1['username'] = $session_data['username'];
+				$data1['alerts']=$this->alertreminder->show_alert($session_data['id']);
+				/*$data1['alertcount']=$this->alertreminder->count_alert($session_data['id']);*/
+				$data1['alertcount']=count($data1['alerts']);
+				$data1['reminders']=$this->alertreminder->show_reminder($session_data['id']);
+				$data1['remindercount']=$this->alertreminder->count_reminder($session_data['id']);
+				$data1['alabels']=$this->securitys->get_label(22);
+				$data1['alabelobject']=$this->securitys->get_label_object(22);
+				$data1['rlabels']=$this->securitys->get_label(23);
+				$data1['rlabelobject']=$this->securitys->get_label_object(23);
+				
+				$data['cpagename']='Ilyasvalidate';
+				$data['labels']=$this->securitys->get_label(21);
+				$data['labelgroup']=$this->securitys->get_label_group(21);
+				$data['labelobject']=$this->securitys->get_label_object(21);
+				$data['message']=$message;
+				
+				$data['dataentryattbs']=$this->assessment->show_journal_data_entry_detailnonp($id);
+				$data['dataimages']=$this->assessment->show_journal_data_entry_picturenonp($id);
+				$data['dataentryno']=$id;
+				
+				$data['details']=$this->assessment->show_journalnonp($id);
+				
+				if (sizeOf($data['details']) < 1) return;
+				$data['details'] = $data['details'][0];
+				$data['lookups'] = $this->ilyasmodel->get_lookup_data();
+				$data['hot_config'] = $this->ilyasmodel->get_config($id, true);
+				$data['hot_data'] = $this->ilyasmodel->get_data($id);
+				$data['hot_lock'] = $this->ilyasmodel->get_validationlock($id);
+				$data['data_date'] = $this->ilyasmodel->get_data_date($id);
 
                 $this->load->view('header', $data1);
                 $this->load->view('ilyas_validate', $data);
