@@ -59,7 +59,7 @@ class Reportphoto extends CI_Controller {
                 $this->phpppt->generatelogo();
                 //start:mod by Smijith for Construction change to project
                 $pjct_nm = str_replace("Construction", "Project", $project['project_name']);
-                $this->phpppt->generateTitle($pjct_nm, date("jS M Y", strtotime($project['as_at'])));
+                $this->phpppt->generateTitle($pjct_nm, date("jS M Y", strtotime($project['as_at'] . " +2 days")));
                 //end:mod by Smijith for Construction change to project
                 $this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])), $pageno);
                 //start:mod by ANCY MATHEW for PPT correction

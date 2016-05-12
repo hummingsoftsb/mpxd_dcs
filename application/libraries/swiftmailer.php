@@ -23,8 +23,14 @@ class Swiftmailer {
 		->setPassword($this->smtp_pass); 
 
 		$mailer = Swift_Mailer::newInstance($transport); 
-
-		$result = $mailer->send($message);
+		
+		try{
+			$result = @$mailer->send($message);
+		}
+		catch(Exception $exception) {
+			$result = false;
+		}
+		
 		return $result;
 	}
 	
