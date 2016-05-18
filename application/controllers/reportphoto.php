@@ -194,17 +194,26 @@ class Reportphoto extends CI_Controller {
         }
         //echo array_search(strtolower('V1s Construction Progress'), $project_assigned); die();
         //echo json_encode($project_assigned); die();
-        foreach ($project_arr as $pa) {
+        foreach ($project_arr as $key => $pa) {
             foreach ($projects_data as $pdata) {
                 if (strtolower($pa['name']) == strtolower($pdata->project_name) && ($session_data['roleid'] == 1 || $session_data['roleid'] == 16)) {
                     $pdata->indent = $pa['indent'];
-                    $projects[] = $pdata;
+					$pdata->is_disabled = false;
+                    $projects[$key] = $pdata;
                 } else if (strtolower($pa['name']) == strtolower($pdata->project_name)) {
                     //var_dump(gettype(array_search(strtolower($pa['name']), $project_assigned)) == 'integer');
                     if (gettype(array_search(strtolower($pa['name']), $project_assigned)) == 'integer') {
                         $pdata->indent = $pa['indent'];
-                        $projects[] = $pdata;
+						$pdata->is_disabled = false;
+                        $projects[$key] = $pdata;
                     }
+					else {
+						//if($pa['indent'] == 0){
+							$pdata->indent = $pa['indent'];
+							$pdata->is_disabled = true;
+							$projects[$key] = $pdata;
+						//}						
+					}
                 }
             }
         }

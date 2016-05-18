@@ -139,3 +139,10 @@ select[disabled]{
 .handsontable td.htNoWrap{
 	text-overflow: ellipsis;
 }
+
+.disabled-checkbox{
+	color: #D0D0D0;
+}
+.checkbox .disabled-label{
+	cursor: default;
+}

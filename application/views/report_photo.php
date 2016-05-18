@@ -119,10 +119,16 @@ $labelname = explode(",", $labelnames);
 					<div id="project-list" style="max-height: 400px; border: 1px solid #dddddd; overflow: auto; padding: 5px 10px;">
 						<?php foreach($projects as $project): ?>
 							<div class="checkbox">
-							  <label>
-								<input type="checkbox" name="project[]" value="<?php echo $project->project_no; ?>">
-								<span class="project-indent-<?php echo $project->indent;?>"><?php echo $project->project_name; ?></span>
-							  </label>
+								<?php if($project->is_disabled) :?>
+									<label class="disabled-label">								
+										<span class="project-indent-<?php echo $project->indent;?> disabled-checkbox"><?php echo $project->project_name; ?></span>
+									</label>
+								<?php else : ?>
+									<label>
+										<input type="checkbox" name="project[]" value="<?php echo $project->project_no; ?>">
+										<span class="project-indent-<?php echo $project->indent;?>"><?php echo $project->project_name; ?></span>
+									</label>
+								<?php endif; ?>
 							</div>
 						<?php endforeach; ?>
 					</div>
