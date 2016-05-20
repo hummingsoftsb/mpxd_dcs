@@ -2,6 +2,8 @@
 <script src="<?php echo base_url(); ?>ilyas/moment.js"></script>
 <script src="<?php echo base_url(); ?>ilyas/pikaday.js"></script>
 <script src="<?php echo base_url(); ?>ilyas/jquery.json.js"></script>
+<script src="<?php echo base_url(); ?>ilyas/ruleJS.all.full.js"></script>
+<script src="<?php echo base_url(); ?>ilyas/handsontable.formula.js"></script>
 <script src="<?php echo base_url(); ?>ilyas/ilyas.js"></script>
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/handsontable.full.min.css"></link>
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/css/pikaday.css"></link>

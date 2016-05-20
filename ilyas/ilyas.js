@@ -603,7 +603,7 @@ function HOT(Handsontable, raw_config, data,  type) {
 	this.hot_load_data = function(data) {
 		this.hot_parse_data(data);
 		this.hot_instance.loadData(this.data);
-		this.hot_instance.refresh_formulae();
+		//this.hot_instance.refresh_formulae();
 	}
 	
 	
