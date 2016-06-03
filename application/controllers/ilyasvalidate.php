@@ -154,7 +154,7 @@ class Ilyasvalidate extends CI_Controller
 			if($this->input->post('optradio')=="Approve")
 			{
 				//$this->ilyasmodel->set_validationlock($jid, 0);
-				$status = $this->ilyasmodel->validate_approve($jid);
+				$status = $this->ilyasmodel->validate_approve($jid,$userid);
 				if ($status) {
 					 $emails = $this->ilyasmodel->get_emails($jid)[0];
 					

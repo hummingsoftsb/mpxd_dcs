@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>ilyas/css/pikaday.css"></link>
 
 <?php
+$j_id=$details->journal_no;
 $pname=$details->project_name;
 $jname=$details->journal_name;
 $owner=$details->user_full_name;
@@ -42,7 +43,8 @@ $owner=$details->user_full_name;
 	<div class="col-xs-9" style="color: blue; margin-bottom: 12px;"><?php echo $owner; ?></div>
 	</br>
 	<div class="col-xs-3" style="text-align: right; margin-bottom: 12px;"><b><?php echo $labelname[14]; ?></b></div>
-	<div class="col-xs-9" style="color: blue; margin-bottom: 12px;"><?php echo $validator->user_full_name; ?></div>
+<!--	<div class="col-xs-9" style="color: blue; margin-bottom: 12px;">--><?php //echo $validator->user_full_name; ?><!--</div>-->
+	<div id="vali_name" class="col-xs-9" style="color: blue; margin-bottom: 12px;"></div>
 	</br>
 	<div class="col-xs-3" style="text-align: right; margin-bottom: 12px;"><b>User</b></div>
 	<div class="col-xs-9" style="color: blue; margin-bottom: 12px;" id="user_full_name">&nbsp</div>
@@ -51,7 +53,7 @@ $owner=$details->user_full_name;
 	<div class="col-xs-9" style="color: blue; margin-bottom: 12px;"><div class="input-group" style="width:145px;"><input type="text" id="data_date" style="height:30px; width:105px;border: 1px solid #aaa;border-right-width: 0px;"/><span class="input-group-btn"><button type="button" id="data_date_button" class="btn btn-search" style="height: 30px;padding: 5px 14px;border: 1px solid #aaa;border-left-width: 0px;"><span class="glyphicon glyphicon-calendar" style="color:black"></span></button></span><span class="input-group-btn"><button type="button" id="today_button" class="btn btn-search" style="height: 30px;padding: 5px 14px;border: 1px solid #aaa;border-left-width: 1px; color:black">Today</button></span></div></div>
 	</br>-->
 	<div class="col-xs-3" style="text-align: right; margin-bottom: 12px;"><b>History</b></div>
-	<div class="col-xs-9" style="color: blue; margin-bottom: 12px;"><select class="input" id="revision">
+	<div class="col-xs-9" style="color: blue; margin-bottom: 12px;"><select class="input" id="revision" onchange="fetch_vali_name(this.value)">
 		<?php foreach($hot_revisions as $k=>$v): ?><option value="<?php echo $v->revision?>"><?php echo $v->timestamp.' (Rev. '.$v->revision.')'.' (by '.$v->user_full_name.')'; ?></option><?php endforeach; ?>
 	</select></div>
 	</br>
@@ -75,7 +77,71 @@ $owner=$details->user_full_name;
 	
 </div>
 </div>
-	  
+
+<!--Added by agaile to get the validator for non - progressive journal based on dropdownlist selected value-->
+<!--Start : Here-->
+
+<script>
+    $( document ).ready(function() {
+        var fval = $('#revision').val();
+        var jno = " <?php echo $j_id ?> ";
+        getvaliname(jno, fval); // function to get the selected value from dropdownlist on pageload
+    });
+
+    function getvaliname(jno,fval){
+//      alert('journal_no: ' +jno+ ' Revision: ' +fval);
+        $.ajax({
+            type:'POST',
+            url: "<?php echo base_url('index.php/ilyas/get_validator_details');?>",
+            data:{jno : jno, rev : fval},
+            dataType: "json",
+            success:function (data) {
+                if(data.status=="success"){
+//                    console.log(data.name.user_full_name);
+                    $('#vali_name').html((data.name.user_full_name)?data.name.user_full_name:'-');
+                }else{
+                    console.log(data.status);
+                }
+            },
+            failure : function () {
+                console.log(' Ajax Failure');
+            },
+            complete: function () {
+                console.log("complete");
+            }
+        })
+    }
+</script>
+
+
+<script>
+    function fetch_vali_name(str) {
+        var val = " <?php echo $j_id ?> ";
+       // alert('Journal No: '+val +' Revision: '+ str);
+        $.ajax({
+            type:'POST',
+            url: "<?php echo base_url('index.php/ilyas/get_validator_details');?>",
+            data:{jno : val, rev : str},
+            dataType: "json",
+            success:function (data) {
+                if(data.status=="success"){
+//                    console.log(data.name.user_full_name);
+                    $('#vali_name').html((data.name.user_full_name)?data.name.user_full_name:'-');
+                }else{
+                    console.log(data.status);
+                }
+            },
+            failure : function () {
+                console.log(' Ajax Failure');
+            },
+            complete: function () {
+                console.log("complete");
+            }
+        })
+    }
+</script>
+
+<!--End : Here-->
 	  
 <script>
 

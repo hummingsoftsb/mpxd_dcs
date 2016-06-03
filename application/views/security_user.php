@@ -1,6 +1,7 @@
 <script>
 	$(document).ready(function()
 	{
+
 		$("#modaladd").click(function ()
 		{
 			var empty="";
@@ -181,6 +182,7 @@
 	});
 </script>
 <?php
+
 	$labelnames='';
 	foreach ($labels as $label): 
 		$labelnames .= ','.$label->sec_label_desc;
@@ -320,6 +322,10 @@
 						        </div>
 							</div>
 						</div>
+                        <?php
+                        if($delperm==1 && $ldap!=1) // added by agaile on 03/06/2016 if the user is logged in via ldap disable the change pass on next login
+                        {
+                        ?>
 						<div class="row">
 							<div class="form-group">
 								<label for="search" class="col-sm-3 control-label"><?php echo $labelname[5]; ?></label>
@@ -328,6 +334,9 @@
 								</div>
 							</div>
 						</div>
+                        <?php
+                        }
+                        ?>
 						<div class="row">
     						<div class="form-group">
     							<label for="search" class="col-sm-3 control-label"></label>
@@ -464,6 +473,10 @@
 						        </div>
 							</div>
 						</div>
+                        <?php
+                        if($delperm==1 && $ldap!=1) // added by agaile on 03/06/2016 if the user is logged in via ldap disable the change pass on next login
+                        {
+                        ?>
 						<div class="row">
 							<div class="form-group">
 								<label for="search" class="col-sm-3 control-label"><?php echo $labelname[5]; ?></label>
@@ -472,6 +485,9 @@
 								</div>
 							</div>
 						</div>
+                        <?php
+                        }
+                        ?>
 						<div class="row">
     						<div class="form-group">
     							<label for="search" class="col-sm-3 control-label"></label>
@@ -487,7 +503,7 @@
 									<input type="checkbox" id="chklock1" name="chklock1" />Lock account after maximum number of wrong attemps.
 								</div>
 								<div class="col-sm-2">
-									<input type="text" class="form-control" id="lockcount1" name="lockcount1"  maxlength="3">
+									<input type="text" class="form-control" id="lockcount1" name="lockcount1" placeholder="5"  maxlength="3">
 								</div>
 							</div>
 						</div>
@@ -556,6 +572,7 @@
 	<!--close pop-up-->
 	<!-- <div class="row text-center text-danger"><?php echo $message; ?> </div> -->
 	<div class="row text-center <?php echo $message_type == 1? "text-success" : "text-danger"; ?>"><?php echo $message; ?></div>
+<!--    disable reset passs here : agaile-->
 	<div class="row">
 		<table class="table table-striped table-hover">
 	        <thead>
@@ -583,21 +600,20 @@
 				  			<td><?php echo $record->user_name; ?></td>
 				  			<td>
 				  				<?php
-									if($editperm==1)
+									if($editperm==1 && $ldap!=1) // added new condition $ldap ==1 by agaile on 03/06/2016 if the user is logged in via ldap disable the reset pass
 									{
 								?>
 				  						<a href="#" data-toggle="modal" data-target="#myModal2" class="modalreset" data-userid="<?php echo $record->user_id; ?>" >Reset</a>
-				  				<?php
+                                <?php
 									}
-									else
-									{
-										echo 'Reset';
-									}
+                                else{
+                                    echo 'Reset';
+                                }
 								?>
 				  			</td>
 		          			<td>
 		          				<?php
-									if($editperm==1)
+									if($editperm==1 )
 									{
 								?>
 										<a href="#" data-toggle="modal" data-target="#myModal1" class="modaledit" data-roleid="<?php echo $record->sec_role_id; ?>" data-userid="<?php echo $record->user_id; ?>" data-userfullname="<?php echo $record->user_full_name; ?>" data-email="<?php echo $record->email_id; ?>" data-depart="<?php echo $record->dept_name; ?>" data-username="<?php echo $record->user_name; ?>" data-changepwd="<?php echo $record->change_pwd_opt; ?>" data-lockcount="<?php echo $record->lock_by_pwd; ?>"  ><span class="glyphicon glyphicon-edit">&nbsp;</span></a>
@@ -611,7 +627,7 @@
 				  			</td>
 		          			<td>
 		          				<?php
-									if($delperm==1)
+									if($delperm==1 && $ldap!=1) // added new condition $ldap ==1 by agaile on 03/06/2016 if the user is logged in via ldap disable the delete user
 									{
 								?>
 		          						<a href="#" data-toggle="modal" class="modaldelete" data-userid="<?php echo $record->user_id; ?>"><span class="glyphicon glyphicon-trash">&nbsp;</span></a>

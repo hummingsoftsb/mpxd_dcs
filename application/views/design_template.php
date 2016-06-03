@@ -26,7 +26,7 @@
 					$(".modal-body #errordesc").html( data.msg1 );
 					$(".modal-body #erroruser").html( data.msg2 );
 					$(".modal-body #errorstart").html( data.msg3 );
-					$(".modal-body #errorend").html( data.msg4 );
+					//$(".modal-body #errorend").html( data.msg4 );
 				}
 				if(data.st == 1)
 				{
@@ -299,7 +299,8 @@
 						</div>
 						<div class="row">
 							<div class="form-group">
-								<label for="search" class="col-sm-3 control-label"><?php echo $labelname[4]; ?><red>*</red></label>
+<!--								<label for="search" class="col-sm-3 control-label">--><?php //echo $labelname[4]; ?><!--<red>*</red></label>-->
+								<label for="search" class="col-sm-3 control-label"><?php echo $labelname[4]; ?></label>
 								<div class="col-sm-8">
 					           		<input class="input-small" type="text" id="enddate" name="enddate" placeholder="23/09/2015">
 								</div>

@@ -85,7 +85,7 @@ class Journalauditlog extends CI_Controller
 			//Load all record data
 			//$test = $this->ilyasmodel->get_progressive_audit_count("zul");
 			//var_dump($test);die();
-			$data['records'] = $this->assessment->show_log($search,$offset,$config['per_page']);
+			$data['records'] = $this->assessment->show_log($search,$offset,$config['per_page']); // this is taking progressive journal data only
 			//echo json_encode($data['records']);die();
 			// Audit for non progressive
 			

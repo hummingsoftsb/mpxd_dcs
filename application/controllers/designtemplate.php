@@ -136,7 +136,7 @@ class Designtemplate extends CI_Controller
 		$this->form_validation->set_rules('desc', $label1, 'trim|required|alpha_numeric_spaces_special|xss_clean');
 		$this->form_validation->set_rules('user', $label2, 'trim|required|xss_clean');
 		$this->form_validation->set_rules('startdate', $label3, 'trim|required|xss_clean|numeric_dash|callback_valid_date');
-		$this->form_validation->set_rules('enddate', $label4, 'trim|required|xss_clean|numeric_dash');
+//		$this->form_validation->set_rules('enddate', $label4, 'trim|required|xss_clean|numeric_dash');
 
 
 		if($this->form_validation->run() == FALSE)

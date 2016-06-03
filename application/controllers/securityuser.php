@@ -101,6 +101,7 @@ class Securityuser extends CI_Controller
 			$data['editperm']=$editperm;
 			$data['delperm']=$delperm;
 			$data['message']=$message;
+			$data['ldap']=$this->config->item('use_ldap');
 			$data1['username'] = $session_data['username'];
 			$data1['alerts']=$this->alertreminder->show_alert($session_data['id']);
 			/*$data1['alertcount']=$this->alertreminder->count_alert($session_data['id']);*/
