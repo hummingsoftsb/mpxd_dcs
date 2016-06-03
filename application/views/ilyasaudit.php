@@ -98,7 +98,7 @@ $owner=$details->user_full_name;
             success:function (data) {
                 if(data.status=="success"){
 //                    console.log(data.name.user_full_name);
-                    $('#vali_name').html(data.name.user_full_name);
+                    $('#vali_name').html((data.name.user_full_name)?data.name.user_full_name:'-');
                 }else{
                     console.log(data.status);
                 }
@@ -126,7 +126,7 @@ $owner=$details->user_full_name;
             success:function (data) {
                 if(data.status=="success"){
 //                    console.log(data.name.user_full_name);
-                    $('#vali_name').html(data.name.user_full_name);
+                    $('#vali_name').html((data.name.user_full_name)?data.name.user_full_name:'-');
                 }else{
                     console.log(data.status);
                 }
