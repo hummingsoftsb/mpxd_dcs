@@ -57,7 +57,7 @@ Class Securitys extends CI_Model
 			$query .=" or lower(sec_group_desc) like '%".$data."%' ";
 			$query .=" )";
 		}
-		$query .=" order by sec_group.sec_group_desc asc,sec_object.seq_no asc OFFSET ".$offset." LIMIT ".$perPage;
+		$query .=" order by sec_group.sec_group_desc asc,sec_object.seq_no asc ";
 		$query = $this->db->query($query);
 		$query_result = $query->result();
 		return $query_result;
@@ -126,7 +126,7 @@ Class Securitys extends CI_Model
 			$query .=" or lower(sec_group_desc) like '%".$data."%' ";
 			$query .=" )";
 		}
-		$query .=" order by sec_group.sec_group_desc asc,sec_object.seq_no asc,sec_label.seq_no asc OFFSET ".$offset." LIMIT ".$perPage;
+		$query .=" order by sec_group.sec_group_desc asc,sec_object.seq_no asc,sec_label.seq_no asc ";
 		$query = $this->db->query($query);
 		$query_result = $query->result();
 		return $query_result;
@@ -238,7 +238,7 @@ Class Securitys extends CI_Model
 			$query .=" where lower(sec_role_name) like '%".$data."%' ";
 			$query .=" or lower(sec_role_desc) like '%".$data."%' ";
 		}
-		$query .=" order by sec_role_name asc OFFSET ".$offset." LIMIT ".$perPage;
+		$query .=" order by sec_role_name asc ";
 		$query = $this->db->query($query);
 		$query_result = $query->result();
 		return $query_result;
@@ -386,7 +386,8 @@ Class Securitys extends CI_Model
 			$query .=" or lower(email_id) like '%".$data."%' ";
 			$query .=" )";
 		}
-		$query .=" order by user_full_name asc OFFSET ".$offset." LIMIT ".$perPage;
+//		$query .=" order by user_full_name asc OFFSET ".$offset." LIMIT ".$perPage;
+		$query .=" order by user_full_name asc";
 		$query = $this->db->query($query);
 		$query_result = $query->result();
 		return $query_result;

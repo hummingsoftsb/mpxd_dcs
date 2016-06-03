@@ -294,9 +294,7 @@ Class Assessment extends CI_Model
 
     function show_journalnp_validator($id)
     {
-//        $query = "SELECT su.user_full_name FROM journal_validator_nonprogressive jvn,sec_user su where jvn.validate_user_id = su.user_id and jvn.journal_no = $id";
-        // modified by agaile on 02/06/2016 to show the correct validator name for nonp journal
-        $query = "SELECT su.user_full_name FROM ilyas_log il,sec_user su where il.validator_id = su.user_id and il.journal_no = $id";
+        $query = "SELECT su.user_full_name FROM journal_validator_nonprogressive jvn,sec_user su where jvn.validate_user_id = su.user_id and jvn.journal_no = $id";
         $q = $this->db->query($query);
          return $q->row();
         //return $q->result();

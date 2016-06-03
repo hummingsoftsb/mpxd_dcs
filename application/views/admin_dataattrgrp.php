@@ -1,6 +1,7 @@
 <script>
 	$(document).ready(function()
 	{
+        $('#dag').DataTable()
 		$(document).on("click", ".modaladd", function ()
 		{
 			var empty = "";
@@ -140,12 +141,12 @@
 	</div>
 	<!--SEARCH-->
 	<div class="form-group">
-		<label for="search" class="col-sm-1 control-label">Search</label>
-		<div class="col-sm-4">
-			<input type="text" class="form-control" id="search" name="search" value="<?php echo $searchrecord; ?>" placeholder="Enter the text here">
-		</div>
-		<input type="button" class="btn btn-primary btn-sm" id="recordsearch" name="recordsearch" value="Search" />
-		<a href="<?php echo base_url(); ?><?php echo $cpagename; ?>" class="btn btn-danger btn-sm">Clear</a>
+<!--		<label for="search" class="col-sm-1 control-label">Search</label>-->
+<!--		<div class="col-sm-4">-->
+<!--			<input type="text" class="form-control" id="search" name="search" value="--><?php //echo $searchrecord; ?><!--" placeholder="Enter the text here">-->
+<!--		</div>-->
+<!--		<input type="button" class="btn btn-primary btn-sm" id="recordsearch" name="recordsearch" value="Search" />-->
+<!--		<a href="--><?php //echo base_url(); ?><!----><?php //echo $cpagename; ?><!--" class="btn btn-danger btn-sm">Clear</a>-->
 		<button type="button" class="btn btn-success btn-sm pull-right modaladd" data-toggle="modal" data-target="#myModalAdd" <?php if($addperm==0) echo 'disabled="true"'; ?>>Add New</button>
 	</div>
 	<!-- -------------------------------------------- -->
@@ -227,8 +228,9 @@
 	<!-- close pop-up-->
 	<!-- <div class="row text-center text-danger"><?php echo $message; ?> </div> -->
 	<div class="row text-center <?php echo $message_type == 1? "text-success" : "text-danger"; ?>"><?php echo $message; ?></div>
+    <div>&nbsp;</div>
 	<div class="row">
-		<table class="table table-striped table-hover">
+		<table class="table table-striped table-hover" id="dag">
 			<thead>
 				<tr>
 					<th>No</th>
@@ -288,31 +290,28 @@
 		</table>
 	</div>
 	<div class="row">
-		<div class="col-md-12">
-			<div class="col-md-4">
-				<ul class="pagination">
-					<?php echo $this->pagination->create_links(); ?>
-				</ul>
-			</div>
-			<div class="col-md-4 col-md-offset-1" >
-      			<div class="form-group">
-    				<label for="search" class="col-sm-2 control-label" style="padding-top: 15px; padding-bottom: 5px;">Show</label>
-    				<div class="col-sm-3" style="padding-top: 15px; padding-bottom: 5px;">
-    					<select class="form-control" id="recordselect" name="recordselect">
-                    		<option <?php if($selectrecord=="10") echo "selected=selected"; ?>>10</option>
-	                        <option <?php if($selectrecord=="20") echo "selected=selected"; ?>>20</option>
-	                        <option <?php if($selectrecord=="40") echo "selected=selected"; ?>>40</option>
-                  		</select>
-                  	</div>
-				</div>
-			</div>
-			<?php
-				 // Display the number of records in a page
-				 $end=$mpage+$page-1;
-				if($totalrows<$end) $end=$totalrows;
-			?>
-			<div class="col-md-3" style="padding-top: 22px;"> Showing <?php echo $page; ?> to <?php echo $end; ?> of <?php echo $totalrows; ?> rows</div>
-		</div>
+<!--		<div class="col-md-12">-->
+<!--			<div class="col-md-4">-->
+<!--				<ul class="pagination">-->
+<!--					--><?php //echo $this->pagination->create_links(); ?>
+<!--				</ul>-->
+<!--			</div>-->
+<!--			<div class="col-md-4 col-md-offset-1" >-->
+<!--      			<div class="form-group">-->
+<!--    				<label for="search" class="col-sm-2 control-label" style="padding-top: 15px; padding-bottom: 5px;">Show</label>-->
+<!--    				<div class="col-sm-3" style="padding-top: 15px; padding-bottom: 5px;">-->
+<!--    					<select class="form-control" id="recordselect" name="recordselect">-->
+<!--                  		</select>-->
+<!--                  	</div>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--			--><?php
+//				 // Display the number of records in a page
+//				 $end=$mpage+$page-1;
+//				if($totalrows<$end) $end=$totalrows;
+//			?>
+<!--			<div class="col-md-3" style="padding-top: 22px;"> Showing --><?php //echo $page; ?><!-- to --><?php //echo $end; ?><!-- of --><?php //echo $totalrows; ?><!-- rows</div>-->
+<!--		</div>-->
 		<?php }?>
 	</div>
 </div>

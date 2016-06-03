@@ -63,7 +63,7 @@
             $(this).html('<input type="text" placeholder="Search" style="width: 70px;" />');
         });
 
-        $('#status_table_wrapper .dataTables_filter input').addClass("form-control input-sm").attr("placeholder", "Search");
+//        $('#status_table_wrapper .dataTables_filter input').addClass("form-control input-sm").attr("placeholder", "Search");
 
         // Apply the search
         table.columns().every(function () {
