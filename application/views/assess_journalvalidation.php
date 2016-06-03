@@ -182,9 +182,19 @@
     $(document).ready(function () {
 
         // DataTable
-        var table = $('#prog_val_table').DataTable({
+//        var table = $('#prog_val_table').DataTable({
+//
+//        });
 
+        // Modified by agaile to standardize the whole datatables : 03/06/2016
+        var oTable = $('#prog_val_table').dataTable({
+            "order": [[ 0, "asc" ]],
+            "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false
+            }]
         });
+        $('div.dataTables_filter input').attr('placeholder', 'Enter the text here');
     });
 </script>
 

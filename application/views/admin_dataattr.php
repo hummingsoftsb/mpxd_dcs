@@ -1,7 +1,17 @@
 <script>
 	$(document).ready(function()
 	{
-        $('#prg_da').DataTable();
+//        $('#prg_da').DataTable();
+        var oTable = $('#prg_da').dataTable({
+            "order": [[ 0, "asc" ]],
+            "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false
+            }]
+        });
+
+        $('div.dataTables_filter input').attr('placeholder', 'Enter the text here');
+
 		$(".modal-body #inputtype").change(function()
 		{
             if($(this).val() ==1)

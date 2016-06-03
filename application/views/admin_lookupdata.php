@@ -1,7 +1,17 @@
 <script>
 	$(document).ready(function()
 	{
-        $('#lookup').DataTable();
+//        $('#lookup').DataTable();
+        var oTable = $('#lookup').dataTable({
+        "order": [[ 0, "asc" ]],
+        "columnDefs": [ {
+            "targets"  : 'no-sort',
+            "orderable": false
+        }]
+    });
+
+        $('div.dataTables_filter input').attr('placeholder', 'Enter the text here');
+
 		$("#modaladd").click(function ()
 		{
 			var empty = "";

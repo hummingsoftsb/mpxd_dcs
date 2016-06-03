@@ -1,7 +1,15 @@
 <script>
 	$(document).ready(function()
 	{
-        $('#admin_uom').DataTable();
+//        $('#admin_uom').DataTable();
+        var oTable = $('#admin_uom').dataTable({
+            "order": [[ 0, "asc" ]],
+            "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false
+            }]
+        });
+        $('div.dataTables_filter input').attr('placeholder', 'Enter the text here');
 		$(document).on("click", ".modaladd", function ()
 		{
 			var empty = "";

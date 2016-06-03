@@ -3,8 +3,17 @@
 	{
 
         // DataTable
-        var table = $('#user_table').DataTable({
+//        var table = $('#user_table').DataTable({
+//        });
+
+        var oTable = $('#user_table').dataTable({
+            "order": [[ 0, "asc" ]],
+            "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false
+            }]
         });
+        $('div.dataTables_filter input').attr('placeholder', 'Enter the text here');
 
 
 

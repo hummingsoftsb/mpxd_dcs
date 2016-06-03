@@ -2,7 +2,15 @@
 
 	$(document).ready(function()
 	{
-        $('#sec_labels').DataTable();
+//        $('#sec_labels').DataTable();
+        var oTable = $('#sec_labels').dataTable({
+        "order": [[ 0, "asc" ]],
+        "columnDefs": [ {
+            "targets"  : 'no-sort',
+            "orderable": false
+        }]
+    });
+        $('div.dataTables_filter input').attr('placeholder', 'Enter the text here');
 		$(document).on("click", ".modaledit", function ()
 		{
 		     var labelid = $(this).data('labelid');

@@ -2,8 +2,16 @@
 	$(document).ready(function()
 	{
         // DataTable
-        var table = $('#user_role').DataTable({
+//        var table = $('#user_role').DataTable({
+//        });
+        var oTable = $('#user_role').dataTable({
+            "order": [[ 0, "asc" ]],
+            "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false
+            }]
         });
+        $('div.dataTables_filter input').attr('placeholder', 'Enter the text here');
 		$("#modaladd").click(function ()
 		{
 			var role = "";

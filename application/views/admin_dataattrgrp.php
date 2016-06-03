@@ -1,7 +1,16 @@
 <script>
 	$(document).ready(function()
 	{
-        $('#dag').DataTable()
+//        $('#dag').DataTable();
+        var oTable = $('#dag').dataTable({
+            "order": [[ 0, "asc" ]],
+            "columnDefs": [ {
+                "targets"  : 'no-sort',
+                "orderable": false
+            }]
+        });
+
+        $('div.dataTables_filter input').attr('placeholder', 'Enter the text here');
 		$(document).on("click", ".modaladd", function ()
 		{
 			var empty = "";

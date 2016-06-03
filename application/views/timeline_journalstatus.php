@@ -57,6 +57,9 @@
         // DataTable
         var table = $('#status_table').DataTable({
         });
+
+        $('div.dataTables_filter input').attr('placeholder', 'Enter the text here');
+
         // Setup - add a text input to each footer cell
         $('#status_table tfoot th').each(function () {
             var title = $('#status_table thead th').eq($(this).index()).text();
