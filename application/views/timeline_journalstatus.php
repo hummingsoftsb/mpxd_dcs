@@ -56,13 +56,14 @@
 
         // DataTable
         var table = $('#status_table').DataTable({
-
         });
         // Setup - add a text input to each footer cell
         $('#status_table tfoot th').each(function () {
             var title = $('#status_table thead th').eq($(this).index()).text();
             $(this).html('<input type="text" placeholder="Search" style="width: 70px;" />');
         });
+
+        $('#status_table_wrapper .dataTables_filter input').addClass("form-control input-sm").attr("placeholder", "Search");
 
         // Apply the search
         table.columns().every(function () {

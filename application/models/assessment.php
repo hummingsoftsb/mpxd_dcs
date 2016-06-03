@@ -294,7 +294,21 @@ Class Assessment extends CI_Model
 
     function show_journalnp_validator($id)
     {
-        $query = "SELECT su.user_full_name FROM journal_validator_nonprogressive jvn,sec_user su where jvn.validate_user_id = su.user_id and jvn.journal_no = $id";
+//        $query = "SELECT su.user_full_name FROM journal_validator_nonprogressive jvn,sec_user su where jvn.validate_user_id = su.user_id and jvn.journal_no = $id";
+        // modified by agaile on 02/06/2016 to show the correct validator name for nonp journal
+        $query = "SELECT su.user_full_name FROM ilyas_log il,sec_user su where il.validator_id = su.user_id and il.journal_no = $id";
+        $q = $this->db->query($query);
+         return $q->row();
+        //return $q->result();
+    }
+
+    // Added by Agaile for showing the correct validator for non - progressive journal
+
+    function get_validator_details($jno, $rev)
+    {
+        // modified by agaile on 02/06/2016 to show the correct validator name for nonp journal
+        $query = "SELECT su.user_full_name FROM ilyas_log il,sec_user su where il.validator_id = su.user_id and il.journal_no = $jno and il.revision = $rev";
+//        print_r($query);
         $q = $this->db->query($query);
         return $q->row();
     }
@@ -1005,7 +1019,10 @@ Class Assessment extends CI_Model
             $query .= " or lower(f.frequency_detail_name) like '%" . $data . "%' )";
 
         }
-        $query .= " Order By project_name asc,journal_name asc OFFSET " . $offset . "LIMIT " . $perPage;
+        //$query .= " Order By project_name asc,journal_name asc OFFSET " . $offset . "LIMIT " . $perPage;
+        // modified by agaile : on 02/06/2016 usage: the offset and limit is set, bcoz of that the whole records are fetched
+        $query .= " Order By project_name asc,journal_name asc";
+        //echo $query;
         $q = $this->db->query($query);
         $aaaa = $q->result();
         // echo "<script type='text/javascript'>alert('".var_dump($aaaa)."')</script>";

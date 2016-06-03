@@ -509,14 +509,15 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="form-group">
-								<label for="search" class="col-sm-4 control-label"><?php echo $labelname[7]; ?></label>
-								<div class="col-sm-3">
-									<input type="checkbox" id="fieldlock" name="fieldlock" disabled="true" />
-								</div>
-							</div>
-						</div>
+<!--                        Hidden by : Agaile as suggested by ZUL on 02/06/2016-->
+<!--						<div class="row">-->
+<!--							<div class="form-group">-->
+<!--								<label for="search" class="col-sm-4 control-label">--><?php //echo $labelname[7]; ?><!--</label>-->
+<!--								<div class="col-sm-3">-->
+<!--									<input type="checkbox" id="fieldlock" name="fieldlock" disabled="true" />-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>

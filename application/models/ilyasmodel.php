@@ -386,8 +386,8 @@ Class IlyasModel extends CI_Model
 		
 		$revision = $this->get_latest_revision($jid);
 		if (is_null($revision)) return [];
-		//$query = "SELECT DISTINCT ON (a.row) a.validate_comment_row,a.row FROM ilyas a, ilyas_config b WHERE a.config_no=b.config_no AND a.validate_comment_row IS NOT NULL AND a.revision=$revision ORDER BY a.row ASC";
-		$query = "select DISTINCT ON (row) validate_comment_row,row from ilyas,ilyas_config where ilyas.config_no = ilyas_config.config_no and ilyas_config.journal_no = $jid and revision = $revision";
+		$query = "SELECT DISTINCT ON (a.row) a.validate_comment_row,a.row FROM ilyas a, ilyas_config b WHERE a.config_no=b.config_no AND a.validate_comment_row IS NOT NULL AND a.revision=$revision ORDER BY a.row ASC";
+//		$query = "select DISTINCT ON (row) validate_comment_row,row from ilyas,ilyas_config where ilyas.config_no = ilyas_config.config_no and ilyas_config.journal_no = $jid and revision = $revision";
 		//die();
 		
 		$q = $this->db->query($query);
@@ -706,7 +706,7 @@ Class IlyasModel extends CI_Model
 		return $read_only;
 	}	
 	
-	function validate_approve($jid) {
+	function validate_approve($jid,$userid) {
 		$j = $this->get_config($jid, true);
 		$pending = $j[0]["validate_pending"];
 		$revision = $j[0]["validate_revision"];
@@ -724,12 +724,16 @@ Class IlyasModel extends CI_Model
 			// Update validate status at ilyas
 			$this->db->where_in("config_no", $configids);
 			$this->db->where_in("revision", $revision);
-			$this->db->update('ilyas', array("validate_status" => 2));
-			
+//			$this->db->update('ilyas', array("validate_status" => 2));
+            // modified by agaile to add validator id : on 02/06/2016
+			$this->db->update('ilyas', array("validate_status" => 2,"validator_id" => $userid));
+
 			$q = $this->db->trans_complete();
 			
 			//Copy approved data into log
-			$query = "INSERT INTO ilyas_log (SELECT *,$jid FROM ilyas where config_no in (SELECT config_no FROM ilyas_config WHERE journal_no = $jid) and revision = $revision)";
+            //modified by agaile : 02/06/2016
+//			$query = "INSERT INTO ilyas_log (SELECT *,$jid FROM ilyas where config_no in (SELECT config_no FROM ilyas_config WHERE journal_no = $jid) and revision = $revision)";
+			$query = "INSERT INTO ilyas_log (SELECT config_no,row,value,timestamp,revision,validate_status,validate_comment,user_id,data_date,validate_comment_row,r_only,$jid,validator_id FROM ilyas where config_no in (SELECT config_no FROM ilyas_config WHERE journal_no = $jid) and revision = $revision)";
             $this->db->query($query);
 		}
 		return $q;
@@ -930,7 +934,10 @@ Class IlyasModel extends CI_Model
 			$query .=" or lower(b.journal_name) like '%".$search."%' ";
 			$query .=" or lower(d.user_full_name) like '%".$search."%') ";
 		}
-		$query .=" Order By b.journal_no, project_name asc,journal_name asc OFFSET ".$offset."LIMIT ".$perpage.") as temp order by project_name asc,journal_name asc";
+//		$query .=" Order By b.journal_no, project_name asc,journal_name asc OFFSET ".$offset."LIMIT ".$perpage.") as temp order by project_name asc,journal_name asc";
+        // modified by agaile on 02/06/2016 reason the query is wrong since it was given the offset and limit it wont take the whole records
+		$query .=" Order By b.journal_no, project_name asc,journal_name asc ) as temp order by project_name asc,journal_name asc";
+        //echo $query;
         $q = $this->db->query($query);
 		$aaaa = $q->result();
 		// echo "<script type='text/javascript'>alert('".var_dump($aaaa)."')</script>";
@@ -976,6 +983,7 @@ Class IlyasModel extends CI_Model
 		if (is_null($revision)) return [];
 		
 		$query = "SELECT b.log FROM journal_nonprogressive_data_entry_audit_log b WHERE b.journal_no = '$jid' AND b.revision='$revision' ORDER BY revision desc";
+        //echo $query;
 		$q = $this->db->query($query);
 		$result = json_decode($q->result()[0]->log, true);
 		$result['data'] = $this->transpose($result['data']);

@@ -233,5 +233,21 @@ class Ilyas extends CI_Controller
     function update(){
         $this->reminder->update_reminder();
     }
+
+    //    Added by agaile to get the validator details for non progressive journals
+    public function get_validator_details()
+    {
+        $jno = trim($_POST['jno']);
+        $rev = trim($_POST['rev']);
+        $result1 = $this->assessment->get_validator_details($jno, $rev);
+        if($result1 != ""){
+            $data['status']="success";
+            $data['name']= $result1;
+        }else{
+            $data['status']="fail";
+            $data['name']= $result1;
+        }
+        echo json_encode($data);
+    }
 }
 ?>
