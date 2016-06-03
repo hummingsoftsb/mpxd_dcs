@@ -93,7 +93,6 @@ isColumnLookup = function(c) {
 // HOT Renderers
 percentageround2Renderer = function(instance, td, row, col, prop, value, cellProperties) {
   Handsontable.renderers.TextRenderer.apply(this, arguments);
-  
   value = parseFloat(value).toFixed(2);
   if (isNaN(value)) return;
   td.innerHTML = value+"%";
@@ -103,7 +102,6 @@ percentageround2Renderer = function(instance, td, row, col, prop, value, cellPro
 customNumericRightAlignRenderer = function(instance, td, row, col, prop, value, cellProperties) {
   cellProperties.format = "0,0";
   Handsontable.renderers.NumericRenderer.apply(this, arguments);
-  
   td.style.textAlign = "right";
   if (isNaN(value)) return;
   return td;
@@ -112,14 +110,12 @@ customNumericRightAlignRenderer = function(instance, td, row, col, prop, value, 
 customDecimalRightAlignRenderer2 = function(instance, td, row, col, prop, value, cellProperties) {
   cellProperties.format = "0,0.00";
   Handsontable.renderers.NumericRenderer.apply(this, arguments);
-  
   td.style.textAlign = "right";
   if (isNaN(value)) return;
   return td;
 }
 
 customFormulaRenderer = function(instance, TD, row, col, prop, value, cellProperties) {
-
 	if (true) {
 	// translate coordinates into cellId
 	var cellId = instance.plugin.utils.translateCellCoords({
@@ -237,9 +233,6 @@ disabledRenderer = function(instance, td, row, col, prop, value, cellProperties)
   //td.appendChild("Test");
   return td;
 };
-
-
-
 
 
 // HOT object
@@ -511,9 +504,24 @@ function HOT(Handsontable, raw_config, data,  type) {
 		
 		c['afterRender'] = function(){
 			//console.log('After render', new Date().getTime() - window.renderstart);
+            //Sebin Starts here...
+            //    renderColor(this);
+            //Sebin Ends here...
 		}
-		
-		
+        //Sebin Starts here...
+        //function renderColor(_this){
+        //    for(var i=0;i<_this.countRows();i++){
+        //        for(var p=0;p<_this.countCols();p++){
+        //            cell_color = "rgba(142, 219, 245, 0.82)";
+        //            font_color = "#fff";
+        //            if(_this.getDataAtCell(i,p)==='sebin'){
+        //                $(_this.getCell(i,p)).css({"color": font_color, "background-color": cell_color})
+        //            }
+        //        }
+        //    }
+        //}
+        //Sebin Ends here...
+
 		this.hot_instance = new this.Handsontable(container, c);
 		//this.hot_instance.forceFullRender = true;
 		this.hot_initialized = true;
@@ -530,7 +538,7 @@ function HOT(Handsontable, raw_config, data,  type) {
 		//console.log($(".ht_master > .wtHolder > .wtHider").css('height'));
 		return this;
 	}
-	
+
 	this.refresh_formulae = function(startRow, startCol) {
 		// If HOT is not initialized, no need to refresh.
 		if (typeof startRow == 'undefined') startRow = 0;
@@ -700,7 +708,6 @@ function HOT(Handsontable, raw_config, data,  type) {
 		/*for (var i = 0; i < config.columns.length; i++) {
 			console.log(config.columns[i]["readOnly"])
 		}*/
-		
 		//console.log(config);
 		return config;
 	}
@@ -875,7 +882,6 @@ function HOT(Handsontable, raw_config, data,  type) {
 				}
 			}
 		}
-		
 		return d;
 	}
 	
@@ -926,7 +932,7 @@ function HOT(Handsontable, raw_config, data,  type) {
 		// Not very efficient due to limitation by HOT.
 		
 		// Remove all data in column
-		// console.log("DATA",data);
+		//console.log("DATA",data);
 		
 		// If current data exist, push into existing one.
 		if (typeof this.data[0].length != "undefined") {
@@ -971,14 +977,13 @@ function HOT(Handsontable, raw_config, data,  type) {
 			this.hot_instance.setDataAtCell(i, col, data[i]);
 		}*/
 	}
-	
-	
+
+
 	this.Handsontable.renderers.registerRenderer("percentageround2Renderer",percentageround2Renderer);
 	this.Handsontable.renderers.registerRenderer("disabledRenderer",disabledRenderer);
 	this.Handsontable.renderers.registerRenderer("customNumericRightAlignRenderer",customNumericRightAlignRenderer);
 	this.Handsontable.renderers.registerRenderer("customDecimalRightAlignRenderer2",customDecimalRightAlignRenderer2);
 	this.Handsontable.renderers.registerRenderer("customFormulaRenderer",customFormulaRenderer);
-	
 	this.initialize(raw_config, data, type);
 	this.initialized = true;
 	
