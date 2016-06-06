@@ -586,7 +586,7 @@ Class IlyasModel extends CI_Model
 		
 		
 		if (!is_null($perPage)) {
-			$query .= " Offset $offset Limit $perPage";
+			$query .= "";
 		} else {
 			$query .= "";
 		}

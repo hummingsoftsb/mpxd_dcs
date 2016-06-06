@@ -74,7 +74,7 @@ Class Design extends CI_Model
 			$sql .=" or lower(user_full_name) like '%".$data."%' ";
 			$sql .=" ) ";
 		}
-		$sql .=" Order By project_name asc OFFSET ".$offset."LIMIT ".$perPage;
+		$sql .="";
         $q = $this->db->query($sql);
         return $q->result();
 	}
@@ -178,7 +178,7 @@ Class Design extends CI_Model
 			$sql .=" or lower(user_full_name) like '%".$data."%' ";
 			$sql .=" ) ";
 		}
-		$sql .=" Order By project_name asc, journal_name asc OFFSET ".$offset." LIMIT ".$perPage;
+		$sql .=" Order By project_name asc, journal_name asc";
         //echo($sql);
         $q = $this->db->query($sql);
         return $q->result();
@@ -744,7 +744,7 @@ Class Design extends CI_Model
 					$query .=" or lower(b.journal_name) like '%".$data."%' ";
 					$query .=" or lower(d.user_full_name) like '%".$data."%') ";
 		}
-		$query .=") Order By project_name asc,journal_name asc OFFSET ".$offset."LIMIT ".$perPage;
+		$query .=") Order By project_name asc,journal_name asc ";
 		$q = $this->db->query($query);
 		return $q->result();
 	}

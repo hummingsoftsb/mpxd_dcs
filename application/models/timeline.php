@@ -82,7 +82,7 @@ Class Timeline extends CI_Model {
         if ($data == "pending") {
             $query.=" having avg(a.complete_percent)<100";
         }
-        $query .=") OFFSET " . $offset . "LIMIT " . $perPage;
+        $query .=")";
         $q = $this->db->query($query);
         return $q->result();
     }
