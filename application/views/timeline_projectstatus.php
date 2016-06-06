@@ -1,6 +1,13 @@
 <script>
 	$(document).ready(function()
 	{
+        var oTable = $('#status_table').dataTable({
+//          "order": [[ 0, "asc" ]],
+//            "columnDefs": [ {
+//                "targets"  : 'no-sort',
+//                "orderable": false
+//            }]
+        });
 		$("#recordselect").change(function()
 		{
 			var recordselect = $(this).val();
@@ -84,15 +91,15 @@
 
 </div>
 
-<div class="form-group">
+<!--<div class="form-group">
 		<label for="search" class="col-sm-1 control-label">Search</label>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" id="search" name="search" value="<?php echo $searchrecord; ?>" placeholder="Enter the text here">
+			<input type="text" class="form-control" id="search" name="search" value="<?php /*echo $searchrecord; */?>" placeholder="Enter the text here">
 		</div>
 		<input type="button" class="btn btn-primary btn-sm" id="recordsearch" name="recordsearch" value="Search" />
-		<a href="<?php echo base_url(); ?><?php echo $cpagename; ?>" class="btn btn-danger btn-sm">Clear</a>
+		<a href="<?php /*echo base_url(); */?><?php /*echo $cpagename; */?>" class="btn btn-danger btn-sm">Clear</a>
 		</div>
-
+-->
 <div class="row">
 <div class="col-md-12" id="chkstat" name="chkstat" style="text-align:center;">
 
@@ -116,7 +123,8 @@
 </div>
 </div>
 <p>
-<table class="table table-striped table-hover" id="status_table">
+<table class="table table-striped table-hover " id="status_table">
+        <thead>
 	<tr>
 		<th>No</th>
 		<th><?php echo $labelname[0]; ?></th>
@@ -125,6 +133,7 @@
 		<th><?php echo $labelname[3]; ?></th>
 		<th><?php echo $labelname[4]; ?></th>
 	</tr>
+        </thead>
 	<tbody>
 
 		<?php
@@ -163,42 +172,40 @@
 
     </tbody>
 </table>
+<!--<div class="row">
 
-<div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <ul class="pagination">
+                    <?php /*echo $this->pagination->create_links(); */?>
+                </ul>
+            </div>
+            <div class="col-md-4 col-md-offset-1" >
+                <div class="form-group">
+                    <label for="search" class="col-sm-2 control-label" style="padding-top: 22px;">Show</label>
+                    <div class="col-sm-3" style="padding-top: 14px;">
+                        <select class="form-control" id="recordselect" name="recordselect">
+                            <option <?php /*if($selectrecord=="10") echo "selected=selected";*/ ?>>10</option>
+                            <option <?php /*if($selectrecord=="20") echo "selected=selected";*/ ?>>20</option>
+                            <option <?php /*if($selectrecord=="40") echo "selected=selected";*/ ?>>40</option>
+                        </select>
+                    </div>
 
-<div class="col-md-12">
-<div class="col-md-4">
-<ul class="pagination">
-                <?php echo $this->pagination->create_links(); ?>
-</ul>
-</div>
-<div class="col-md-4 col-md-offset-1" >
-	    <div class="form-group">
-        <label for="search" class="col-sm-2 control-label" style="padding-top: 22px;">Show</label>
-        <div class="col-sm-3" style="padding-top: 14px;">
-        <select class="form-control" id="recordselect" name="recordselect">
-						<option <?php if($selectrecord=="10") echo "selected=selected"; ?>>10</option>
-						<option <?php if($selectrecord=="20") echo "selected=selected"; ?>>20</option>
-						<option <?php if($selectrecord=="40") echo "selected=selected"; ?>>40</option>
-		</select>
+                </div>
+            </div>
+            <?php
+            // Display the number of records in a page
+            /*$end=$mpage+$page-1;*/
+            /*if($totalrows<$end) $end=$totalrows;*/
+            ?>
+            <div class="col-md-3" style="padding-top: 22px;"> Showing <?php /*echo $page;*/ ?> to <?php /*echo $end;*/ ?> of <?php /*echo $totalrows;*/ ?> rows</div>
         </div>
-
-      </div>
-      </div>
-      <?php
-	  	  			 // Display the number of records in a page
-	  	  			 $end=$mpage+$page-1;
-	  	  			 if($totalrows<$end) $end=$totalrows;
-	  			?>
-	  			<div class="col-md-3" style="padding-top: 22px;"> Showing <?php echo $page; ?> to <?php echo $end; ?> of <?php echo $totalrows; ?> rows</div>
-	  		</div>
-		<?php }?>
-</div>
+        <?php }?>
+</div>-->
 
 </div>
 
 
 </div>
-
 
 

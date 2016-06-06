@@ -25,8 +25,9 @@ class Journalauditlog extends CI_Controller
 		{
 			$session_data = $this->session->userdata('logged_in');
 			$data['username'] = $session_data['username'];
-
+//            print_r($session_data);
 			$roleid=$session_data['roleid'];
+			$userid=$session_data['id'];
 			$roleperms=$this->securitys->show_permission_object_data($roleid,"5");
 			foreach ($roleperms as $roleperm):
 				$viewperm=$roleperm->view_opt;
@@ -85,7 +86,14 @@ class Journalauditlog extends CI_Controller
 			//Load all record data
 			//$test = $this->ilyasmodel->get_progressive_audit_count("zul");
 			//var_dump($test);die();
-			$data['records'] = $this->assessment->show_log($search,$offset,$config['per_page']); // this is taking progressive journal data only
+            // Modified by : Agaile for segregating the records based on role
+            if($roleid == 1) {
+                $data['records'] = $this->assessment->show_log($search, $offset, $config['per_page']); // this is taking progressive journal data only
+            }
+            else{
+                $data['records'] = $this->assessment->show_log_id_audit($userid); // this is taking progressive journal data only
+            }
+
 			//echo json_encode($data['records']);die();
 			// Audit for non progressive
 			
@@ -164,7 +172,13 @@ class Journalauditlog extends CI_Controller
 				// Last page where results is less than perpage. Should start to query for non-progressives, with limit by balance
 				$balance_from_last_page = $config['per_page'] - sizeOf($data['records']);
 				//var_dump($balance_from_last_page);die();
+                //modified by agaile on 04/06/2016 to segregate records based on roles
+                if($roleid == 1) {
 				$nonp_records = $this->ilyasmodel->get_audit($search,0,$config['per_page'],$balance_from_last_page);
+                }
+                else{
+                    $nonp_records = $this->ilyasmodel->get_audit_id_audit($userid);
+                }
 			}
 			
 			if ($is_nonp_available) {

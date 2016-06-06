@@ -35,7 +35,7 @@ Class Admin extends CI_Model
             $query .= " where lower(data_attribute_group_desc) like '%" . $data . "%' ";
 
         }
-        $query .= " Order By data_attribute_group_desc asc OFFSET " . $offset . "LIMIT " . $perPage;
+        $query .= " Order By data_attribute_group_desc asc ";
         $q = $this->db->query($query);
         return $q->result();
     }
@@ -155,7 +155,7 @@ Class Admin extends CI_Model
             $sql .= " or data_attribute_group_id in (select data_attribute_group_id from data_attribute_group where lower(data_attribute_group_desc) like '%" . $data . "%') ";
             $sql .= " ) ";
         }
-        $sql .= " Order By data_attb_label asc OFFSET " . $offset . "LIMIT " . $perPage;
+        $sql .= " Order By data_attb_label asc";
         $q = $this->db->query($sql);
         return $q->result();
     }
@@ -346,7 +346,7 @@ Class Admin extends CI_Model
 			$query .=" where lower(uom_name) like '%".$data."%' ";
 			$query .=" or lower(uom_desc) like '%".$data."%' ";
 		}
-		$query .=" Order By uom_name asc OFFSET ".$offset."LIMIT ".$perPage;
+		$query .=" Order By uom_name asc";
         $q = $this->db->query($query);
         return $q->result();
 	}
@@ -453,7 +453,7 @@ Class Admin extends CI_Model
 			}
 			$query .=" )";
 		}
-		$query .=" Order By lookup_data.lk_code asc,lookup_data_detail.lk_data asc OFFSET ".$offset."LIMIT ".$perPage;
+		$query .=" Order By lookup_data.lk_code asc,lookup_data_detail.lk_data asc";
         $q = $this->db->query($query);
         return $q->result();
 	}
