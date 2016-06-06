@@ -514,8 +514,8 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
         //Sebin Starts here...
         function renderColor(_this){
             try {
-                if(this.pre_data.length>0) {
-                    if (typeof this.pre_data != 'undefined') {
+                if (typeof this.pre_data != 'undefined') {
+                    if(this.pre_data.length>0) {
                         for (var i = 0; i < _this.countRows(); i++) {
                             for (var p = 0; p < _this.countCols(); p++) {
                                 cell_color = "#B2EACB";
