@@ -304,7 +304,9 @@ Class Assessment extends CI_Model
 
     function get_validator_details($jno, $rev)
     {
-        // modified by agaile on 02/06/2016 to show the correct validator name for nonp journal
+       // echo $jno;//383
+       // echo $rev;//11
+         // modified by agaile on 02/06/2016 to show the correct validator name for nonp journal
         $query = "SELECT su.user_full_name FROM ilyas_log il,sec_user su where il.validator_id = su.user_id and il.journal_no = $jno and il.revision = $rev";
 //        print_r($query);
         $q = $this->db->query($query);
