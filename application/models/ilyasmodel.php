@@ -941,8 +941,34 @@ Class IlyasModel extends CI_Model
         $q = $this->db->query($query);
 		$aaaa = $q->result();
 		// echo "<script type='text/javascript'>alert('".var_dump($aaaa)."')</script>";
+//        echo '<pre>';
+//        print_r($aaaa);
+//        echo '</pre>';
 		return $q->result();
 	}
+
+    // added by agaile to segregate the records based on usr roles ; 04/06/2016
+        function get_audit_id_audit($userid){
+
+            $query1 ="select * from (select DISTINCT ON (b.journal_no) a.project_name, b.journal_no, b.journal_name, d.user_full_name from project_template a, journal_master_nonprogressive b, journal_nonprogressive_data_entry_audit_log c, sec_user d WHERE a.project_no = b.project_no AND b.journal_no = c.journal_no AND c.user_id = d.user_id Order By b.journal_no, project_name asc,journal_name asc ) as temp order by project_name asc,journal_name asc";
+            $q1 = $this->db->query($query1);
+            $rslt1 = $q1->result();
+
+            $query2 ="SELECT * FROM journal_validator_nonprogressive WHERE validate_user_id = $userid";
+            $q2 = $this->db->query($query2);
+            $rslt2 = $q2->result();
+
+            $final = [];
+            foreach ($rslt1 as $value1) {
+                foreach ($rslt2 as $value2) {
+                    if($value1->journal_no == $value2->journal_no){
+                        array_push ($final, $value1);
+                    }
+                }
+            }
+            return $final;
+        }
+
 	
 	function total_audit($search) {
 		$search=strtolower($search);

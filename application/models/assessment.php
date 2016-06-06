@@ -294,9 +294,7 @@ Class Assessment extends CI_Model
 
     function show_journalnp_validator($id)
     {
-//        $query = "SELECT su.user_full_name FROM journal_validator_nonprogressive jvn,sec_user su where jvn.validate_user_id = su.user_id and jvn.journal_no = $id";
-        // modified by agaile on 02/06/2016 to show the correct validator name for nonp journal
-        $query = "SELECT su.user_full_name FROM ilyas_log il,sec_user su where il.validator_id = su.user_id and il.journal_no = $id";
+        $query = "SELECT su.user_full_name FROM journal_validator_nonprogressive jvn,sec_user su where jvn.validate_user_id = su.user_id and jvn.journal_no = $id";
         $q = $this->db->query($query);
          return $q->row();
         //return $q->result();
@@ -1020,14 +1018,38 @@ Class Assessment extends CI_Model
 
         }
         //$query .= " Order By project_name asc,journal_name asc OFFSET " . $offset . "LIMIT " . $perPage;
-        // modified by agaile : on 02/06/2016 usage: the offset and limit is set, bcoz of that the whole records are fetched
+        // modified by agaile : on 02/06/2016 usage: the offset and limit is set, bcoz of that the whole records are not fetched
         $query .= " Order By project_name asc,journal_name asc";
         //echo $query;
         $q = $this->db->query($query);
-        $aaaa = $q->result();
+        //$aaaa = $q->result();
         // echo "<script type='text/javascript'>alert('".var_dump($aaaa)."')</script>";
         return $q->result();
     }
+
+    // added by agaile on 04/06/2016 to segregate the audit log data based on roles
+
+    function show_log_id_audit($userid){
+        $query1 = "select a.project_name,b.journal_name,b.journal_no,c.publish_date,c.data_entry_no,(select validate_level_no from journal_data_validate_master jdvm where jdvm.data_entry_no=c.data_entry_no and jdvm.validate_status!=0 order by validate_level_no desc limit 1)as validate_level_no ,d.user_full_name,f.frequency_detail_name from project_template a, journal_master b,journal_data_entry_master c,sec_user d,frequency_detail f where a.project_no=b.project_no and c.publish_user_id=d.user_id and f.frequency_detail_no=c.frequency_detail_no and c.journal_no=b.journal_no Order By project_name asc,journal_name asc";
+        $q1 = $this->db->query($query1);
+        $rslt1 = $q1->result();
+
+        $query2 = "SELECT journal_no FROM journal_validator where validate_user_id = $userid";
+        $q2 = $this->db->query($query2);
+        $rslt2 = $q2->result();
+
+        $final = [];
+        foreach ($rslt1 as $value1) {
+            foreach ($rslt2 as $value2) {
+                if($value1->journal_no == $value2->journal_no){
+                    array_push ($final, $value1);
+                }
+            }
+        }
+        return $final;
+    }
+
+
 
     function show_log_nonprog($data, $offset, $perPage)
     {
