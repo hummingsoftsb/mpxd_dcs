@@ -317,13 +317,12 @@ Class IlyasModel extends CI_Model
 			foreach ($q->result() as $j):
 				array_push($resultcolumn, $j->value);
 			endforeach;
-			
+
 			array_push($resultarray, $resultcolumn);
 		endforeach;
-		
 		/* If a column-based result is desired, comment the following procedure which transposes column in to rows */
 		$resultarray = $this->transpose($resultarray);
-		
+
 		return $resultarray;
 	}
 	

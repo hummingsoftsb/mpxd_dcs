@@ -236,7 +236,7 @@ disabledRenderer = function(instance, td, row, col, prop, value, cellProperties)
 
 
 // HOT object
-function HOT(Handsontable, raw_config, data,  type) {
+function HOT(Handsontable, raw_config, data, type, pre_data) {
 	this.hot_initialized = false;
 	this.raw_config = [];
 	this.araw_config = {};
@@ -244,20 +244,21 @@ function HOT(Handsontable, raw_config, data,  type) {
 	this.type = "";
 	this.hot_instance = null;
 	this.data = [];
+    this.pre_data = [];
 	this.comments = [];
 	this.acomments = {};
 	this.Handsontable = Handsontable;
 	this.callbacks = {};
 	
-	this.initialize = function(raw_config, data, type) {
+	this.initialize = function(raw_config, data, type, pre_data) {
 		raw_config = this.hot_set_raw_config(raw_config);
 		this.data = data;
 		this.type = type;
+        this.pre_data=pre_data;
 		
 		var container = document.getElementById("hottable_container");
 		var lastChange = null;
 		var c = {};
-		
 		for (var i = 0; i < raw_config.length; i++) { this.araw_config[raw_config[i]['header']] = this.raw_config[i]; }
 		this.hot_config = this.hot_finalize_config(this.raw_config, type);
 		
@@ -505,21 +506,38 @@ function HOT(Handsontable, raw_config, data,  type) {
 		c['afterRender'] = function(){
 			//console.log('After render', new Date().getTime() - window.renderstart);
             //Sebin Starts here...
-            //    renderColor(this);
+            //if(typeof this.pre_data !='undefined') {
+                renderColor(this);
+            //}
             //Sebin Ends here...
 		}
         //Sebin Starts here...
-        //function renderColor(_this){
-        //    for(var i=0;i<_this.countRows();i++){
-        //        for(var p=0;p<_this.countCols();p++){
-        //            cell_color = "rgba(142, 219, 245, 0.82)";
-        //            font_color = "#fff";
-        //            if(_this.getDataAtCell(i,p)==='sebin'){
-        //                $(_this.getCell(i,p)).css({"color": font_color, "background-color": cell_color})
-        //            }
-        //        }
-        //    }
-        //}
+        function renderColor(_this){
+            try {
+                if(this.pre_data.length>0) {
+                    if (typeof this.pre_data != 'undefined') {
+                        for (var i = 0; i < _this.countRows(); i++) {
+                            for (var p = 0; p < _this.countCols(); p++) {
+                                cell_color = "#B2EACB";
+                                font_color = "#000";
+                                if (typeof this.pre_data[i] != 'undefined') {
+                                    if (_this.getDataAtCell(i, p) != this.pre_data[i][p]) {
+                                        $(_this.getCell(i, p)).css({
+                                            "color": font_color,
+                                            "background-color": cell_color
+                                        })
+                                        $(_this.getCell(i, p)).attr('title', 'Previous Data: ' + this.pre_data[i][p]);
+                                    }
+                                } else {
+                                    $(_this.getCell(i, p)).css({"color": font_color, "background-color": cell_color})
+                                    $(_this.getCell(i, p)).attr('title', 'Newly added row');
+                                }
+                            }
+                        }
+                    }
+                }
+            }catch(e){console.log("error in color fun"+e)}
+        }
         //Sebin Ends here...
 
 		this.hot_instance = new this.Handsontable(container, c);

@@ -259,8 +259,9 @@ $(function(){
 	
 	
 	raw_config = <?php echo json_encode($hot_config); ?>;
-	//hot_config = hot_build_custom_config(raw_config);
+//	hot_config = hot_build_custom_config(raw_config);
 	data = <?php echo json_encode($hot_data); ?>;
+    pre_data=<?php echo json_encode($pre_data); ?>;
 	lookupdata = <?php echo json_encode($lookups); ?>;
 	hot_lock = <?php echo (($hot_lock == 1) ? "true" : "false" ); ?>;
 	
@@ -278,7 +279,7 @@ $(function(){
 	
  
  
-	hot_object = new HOT(Handsontable, raw_config, data, 'validate');
+	hot_object = new HOT(Handsontable, raw_config, data, 'validate', pre_data);
 	if (!hot_lock) { disallow(); }
 	else draw_comments([],"validation");
 	
