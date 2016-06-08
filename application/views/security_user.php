@@ -349,9 +349,6 @@
 								</div>
 							</div>
 						</div>
-                        <?php
-                        }
-                        ?>
 						<div class="row">
     						<div class="form-group">
     							<label for="search" class="col-sm-3 control-label"></label>
@@ -371,6 +368,9 @@
 								</div>
 							</div>
 						</div>
+                        <?php
+                        }
+                        ?>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
@@ -500,9 +500,6 @@
 								</div>
 							</div>
 						</div>
-                        <?php
-                        }
-                        ?>
 						<div class="row">
     						<div class="form-group">
     							<label for="search" class="col-sm-3 control-label"></label>
@@ -522,6 +519,9 @@
 								</div>
 							</div>
 						</div>
+                        <?php
+                        }
+                        ?>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>

@@ -87,7 +87,7 @@ class Journalauditlog extends CI_Controller
 			//$test = $this->ilyasmodel->get_progressive_audit_count("zul");
 			//var_dump($test);die();
             // Modified by : Agaile for segregating the records based on role
-            if($roleid == 1) {
+            if($roleid == 1) { // means admin
                 $data['records'] = $this->assessment->show_log($search, $offset, $config['per_page']); // this is taking progressive journal data only
             }
             else{

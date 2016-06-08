@@ -287,6 +287,24 @@ Class IlyasModel extends CI_Model
 		$revision = $qr->row()->revision;
 		return $revision;
 	}
+
+    /* Added by Sebin for Get the latest revision of data of rejected or accepted based on journal id*/
+
+    function get_latest_rev($jid) {
+        $rev_int = array('0', '1');
+        $filter = function($v){ return $v['config_no']; };
+        $configs = array_map($filter, $this->get_config($jid, true));
+        if (sizeOf($configs) < 1) return [];
+        $this->db->select_max('revision');
+        $this->db->where_in('config_no', $configs);
+        $this->db->where_not_in('validate_status', $rev_int);
+        $this->db->from('ilyas');
+        $qr = $this->db->get();
+        $revision = $qr->row()->revision;
+        return $revision;
+    }
+
+    /* End*/
 	
 	function get_data($jid, $rev = '') {
 		$this->db->select('config_no,col_header,col_width,uom_id,type');
@@ -385,10 +403,10 @@ Class IlyasModel extends CI_Model
 		
 		$revision = $this->get_latest_revision($jid);
 		if (is_null($revision)) return [];
-		$query = "SELECT DISTINCT ON (a.row) a.validate_comment_row,a.row FROM ilyas a, ilyas_config b WHERE a.config_no=b.config_no AND a.validate_comment_row IS NOT NULL AND a.revision=$revision ORDER BY a.row ASC";
+		$query = "SELECT DISTINCT ON (a.row) a.validate_comment_row,a.row FROM ilyas a, ilyas_config b WHERE a.config_no=b.config_no AND a.validate_comment_row IS NOT NULL AND a.revision=$revision AND b.journal_no = $jid ORDER BY a.row ASC";
 //		$query = "select DISTINCT ON (row) validate_comment_row,row from ilyas,ilyas_config where ilyas.config_no = ilyas_config.config_no and ilyas_config.journal_no = $jid and revision = $revision";
 		//die();
-		
+//        print_r($query);
 		$q = $this->db->query($query);
 		$result = $q->result();
 		//var_dump($result);
@@ -936,7 +954,7 @@ Class IlyasModel extends CI_Model
 //		$query .=" Order By b.journal_no, project_name asc,journal_name asc OFFSET ".$offset."LIMIT ".$perpage.") as temp order by project_name asc,journal_name asc";
         // modified by agaile on 02/06/2016 reason the query is wrong since it was given the offset and limit it wont take the whole records
 		$query .=" Order By b.journal_no, project_name asc,journal_name asc ) as temp order by project_name asc,journal_name asc";
-        //echo $query;
+//        print_r($query);
         $q = $this->db->query($query);
 		$aaaa = $q->result();
 		// echo "<script type='text/javascript'>alert('".var_dump($aaaa)."')</script>";

@@ -94,12 +94,15 @@ class Ilyasvalidate extends CI_Controller
 				$data['lookups'] = $this->ilyasmodel->get_lookup_data();
 				$data['hot_config'] = $this->ilyasmodel->get_config($id, true);
 				$data['hot_data'] = $this->ilyasmodel->get_data($id);
+                //Added by Sebin
+                //Starts Here
                 $rev=$this->ilyasmodel->get_latest_revision($id);
                 if($rev>2) {
-                    $data['pre_data'] = $this->ilyasmodel->get_data($id, (($this->ilyasmodel->get_latest_revision($id)) - 2));
+                    $data['pre_data'] = $this->ilyasmodel->get_data($id, ($this->ilyasmodel->get_latest_rev($id)));
                 }else{
                     $data['pre_data']=[];
                 }
+                //Ends Here
 				$data['hot_lock'] = $this->ilyasmodel->get_validationlock($id);
 				$data['data_date'] = $this->ilyasmodel->get_data_date($id);
 

@@ -109,7 +109,9 @@ class Ilyas extends CI_Controller
 			$data['hot_comments'] = [];//$this->ilyasmodel->get_validation_comment($id);
 			$data['new_comments'] = $this->ilyasmodel->get_validation_comment_row($id);
 			$data['data_date'] = $this->ilyasmodel->get_data_date($id);
-			
+//            echo '<pre>';
+//			print_r($data);
+//            echo '</pre>';
 			$this->load->view('header', $data1);
 			$this->load->view('ilyas', $data);
 			$this->load->view('footer');

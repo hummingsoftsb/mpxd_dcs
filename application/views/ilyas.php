@@ -269,11 +269,11 @@ $(function(){
 	//comments = <?php echo json_encode($hot_comments); ?>;
 	comments = <?php echo json_encode($new_comments); ?>;
 	comments = $.map(comments,function(i,idx){return i.validate_comment_row});
-	
-	
+
 	data_date = <?php echo json_encode($data_date); ?>;
 	
-	if (data_date != false) {  p_data_date.setDate(data_date); }
+//	if (data_date != false) {  p_data_date.setDate(data_date); }
+	if (data_date != false) { p_data_date.setMoment(moment(data_date, 'DD-MMM-YYYY')); }
 	else { p_data_date.setDate(new Date()); }
 	
 	var container = document.getElementById("hottable_container");

@@ -522,11 +522,10 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
                                 font_color = "#000";
                                 if (typeof this.pre_data[i] != 'undefined') {
                                     if (_this.getDataAtCell(i, p) != this.pre_data[i][p]) {
-                                        $(_this.getCell(i, p)).css({
-                                            "color": font_color,
-                                            "background-color": cell_color
-                                        })
-                                        $(_this.getCell(i, p)).attr('title', 'Previous Data: ' + this.pre_data[i][p]);
+                                        $(_this.getCell(i, p)).css({"color": font_color,"background-color": cell_color})
+                                        if(this.pre_data[i][p]!='') {
+                                            $(_this.getCell(i, p)).attr('title', 'Previous Data: ' + this.pre_data[i][p]);
+                                        }
                                     }
                                 } else {
                                     $(_this.getCell(i, p)).css({"color": font_color, "background-color": cell_color})

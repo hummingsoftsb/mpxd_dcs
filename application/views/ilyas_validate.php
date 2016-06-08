@@ -276,12 +276,14 @@ $(function(){
 	
 	var container = document.getElementById("hottable_container");
 	var lastChange = null;
-	
- 
- 
+
+
+//    hot_object = new HOT(Handsontable, raw_config, data, 'validate');
+    /*Modified by sebin */
 	hot_object = new HOT(Handsontable, raw_config, data, 'validate', pre_data);
-	if (!hot_lock) { disallow(); }
-	else draw_comments([],"validation");
+    /* end*/
+    if (!hot_lock) { disallow(); }
+    else draw_comments([],"validation");
 	
 /*
 	hot.updateSettings({
