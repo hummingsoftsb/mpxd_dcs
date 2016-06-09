@@ -12,14 +12,20 @@ class Journalauditlog extends CI_Controller
 	   $this->load->model('ilyasmodel','',TRUE);
 	   $this->load->model('alertreminder','',TRUE);
 	}
-     // if anything goes wrong copy the codes from journalauditlog_bk_agaile.php its the correct backup before i started modifing this codes
-	function index()
+
+	function index($offset=0)
 	{
+		// Load Form
 		$this->load->helper(array('form','url'));
+
+		// Load Pagination
+		$this->load->library('pagination');
+
 		if($this->session->userdata('logged_in'))
 		{
 			$session_data = $this->session->userdata('logged_in');
 			$data['username'] = $session_data['username'];
+//            print_r($session_data);
 			$roleid=$session_data['roleid'];
 			$userid=$session_data['id'];
 			$roleperms=$this->securitys->show_permission_object_data($roleid,"5");
@@ -32,17 +38,72 @@ class Journalauditlog extends CI_Controller
 			if($viewperm==0)
 				redirect('/home','refresh');
 
-			    // Config setup for Pagination
-			$config['base_url'] = base_url().'index.php/journalauditlog/index';
+			if($this->uri->uri_string()=="journalauditlog" && $_SERVER['QUERY_STRING']=="")
+			{
+				$this->session->unset_userdata('selectrecord');
+				$this->session->unset_userdata('searchrecord');
+			}
+			if($this->session->userdata('message'))
+			{
+				$messagehrecord=$this->session->userdata('message');
+				$message=$messagehrecord['message'];
+				$this->session->unset_userdata('message');
+			}
+			else
+			{
+				$message='';
+			}
+			if($this->session->userdata('searchrecord'))
+			{
+				$searchrecord=$this->session->userdata('searchrecord');
+				$search=$searchrecord['searchrecord'];
+			}
+			else
+			{
+				$search='';
+			}
 
-                // Modified by : Agaile for segregating the records based on role
+			// Config setup for Pagination
+			$config['base_url'] = base_url().'index.php/journalauditlog/index';
+			$config['total_rows'] = $this->assessment->totallog($search);
+			if($this->session->userdata('selectrecord'))
+			{
+				$selectrecord=$this->session->userdata('selectrecord');
+				$config['per_page'] = $selectrecord['selectrecord'];
+			}
+			else
+			{
+				$config['per_page'] = 10;
+			}
+			$config['uri_segment'] = 3;
+			$config["num_links"] = 1;
+
+			// Initialize
+			$this->pagination->initialize($config);
+			$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+
+			//Load all record data
+			//$test = $this->ilyasmodel->get_progressive_audit_count("zul");
+			//var_dump($test);die();
+            // Modified by : Agaile for segregating the records based on role
             if($roleid == 1) { // means admin
-                $data['records'] = $this->assessment->show_log_audit(); // this is taking progressive journal data only
+                $data['records'] = $this->assessment->show_log($search, $offset, $config['per_page']); // this is taking progressive journal data only
             }
             else{
                 $data['records'] = $this->assessment->show_log_id_audit($userid); // this is taking progressive journal data only
             }
-			    // Audit for non progressive
+
+			//echo json_encode($data['records']);die();
+			// Audit for non progressive
+			
+			
+			// Old total rows
+			$data['totalrows'] = $config['total_rows'];
+			$data['mpage'] = $config['per_page'];
+			$data['page']= $page+1;
+			$data['selectrecord']=$config['per_page'];
+			$data['searchrecord']=$search;
 			$data['cpagename']='journalauditlog';
 			$data['labels']=$this->securitys->get_label(5);
 			$data['labelgroup']=$this->securitys->get_label_group(5);
@@ -50,8 +111,9 @@ class Journalauditlog extends CI_Controller
 			$data['addperm']=$addperm;
 			$data['editperm']=$editperm;
 			$data['delperm']=$delperm;
+			$data['message']=$message;
 
-			    //Load data entry owner for each journal
+			//Load data entry owner for each journal
 			$data['audlog'] = array ();
 			foreach ( $data['records'] as $aulog )
 			{
@@ -87,30 +149,60 @@ class Journalauditlog extends CI_Controller
 				}
 				$data['audlog'][$aulog->data_entry_no]=$dataulog;
 			}
-
+			
+			$balance = $config['per_page'] - sizeOf($data['records']);
 			$is_nonp_available = false;
 			$nonp_records = [];
+			if ($balance - $config['per_page'] == 0) {
+				$is_nonp_available = true;
+				// Totally out from progressive.
+				$progressive_count = $this->assessment->totallog($search);// % $config['per_page'];
+				//$balance_from_last_page = $config['per_page'] - ($progressive_count % $config['per_page']);
+				$new_offset = ($offset - $progressive_count);// + $balance_from_last_page;
+				//$offset = $offset + $progressive_offset;
+				//var_dump($progressive_count);
+				//var_dump($new_offset);
+				//var_dump($balance_from_last_page);
+				
+				//die();
+				$nonp_records = $this->ilyasmodel->get_audit($search,$new_offset,$config['per_page']);
+				//echo json_encode($records);die();
+			} else if ($balance > 0) {
+				$is_nonp_available = true;
+				// Last page where results is less than perpage. Should start to query for non-progressives, with limit by balance
+				$balance_from_last_page = $config['per_page'] - sizeOf($data['records']);
+				//var_dump($balance_from_last_page);die();
+                //modified by agaile on 04/06/2016 to segregate records based on roles
                 if($roleid == 1) {
-				$nonp_records = $this->ilyasmodel->get_audit_newz();
-                    $is_nonp_available = true;
+				$nonp_records = $this->ilyasmodel->get_audit($search,0,$config['per_page'],$balance_from_last_page);
                 }
                 else{
                     $nonp_records = $this->ilyasmodel->get_audit_id_audit($userid);
-                    $is_nonp_available = true;
                 }
-
+			}
+			
 			if ($is_nonp_available) {
 				foreach($nonp_records as $k=>$v):
 					$nonp_records[$k]->publish_date = '-';
 					$nonp_records[$k]->data_entry_no = '-';
 					$nonp_records[$k]->validate_level_no = '1';
 					$nonp_records[$k]->frequency_detail_name = '-';
+					
+					//echo json_encode($v);
 				endforeach;
+				//echo json_encode($nonp_records);
+				//echo json_encode($data['records']);
+				//die();
+				//var_dump($this->ilyasmodel->total_audit($search));
+				//die();
+				$data['totalrows'] = $data['totalrows'];
+				//$data['totalrows'] = $data['totalrows'] + $this->ilyasmodel->total_audit($search);
 				$data['records'] = array_merge($data['records'], $nonp_records);
 			}
 			
 			$data1['username'] = $session_data['username'];
 			$data1['alerts']=$this->alertreminder->show_alert($session_data['id']);
+			/*$data1['alertcount']=$this->alertreminder->count_alert($session_data['id']);*/
             $data1['alertcount']=count($data1['alerts']);
 			$data1['reminders']=$this->alertreminder->show_reminder($session_data['id']);
 			$data1['remindercount']=$this->alertreminder->count_reminder($session_data['id']);

@@ -1029,6 +1029,17 @@ Class Assessment extends CI_Model
         return $q->result();
     }
 
+    // Function To Fetch All records to view audit log : Added by agaile only for audit log
+    function show_log_audit()
+    {
+        $query = "select a.project_name,b.journal_name,b.journal_no,c.publish_date,c.data_entry_no,(select validate_level_no from journal_data_validate_master jdvm where jdvm.data_entry_no=c.data_entry_no and jdvm.validate_status!=0 order by validate_level_no desc limit 1)as validate_level_no ,d.user_full_name,f.frequency_detail_name from project_template a, journal_master b,journal_data_entry_master c,sec_user d,frequency_detail f where a.project_no=b.project_no and c.publish_user_id=d.user_id and f.frequency_detail_no=c.frequency_detail_no and c.journal_no=b.journal_no Order By project_name asc,journal_name asc";
+//        print_r($query);
+        $q = $this->db->query($query);
+        // echo "<script type='text/javascript'>alert('".var_dump($aaaa)."')</script>";
+        return $q->result();
+    }
+
+
     // added by agaile on 04/06/2016 to segregate the audit log data based on roles
 
     function show_log_id_audit($userid){

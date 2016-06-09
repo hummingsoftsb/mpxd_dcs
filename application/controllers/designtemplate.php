@@ -147,7 +147,16 @@ class Designtemplate extends CI_Controller
 		{
 			$name=$this->input->post('name');
 			$startdate=date("Y-m-d", strtotime($this->input->post('startdate')));
-			$enddate=date("Y-m-d", strtotime($this->input->post('enddate')));
+            // modified by agaile end date is not mandatory
+            if(!empty($_POST['enddate']))
+            {
+                $enddate=date("Y-m-d", strtotime($this->input->post('enddate')));
+            }
+            else{
+                $enddate= NULL;
+            }
+
+
 			if($this->design->add_check_projtmp($name)==0)
 			{
 				$data = array('project_name' => $name,'project_definition' => $this->input->post('desc'),'user_id' => $this->input->post('user'),'start_date' => $startdate ,'end_date' => $enddate);
@@ -201,7 +210,7 @@ class Designtemplate extends CI_Controller
 		$this->form_validation->set_rules('desc1', $label1, 'trim|required|alpha_numeric_spaces_special|xss_clean');
 		$this->form_validation->set_rules('user1', $label2, 'trim|required|xss_clean');
 		$this->form_validation->set_rules('startdate1', $label3, 'trim|required|xss_clean|numeric_dash|callback_valid_date1');
-		$this->form_validation->set_rules('enddate1', $label4, 'trim|required|xss_clean|numeric_dash');
+		//$this->form_validation->set_rules('enddate1', $label4, 'trim|required|xss_clean|numeric_dash');
 
 		if($this->form_validation->run() == FALSE)
 		{

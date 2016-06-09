@@ -412,7 +412,7 @@
 						</div>
 						<div class="row">
 							<div class="form-group">
-								<label for="search" class="col-sm-3 control-label"><?php echo $labelname[4]; ?><red>*</red></label>
+								<label for="search" class="col-sm-3 control-label"><?php echo $labelname[4]; ?></label>
 								<div class="col-sm-8">
 					           		<input class="input-small" type="text" id="enddate1" name="enddate1">
 								</div>
@@ -449,8 +449,12 @@
 					$sno=$page;
 					foreach ($records as $record):
 					$startdate=date("d-m-Y", strtotime($record->start_date));
-					$enddate=date("d-m-Y", strtotime($record->end_date));
-				?>
+                    if(!empty($record->end_date)){
+                    $enddate=date("d-m-Y", strtotime($record->end_date)); }
+                    else {
+                    $enddate = "";
+                    }
+                ?>
 						<tr>
 				  			<td><?php echo $sno; ?></td>
 				  			<td><?php echo $record->project_name; ?></td>
