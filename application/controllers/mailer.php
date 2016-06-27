@@ -37,7 +37,6 @@ class Mailer extends CI_Controller
 		$this->load->library('swiftmailer');
 		$statuses = array();
 		$rows = $this->mailermodel->get_all_for_userid($userid);
-		
 		if (sizeOf($rows) < 1) return;
 		$all = array();
 		foreach($rows as $r):
@@ -84,7 +83,6 @@ class Mailer extends CI_Controller
 			array_push($sent, $item->id);
 		endforeach;
 		if (sizeOf($sendables) > 0) {
-		
 			$sent_result = $this->swiftmailer->send_collective_published($user_email,$user_fullname,$sendables);
 			if ($sent_result['status'] > 0) {
 				// Delete all sent
