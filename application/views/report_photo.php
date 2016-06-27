@@ -135,9 +135,10 @@ $labelname = explode(",", $labelnames);
 					
                 </div>
             </div>
+            <input type="hidden" name="ppt_filename" id="ppt_filename" value="">
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <input class="btn btn-primary btn-sm" type="submit" value="Download"/>
+                    <input class="btn btn-primary btn-sm" type="submit" value="Download" onclick="renamePPT()"/>
                 </div>
             </div>
         </form>
@@ -176,6 +177,16 @@ function available(date) {
   }
 }
 
+function renamePPT() {
+    var name = "";
+    name = prompt("Please enter the report name", "");
+    if (name != null) {
+        $('#ppt_filename').val(name);
+    }
+    else{
+        alert("The file will be downloaded in old name");
+    }
+}
 </script>
 
 

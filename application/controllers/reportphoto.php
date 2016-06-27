@@ -33,6 +33,7 @@ class Reportphoto extends CI_Controller {
         $freq_id = $this->input->get('freq');
         $projects = $this->input->get('project');
         $pdate = $this->input->get('date');
+        $file_name = $this->input->get('ppt_filename');
 
         //Requests for ppt
         if ($freq_id && $projects) {
@@ -95,8 +96,13 @@ class Reportphoto extends CI_Controller {
                 $curr = 0;
                 $pageno++;
             }
-			
-            $this->phpppt->gowrite(base_url());
+
+            if(!empty($file_name)) {
+                $fname = $file_name;
+            } else{
+                $fname = "";
+            }
+                $this->phpppt->gowrite(base_url(),$fname);
 			//now delete the temp image
 			foreach($temp_image as $img){
 				unlink($img);

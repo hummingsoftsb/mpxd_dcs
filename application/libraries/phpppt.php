@@ -219,9 +219,12 @@ class Phpppt {
 		$this->currentSlide = $this->objPHPPresentation->createSlide();
 	}
 	
-	function gowrite($baseurl){
+	function gowrite($baseurl,$fname){
 		//$fileloc = $this->write($this->objPHPPresentation, 'mpxdimage'.date('dmYHis'), $this->writers);
-		$fileloc = $this->write($this->objPHPPresentation, 'mpxdimage_'.date('dmY'), $this->writers);
+        if(empty($fname)){
+            $fname = 'mpxdimage_'.date('dmY');
+        }
+		$fileloc = $this->write($this->objPHPPresentation, $fname, $this->writers);
 		//echo $baseurl.$fileloc;
 		header("Location: ".$baseurl.$fileloc);
 	}
