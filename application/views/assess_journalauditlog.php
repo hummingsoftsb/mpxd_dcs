@@ -149,10 +149,10 @@
          <?php
 								$sno=$sno+1;
 								endforeach;
-								if($totalrows==0)
-								{
+//								if($totalrows==0)
+//								{
 									//echo '<tr><td class="row text-center text-danger" colspan="6"> No Record Found</td></tr></tbody></table>';
-								}
+//								}
 			?>
 </tbody>
 </table>

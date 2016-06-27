@@ -964,6 +964,14 @@ Class IlyasModel extends CI_Model
 		return $q->result();
 	}
 
+    // added by agaile to fetch all the records tackle the bal issue
+
+    function get_audit_newz(){
+        $query ="select * from (select DISTINCT ON (b.journal_no) a.project_name, b.journal_no, b.journal_name, d.user_full_name from project_template a, journal_master_nonprogressive b, journal_nonprogressive_data_entry_audit_log c, sec_user d WHERE a.project_no = b.project_no AND b.journal_no = c.journal_no AND c.user_id = d.user_id Order By b.journal_no, project_name asc,journal_name asc ) as temp order by project_name asc,journal_name asc";
+        $q = $this->db->query($query);
+        return $q->result();
+    }
+
     // added by agaile to segregate the records based on usr roles ; 04/06/2016
         function get_audit_id_audit($userid){
 
