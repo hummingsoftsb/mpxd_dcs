@@ -66,6 +66,10 @@
 	.project-indent-2{
 		margin-left: 60px;
 	}
+    .jstree-themeicon {
+        display:none !important;
+    }
+
 </style>
 <?php
 $labelnames = '';
@@ -106,46 +110,146 @@ $labelname = explode(",", $labelnames);
                     </select>
                 </div>
             </div>
-			<div class="form-group">
+			<!--<div class="form-group">
                 <label class="col-sm-2 control-label"></label>
                 <div class="col-sm-3">
 					<a id="check-all-project" href="#">Select all</a> | 
 					<a id="clear-all-project" href="#">Clear all</a>
                 </div>
-            </div>
-			<div class="form-group">
+            </div>-->
+			<!--<div class="form-group">
                 <label class="col-sm-2 control-label">Packages:</label>
                 <div class="col-sm-6">
 					<div id="project-list" style="max-height: 400px; border: 1px solid #dddddd; overflow: auto; padding: 5px 10px;">
-						<?php foreach($projects as $project): ?>
+						<?php /*foreach($projects as $project): */?>
 							<div class="checkbox">
-								<?php if($project->is_disabled) :?>
-									<label class="disabled-label">								
-										<span class="project-indent-<?php echo $project->indent;?> disabled-checkbox"><?php echo $project->project_name; ?></span>
+								<?php /*if($project->is_disabled) :*/?>
+									<label class="disabled-label">
+										<span class="project-indent-<?php /*echo $project->indent;*/?> disabled-checkbox"><?php /*echo $project->project_name; */?></span>
 									</label>
-								<?php else : ?>
+								<?php /*else : */?>
 									<label>
-										<input type="checkbox" name="project[]" value="<?php echo $project->project_no; ?>">
-										<span class="project-indent-<?php echo $project->indent;?>"><?php echo $project->project_name; ?></span>
+										<input type="checkbox" name="project[]" value="<?php /*echo $project->project_no; */?>">
+										<span class="project-indent-<?php /*echo $project->indent;*/?>"><?php /*echo $project->project_name; */?></span>
 									</label>
-								<?php endif; ?>
+								<?php /*endif; */?>
 							</div>
-						<?php endforeach; ?>
+						<?php /*endforeach; */?>
 					</div>
-					
+
+                </div>
+            </div>-->
+
+            <!--done by jane for viewing template hierarchy list-->
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Packages:</label>
+                <div class="col-sm-6">
+                    <div id="project-list"
+                         style="max-height: 400px; border: 1px solid #dddddd; overflow: auto; padding: 5px 10px;">
+                        <div id="tree-container"></div>
+                    </div>
                 </div>
             </div>
+            <input type="hidden" name="ids" id="ids" value="" />
+            <!--done by jane end-->
+
             <input type="hidden" name="ppt_filename" id="ppt_filename" value="">
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <input class="btn btn-primary btn-sm" type="submit" value="Download" onclick="renamePPT()"/>
+                    <input id="download" class="btn btn-primary btn-sm" type="submit" value="Download" onclick="push_ids();renamePPT();"/>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+<!--done by jane for viewing template hierarchy list-->
+<script type="text/javascript">
+    $(document).ready(function(){
+        //fill data to tree  with AJAX call
+        var $jstree = $('#tree-container');
+        $jstree.jstree({
+            'plugins': ["wholerow", "checkbox"],
+            "checkbox": {
+                "three_state": false
+            },
+            'core' : {
+                'data' : {
+                    "url" : "reportphoto/tree_view?operation=get_node",
+                    "plugins" : [ "wholerow", "checkbox" ],
+                    "dataType" : "json" // needed only if you do not supply JSON headers
+                }
+            }
+        });
+        $jstree.bind("loaded.jstree", function (event, data) {
+            // you get two params - event & data - check the core docs for a detailed description
+            $(this).jstree("open_all");
+            var ret = getUneededIds();
+            for(id in ret) {
+                changeStatus(ret[id],ret, 'disable');
+            }
+        });
+        $jstree.bind('ready.jstree', function(e, data) {
+                if(data['instance']['_cnt']!='0'){
+                    e.preventDefault();
+                }else{
+                    $("#tree-container").text("").append("<span style='color: red;'>No Packages</span>");
+                    $("#download").attr('disabled','disabled');
+                }
+            })
+
+    });
+    function changeStatus(node_id,c,changeTo) {
+        var node = $('#tree-container').jstree().get_node(node_id);
+            $('#tree-container').jstree().disable_node(node);
+            node.children.forEach(function(child_id,c) {
+                if(child_id,c) {
+                    changeStatus(child_id, changeTo);
+                }
+            });
+    }
+    function inArray(needle, haystack) {
+        var length = haystack.length;
+        for(var i = 0; i < length; i++) {
+            if(haystack[i] == needle) return true;
+        }
+        return false;
+    }
+    function push_ids(){
+        var ids;
+        ids = $('#tree-container').jstree(true).get_selected();
+        document.getElementById('ids').value = ids;
+    }
+    function getUneededIds(){
+        var ids=[];
+        $.ajax({
+            type:'POST',
+            url: "<?php echo site_url('reportphoto/get_disable_ids'); ?>",
+            async: false,
+            dataType: "json",
+            success:function (data) {
+                if(data.status=="success"){
+                    ids=data;
+                }else{
+                    console.log(data.status);
+                }
+            },
+            failure : function () {
+                console.log(' Ajax Failure');
+            },
+            complete: function () {
+                console.log("complete");
+            }
+        })
+
+        return ids.id;
+    }
+
+</script>
+
 <script>
 $("#check-all-project").on("click", function(){
+    $("#tree_control").jstree("check_all");
 	$("#project-list input:checkbox").prop('checked', true);
 });
 $("#clear-all-project").on("click", function(){
@@ -178,13 +282,16 @@ function available(date) {
 }
 
 function renamePPT() {
-    var name = "";
-    name = prompt("Please enter the report name", "");
-    if (name != null) {
-        $('#ppt_filename').val(name);
-    }
-    else{
-        alert("The file will be downloaded in old name");
+    var date = $( "#proj_date").val();
+    if(date) {
+        var name = "";
+        name = prompt("Please enter the report name", "");
+        if (name != null) {
+            $('#ppt_filename').val(name);
+        }
+        else {
+            alert("The file will be downloaded in old name");
+        }
     }
 }
 </script>

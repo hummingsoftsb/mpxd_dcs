@@ -38,6 +38,8 @@
     <!--link rel="stylesheet" href="<?php echo base_url(); ?>/ilyas/datatables/jquery.dataTables.min.css"-->
 
 
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/ilyas/dist/style.min.css" />
+    <script src="<?php echo base_url(); ?>/ilyas/dist/jstree.min.js"></script>
     <script>
 
         // Temporarily to mitigate annoying datatables alert

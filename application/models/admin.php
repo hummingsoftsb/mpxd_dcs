@@ -644,5 +644,135 @@ Class Admin extends CI_Model
 			$this->db->delete('lookup_data');
 		}
 	}
+
+    // done by jane for listing templates in a hierarchical order
+    function get_template_hierarchy(){
+        $sql1 = "SELECT project_template_hierarchy.id, project_template_hierarchy.template_id, project_template.project_name as name, project_template_hierarchy.parent_id, project_template.project_name as text
+                                FROM project_template_hierarchy
+                                INNER JOIN project_template
+                                ON project_template_hierarchy.template_id = project_template.project_no order by project_template_hierarchy.id;";
+        $res1 = $this->db->query($sql1);
+        $sql2 = "SELECT * FROM project_template_hierarchy WHERE template_id IS NULL";
+        $res2 = $this->db->query($sql2);
+        $result = array_merge($res1->result_array(),$res2->result_array());
+        return $result;
+    }
+
+    // done by jane for returning template hierarchy list
+    function get_template_hierarchy_list($session_data){
+//        $validator_id = $session_data['id'];
+//            if($session_data['roleid'] == 1 || $session_data['roleid'] == 16) {
+            $query1 = "SELECT project_template_hierarchy.id, project_template_hierarchy.template_id, project_template.project_name as name, project_template_hierarchy.parent_id, project_template.project_name as text
+                                FROM project_template_hierarchy
+                                INNER JOIN project_template
+                                ON project_template_hierarchy.template_id = project_template.project_no order by project_template_hierarchy.id;";
+            $res1 = $this->db->query($query1)->result_array();
+            /*$query2 = "SELECT * FROM project_template_hierarchy WHERE template_id IS NULL";
+            $res2 = $this->db->query($query2);
+            $result = array_merge($res1->result_array(), $res2->result_array());*/
+            return $res1;
+//        } else {
+//            $query = "SELECT journal_master.project_no FROM journal_master
+//                    INNER JOIN journal_validator
+//                    ON journal_master.journal_no = journal_validator.journal_no and journal_validator.validate_user_id = $validator_id";
+//            $res1 = $this->db->query($query)->result_array();
+//            if(!empty($res1)) {
+//                $value_string = "";
+//                foreach ($res1 as $key => $value) {
+//                    $p_no = $value['project_no'];
+//                    $value_string .= "$p_no" . ",";
+//                }
+//                $project_no = rtrim($value_string, ',');
+//                if($project_no){
+//                    $query = "SELECT project_template_hierarchy.id, project_template_hierarchy.template_id, project_template.project_name as name, project_template_hierarchy.parent_id, project_template.project_name as text
+//                                FROM project_template_hierarchy
+//                                INNER JOIN project_template
+//                                ON project_template_hierarchy.template_id = project_template.project_no AND project_template_hierarchy.template_id
+//                                IN ($project_no)
+//                                order by project_template_hierarchy.id;";
+//                    $res1 = $this->db->query($query)->result_array();
+//                    /*$sql2 = "SELECT * FROM project_template_hierarchy WHERE template_id IS NULL";
+//                    $res2 = $this->db->query($sql2);
+//                    $result = array_merge($res1->result_array(), $res2->result_array());*/
+//                    return $res1;
+//                }
+//            }
+//        }
+    }
+
+    // done by jane for inserting template hierarchy
+    function insert_template_hierarchy($nodeText,$node, $template_id){
+        $sql ="INSERT INTO project_template_hierarchy (template_id, name, text, parent_id) VALUES($template_id, '".$nodeText."', '".$nodeText."', '".$node."')";
+        $this->db->query($sql);
+        $last_id = "SELECT currval('project_template_hierarchy_id_seq')";
+        return $last_id;
+    }
+
+    // done by jane for updating template hierarchy
+    function update_template_hierarchy($nodeText,$node){
+        $sql ="UPDATE project_template_hierarchy SET name='".$nodeText."', text='".$nodeText."' WHERE id= '".$node."'";
+        $this->db->query($sql);
+    }
+
+    // done by jane for deleting template hierarchy nodes
+    function delete_template_hierarchy($node){
+        $temp_query = "SELECT parent_id FROM project_template_hierarchy WHERE parent_id='".$node."'";
+        $res = $this->db->query($temp_query)->result_array();
+        if(empty($res)) {
+            $sql = "DELETE FROM project_template_hierarchy WHERE id= '" . $node . "'";
+            $this->db->query($sql);
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    // done by jane for getting template list
+    function get_template_list(){
+        $temp_query = "SELECT template_id FROM project_template_hierarchy";
+        $res = $this->db->query($temp_query)->result_array();
+        if(!empty($res)) {
+            $sql = "SELECT project_no, project_name FROM project_template WHERE project_no NOT IN (SELECT template_id FROM project_template_hierarchy WHERE template_id IS NOT NULL)";
+        }else{
+            $sql = "SELECT project_no, project_name FROM project_template";
+        }
+        $result = $this->db->query($sql)->result_array();
+        return $result;
+    }
+
+    // done by jane for getting project list
+    function get_projects($ids){
+        $query = "SELECT template_id FROM project_template_hierarchy WHERE id IN ($ids)";
+        $res = $this->db->query($query)->result_array();
+        return $res;
+    }
+
+    // done by jane for getting ids for disabling template selection
+    function get_disable_ids($session_data){
+        $validator_id = $session_data['id'];
+                    $query = "SELECT journal_master.project_no FROM journal_master
+                    INNER JOIN journal_validator
+                    ON journal_master.journal_no = journal_validator.journal_no and journal_validator.validate_user_id = $validator_id";
+            $res1 = $this->db->query($query)->result_array();
+            if(!empty($res1)) {
+                $value_string = "";
+                foreach ($res1 as $key => $value) {
+                    $p_no = $value['project_no'];
+                    $value_string .= "$p_no" . ",";
+                }
+                $project_no = rtrim($value_string, ',');
+                if($project_no){
+                    $query = "SELECT project_template_hierarchy.id
+                                FROM project_template_hierarchy
+                                INNER JOIN project_template
+                                ON project_template_hierarchy.template_id = project_template.project_no AND project_template_hierarchy.template_id
+                                NOT IN ($project_no)
+                                order by project_template_hierarchy.id;";
+                    $res1 = $this->db->query($query)->result_array();
+                    return $res1;
+                }
+            }
+    }
+
 }
 ?>

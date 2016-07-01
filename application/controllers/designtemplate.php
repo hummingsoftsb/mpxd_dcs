@@ -10,6 +10,7 @@ class Designtemplate extends CI_Controller
 		$this->load->model('design','',TRUE);
 		$this->load->model('securitys','',TRUE);
 		$this->load->model('alertreminder','',TRUE);
+		$this->load->model('admin','',TRUE);
 	}
 
 	function index($offset=0)
@@ -308,5 +309,158 @@ class Designtemplate extends CI_Controller
 	{
 		$this->index();
 	}
+
+	function manage()
+	{// Load Form
+        $this->load->helper(array('form','url'));
+
+        // Load Pagination
+        $this->load->library('pagination');
+
+        if($this->session->userdata('logged_in'))
+        {
+            $session_data = $this->session->userdata('logged_in');
+            $data['username'] = $session_data['username'];
+
+            $roleid=$session_data['roleid'];
+            $roleperms=$this->securitys->show_permission_object_data($roleid,"6");
+            foreach ($roleperms as $roleperm):
+                $viewperm=$roleperm->view_opt;
+                $addperm=$roleperm->add_opt;
+                $editperm=$roleperm->edit_opt;
+                $delperm=$roleperm->del_opt;
+            endforeach;
+            if($viewperm==0)
+                redirect('/home','refresh');
+
+
+
+            //Load all record data
+
+            $data1['username'] = $session_data['username'];
+            $data1['alerts']=$this->alertreminder->show_alert($session_data['id']);
+            /*$data1['alertcount']=$this->alertreminder->count_alert($session_data['id']);*/
+            $data1['alertcount']=count($data1['alerts']);
+            $data1['reminders']=$this->alertreminder->show_reminder($session_data['id']);
+            $data1['remindercount']=$this->alertreminder->count_reminder($session_data['id']);
+            $data1['alabels']=$this->securitys->get_label(22);
+            $data1['alabelobject']=$this->securitys->get_label_object(22);
+            $data1['rlabels']=$this->securitys->get_label(23);
+            $data1['rlabelobject']=$this->securitys->get_label_object(23);
+
+
+
+            $this->load->view('header', $data1);
+            $this->load->view('manage_template', $data);
+            $this->load->view('footer');
+        }
+        else
+        {
+            //If no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+	}
+
+    // done by jane for create, update and delete template hierarchy
+    function template_node(){
+        if(isset($_GET['operation'])) {
+            try {
+                $result = null;
+                $data = array();
+                switch($_GET['operation']) {
+                    case 'get_node':
+                        $node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
+                        $res = $this->admin->get_template_hierarchy();
+                       /* if($res->num_rows <=0){*/
+                        if(empty($res)){
+                            //add condition when result is zero
+                        } else {
+                            //iterate on results row and create new index array of data
+                            /*foreach($res->result_array() as $row) {*/
+                            foreach($res as $row) {
+                                $data[] = $row;
+                            }
+                            $itemsByReference = array();
+
+                            // Build array of item references:
+                            foreach($data as $key => &$item) {
+                                $itemsByReference[$item['id']] = &$item;
+                                // Children array:
+                                $itemsByReference[$item['id']]['children'] = array();
+                                // Empty data class (so that json_encode adds "data: {}" )
+                                $itemsByReference[$item['id']]['data'] = new StdClass();
+                            }
+
+                            // Set items as children of the relevant parent item.
+                            foreach($data as $key => &$item)
+                                if($item['parent_id'] && isset($itemsByReference[$item['parent_id']]))
+                                    $itemsByReference [$item['parent_id']]['children'][] = &$item;
+
+                            // Remove items that were added to parents elsewhere:
+                            foreach($data as $key => &$item) {
+                                if($item['parent_id'] && isset($itemsByReference[$item['parent_id']]))
+                                    unset($data[$key]);
+                            }
+                        }
+                        $new = array();
+                        foreach($data as $key => $val) {
+                            $new[]=$val;
+                        }
+                        $result = $new[0];
+                        break;
+                    case 'create_node':
+                        $node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
+                        $nodeText = isset($_GET['text']) && $_GET['text'] !== '' ? $_GET['text'] : '';
+                        $template_id = isset($_GET['temp_id']) && $_GET['temp_id'] !== '' ? $_GET['temp_id'] : '';
+                        $last_id = $this->admin->insert_template_hierarchy($nodeText,$node, $template_id);
+                        $result = array('id' => $last_id);
+                        print_r($result);die;
+                        break;
+                    case 'rename_node':
+                        $node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
+                        $nodeText = isset($_GET['text']) && $_GET['text'] !== '' ? $_GET['text'] : '';
+                        $this->admin->update_template_hierarchy($nodeText,$node);
+                        break;
+                    case 'delete_node':
+                        $node = isset($_GET['id']) && $_GET['id'] !== '#' ? (int)$_GET['id'] : 0;
+                        $re = $this->admin->delete_template_hierarchy($node);
+                        if($re){
+                            $result = array('status' => "Success");
+                        } else {
+                            $result = array('status' => "Fail");
+                        }
+                        break;
+                    default:
+                        throw new Exception('Unsupported operation: ' . $_GET['operation']);
+                        break;
+                }
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode($result);
+            }
+            catch (Exception $e) {
+                header($_SERVER["SERVER_PROTOCOL"] . ' 500 Server Error');
+                header('Status:  500 Server Error');
+                echo $e->getMessage();
+            }
+            die();
+        }
+    }
+
+    // done by jane for getting template list
+    public function get_template_list()
+    {
+        $data = array();
+        $result = $this->admin->get_template_list();
+        if($result){
+            $data['status']="success";
+            $data['template']= $result;
+        }else{
+            $data['status']="fail";
+            $data['template']= $result;
+        }
+        echo json_encode($data);
+    }
+
 }
+
 ?>
