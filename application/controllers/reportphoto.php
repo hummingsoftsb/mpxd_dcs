@@ -575,8 +575,13 @@ class Reportphoto extends CI_Controller {
                 $ids[] = $id['id'];
             }
             if ($ids) {
-                $data['status'] = "success";
-                $data['id'] = $ids;
+                if($session_data['roleid'] == 1 || $session_data['roleid'] == 16) {
+                    $data['status'] = "fail";
+                    $data['id'] = array();
+                } else {
+                    $data['status'] = "success";
+                    $data['id'] = $ids;
+                }
             } else {
                 $data['status'] = "fail";
                 $data['id'] = $ids;
@@ -585,5 +590,6 @@ class Reportphoto extends CI_Controller {
         }
     }
     /*end get_disable_ids function done by jane*/
+
 }
 ?>
