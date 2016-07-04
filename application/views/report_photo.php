@@ -196,7 +196,7 @@ $labelname = explode(",", $labelnames);
                     $("#tree-container").text("").append("<span style='color: red;'>No Packages</span>");
                     $("#download").attr('disabled','disabled');
                 }
-            })
+            });
 
     });
     function changeStatus(node_id,c,changeTo) {
@@ -218,6 +218,8 @@ $labelname = explode(",", $labelnames);
     function push_ids(){
         var ids;
         ids = $('#tree-container').jstree(true).get_selected();
+        alert(ids);
+        return false;
         document.getElementById('ids').value = ids;
     }
     function getUneededIds(){
@@ -240,7 +242,7 @@ $labelname = explode(",", $labelnames);
             complete: function () {
                 console.log("complete");
             }
-        })
+        });
 
         return ids.id;
     }
@@ -248,12 +250,19 @@ $labelname = explode(",", $labelnames);
 </script>
 
 <script>
-$("#check-all-project").on("click", function(){
+/*$("#check-all-project").on("click", function(){
     $("#tree_control").jstree("check_all");
 	$("#project-list input:checkbox").prop('checked', true);
 });
 $("#clear-all-project").on("click", function(){
 	$("#project-list input:checkbox").prop('checked', false);
+});*/
+
+$("#check-all-project").on("click", function(){
+    $('#tree-container').jstree("select_all");
+});
+$("#clear-all-project").on("click", function(){
+    $('#tree-container').jstree("deselect_all");
 });
 
 $( "#proj_date" ).datepicker({

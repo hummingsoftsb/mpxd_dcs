@@ -561,6 +561,8 @@ class Reportphoto extends CI_Controller {
             }
         }
     }
+    /*end tree_view function done by jane*/
+
 
     /*done by jane for disabling unauthorised template hierarchy list ids*/
     public function get_disable_ids(){
@@ -582,5 +584,6 @@ class Reportphoto extends CI_Controller {
             echo json_encode($data);
         }
     }
+    /*end get_disable_ids function done by jane*/
 }
 ?>
