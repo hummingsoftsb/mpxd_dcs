@@ -259,11 +259,15 @@ class Reportphoto extends CI_Controller {
 
     function index($offset = 0) {
         $curr = 0;
-        $settings[0] = array(10, 38, 10, 295);
+		/* Note - agaile 05/07/2016
+		settings array value format array(0,0,0,0);
+		first and second value is for positioning the image , 3rd and fourth value is for the description
+		*/
+        $settings[0] = array(10, 50, 10, 305);
         $settings[2] = array(10, 340, 10, 597);
         $settings[4] = array(10, 642, 10, 899);
 
-        $settings[1] = array(373, 38, 373, 295);
+        $settings[1] = array(373, 50, 373, 305);
         $settings[3] = array(373, 340, 373, 597);
         $settings[5] = array(373, 642, 373, 899);
         $freq_id = $this->input->get('freq');
@@ -289,9 +293,18 @@ class Reportphoto extends CI_Controller {
             $pjcts_no = implode(",", $projects);
             $this->phpppt->removefirstslide();
             $imgs = $this->assessment->get_image_by_date($pdate, $pjcts_no);
+			// to get the parent and child - agaile 05/07/2016
+			$parent_child = $this->admin->get_parent_child($ids);
             $projects = array();
-            foreach ($imgs as $img) {
-                $projects[$img->project_no] = array('project_no' => $img->project_no, 'project_name' => $img->project_name, 'as_at' => $img->cut_off_date);
+            foreach ($imgs as $img) {	
+			// Mod : Agaile
+				foreach($parent_child as $kval){
+					if($img->project_no == $kval['template_id']){
+					$projects[$img->project_no] = array('project_no' => $img->project_no, 'project_name' => $img->project_name, 'as_at' => $img->cut_off_date, 'parent' => $kval['parentname'],'child' => $kval['childname']);
+						}
+				}
+				// Mod : end
+              //$projects[$img->project_no] = array('project_no' => $img->project_no, 'project_name' => $img->project_name, 'as_at' => $img->cut_off_date);  
             }
             //var_dump($projects);
             //start:mod by ANCY MATHEW for redusing the size of ppt
@@ -307,10 +320,19 @@ class Reportphoto extends CI_Controller {
                 $chk = 0;
                 $this->phpppt->newslide();
                 $this->phpppt->generatelogo();
-                //start:mod by Smijith for Construction change to project
-                $pjct_nm = str_replace("Construction", "Project", $project['project_name']);
-                $this->phpppt->generateTitle($pjct_nm, date("jS M Y", strtotime($project['as_at'] . " +2 days")));
-                //end:mod by Smijith for Construction change to project
+				// START : Subtitle - AGAILE
+				if($project['parent'] == 'Root Node'){
+                $pjct_nm_c = str_replace("Construction", "Project", $project['child']);
+                $this->phpppt->generateTitle($pjct_nm_c, date("jS M Y", strtotime($project['as_at'] . " +2 days")));
+				}
+				else{
+				$pjct_nm_p = str_replace("Construction", "Project", $project['parent']);
+                $pjct_nm_c = str_replace("Construction", "Project", $project['child']);
+				$this->phpppt->generateTitle($pjct_nm_p, date("jS M Y", strtotime($project['as_at'] . " +2 days")));
+				$this->phpppt->generateSubTitle($pjct_nm_c);
+					}
+				// END : Subtitle - AGAILE
+				
                 $this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])), $pageno);
                 //start:mod by ANCY MATHEW for PPT correction
                 $chkCount = $this->assessment->get_chk_count($project['project_no']);
@@ -337,7 +359,18 @@ class Reportphoto extends CI_Controller {
                             $curr = 0;
                             $this->phpppt->newslide();
                             $this->phpppt->generatelogo();
-                            $this->phpppt->generateTitle($pjct_nm, date("dS M Y", strtotime($project['as_at'])));
+							// START : Subtitle - AGAILE
+							if($project['parent'] == 'Root Node'){
+								$pjct_nm_c = str_replace("Construction", "Project", $project['child']);
+								$this->phpppt->generateTitle($pjct_nm_c, date("jS M Y", strtotime($project['as_at'] . " +2 days")));
+							}
+							else{
+								$pjct_nm_p = str_replace("Construction", "Project", $project['parent']);
+								$pjct_nm_c = str_replace("Construction", "Project", $project['child']);
+								$this->phpppt->generateTitle($pjct_nm_p, date("jS M Y", strtotime($project['as_at'] . " +2 days")));
+								$this->phpppt->generateSubTitle($pjct_nm_c);
+								}
+							// END : Subtitle - AGAILE
                             $this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])), ++$pageno);
                         }
                     }

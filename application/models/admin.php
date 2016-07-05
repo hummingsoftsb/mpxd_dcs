@@ -773,6 +773,14 @@ Class Admin extends CI_Model
                 }
             }
     }
+	
+	// to fetch the parent and child name - agaile 05/07/2016
+	
+	function get_parent_child($ids){
+	$query = "select a.template_id,a.parent_id,b.name as parentname ,a.name as childname from project_template_hierarchy_n a join project_template_hierarchy_n b on a.parent_id = b.id";
+        $res = $this->db->query($query)->result_array();
+        return $res;
+		}
 
 }
 ?>

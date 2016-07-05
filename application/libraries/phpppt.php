@@ -110,10 +110,26 @@ class Phpppt {
         $shape->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $textRun = $shape->createTextRun(strtoupper($project) . ' PHOTO’S AS AT ' . strtoupper($date));
         $textRun->getFont()->setBold(true)
-                ->setSize(16)
+                ->setSize(14)
                 ->setColor(new Color('000000'));
     }
-
+	
+	// subtitle generate - agaile :START
+	
+	function generateSubTitle($project){
+	    $shape1 = $this->currentSlide->createRichTextShape()
+                ->setHeight(30)
+                ->setWidth(700)
+                ->setOffsetX(10)
+                ->setOffsetY(22);
+        $shape1->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $textRun = $shape1->createTextRun(strtoupper($project));
+        $textRun->getFont()->setBold(true)
+                ->setSize(10)
+                ->setColor(new Color('000000'));
+		}
+	
+	// subtitle generate - agaile :END
     function generatepicture($pic, $description, $offsetx, $offsety, $textoffsetx, $textoffsety) {
         $shape = new Drawing();
         $shape->setName('')
