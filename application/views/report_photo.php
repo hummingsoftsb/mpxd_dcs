@@ -69,7 +69,9 @@
     .jstree-themeicon {
         display:none !important;
     }
-
+    .jstree-disabled {
+        cursor: not-allowed;
+    }
 </style>
 <?php
 $labelnames = '';
@@ -110,13 +112,13 @@ $labelname = explode(",", $labelnames);
                     </select>
                 </div>
             </div>
-			<!--<div class="form-group">
+			<div class="form-group">
                 <label class="col-sm-2 control-label"></label>
                 <div class="col-sm-3">
 					<a id="check-all-project" href="#">Select all</a> | 
 					<a id="clear-all-project" href="#">Clear all</a>
                 </div>
-            </div>-->
+            </div>
 			<!--<div class="form-group">
                 <label class="col-sm-2 control-label">Packages:</label>
                 <div class="col-sm-6">
@@ -247,6 +249,7 @@ $labelname = explode(",", $labelnames);
 
 </script>
 
+<!--done by jane for viewing template hierarchy list end-->
 <script>
 /*$("#check-all-project").on("click", function(){
     $("#tree_control").jstree("check_all");
@@ -256,20 +259,17 @@ $("#clear-all-project").on("click", function(){
 	$("#project-list input:checkbox").prop('checked', false);
 });*/
 
+/*done by jane for select all and clear all*/
 $("#check-all-project").on("click", function(){
-    $('#tree-container').jstree("select_all");
-
-    /*var a_checked_nodes = getUneededIds();
-    alert(a_checked_nodes);
-    for (var i = 0; i < a_checked_nodes.length; i++)
-    {
-        $('#tree-container').jstree.getNodeById(a_checked_nodes[i]).attributes.checked = false;
-
-    }*/
+    $('#tree-container').jstree("check_all");
+    $(".jstree-disabled").each(function() {
+        $('#tree-container').jstree("uncheck_node", this);
+    });
 });
 $("#clear-all-project").on("click", function(){
     $('#tree-container').jstree("deselect_all");
 });
+/*done by jane for select all and clear all end*/
 
 $( "#proj_date" ).datepicker({
 	showOn: "button",
@@ -296,6 +296,7 @@ function available(date) {
   }
 }
 
+/*done by jane for rename ppt*/
 function renamePPT() {
     var date = $( "#proj_date").val();
     if(date) {
@@ -309,6 +310,7 @@ function renamePPT() {
         }
     }
 }
+/*done by jane for rename ppt end*/
 </script>
 
 
