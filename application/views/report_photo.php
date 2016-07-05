@@ -218,8 +218,6 @@ $labelname = explode(",", $labelnames);
     function push_ids(){
         var ids;
         ids = $('#tree-container').jstree(true).get_selected();
-        alert(ids);
-        return false;
         document.getElementById('ids').value = ids;
     }
     function getUneededIds(){
@@ -260,6 +258,14 @@ $("#clear-all-project").on("click", function(){
 
 $("#check-all-project").on("click", function(){
     $('#tree-container').jstree("select_all");
+
+    /*var a_checked_nodes = getUneededIds();
+    alert(a_checked_nodes);
+    for (var i = 0; i < a_checked_nodes.length; i++)
+    {
+        $('#tree-container').jstree.getNodeById(a_checked_nodes[i]).attributes.checked = false;
+
+    }*/
 });
 $("#clear-all-project").on("click", function(){
     $('#tree-container').jstree("deselect_all");
