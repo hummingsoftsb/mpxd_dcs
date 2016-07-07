@@ -294,19 +294,29 @@ class Reportphoto extends CI_Controller {
             $this->phpppt->removefirstslide();
             $imgs = $this->assessment->get_image_by_date($pdate, $pjcts_no);
 			// to get the parent and child - agaile 05/07/2016
-			$parent_child = $this->admin->get_parent_child($ids);
+			//$parent_child=$this->admin->get_parent_child($ids);
+			$split_id = explode(",", $ids);
+			$parent_child = array();
+			foreach($split_id as $val){
+				array_push($parent_child,$this->admin->get_parent_child($val));
+			}
+			/*echo '<pre>';
+			print_r($parent_child);
+			echo '</pre>';
+			exit;*/
             $projects = array();
             foreach ($imgs as $img) {	
 			// Mod : Agaile
 				foreach($parent_child as $kval){
-					if($img->project_no == $kval['template_id']){
-					$projects[$img->project_no] = array('project_no' => $img->project_no, 'project_name' => $img->project_name, 'as_at' => $img->cut_off_date, 'parent' => $kval['parentname'],'child' => $kval['childname']);
+					if($img->project_no == $kval[0]['template_id']){
+					$projects[$img->project_no] = array('project_no' => $img->project_no, 'project_name' => $img->project_name, 'as_at' => $img->cut_off_date, 'parent' => $kval[0]['parentname'],'child' => $kval[0]['childname']);
 						}
 				}
 				// Mod : end
               //$projects[$img->project_no] = array('project_no' => $img->project_no, 'project_name' => $img->project_name, 'as_at' => $img->cut_off_date);  
             }
-            //var_dump($projects);
+            /*var_dump($projects);
+			exit;*/
             //start:mod by ANCY MATHEW for redusing the size of ppt
            /* $session_data = $this->session->userdata('logged_in');
             $userid=$session_data['id'];

@@ -777,9 +777,28 @@ Class Admin extends CI_Model
 	// to fetch the parent and child name - agaile 05/07/2016
 	
 	function get_parent_child($ids){
-	$query = "select a.template_id,a.parent_id,b.name as parentname ,a.name as childname from project_template_hierarchy a join project_template_hierarchy b on a.parent_id = b.id";
+	
+	/*echo '<pre>';
+	print_r($ids);
+	echo '</pre>';
+	exit;*/
+	$query = "select a.template_id,a.parent_id,b.name as parentname ,a.name as childname from project_template_hierarchy a join project_template_hierarchy b on a.parent_id = b.id where a.id =$ids";
         $res = $this->db->query($query)->result_array();
-        return $res;
+			if($res[0]['parent_id']==1){
+				return $res;
+			}else{
+			$res1=array();
+			$temp_id = $res[0]['template_id'];
+			$child = $res[0]['childname'];
+			  $temp=$res[0]['parent_id'];
+				while($temp!=1){
+						$query = "select $temp_id as template_id,a.parent_id,a.name as parentname ,'$child' as childname from project_template_hierarchy a join project_template_hierarchy b on a.parent_id = b.id where a.id =$temp";
+						$res1 = $this->db->query($query)->result_array();
+						$temp=$res1[0]['parent_id'];
+					}
+				return $res1;
+			}
+        
 		}
 
 }
