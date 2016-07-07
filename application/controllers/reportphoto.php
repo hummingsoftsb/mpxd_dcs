@@ -272,6 +272,7 @@ class Reportphoto extends CI_Controller {
         $settings[5] = array(373, 642, 373, 899);
         $freq_id = $this->input->get('freq');
         /*$projects = $this->input->get('project');*/
+        /*modifications by jane*/
         $ids = $this->input->get('ids');
         $projects = array();
         if(!empty($ids)) {
@@ -280,11 +281,6 @@ class Reportphoto extends CI_Controller {
                 $projects[] = $val['template_id'];
             }
         }
-        /*$exp = array();
-        $path = explode(",", $ids);
-        $exp = array_merge($exp, $path);
-        print_r($exp);
-        exit;*/
         $pdate = $this->input->get('date');
         $file_name = $this->input->get('ppt_filename');
 
