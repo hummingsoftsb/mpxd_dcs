@@ -33,11 +33,13 @@ class IlyasAudit extends CI_Controller
 			//access checking
 			if($viewperm==0)
 				redirect('/home','refresh');
-			if(!$this->assessment->check_access_nonp($session_data['id'],$this->input->get('jid')) && $session_data['roleid'] != 1){
+            //coded by :ANCY MATHEW 28/07/2016 12:30 pm
+            //the function check_access_nonp is changed to check_access_nonp1
+			if(!$this->assessment->check_access_nonp1($session_data['id'],$this->input->get('jid')) && $session_data['roleid'] != 1  ) {
 				//die("No access");
 				redirect('/journaldataentry','refresh');
 			}
-			//end access checking
+			//end access checking,
 				
 			if($this->session->userdata('message'))
 			{
@@ -137,7 +139,9 @@ class IlyasAudit extends CI_Controller
 			//access checking
 			if($viewperm==0)
 				die();
-			if(!$this->assessment->check_access_nonp($session_data['id'],$this->input->get('jid')) && $session_data['roleid'] != 1){
+            //coded by :ANCY MATHEW 28/07/2016 12:30 pm
+            //the function check_access_nonp is changed to check_access_nonp1
+			if(!$this->assessment->check_access_nonp1($session_data['id'],$this->input->get('jid')) && $session_data['roleid'] != 1){
 				die();
 				//die("No access");
 				//redirect('/journaldataentry','refresh');
