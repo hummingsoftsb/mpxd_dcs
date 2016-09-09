@@ -289,7 +289,9 @@ function show_comments() {
 function load_data(rev) {
 	
 	showloader()
+  
 	$.getJSON("<?php echo $this->config->base_url().'index.php/'.$cpagename; ?>/get_data?jid=<?php echo $details->journal_no; ?>&rev="+rev, function(d){
+
 		if (typeof d == 'undefined') return false;
 		hot_object.hot_load_config(d.data.headers);
 		hot_object.hot_load_data(d.data.data);
@@ -345,7 +347,7 @@ $(function(){
 		load_data($(this).val());
 	});
 	lookupdata = <?php echo json_encode($lookups); ?>;
-	
+
 	// Function to populate lookup codes from database
 	$.each(lookupdata, function(idx,i){
 		j = transpose(i.data);

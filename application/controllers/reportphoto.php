@@ -328,6 +328,7 @@ class Reportphoto extends CI_Controller {
                 $this->phpppt->generatelogo();
 				// START : Subtitle - AGAILE
 				if($project['parent'] == 'Root Node'){
+                    echo "root node";
                 $pjct_nm_c = str_replace("Construction", "Project", $project['child']);
                 $this->phpppt->generateTitle($pjct_nm_c, date("jS M Y", strtotime($project['as_at'] . " +2 days")));
 				}
@@ -341,7 +342,8 @@ class Reportphoto extends CI_Controller {
 				
                 $this->phpppt->generateFooter(date("d F Y", strtotime($project['as_at'])), $pageno);
                 //start:mod by ANCY MATHEW for PPT correction
-                $chkCount = $this->assessment->get_chk_count($project['project_no']);
+                $chkCount = $this->assessment->get_image_by_date_one($pdate,$project['project_no']);
+               // $chkCount = $this->assessment->get_chk_count($project['project_no']);
                 //end: mod by ANCY MATHEW for PPT correction
                 // }
                 //start:mod by ANCY MATHEW for reduce the image size
@@ -349,6 +351,7 @@ class Reportphoto extends CI_Controller {
                 $v = '';
                 foreach ($imgs as $img) {
                     if ($img->project_no == $project['project_no']) {
+
 						/** resize photo for powerpoint **/
 						//$real_image = './' . $img->pict_file_path . $img->pict_file_name;
 
@@ -361,6 +364,7 @@ class Reportphoto extends CI_Controller {
                         $chk++;
                         //start:mod by ANCY MATHEW for PPT correction
                         if ($curr == 6 && $chk < $chkCount[0]->count && sizeof($imgs) != 6) {
+
                             //end:mod by ANCY MATHEW for PPT correction
                             $curr = 0;
                             $this->phpppt->newslide();
@@ -381,6 +385,7 @@ class Reportphoto extends CI_Controller {
                         }
                     }
                 }
+
                 $curr = 0;
                 $pageno++;
             }

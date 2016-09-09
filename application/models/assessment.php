@@ -255,6 +255,7 @@ Class Assessment extends CI_Model
     {
         if (!is_numeric($id)) return false;
         $query = "select jm.journal_no,jm.reminder_frequency,journal_name,project_name,user_full_name from journal_master_nonprogressive jm,project_template pt,sec_user su where jm.journal_no='$id' and jm.project_no=pt.project_no and jm.user_id=su.user_id";
+
         $q = $this->db->query($query);
         //var_dump($this->db->last_query());
         return $q->result();
@@ -295,6 +296,7 @@ Class Assessment extends CI_Model
     function show_journalnp_validator($id)
     {
         $query = "SELECT su.user_full_name FROM journal_validator_nonprogressive jvn,sec_user su where jvn.validate_user_id = su.user_id and jvn.journal_no = $id";
+
         $q = $this->db->query($query);
          return $q->row();
         //return $q->result();
@@ -922,7 +924,9 @@ Class Assessment extends CI_Model
 
     function check_access_nonp($id, $jid)
     {
+
         $query = "select count(*) as count from journal_master_nonprogressive jmn,journal_data_user_nonprogressive jdun where jmn.journal_no = jdun.journal_no and jdun.data_user_id = $id and jmn.journal_no = $jid";
+
         $q = $this->db->query($query);
         $row = $q->row();
 
@@ -931,7 +935,20 @@ Class Assessment extends CI_Model
         else
             return false;
     }
+    //coded by :ANCY MATHEW 28/07/2016 :12:29 pm
+    //purpose:to check the access
+    //return :true or false
+    function check_access_nonp1($id, $jid)
+    {
+        $query = "select count(*) as count from ilyas_log where journal_no = $jid and user_id=$id or validator_id=$id";
+        $q = $this->db->query($query);
+        $row = $q->row();
 
+        if ($row->count > 0)
+            return true;
+        else
+            return false;
+    }
     function show_journal_reject_note($id)
     {
         $query = "select jdvr.reject_notes,jdvm.data_validate_no from journal_data_validate_reject jdvr,journal_data_validate_master jdvm where jdvr.data_validate_no = jdvm.data_validate_no and jdvm.data_entry_no = {$id}";
@@ -1043,14 +1060,13 @@ Class Assessment extends CI_Model
     // added by agaile on 04/06/2016 to segregate the audit log data based on roles
 
     function show_log_id_audit($userid){
+
         $query1 = "select a.project_name,b.journal_name,b.journal_no,c.publish_date,c.data_entry_no,(select validate_level_no from journal_data_validate_master jdvm where jdvm.data_entry_no=c.data_entry_no and jdvm.validate_status!=0 order by validate_level_no desc limit 1)as validate_level_no ,d.user_full_name,f.frequency_detail_name from project_template a, journal_master b,journal_data_entry_master c,sec_user d,frequency_detail f where a.project_no=b.project_no and c.publish_user_id=d.user_id and f.frequency_detail_no=c.frequency_detail_no and c.journal_no=b.journal_no Order By project_name asc,journal_name asc";
         $q1 = $this->db->query($query1);
         $rslt1 = $q1->result();
-
         $query2 = "SELECT journal_no FROM journal_validator where validate_user_id = $userid";
         $q2 = $this->db->query($query2);
         $rslt2 = $q2->result();
-
         $final = [];
         foreach ($rslt1 as $value1) {
             foreach ($rslt2 as $value2) {
@@ -1211,6 +1227,13 @@ Class Assessment extends CI_Model
     function get_chk_count($pid)
     {
         $query = "select count(jdep.pict_file_name) from journal_data_entry_picture jdep,journal_data_entry_master jdem, journal_master jm, project_template pt, frequency_detail fd where fd.frequency_detail_no = jdem.frequency_detail_no and jdep.data_entry_no = jdem.data_entry_no and jdem.journal_no = jm.journal_no and jm.project_no = pt.project_no and pt.project_no in ($pid)";
+       // echo $query;
+        $q = $this->db->query($query);
+        return $q->result();
+    }
+    function get_image_by_date_one($pdate, $pid)
+    {
+        $query = "select count(jdep.pict_file_name) from journal_data_entry_picture jdep, journal_data_entry_master jdem, journal_master jm, project_template pt, frequency_detail fd where fd.frequency_detail_no = jdem.frequency_detail_no and jdep.data_entry_no = jdem.data_entry_no and jdem.journal_no = jm.journal_no and jm.project_no = pt.project_no and fd.end_date = '{$pdate}' and pt.project_no in ({$pid})";
         //echo $query;
         $q = $this->db->query($query);
         return $q->result();
