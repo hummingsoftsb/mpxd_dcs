@@ -589,7 +589,7 @@ Class IlyasModel extends CI_Model
 		$owner = "AND b.journal_no IN (SELECT journal_no FROM journal_data_user_nonprogressive WHERE data_user_id=$userid)";
 		$search = " AND (lower(a.project_name) like '%".$data."%' or lower(b.journal_name) like '%".$data."%' )";
 		
-		$query = "SELECT a.project_name,b.nonp_enabled,b.journal_name, b.project_no, b.reminder_frequency ,b.journal_no,e.user_full_name, e.user_id AS owner_user_id, jvn.validate_user_id, jdu.data_user_id FROM project_template a, journal_master_nonprogressive b, sec_user e, journal_validator_nonprogressive jvn, journal_data_user_nonprogressive jdu WHERE a.project_no=b.project_no AND b.user_id=e.user_id AND jvn.journal_no=b.journal_no AND jdu.journal_no=b.journal_no ".($isOwner ? $owner : "")." ".($isSearch ? $search : ""). " ";
+		$query = "SELECT a.project_name,b.nonp_enabled,b.journal_name, b.project_no, b.reminder_frequency ,b.journal_no,e.user_full_name, e.user_id AS owner_user_id, jvn.validate_user_id, jdu.data_user_id FROM project_template a, journal_master_nonprogressive b, sec_user e, journal_validator_nonprogressive jvn, journal_data_user_nonprogressive jdu WHERE a.project_no=b.project_no AND b.user_id=e.user_id AND jvn.journal_no=b.journal_no AND jdu.journal_no=b.journal_no AND a.project_name='Power Supply And Distribution System' ".($isOwner ? $owner : "")." ".($isSearch ? $search : ""). " ";
 		// Sorting function
 		
 		if($isSearch)
