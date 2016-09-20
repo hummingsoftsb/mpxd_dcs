@@ -427,7 +427,7 @@ Class IlyasModel extends CI_Model
 		$owner = "AND b.journal_no IN (SELECT journal_no FROM journal_data_user_nonprogressive WHERE data_user_id=$userid)";
 		$search = " AND (lower(a.project_name) like '%".$data."%' or lower(b.journal_name) like '%".$data."%' )";
 		
-		$query = "SELECT * FROM (SELECT DISTINCT ON(b.journal_no) i.config_no,i.col_header,i.col_width,i.uom_id,i.type,i.col_order,a.project_name,b.nonp_enabled,b.journal_name, b.project_no, b.reminder_frequency ,b.journal_no,e.user_full_name, e.user_id AS owner_user_id, jvn.validate_user_id, jdu.data_user_id FROM project_template a, journal_master_nonprogressive b, sec_user e, journal_validator_nonprogressive jvn, journal_data_user_nonprogressive jdu, ilyas_config i WHERE a.project_no=b.project_no AND b.user_id=e.user_id AND jvn.journal_no=b.journal_no AND jdu.journal_no=b.journal_no AND i.journal_no=b.journal_no ".($isOwner ? $owner : "")." ".($isSearch ? $search : ""). " ";
+		$query = "SELECT * FROM (SELECT DISTINCT ON(b.journal_no) i.config_no,i.col_header,i.col_width,i.uom_id,i.type,i.col_order,a.project_name,b.nonp_enabled,b.journal_name, b.project_no, b.reminder_frequency ,b.journal_no,e.user_full_name, e.user_id AS owner_user_id, jvn.validate_user_id, jdu.data_user_id FROM project_template a, journal_master_nonprogressive b, sec_user e, journal_validator_nonprogressive jvn, journal_data_user_nonprogressive jdu, ilyas_config i WHERE a.project_no=b.project_no AND b.user_id=e.user_id AND jvn.journal_no=b.journal_no AND jdu.journal_no=b.journal_no AND i.journal_no=b.journal_no  AND a.project_name='Power Supply And Distribution System' ".($isOwner ? $owner : "")." ".($isSearch ? $search : ""). " ";
 		
 		// Sorting function
 		
@@ -589,7 +589,7 @@ Class IlyasModel extends CI_Model
 		$owner = "AND b.journal_no IN (SELECT journal_no FROM journal_data_user_nonprogressive WHERE data_user_id=$userid)";
 		$search = " AND (lower(a.project_name) like '%".$data."%' or lower(b.journal_name) like '%".$data."%' )";
 		
-		$query = "SELECT a.project_name,b.nonp_enabled,b.journal_name, b.project_no, b.reminder_frequency ,b.journal_no,e.user_full_name, e.user_id AS owner_user_id, jvn.validate_user_id, jdu.data_user_id FROM project_template a, journal_master_nonprogressive b, sec_user e, journal_validator_nonprogressive jvn, journal_data_user_nonprogressive jdu WHERE a.project_no=b.project_no AND b.user_id=e.user_id AND jvn.journal_no=b.journal_no AND jdu.journal_no=b.journal_no AND a.project_name='Power Supply And Distribution System' ".($isOwner ? $owner : "")." ".($isSearch ? $search : ""). " ";
+		$query = "SELECT a.project_name,b.nonp_enabled,b.journal_name, b.project_no, b.reminder_frequency ,b.journal_no,e.user_full_name, e.user_id AS owner_user_id, jvn.validate_user_id, jdu.data_user_id FROM project_template a, journal_master_nonprogressive b, sec_user e, journal_validator_nonprogressive jvn, journal_data_user_nonprogressive jdu WHERE a.project_no=b.project_no AND b.user_id=e.user_id AND jvn.journal_no=b.journal_no AND jdu.journal_no=b.journal_no ".($isOwner ? $owner : "")." ".($isSearch ? $search : ""). " ";
 		// Sorting function
 		
 		if($isSearch)
@@ -632,7 +632,7 @@ Class IlyasModel extends CI_Model
 		// SELECT DISTINCT ON (a.journal_no) a.journal_no,  a.project_no, b.config_no, c.validate_user_id, d.user_full_name AS validator_user_full_name, e.data_user_id, e.user_full_name as data_user_full_name, f.timestamp FROM journal_master_nonprogressive a, ilyas_config b, journal_validator_nonprogressive c, sec_user d, (SELECT j.journal_no, j.data_user_id, k.user_full_name FROM journal_data_user_nonprogressive j, sec_user k) e, ilyas f WHERE d.user_id=c.validate_user_id AND c.journal_no=a.journal_no AND b.journal_no=a.journal_no AND a.journal_no=e.journal_no AND b.config_no=f.config_no AND b.validate_pending=1 AND b.validate_revision=f.revision
 		$query = "SELECT DISTINCT ON (a.journal_no) a.journal_no, j.project_name, a.journal_name, a.project_no, b.config_no, c.validate_user_id, d.user_full_name AS validator_user_full_name, e.data_user_id, e.user_full_name as data_user_full_name, f.timestamp ";
 		$query .= "FROM journal_master_nonprogressive a, ilyas_config b, journal_validator_nonprogressive c, sec_user d, (SELECT j.journal_no, j.data_user_id, k.user_full_name FROM journal_master_nonprogressive jmn, journal_data_user_nonprogressive j, sec_user k WHERE jmn.journal_no=j.journal_no AND j.data_user_id = k.user_id) e, ilyas f, project_template j ";
-		$query .= "WHERE d.user_id=c.validate_user_id AND c.journal_no=a.journal_no AND b.journal_no=a.journal_no AND a.journal_no=e.journal_no AND b.config_no=f.config_no AND b.validate_pending=1 AND b.validate_revision=f.revision AND j.project_no=a.project_no ";
+		$query .= "WHERE d.user_id=c.validate_user_id AND c.journal_no=a.journal_no AND b.journal_no=a.journal_no AND a.journal_no=e.journal_no AND b.config_no=f.config_no AND b.validate_pending=1 AND b.validate_revision=f.revision AND j.project_no=a.project_no AND j.project_name = 'Power Supply And Distribution System'";
 		
 		if($userid!="1" && $roleid!="1")
 		{
