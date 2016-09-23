@@ -443,7 +443,6 @@ Class IlyasModel extends CI_Model
 		
 		return $result;
 	}
-	
 	function get_validation_comment_row($jid) {
 		if (!is_numeric($jid)) return false;
 		//$this->db->query('SELECT a.validate_comment,a.config_no,b.col_order FROM ilyas a, ilyas_config b WHERE a.config_no=b.config_no AND a.validate_comment!='' AND a.config_no IN('290') AND a.revision='26'
