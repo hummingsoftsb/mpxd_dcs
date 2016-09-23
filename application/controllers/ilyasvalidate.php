@@ -98,7 +98,7 @@ class Ilyasvalidate extends CI_Controller
                 //Starts Here
                 $rev=$this->ilyasmodel->get_latest_revision($id);
                 if($rev>2) {
-                    $data['pre_data'] = $this->ilyasmodel->get_data($id, ($this->ilyasmodel->get_latest_rev($id)));
+                    $data['pre_data'] = $this->ilyasmodel->get_data_compare($id, ($this->ilyasmodel->get_latest_rev($id)));
                 }else{
                     $data['pre_data']=[];
                 }

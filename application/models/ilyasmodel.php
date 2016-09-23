@@ -343,7 +343,59 @@ Class IlyasModel extends CI_Model
 
 		return $resultarray;
 	}
-	
+    function get_data_compare($jid, $rev = '') {
+        $this->db->select('config_no,col_header,col_width,uom_id,type,lookup_id');
+        $this->db->from('ilyas_config');
+        $this->db->where('journal_no', $jid);
+        $this->db->order_by('col_order', 'asc');
+        $qj = $this->db->get();
+        $resultarray = [];
+        if ($rev == '') {
+            $revision = $this->get_latest_revision($jid);
+        } else {
+            $revision = str_replace("'", "", $rev);
+        }
+        //var_dump(is_null($revision));
+
+        if (is_null($revision)) return [];
+
+        foreach ($qj->result() as $i):
+            $resultcolumn = [];
+            if($i->lookup_id != null){
+                $this->db->select('row,value');
+                $this->db->from('ilyas');
+                $this->db->where('config_no', $i->config_no);
+                $this->db->where('revision', $revision);
+                $this->db->order_by('row', 'asc');
+                $arr= $this->db->get();
+                foreach ($arr->result() as $a):
+                    $this->db->select('lk_data as value');
+                    $this->db->from('lookup_data_detail');
+                    $this->db->where('data_set_id', $i->lookup_id);
+                    $this->db->where('lk_value', $a->value);
+                    $q = $this->db->get();
+                    foreach ($q->result() as $j):
+                        array_push($resultcolumn, $j->value);
+                    endforeach;
+                endforeach;
+            }
+            else{
+                $this->db->select('row,value');
+                $this->db->from('ilyas');
+                $this->db->where('config_no', $i->config_no);
+                $this->db->where('revision', $revision);
+                $this->db->order_by('row', 'asc');
+                $q = $this->db->get();
+                foreach ($q->result() as $j):
+                    array_push($resultcolumn, $j->value);
+                endforeach;
+            }
+            array_push($resultarray, $resultcolumn);
+        endforeach;
+        /* If a column-based result is desired, comment the following procedure which transposes column in to rows */
+        $resultarray = $this->transpose($resultarray);
+        return $resultarray;
+    }
 	function get_data_date($jid){
 		$filter = function($v){ return $v['config_no']; };
 		$configs = array_map($filter, $this->get_config($jid, true));
@@ -616,11 +668,11 @@ Class IlyasModel extends CI_Model
 	}
 	
 	function get_all_journals() {
-		$query = "SELECT journal_no, journal_name FROM journal_master_nonprogressive";
-		$q = $this->db->query($query);
-		$result = $q->result();
-		return $result;
-	}
+    $query = "SELECT journal_no, journal_name FROM journal_master_nonprogressive";
+    $q = $this->db->query($query);
+    $result = $q->result();
+    return $result;
+}
 	
 	
 	function get_journals_validate($data,$offset,$perPage,$userid,$roleid) {
@@ -889,11 +941,12 @@ Class IlyasModel extends CI_Model
 	
 	function get_config_for_journal($jid) {
 		$jid = str_replace("'", "", $jid);
+        echo $jid;
+        exit;
 		$query = "SELECT config_no,col_header from ilyas_config WHERE journal_no = '$jid' ORDER BY col_order";
 		$q = $this->db->query($query);
 		return $q->result();
 	}
-	
 	function get_column_values_for_journal($jid, $config_no) {
 		$jid = str_replace("'", "", $jid);
 		$config_no = str_replace("'", "", $config_no);
