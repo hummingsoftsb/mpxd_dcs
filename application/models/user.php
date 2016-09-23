@@ -6,6 +6,7 @@ Class User extends CI_Model
 //Check the user is valid or not for login
 function login($username, $password)
 {
+
 	$this -> db -> select('user_id, user_name, sec_role_id, email_id, pwd_txt,lock_by_pwd,no_pwd_attempt,change_pwd_opt');
 	$this -> db -> from('sec_user');
 	if(filter_var($username, FILTER_VALIDATE_EMAIL)) {
