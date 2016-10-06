@@ -26,8 +26,8 @@ Class Assessment extends CI_Model
     {
         $data = strtolower($data);
         $data = str_replace("'", "''", $data);
-       // $query = "select a.project_no,a.project_name,b.journal_name,b.journal_no from project_template a, journal_master b where a.project_no=b.project_no AND a.project_name = 'Power Supply And Distribution System'";
-        $query = "select a.project_no,a.project_name,b.journal_name,b.journal_no from project_template a, journal_master b where a.project_no=b.project_no ";
+         $query = "select a.project_no,a.project_name,b.journal_name,b.journal_no from project_template a, journal_master b where a.project_no=b.project_no AND a.project_name = 'Power Supply And Distribution System'";
+        //$query = "select a.project_no,a.project_name,b.journal_name,b.journal_no from project_template a, journal_master b where a.project_no=b.project_no ";
         if ($userid != "1" && $roleid != "1") {
             $query .= " and journal_no in (select journal_no from journal_data_user where data_user_id=$userid and default_owner_opt=1)";
         }
@@ -43,7 +43,7 @@ Class Assessment extends CI_Model
             $query .= "Order By journal_no asc";
         }
         $query .= " OFFSET " . $offset . "LIMIT " . $perPage;
-        //print_r($query);
+        print_r($query);
         $q = $this->db->query($query);
         return $q->result();
     }
