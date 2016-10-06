@@ -361,35 +361,36 @@ Class IlyasModel extends CI_Model
 
         foreach ($qj->result() as $i):
             $resultcolumn = [];
-            if($i->lookup_id != null){
+            if($i->lookup_id != null) {
                 $this->db->select('row,value');
                 $this->db->from('ilyas');
                 $this->db->where('config_no', $i->config_no);
                 $this->db->where('revision', $revision);
                 $this->db->order_by('row', 'asc');
-                $arr= $this->db->get();
+                $arr = $this->db->get();
                 foreach ($arr->result() as $a):
-                    $this->db->select('lk_data as value');
-                    $this->db->from('lookup_data_detail');
-                    $this->db->where('data_set_id', $i->lookup_id);
-                    $this->db->where('lk_value', $a->value);
-                    $q = $this->db->get();
-                    foreach ($q->result() as $j):
-                        array_push($resultcolumn, $j->value);
+                    if (!empty($a->value) && (!empty($i->lookup_id))) {
+                        $this->db->select('lk_data as value');
+                        $this->db->from('lookup_data_detail');
+                        $this->db->where('data_set_id', $i->lookup_id);
+                        $this->db->where('lk_value', $a->value, 0);
+                        $q = $this->db->get();
+                        foreach ($q->result() as $j):
+                            array_push($resultcolumn, $j->value);
+                        endforeach;
+                    }
                     endforeach;
-                endforeach;
-            }
-            else{
-                $this->db->select('row,value');
-                $this->db->from('ilyas');
-                $this->db->where('config_no', $i->config_no);
-                $this->db->where('revision', $revision);
-                $this->db->order_by('row', 'asc');
-                $q = $this->db->get();
-                foreach ($q->result() as $j):
-                    array_push($resultcolumn, $j->value);
-                endforeach;
-            }
+                    } else {
+                        $this->db->select('row,value');
+                        $this->db->from('ilyas');
+                        $this->db->where('config_no', $i->config_no);
+                        $this->db->where('revision', $revision);
+                        $this->db->order_by('row', 'asc');
+                        $q = $this->db->get();
+                        foreach ($q->result() as $j):
+                            array_push($resultcolumn, $j->value);
+                        endforeach;
+                    }
             array_push($resultarray, $resultcolumn);
         endforeach;
         /* If a column-based result is desired, comment the following procedure which transposes column in to rows */
