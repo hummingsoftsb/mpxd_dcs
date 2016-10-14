@@ -369,7 +369,7 @@ Class IlyasModel extends CI_Model
                 $this->db->order_by('row', 'asc');
                 $arr= $this->db->get();
                 foreach ($arr->result() as $a):
-                    if(!empty($a->value) && (!empty($i->lookup_id))) {
+                    /*if(!empty($a->value) && (!empty($i->lookup_id))) {*/
                         $this->db->select('lk_data as value');
                         $this->db->from('lookup_data_detail');
                         $this->db->where('data_set_id', $i->lookup_id);
@@ -378,7 +378,7 @@ Class IlyasModel extends CI_Model
                         foreach ($q->result() as $j):
                             array_push($resultcolumn, $j->value);
                         endforeach;
-                    }
+                   /* }*/
                 endforeach;
             }
             else{
