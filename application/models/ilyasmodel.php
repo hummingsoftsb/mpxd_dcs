@@ -358,7 +358,8 @@ Class IlyasModel extends CI_Model
         //var_dump(is_null($revision));
 
         if (is_null($revision)) return [];
-
+        //Ancy Mathew
+        //using highlighter
         foreach ($qj->result() as $i):
             $resultcolumn = [];
             if($i->lookup_id != null) {
