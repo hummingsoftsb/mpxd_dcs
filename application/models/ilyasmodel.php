@@ -361,37 +361,36 @@ Class IlyasModel extends CI_Model
 
         foreach ($qj->result() as $i):
             $resultcolumn = [];
-            if($i->lookup_id != null){
+            if($i->lookup_id != null) {
                 $this->db->select('row,value');
                 $this->db->from('ilyas');
                 $this->db->where('config_no', $i->config_no);
                 $this->db->where('revision', $revision);
                 $this->db->order_by('row', 'asc');
-                $arr= $this->db->get();
+                $arr = $this->db->get();
                 foreach ($arr->result() as $a):
-                    /*if(!empty($a->value) && (!empty($i->lookup_id))) {*/
+                    if (!empty($a->value) && (!empty($i->lookup_id))) {
                         $this->db->select('lk_data as value');
                         $this->db->from('lookup_data_detail');
                         $this->db->where('data_set_id', $i->lookup_id);
-                        $this->db->where('lk_value', $a->value);
+                        $this->db->where('lk_value', $a->value, 0);
                         $q = $this->db->get();
                         foreach ($q->result() as $j):
                             array_push($resultcolumn, $j->value);
                         endforeach;
-                   /* }*/
-                endforeach;
-            }
-            else{
-                $this->db->select('row,value');
-                $this->db->from('ilyas');
-                $this->db->where('config_no', $i->config_no);
-                $this->db->where('revision', $revision);
-                $this->db->order_by('row', 'asc');
-                $q = $this->db->get();
-                foreach ($q->result() as $j):
-                    array_push($resultcolumn, $j->value);
-                endforeach;
-            }
+                    }
+                    endforeach;
+                    } else {
+                        $this->db->select('row,value');
+                        $this->db->from('ilyas');
+                        $this->db->where('config_no', $i->config_no);
+                        $this->db->where('revision', $revision);
+                        $this->db->order_by('row', 'asc');
+                        $q = $this->db->get();
+                        foreach ($q->result() as $j):
+                            array_push($resultcolumn, $j->value);
+                        endforeach;
+                    }
             array_push($resultarray, $resultcolumn);
         endforeach;
         /* If a column-based result is desired, comment the following procedure which transposes column in to rows */
@@ -480,7 +479,7 @@ Class IlyasModel extends CI_Model
 		$owner = "AND b.journal_no IN (SELECT journal_no FROM journal_data_user_nonprogressive WHERE data_user_id=$userid)";
 		$search = " AND (lower(a.project_name) like '%".$data."%' or lower(b.journal_name) like '%".$data."%' )";
 		
-		$query = "SELECT * FROM (SELECT DISTINCT ON(b.journal_no) i.config_no,i.col_header,i.col_width,i.uom_id,i.type,i.col_order,a.project_name,b.nonp_enabled,b.journal_name, b.project_no, b.reminder_frequency ,b.journal_no,e.user_full_name, e.user_id AS owner_user_id, jvn.validate_user_id, jdu.data_user_id FROM project_template a, journal_master_nonprogressive b, sec_user e, journal_validator_nonprogressive jvn, journal_data_user_nonprogressive jdu, ilyas_config i WHERE a.project_no=b.project_no AND b.user_id=e.user_id AND jvn.journal_no=b.journal_no AND jdu.journal_no=b.journal_no AND i.journal_no=b.journal_no   ";
+		$query = "SELECT * FROM (SELECT DISTINCT ON(b.journal_no) i.config_no,i.col_header,i.col_width,i.uom_id,i.type,i.col_order,a.project_name,b.nonp_enabled,b.journal_name, b.project_no, b.reminder_frequency ,b.journal_no,e.user_full_name, e.user_id AS owner_user_id, jvn.validate_user_id, jdu.data_user_id FROM project_template a, journal_master_nonprogressive b, sec_user e, journal_validator_nonprogressive jvn, journal_data_user_nonprogressive jdu, ilyas_config i WHERE a.project_no=b.project_no AND b.user_id=e.user_id AND jvn.journal_no=b.journal_no AND jdu.journal_no=b.journal_no AND i.journal_no=b.journal_no ";
 		//AND a.project_name='Power Supply And Distribution System' ".($isOwner ? $owner : "")." ".($isSearch ? $search : ""). "
 		// Sorting function
 		
@@ -505,7 +504,7 @@ Class IlyasModel extends CI_Model
 			$query .= "";
 		}
 		
-		
+		//print_r($query);
 		//var_dump($query);
 		
 		//SELECT * FROM (SELECT DISTINCT ON (b.journal_no) i.config_no,i.col_header,i.col_width,i.uom_id,i.type,i.col_order, a.project_name,b.nonp_enabled,b.journal_name, b.project_no, b.reminder_frequency ,b.journal_no,e.user_full_name, e.user_id AS owner_user_id, jvn.validate_user_id, jdu.data_user_id FROM project_template a, journal_master_nonprogressive b, sec_user e, journal_validator_nonprogressive jvn, journal_data_user_nonprogressive jdu, ilyas_config i WHERE a.project_no=b.project_no AND b.user_id=e.user_id AND jvn.journal_no=b.journal_no AND jdu.journal_no=b.journal_no AND i.journal_no=b.journal_no Order By b.journal_no asc) a Order By a.project_name asc
