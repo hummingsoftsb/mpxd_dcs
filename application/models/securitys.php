@@ -311,10 +311,10 @@ Class Securitys extends CI_Model
 	//Function to display permission data for each user
 	function show_permission_data($roleid)
 	{
-			$query ="select * from sec_role_permission where sec_role_id=".$roleid;
-			$query = $this->db->query($query);
-			$query_result = $query->result();
-			return $query_result;
+		$query ="select * from sec_role_permission where sec_role_id=".$roleid;
+        $query = $this->db->query($query);
+        $query_result = $query->result();
+        return $query_result;
 	}
 
 	//Function to display permission data for each user

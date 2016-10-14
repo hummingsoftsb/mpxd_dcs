@@ -40,6 +40,17 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Ancy Mathew/Desktop/1st MMC Gamuda minute meeting.docx",
+		"/C/wamp/www/mpxd/application/config/config.php",
+		"/C/Users/Ancy Mathew/Downloads/jsImgSlider/themes/1/js-image-slider.js",
+		"/C/Users/Ancy Mathew/Downloads/jsImgSlider/themes/1/js-image-slider.css",
+		"/C/wamp/www/mpxd_old/assets/js/ilyas.js",
+		"/C/Users/Ancy Mathew/Desktop/tbl_puzhen_manufacture.sql",
+		"/C/Users/Ancy Mathew/Desktop/back1.backup",
+		"/E/mpxd/resources/log4j.properties",
+		"/C/wamp/www/mpxd/.htaccess.bak",
+		"/D/Ancy/Station Taman Koperasi Cuepacs - 20-February-16/metadata.json",
+		"/C/wamp/www/test/agaile.php",
 		"/C/wamp/www/mpxd_dcs/application/config/config.php",
 		"/C/wamp/www/mpxd_dcs/application/config/database.php",
 		"/C/wamp/www/mpxd_dcs/application/config/config.php.bak",
@@ -47,7 +58,7 @@
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 34.0
 	},
 	"find_in_files":
 	{
@@ -85,7 +96,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 0.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -122,7 +133,7 @@
 	"project": "foreign_chars.sublime-project",
 	"replace":
 	{
-		"height": 0.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
