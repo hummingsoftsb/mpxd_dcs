@@ -64,7 +64,7 @@ $owner=$details->user_full_name;
 	</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-12 mtb1520">
 			<input type="button" class="btn btn-default btn-sm" id="cancel" value="Back">
 			<input type="button" class="btn btn-primary btn-sm" id="savedata" name="savedata" value="Save">
 		</div>
@@ -697,7 +697,6 @@ $(function(){
 	lookupdata = <?php echo json_encode($lookups); ?>;
 	hot_lock = <?php echo (($hot_lock == 1) ? "true" : "false" ); ?>;
 	hot_object = null;
-	
 	
 	
 	$.each(lookupdata, function(idx,i){$('#lookup').append($("<option value='"+i.meta.id+"'>"+idx+"</option>"));})

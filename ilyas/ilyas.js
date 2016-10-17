@@ -53,8 +53,15 @@ addLookupCode = function(code, descriptionarr, valuearr) {
 		vd[valuearr[i]] = descriptionarr[i];
 	}
 	columns_meta["lookup"][code] = {
+		//Commented By Sebin
 		"editor": "select",
 		"selectOptions": descriptionarr,
+
+		//Added by Sebin : Starts Here
+		// "type": 'dropdown',
+		// "source": descriptionarr,
+		// "allowInvalid": false,
+		//Added by Sebin : Ends Here
 		"value": valuearr,
 		//"_vd" : vd,
 		//"_dv" : dv,
@@ -81,7 +88,12 @@ bulkLookupVD = function(code, valuearr) {
 }
 
 isColumnLookup = function(c) {
+	//Commented by sebin
 	return ((typeof c["editor"] != "undefined") && (c["editor"] == "select"))
+
+	//Added By Sebin :Starts Here
+	// return ((typeof c["type"] != "undefined") && (c["type"] == "dropdown"))
+	//Added By Sebin :End Here
 }
 
 
@@ -249,7 +261,7 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
 	this.acomments = {};
 	this.Handsontable = Handsontable;
 	this.callbacks = {};
-	
+
 	this.initialize = function(raw_config, data, type, pre_data) {
 		raw_config = this.hot_set_raw_config(raw_config);
 		this.data = data;
@@ -299,8 +311,14 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
 		}
 		
 		// To disable word wrap
-		c['wordWrap'] = false;
-		
+		// c['wordWrap'] = false;
+
+		// To enable word wrap
+		//Modified by Sebin: Starts here
+		c['wordWrap'] = true;
+		c['stretchH'] = 'all';
+		c['autoRowSize'] = true;
+		//Ends Here
 		// After select cell, enable word wrap
 		c['afterSelectionEnd'] = function(row,col) {
 			_thisproxy.hot_instance.setCellMeta(row,col,'wordWrap',true);
@@ -311,6 +329,20 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
 		c['afterDeselect'] = function() {
 			_thisproxy.hot_instance.updateSettings({})
 		}
+		// c['tableClassName'] = ['table', 'table-hover', 'table-striped'];
+/* 		c['cells'] = function (row, col, prop) {
+		  var cellProperties = {};
+	       console.log(col)
+		  if (row === 0) {
+			// cellProperties.renderer = function (instance, td, row, col, prop, value, cellProperties) {
+				// Handsontable.renderers.TextRenderer.apply(this, arguments);
+				col.style.fontWeight = 'bold';
+				col.style.color = 'green';
+				col.style.background = '#CEC';
+			  // }
+		  }
+		  return cellProperties;
+		} */
 		switch (this.type) {
 			case "design":	
 				c['contextMenu'] = {
@@ -404,7 +436,16 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
 			
 			case "validate":
 				c['comments'] = true;
-				c['contextMenu'] = {/*
+				//Added By sebin : starts here
+				//this will show a shadow bar when right clicking the mouse.
+				// c['contextMenu'] =[];
+				//this will remove the contextMenu from the handsontable and replace it with the default browser contextMenu. 
+				c['contextMenu'] =false;
+				//Added by Sebin : ends here
+				
+				//Commented By Sebin : Starts Here
+				// c['contextMenu'] = {
+					/*
 					callback: function (key, options) {
 					  if (key === "addcomment") {
 						var rowcol = options.start;
@@ -421,12 +462,22 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
 						name: "Add comment"
 					  }
 					}*/
-				}
+				// }
+				//Commented By Sebin : Ends Here
 				break;
 				
 			case "audit":
 				c['comments'] = false;
-				c['contextMenu'] = {}
+				//Commented By Sebin : Starts Here
+				// c['contextMenu'] = {}
+				//Commented By Sebin : Ends Here
+				
+				//Added By sebin : starts here
+				//this will show a shadow bar when right clicking the mouse.
+				// c['contextMenu'] =[];
+				//this will remove the contextMenu from the handsontable and replace it with the default browser contextMenu. 
+				c['contextMenu'] =false;
+				//Added by Sebin : ends here
 		}
 		
 		// Set maximum height on container
@@ -521,11 +572,14 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
                                 cell_color = "#B2EACB";
                                 font_color = "#000";
                                 if (typeof this.pre_data[i] != 'undefined') {
+									// console.log(this.pre_data[i][p]+"=="+_this.getDataAtCell(i, p));
                                     if (_this.getDataAtCell(i, p) != this.pre_data[i][p]) {
-                                        $(_this.getCell(i, p)).css({"color": font_color,"background-color": cell_color})
-                                        if(this.pre_data[i][p]!='') {
-                                            $(_this.getCell(i, p)).attr('title', 'Previous Data: ' + this.pre_data[i][p]);
-                                        }
+										if ((_this.getDataAtCell(i, p) != "") && (typeof this.pre_data[i][p] != 'undefined')) {
+											$(_this.getCell(i, p)).css({"color": font_color,"background-color": cell_color})
+											if(this.pre_data[i][p]!='') {
+												$(_this.getCell(i, p)).attr('title', 'Previous Data: ' + this.pre_data[i][p]);
+											}
+										}
                                     }
                                 } else {
                                     $(_this.getCell(i, p)).css({"color": font_color, "background-color": cell_color})
@@ -545,10 +599,15 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
 		
 		var maxHeight = (screen.height - (parseInt($('.page-header').css('height')) + parseInt($('.navbar').css('height')) + parseInt($('#after_header > .row:first').css('height')) + 50 ));
 		var detectedHeight = parseInt($(".ht_master > .wtHolder > .wtHider").css('height'));
+		// console.log(detectedHeight);
 		
+		//Commented by Sebin : Starts Here
+		//Note : Uncomment to  set static height for the Handsontable
 		if (detectedHeight > maxHeight) {
 			container.parentElement.style.height = maxHeight+"px";
+			$(".ht_master > .wtHolder").css('height',maxHeight);
 		}
+		//Ends Here
 		this.hot_instance.forceFullRender = true;
 		this.hot_instance.render();
 		this.refresh_formulae();
@@ -594,6 +653,7 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
 	this.hot_parse_data = function(data) {
 		// Transform dropdown data into its respective values
 		var tempd = transpose(data);
+		// console.log(tempd);
 		
 		for (var i = 0; i < this.hot_config.columns.length; i++) {
 			var hc = this.hot_config.columns[i];

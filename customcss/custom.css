@@ -146,3 +146,7 @@ select[disabled]{
 .checkbox .disabled-label{
 	cursor: default;
 }
+.mtb1520{
+	margin-top: 15px;
+	margin-bottom: 20px;
+}

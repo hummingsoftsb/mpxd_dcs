@@ -66,7 +66,7 @@ $owner=$details->user_full_name;
 	</div>
 	
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-12 mtb1520">
 		<input type="button" class="btn btn-success btn-sm" id="publishdata" name="publishdata" value="Publish"/>
 		<input type="button" class="btn btn-primary btn-sm" id="savedata" name="savedata" value="Save"/>
 		<input type="button" class="btn btn-danger btn-sm" id="cancel" name="cancel" value="Cancel"/>

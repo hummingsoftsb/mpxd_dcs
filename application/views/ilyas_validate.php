@@ -99,7 +99,7 @@ $owner=$details->user_full_name;
 					</div>
 			</fieldset>
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-12 mtb1520">
 		<script type="text/javascript">
 			function enable_save_yn(){
 				document.getElementById("save").disabled = false; 
@@ -237,6 +237,13 @@ function disallow() {
 }
 
 $(function(){
+	
+	//Added By Sebin : Starts Here
+	//Purpose : prevents the default browser contextmenu.
+	$('#hottable_container').bind('contextmenu', function(e) {
+		return false;
+	}); 
+	//Added By Sebin : Ends Here
 
 	$('#save').on('click', function(){
 		
