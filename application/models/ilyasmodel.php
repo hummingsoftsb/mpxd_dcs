@@ -344,6 +344,8 @@ Class IlyasModel extends CI_Model
 		return $resultarray;
 	}
     function get_data_compare($jid, $rev = '') {
+		// echo $rev;
+		// exit;
         $this->db->select('config_no,col_header,col_width,uom_id,type,lookup_id');
         $this->db->from('ilyas_config');
         $this->db->where('journal_no', $jid);
@@ -362,7 +364,7 @@ Class IlyasModel extends CI_Model
         //using highlighter
         foreach ($qj->result() as $i):
             $resultcolumn = [];
-            if($i->lookup_id != null) {
+            if($i->type == "lookup") {
                 $this->db->select('row,value');
                 $this->db->from('ilyas');
                 $this->db->where('config_no', $i->config_no);
@@ -379,19 +381,21 @@ Class IlyasModel extends CI_Model
                         foreach ($q->result() as $j):
                             array_push($resultcolumn, $j->value);
                         endforeach;
-                    }
-                    endforeach;
-                    } else {
-                        $this->db->select('row,value');
-                        $this->db->from('ilyas');
-                        $this->db->where('config_no', $i->config_no);
-                        $this->db->where('revision', $revision);
-                        $this->db->order_by('row', 'asc');
-                        $q = $this->db->get();
-                        foreach ($q->result() as $j):
-                            array_push($resultcolumn, $j->value);
-                        endforeach;
-                    }
+                    }else{
+						array_push($resultcolumn, "");
+					}
+                endforeach;
+            } else {
+                $this->db->select('row,value');
+                $this->db->from('ilyas');
+                $this->db->where('config_no', $i->config_no);
+                $this->db->where('revision', $revision);
+			    $this->db->order_by('row', 'asc');
+				$q = $this->db->get();
+				foreach ($q->result() as $j):
+					array_push($resultcolumn, $j->value);
+				endforeach;
+            }
             array_push($resultarray, $resultcolumn);
         endforeach;
         /* If a column-based result is desired, comment the following procedure which transposes column in to rows */

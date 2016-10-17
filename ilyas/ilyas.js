@@ -571,16 +571,25 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
                             for (var p = 0; p < _this.countCols(); p++) {
                                 cell_color = "#B2EACB";
                                 font_color = "#000";
-                                if (typeof this.pre_data[i] != 'undefined') {
-									console.log(this.pre_data[i][p]+"=="+_this.getDataAtCell(i, p));
-                                    if (_this.getDataAtCell(i, p) != this.pre_data[i][p]) {
-										if ((_this.getDataAtCell(i, p) != "") && (typeof this.pre_data[i][p] != 'undefined')) {
-											$(_this.getCell(i, p)).css({"color": font_color,"background-color": cell_color})
-											if(this.pre_data[i][p]!='') {
-												$(_this.getCell(i, p)).attr('title', 'Previous Data: ' + this.pre_data[i][p]);
+								// console.log(i+"->"+p+":"+_this.getDataAtCell(i, p));
+                                 if (typeof this.pre_data[i] != 'undefined') {
+										if (_this.getDataAtCell(i, p) != this.pre_data[i][p]) {
+											if ((_this.getDataAtCell(i, p) != "") && (typeof this.pre_data[i][p] != 'undefined')) {
+												$(_this.getCell(i, p)).css({"color": font_color,"background-color": cell_color})
+												if(this.pre_data[i][p]!='') {
+													$(_this.getCell(i, p)).attr('title', 'Previous Data: ' + this.pre_data[i][p]);
+												}else{
+													$(_this.getCell(i, p)).attr('title', 'Previous Data: [Empty]');
+												}
+											}else if((_this.getDataAtCell(i, p) == "") && (typeof this.pre_data[i][p] != 'undefined')){
+												$(_this.getCell(i, p)).css({"color": font_color,"background-color": cell_color})
+												if(this.pre_data[i][p]!='') {
+													$(_this.getCell(i, p)).attr('title', 'Previous Data: ' + this.pre_data[i][p]);
+												}else{
+													$(_this.getCell(i, p)).attr('title', 'Previous Data: [Empty]');
+												}
 											}
 										}
-                                    }
                                 } else {
                                     $(_this.getCell(i, p)).css({"color": font_color, "background-color": cell_color})
                                     $(_this.getCell(i, p)).attr('title', 'Newly added row');
@@ -653,7 +662,6 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
 	this.hot_parse_data = function(data) {
 		// Transform dropdown data into its respective values
 		var tempd = transpose(data);
-		// console.log(tempd);
 		
 		for (var i = 0; i < this.hot_config.columns.length; i++) {
 			var hc = this.hot_config.columns[i];

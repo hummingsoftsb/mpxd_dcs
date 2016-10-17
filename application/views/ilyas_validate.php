@@ -271,7 +271,8 @@ $(function(){
     pre_data=<?php echo json_encode($pre_data); ?>;
 	lookupdata = <?php echo json_encode($lookups); ?>;
 	hot_lock = <?php echo (($hot_lock == 1) ? "true" : "false" ); ?>;
-	
+
+	// console.log(pre_data);
 	// Function to populate lookup codes from database
 	$.each(lookupdata, function(idx,i){
 		j = transpose(i.data);
