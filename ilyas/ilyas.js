@@ -3,14 +3,14 @@ Please do not update handsontable js file without knowing what to do! We need th
 ***/
 
 // Ringgit for numeral.js
-
+//Commented By Sebin Thomas
 numeral.language('my', {
     delimiters: {
         thousands: ',',
         decimal: '.'
     },
     abbreviations: {
-        
+
     },
     ordinal : function (number) {
         return number === 1 ? 'er' : 'ème';
@@ -20,20 +20,53 @@ numeral.language('my', {
     }
 });
 
+//Added by Sebin : Starts Here
+//Plugin chnaged numeral -> numbro
+// numbro.language('my', {
+// 	delimiters: {
+// 		thousands: ',',
+// 		decimal: '.'
+// 	},		callback(false);
+// }else{
+//
+// 	abbreviations: {
+// 	},
+// 	ordinal : function (number) {
+// 		return number === 1 ? 'er' : 'ème';
+// 	},
+// 	currency: {
+// 		symbol: 'RM',
+// 		position: 'prefix'
+// 	}
+// });
+//Ends Here
+numValidator = function (value, callback) {
+	if (isNaN(value)){
+	callback(true);
+	}
+}
 var columns_meta = {
 	text: {},
 	date: {type: 'date', dateFormat: 'DD-MMM-YYYY', correctFormat: true/*, allowInvalid: false*/ },
+	//Commented By Sebin
 	percentround2: {type: 'numeric', format: '0', renderer: 'percentageround2Renderer'},
 	price_myr: {type: 'numeric', format: '$ 0,0.00', language:'my'},
 	numeric: {type: 'numeric', format: '0,0', renderer: 'customNumericRightAlignRenderer'},
 	decimal2: {type: 'numeric', format: '0,0.00', renderer: 'customDecimalRightAlignRenderer2'},
+
+	//Added By Sebin :Starts Here
+	//Added Validator functionality
+	// percentround2: {type: 'numeric', format: '0', validator: numValidator, renderer: 'percentageround2Renderer'},
+	// price_myr: {type: 'numeric', format: '$ 0,0.00', validator: numValidator, language:'my'},
+	// numeric: {type: 'numeric', format: '0,0', validator: numValidator, renderer: 'customNumericRightAlignRenderer'},
+	// decimal2: {type: 'numeric', format: '0,0.00', validator: numValidator, renderer: 'customDecimalRightAlignRenderer2'},
+	//Ends Here
 	formula: {type: 'formula', renderer: 'customFormulaRenderer'},
 	//checkbox: {data:'checkbox', type: 'checkbox'},
 	lookup: {}, // This has to be built dynamically during page load
 	progressive_link: {renderer: 'disabledRenderer', designReadOnly: true},
 	non_progressive_link: {renderer: 'disabledRenderer', designReadOnly: true}
 }
-
 
 
 // Helper functions
@@ -95,13 +128,6 @@ isColumnLookup = function(c) {
 	// return ((typeof c["type"] != "undefined") && (c["type"] == "dropdown"))
 	//Added By Sebin :End Here
 }
-
-
-
-
-
-
-
 // HOT Renderers
 percentageround2Renderer = function(instance, td, row, col, prop, value, cellProperties) {
   Handsontable.renderers.TextRenderer.apply(this, arguments);
@@ -128,6 +154,7 @@ customDecimalRightAlignRenderer2 = function(instance, td, row, col, prop, value,
 }
 
 customFormulaRenderer = function(instance, TD, row, col, prop, value, cellProperties) {
+	// console.log(value);
 	if (true) {
 	// translate coordinates into cellId
 	var cellId = instance.plugin.utils.translateCellCoords({
@@ -293,6 +320,7 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
 		var _thisproxy = this;
 		
 		//this.data = transpose(tempd);
+		// console.log(this.hot_config["columns"]);
 		c['data'] = this.hot_parse_data(data);
 		c['colHeaders'] = this.hot_config["colHeaders"];
 		c['rowHeaders'] = true;
@@ -412,26 +440,29 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
 			case "dataentry":
 				c['minSpareRows'] = 1;
 				c['comments'] = true;
-				c['contextMenu'] = {
-					callback: function (key, options) {
-					},
-					items: {
-					  "row_above": {
-						disabled: function () {
-						}
-					  },
-					  "row_below": {},
-					  "hsep1": "---------",
-					  "remove_row": {
-						name: 'Remove this row',
-						disabled: function () {
-						}
-					  },
-					  "hsep2": "---------",
-					  "undo": {},
-					  "redo": {}
-					}
-				};
+				/*Commented By Sebin*/
+				//This generates context menu for the Data Entry Part of the HandsonTable
+
+				// c['contextMenu'] = {
+				// 	callback: function (key, options) {
+				// 	},
+				// 	items: {
+				// 	  "row_above": {
+				// 		disabled: function () {
+				// 		}
+				// 	  },
+				// 	  "row_below": {},
+				// 	  "hsep1": "---------",
+				// 	  "remove_row": {
+				// 		name: 'Remove this row',
+				// 		disabled: function () {
+				// 		}
+				// 	  },
+				// 	  "hsep2": "---------",
+				// 	  "undo": {},
+				// 	  "redo": {}
+				// 	}
+				// };
 				break;
 			
 			case "validate":
@@ -516,6 +547,7 @@ function HOT(Handsontable, raw_config, data, type, pre_data) {
 					if (!_thisproxy.hot_instance.isEmptyRow(row)) {
 						// Row not empty, check for formulas existance
 						$.each(_thisproxy.raw_config, function(col, j){
+							// console.log(j.type);
 							if (j.type == 'formula') {
 								if (_thisproxy.hot_instance.getDataAtCell(row,col) == null) {
 									//console.log('Updating formula at',row,col);

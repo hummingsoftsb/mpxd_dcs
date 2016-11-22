@@ -114,9 +114,9 @@
           Handsontable.Dom.addClass(TD, 'formula');
         }
       }
-
       // apply changes
 	  //console.log(typeof value);
+      //Below line is Added
       //if (cellProperties.type === 'numeric') {
       if (typeof value == 'number') {
         numericCell.renderer.apply(this, [instance, TD, row, col, prop, value, cellProperties]);
@@ -136,11 +136,14 @@
         var rerender = false;
 
         changes.forEach(function(item) {
-
+        // console.log(item);
           var row = item[0],
               col = item[1],
               prevValue = item[2],
-              value = item[3];
+              // Commented by Sebin
+              // value = item[3]
+              //Added by Sebin
+              value = (typeof item[3] === "undefined")?"":item[3];
 
           var cellId = instance.plugin.utils.translateCellCoords({
             row: row,
@@ -420,6 +423,7 @@
         instance.removeHook('afterCreateCol', afterCreateCol);
       }
     };
+    //Below line is added
 	Handsontable.renderers.registerRenderer('formulaRenderer',formulaRenderer);
   }
 

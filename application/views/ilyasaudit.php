@@ -1,4 +1,4 @@
-<script src="<?php echo base_url(); ?>ilyas/handsontable/handsontable.full.min.js"></script>
+<script src="<?php echo base_url(); ?>ilyas/handsontable.full.min.js"></script>
 <script src="<?php echo base_url(); ?>ilyas/moment.js"></script>
 <script src="<?php echo base_url(); ?>ilyas/pikaday.js"></script>
 <script src="<?php echo base_url(); ?>ilyas/jquery.json.js"></script>
