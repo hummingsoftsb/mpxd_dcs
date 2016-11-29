@@ -55,7 +55,9 @@ $file = $_FILES['file'];
 $filename = $file['name'];
 $filesize = $file['size'];
 $filtered_name = str_replace(".", "_", $filename);
-
+//Added By Sebin :Starts Here
+$filtered_name = str_replace(" ", "_", $filtered_name );
+//Ends Here
 
 if ($is_mobile) {
     $descname = 'description';
