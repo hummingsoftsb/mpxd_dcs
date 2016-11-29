@@ -801,11 +801,20 @@ endforeach;
                     <input type="hidden" id="dataentryno1" name="dataentryno1" value="<?php echo $dataentryno; ?>"/>
 
                     <div style="text-align:center">
-                        <button class="btn btn-success fileinput-button">
+<!--                    <button class="btn btn-success fileinput-button">
                             <i class="glyphicon glyphicon-plus"></i>
                             <span>Add files...</span>
                             <input type="file" id="imagefile" name="file[]" multiple>
-                        </button>
+                        </button> -->
+
+                        <!-- Modified By Sebin : Starts here -->
+                         <span class="btn btn-success fileinput-button">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span>Add files...</span>
+                            <input type="file" id="imagefile" name="file[]" multiple>
+                        </span>
+                        <!-- Ends here -->
+
                         <button type="submit" class="btn btn-primary start">
                             <i class="glyphicon glyphicon-upload"></i>
                             <span>Start upload</span>
@@ -884,11 +893,20 @@ endforeach;
                         <input type="hidden" id="val_comment" name="val_comment"/>
                         <input type="hidden" id="seq_no" name="seq_no"/>
                         <div style="text-align:center">
-                            <button class="btn btn-success fileinput-button">
+<!--                        <button class="btn btn-success fileinput-button">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 <span>Add files...</span>
                                 <input type="file" id="imagefile" name="file[]" multiple>
-                            </button>
+                            </button> -->
+
+                            <!-- Modified By Sebin : Starts Here -->
+                             <span class="btn btn-success fileinput-button">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>Add files...</span>
+                                <input type="file" id="imagefile" name="file[]" multiple>
+                            </span>
+                            <!-- Ends Here -->
+                            
                             <button type="submit" class="btn btn-primary start" id="upld">
                                 <i class="glyphicon glyphicon-upload"></i>
                                 <span>Start upload</span>
