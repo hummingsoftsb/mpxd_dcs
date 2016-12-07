@@ -946,8 +946,6 @@ Class IlyasModel extends CI_Model
 	
 	function get_config_for_journal($jid) {
 		$jid = str_replace("'", "", $jid);
-        echo $jid;
-        exit;
 		$query = "SELECT config_no,col_header from ilyas_config WHERE journal_no = '$jid' ORDER BY col_order";
 		$q = $this->db->query($query);
 		return $q->result();
